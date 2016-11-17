@@ -2,6 +2,7 @@
     "userSecretsId": "aspnet-Selama-e4168f5b-67b4-4629-95ff-497e832b36c8",
 
     "dependencies": {
+        "BattleNet.AspNetCore": "1.0.0-*",
         "MarkdownDeep": "1.0.0-*",
         "Microsoft.ApplicationInsights.AspNetCore": "1.0.0",
         "Microsoft.AspNetCore.Antiforgery": "1.0.1",
