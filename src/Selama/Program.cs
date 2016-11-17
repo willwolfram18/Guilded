@@ -16,6 +16,13 @@ namespace Selama
     {
         public static void Main(string[] args)
         {
+            IWebHostBuilder host = SetupWebHostBuilder();
+
+            host.Build().Run();
+        }
+
+        private static IWebHostBuilder SetupWebHostBuilder()
+        {
             var host = new WebHostBuilder()
                 .UseKestrel(opts =>
                 {
@@ -26,11 +33,13 @@ namespace Selama
                 })
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
-                .UseStartup<Startup>()
-                .UseUrls("https://localhost:44358")
-                .Build();
+                .UseStartup<Startup>();
+            if (Globals.OS_X)
+            {
+                host.UseUrls("https://localhost:44358");
+            }
 
-            host.Run();
+            return host;
         }
     }
 }
