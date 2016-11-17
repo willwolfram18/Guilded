@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Selama.Common;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.FileProviders;
@@ -18,7 +19,10 @@ namespace Selama
             var host = new WebHostBuilder()
                 .UseKestrel(opts =>
                 {
-                    opts.UseHttps("testCert.pfx", "testPassword");
+                    if (Globals.OS_X)
+                    {
+                        opts.UseHttps("testCert.pfx", "testPassword");
+                    }
                 })
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()

@@ -13,6 +13,7 @@ using Selama.Data;
 using Selama.Models;
 using Selama.Services;
 using Microsoft.AspNetCore.Mvc;
+using Selama.Common;
 
 namespace Selama
 {
@@ -47,9 +48,16 @@ namespace Selama
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                // options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"))
-            );
+            {
+                if (Globals.OS_X)
+                {
+                    options.UseSqlite(Configuration.GetConnectionString("DefaultConnection_OSX"));
+                }
+                else
+                {
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                }
+            });
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
