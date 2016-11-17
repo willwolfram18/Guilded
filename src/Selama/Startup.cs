@@ -47,7 +47,8 @@ namespace Selama
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+            );
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -90,16 +91,8 @@ namespace Selama
 
             app.UseStaticFiles();
             app.UseIdentity();
-            app.UseGoogleAuthentication(new GoogleOptions
-            {
-                ClientId = "xxx",
-                ClientSecret = "xxx",
-            });
-            app.UseFacebookAuthentication(new FacebookOptions
-            {
-                ClientId = "xxx",
-                ClientSecret = "xxx",
-            });
+
+            InitOAuthProviders(app);
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 
@@ -113,6 +106,21 @@ namespace Selama
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}"
                 );
+            });
+        }
+
+        private void InitOAuthProviders(IApplicationBuilder app)
+        {
+            var OAtuhProviders = Configuration.GetSection("OAuthProviders");
+            app.UseGoogleAuthentication(new GoogleOptions
+            {
+                ClientId = OAtuhProviders.GetValue<string>("GoogleClientId"),
+                ClientSecret = OAtuhProviders.GetValue<string>("GoogleClientSecret"),
+            });
+            app.UseFacebookAuthentication(new FacebookOptions
+            {
+                ClientId = OAtuhProviders.GetValue<string>("FacebookClientId"),
+                ClientSecret = OAtuhProviders.GetValue<string>("FacebookClientSecret"),
             });
         }
     }
