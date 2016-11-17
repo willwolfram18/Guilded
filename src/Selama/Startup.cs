@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Selama.Data;
 using Selama.Models;
 using Selama.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Selama
 {
@@ -52,7 +53,14 @@ namespace Selama
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
+            services.AddMvc(opts =>
+            {
+                opts.Filters.Add(new RequireHttpsAttribute());
+            });
+            services.AddRouting(opts =>
+            {
+                opts.LowercaseUrls = true;
+            });
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -81,16 +89,30 @@ namespace Selama
             app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseStaticFiles();
-
             app.UseIdentity();
+            app.UseGoogleAuthentication(new GoogleOptions
+            {
+                ClientId = "xxx",
+                ClientSecret = "xxx",
+            });
+            app.UseFacebookAuthentication(new FacebookOptions
+            {
+                ClientId = "xxx",
+                ClientSecret = "xxx",
+            });
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    "areaDefault",
+                    "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                );
+                routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}"
+                );
             });
         }
     }
