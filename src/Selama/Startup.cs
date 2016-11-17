@@ -68,6 +68,8 @@ namespace Selama
             {
                 opts.LowercaseUrls = true;
             });
+            services.AddDistributedMemoryCache();
+            services.AddSession();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -97,8 +99,8 @@ namespace Selama
 
             app.UseStaticFiles();
             app.UseIdentity();
-
             InitOAuthProviders(app);
+
             app.UseSession();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
