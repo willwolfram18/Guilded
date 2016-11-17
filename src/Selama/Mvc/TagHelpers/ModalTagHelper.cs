@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Threading.Tasks;
 
-namespace Selama.Common.TagHelpers
+namespace Selama.Mvc.TagHelpers
 {
     [HtmlTargetElement("modal", Attributes = MODAL_TITLE_ATTRIBUTE)]
     [RestrictChildren("modal-body", "modal-footer")]
