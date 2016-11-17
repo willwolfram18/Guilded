@@ -14,6 +14,7 @@ using Selama.Models;
 using Selama.Services;
 using Microsoft.AspNetCore.Mvc;
 using Selama.Common;
+using AspNet.Security.OAuth.BattleNet;
 
 namespace Selama
 {
@@ -130,6 +131,13 @@ namespace Selama
             {
                 ClientId = OAtuhProviders.GetValue<string>("FacebookClientId"),
                 ClientSecret = OAtuhProviders.GetValue<string>("FacebookClientSecret"),
+            });
+            app.UseBattleNetAuthentication(new BattleNetAuthenticationOptions
+            {
+                ClientId = OAtuhProviders.GetValue<string>("BattleNetClientId"),
+                ClientSecret = OAtuhProviders.GetValue<string>("BattleNetClientSecret"),
+                Region = BattleNetAuthenticationRegion.America,
+                DisplayName = "Battle.net",
             });
         }
     }

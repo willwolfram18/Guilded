@@ -2,6 +2,7 @@
     "userSecretsId": "aspnet-Selama-e4168f5b-67b4-4629-95ff-497e832b36c8",
 
     "dependencies": {
+        "AspNet.Security.OAuth.BattleNet": "1.0.0-beta2-0340",
         "BattleNetApi": "1.0.0-*",
         "MarkdownDeep": "1.0.0-*",
         "Microsoft.ApplicationInsights.AspNetCore": "1.0.0",
@@ -48,6 +49,7 @@
             "version": "1.0.1",
             "type": "platform"
         },
+        "Microsoft.AspNetCore.Owin": "1.0.0",
         "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
         "Microsoft.VisualStudio.Web.CodeGeneration.Tools": {
             "version": "1.0.0-preview2-final",
