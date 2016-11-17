@@ -63,10 +63,7 @@ namespace Selama
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc(opts =>
-            {
-                opts.Filters.Add(new RequireHttpsAttribute());
-            });
+            services.AddMvc();
             services.AddRouting(opts =>
             {
                 opts.LowercaseUrls = true;
@@ -102,6 +99,7 @@ namespace Selama
             app.UseIdentity();
 
             InitOAuthProviders(app);
+            app.UseSession();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 

@@ -4,13 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace Selama.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : _ControllerBase
     {
         public ViewResult Index()
         {
+            Session.SetString("Sample", "Meep");
             return View();
         }
 

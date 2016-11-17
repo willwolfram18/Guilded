@@ -13,7 +13,7 @@ using Selama.Services;
 namespace Selama.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : _ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
