@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System;
-using BattleNetApi.Common.ExtensionMethods;
+using BattleNetApi.Common.Extensions;
 
 namespace BattleNetApi.Objects.WoW
 {

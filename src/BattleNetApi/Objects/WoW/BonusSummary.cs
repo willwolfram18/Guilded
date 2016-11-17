@@ -1,4 +1,4 @@
-﻿using BattleNetApi.Common.ExtensionMethods;
+﻿using BattleNetApi.Common.Extensions;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 

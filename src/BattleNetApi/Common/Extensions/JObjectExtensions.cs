@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 
-namespace BattleNetApi.Common.ExtensionMethods
+namespace BattleNetApi.Common.Extensions
 {
-    internal static class JsonExtensionMethods
+    internal static class JsonExtensions
     {
         internal static bool ContainsKey(this JObject jObject, string key)
         {
