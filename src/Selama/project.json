@@ -2,7 +2,7 @@
     "userSecretsId": "aspnet-Selama-e4168f5b-67b4-4629-95ff-497e832b36c8",
 
     "dependencies": {
-        "AspNet.Security.OAuth.BattleNet": "1.0.0-beta2-0340",
+        "AspNet.Security.OAuth.BattleNet": "1.0.0-beta1-final",
         "BattleNetApi": "1.0.0-*",
         "MarkdownDeep": "1.0.0-*",
         "Microsoft.ApplicationInsights.AspNetCore": "1.0.0",
