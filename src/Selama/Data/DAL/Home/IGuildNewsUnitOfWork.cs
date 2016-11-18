@@ -10,8 +10,6 @@ namespace Selama.Data.DAL.Home
 {
     public interface IGuildNewsUnitOfWork : IDisposable
     {
-        IBattleNetApiClient BattleNetClient { get; }
-
         Task<List<GuildNewsFeedViewModel>> GetPublicGuildNewsAsync(int pageNumber, int pageSize);
         Task<List<GuildNewsFeedViewModel>> GetMembersOnlyNewsAsync(int pageNumber, int pageSize);
     }

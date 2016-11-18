@@ -13,18 +13,8 @@ namespace Selama.Data.DAL.Home
     public class GuildNewsUnitOfWork : IGuildNewsUnitOfWork
     {
         #region Properties
-        #region Public properties
-        public IBattleNetApiClient BattleNetClient
-        {
-            get
-            {
-                return _battleNetClient;
-            }
-        }
-        #endregion
-
         #region Private properties
-        private readonly IBattleNetApiClient _battleNetClient;
+        private readonly IBattleNetApi _battleNetClient;
         #endregion
         #endregion
 
@@ -34,7 +24,7 @@ namespace Selama.Data.DAL.Home
             // _battleNetClient = new BattleNetApiClient();
         }
 
-        public GuildNewsUnitOfWork(IBattleNetApiClient bnetClient)
+        public GuildNewsUnitOfWork(IBattleNetApi bnetClient)
         {
             _battleNetClient = bnetClient;
         }
@@ -52,7 +42,7 @@ namespace Selama.Data.DAL.Home
 
         private async Task<List<GuildNewsFeedViewModel>> GetBattleNetGuildNews()
         {
-            Guild guildProfile = await BattleNetClient.WowCommunityApi.GetGuildProfileAsync("", "", "news");
+            Guild guildProfile = await _battleNetClient.WowCommunityApi.GetGuildProfileAsync("", "", "news");
 
             var result = guildProfile.News.ToListOfDifferentType(GuildNewsFeedViewModel.CreateFromBattleNetNews);
             result.Sort();

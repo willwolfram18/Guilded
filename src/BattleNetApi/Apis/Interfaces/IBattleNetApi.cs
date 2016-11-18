@@ -1,6 +1,6 @@
 ﻿namespace BattleNetApi.Apis.Interfaces
 {
-    public interface IBattleNetApiClient
+    public interface IBattleNetApi
     {
         IOAuthApiMethods OAuthApi { get; }
         IWowCommunityApiMethods WowCommunityApi { get; }
