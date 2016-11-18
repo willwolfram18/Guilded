@@ -7,11 +7,11 @@ namespace BattleNetApi.Objects.WoW.DataResources
     public class ItemClassDataResource
     {
         #region Properties
-        public int Id { get; private set; }
+        public int Id { get; set; }
 
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
-        public List<ItemSubClassDataResource> SubClasses { get; private set; }
+        public List<ItemSubClassDataResource> SubClasses { get; set; }
         #endregion
 
         internal static List<ItemClassDataResource> BuildItemClassListFromJson(JObject itemClassesJson)

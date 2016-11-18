@@ -9,25 +9,25 @@ namespace BattleNetApi.Objects.WoW
     public class RealmStatus
     {
         #region Instance properties
-        public RealmType Type { get; private set; }
+        public RealmType Type { get; set; }
 
-        public RealmPopulation Population { get; private set; }
+        public RealmPopulation Population { get; set; }
 
-        public bool Queue { get; private set; }
+        public bool Queue { get; set; }
 
-        public bool Status { get; private set; }
+        public bool Status { get; set; }
 
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
-        public string Slug { get; private set; }
+        public string Slug { get; set; }
 
-        public string BattleGroup { get; private set; }
+        public string BattleGroup { get; set; }
 
-        public Locale Locale { get; private set; }
+        public Locale Locale { get; set; }
 
-        public string Timezone { get; private set; }
+        public string Timezone { get; set; }
 
-        public List<string> ConnectedRealms { get; private set; }
+        public List<string> ConnectedRealms { get; set; }
         #endregion
 
         internal static RealmStatus BuildRealmStatusWithOnlyName(string name)

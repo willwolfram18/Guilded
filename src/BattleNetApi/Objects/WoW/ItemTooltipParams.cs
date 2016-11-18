@@ -9,15 +9,15 @@ namespace BattleNetApi.Objects.WoW
     public class ItemTooltipParams
     {
         #region Properties
-        public List<int> GemIds { get; private set; }
+        public List<int> GemIds { get; set; }
 
-        public int? TransmogItemId { get; private set; }
+        public int? TransmogItemId { get; set; }
 
-        public int? EnchantmentId { get; private set; }
+        public int? EnchantmentId { get; set; }
 
-        public ItemUpgradeInfo Upgrade { get; private set; }
+        public ItemUpgradeInfo Upgrade { get; set; }
 
-        public List<int> ItemSetIds { get; private set; }
+        public List<int> ItemSetIds { get; set; }
         #endregion
 
         internal static ItemTooltipParams ParseItemTooltipParamsJson(JObject itemTooltipJson)

@@ -5,7 +5,7 @@ namespace BattleNetApi.Objects.WoW
     public class GoldValue
     {
         #region Properties
-        public double BuyPriceInCopper { get; private set; }
+        public double BuyPriceInCopper { get; set; }
 
         public double BuyPriceInSilver
         {

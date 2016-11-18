@@ -5,17 +5,17 @@ namespace BattleNetApi.Objects.WoW
     public class ItemSpell
     {
         #region Properties
-        public int SpellId { get; private set; }
+        public int SpellId { get; set; }
 
-        public Spell Spell { get; private set; }
+        public Spell Spell { get; set; }
 
-        public int nCharges { get; private set; }
+        public int nCharges { get; set; }
 
-        public bool Consumable { get; private set; }
+        public bool Consumable { get; set; }
 
-        public int CategoryId { get; private set; }
+        public int CategoryId { get; set; }
 
-        public string Trigger { get; private set; }
+        public string Trigger { get; set; }
         #endregion
 
         internal static ItemSpell ParseItemSpellJson(JObject itemSpellJson)

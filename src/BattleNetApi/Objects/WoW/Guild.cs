@@ -9,21 +9,21 @@ namespace BattleNetApi.Objects.WoW
     public class Guild
     {
         #region Properties
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
-        public RealmStatus Realm { get; private set; }
+        public RealmStatus Realm { get; set; }
 
-        public int Level { get; private set; }
+        public int Level { get; set; }
 
-        public Faction Faction { get; private set; }
+        public Faction Faction { get; set; }
 
-        public int AchievementPoints { get; private set; }
+        public int AchievementPoints { get; set; }
 
-        public GuildEmblem Emblem { get; private set; }
+        public GuildEmblem Emblem { get; set; }
 
-        public List<Character> Members { get; private set; }
+        public List<Character> Members { get; set; }
 
-        public List<GuildNews> News { get; private set; }
+        public List<GuildNews> News { get; set; }
         #endregion
 
         #region Static factory functions
@@ -73,7 +73,7 @@ namespace BattleNetApi.Objects.WoW
                 foreach (JToken member in guildJson["members"].AsJEnumerable())
                 {
                     Members.Add(GuildMember.BuildGuildMemberFromJson(
-                        member["character"].Value<JObject>(), 
+                        member["character"].Value<JObject>(),
                         member["rank"].Value<int>(),
                         this
                     ));

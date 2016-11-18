@@ -2,10 +2,10 @@
 {
     public class Talent
     {
-        public TalentGridCoordinates TalentGridCoorindates { get; private set; }
+        public TalentGridCoordinates TalentGridCoorindates { get; set; }
 
-        public Spell Spell { get; private set; }
+        public Spell Spell { get; set; }
 
-        public Specialization SpecTalentBelongsTo { get; private set; }
+        public Specialization SpecTalentBelongsTo { get; set; }
     }
 }

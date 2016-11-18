@@ -5,11 +5,11 @@ namespace BattleNetApi.Objects.WoW
     public class ItemUpgradeInfo
     {
         #region Properties
-        public int Current { get; private set; }
+        public int Current { get; set; }
 
-        public int Total { get; private set; }
+        public int Total { get; set; }
 
-        public int ItemLevelIncrement { get; private set; }
+        public int ItemLevelIncrement { get; set; }
         #endregion
 
         public ItemUpgradeInfo(JObject itemUpgradeInfoJson)

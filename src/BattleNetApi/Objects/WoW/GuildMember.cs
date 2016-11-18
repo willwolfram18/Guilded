@@ -14,6 +14,6 @@ namespace BattleNetApi.Objects.WoW
             Rank = rank;
         }
 
-        public int Rank { get; private set; }
+        public int Rank { get; set; }
     }
 }

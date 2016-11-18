@@ -13,88 +13,88 @@ namespace BattleNetApi.Objects.WoW
     public class Item
     {
         #region Properties
-        public int Id { get; private set; }
+        public int Id { get; set; }
 
-        public string Description { get; private set; }
+        public string Description { get; set; }
 
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
-        public string Icon { get; private set; }
+        public string Icon { get; set; }
 
-        public int Stackable { get; private set; }
+        public int Stackable { get; set; }
 
-        public int ItemBind { get; private set; }
+        public int ItemBind { get; set; }
 
         // TODO: Include BounsStats property
-        public List<BonusStat> BonusStats { get; private set; }
+        public List<BonusStat> BonusStats { get; set; }
 
-        public List<ItemSpell> ItemSpells { get; private set; }
+        public List<ItemSpell> ItemSpells { get; set; }
 
-        public GoldValue BuyPrice { get; private set; }
+        public GoldValue BuyPrice { get; set; }
 
-        public ItemClassDataResource ItemClass { get; private set; }
+        public ItemClassDataResource ItemClass { get; set; }
 
-        public ItemSubClassDataResource ItemSubClass { get; private set; }
+        public ItemSubClassDataResource ItemSubClass { get; set; }
 
-        public int ContainerSlots { get; private set; }
+        public int ContainerSlots { get; set; }
 
-        public int InventoryType { get; private set; }
+        public int InventoryType { get; set; }
 
-        public bool Equippable { get; private set; }
+        public bool Equippable { get; set; }
 
-        public int ItemLevel { get; private set; }
+        public int ItemLevel { get; set; }
 
-        public int MaxCount { get; private set; }
+        public int MaxCount { get; set; }
 
-        public int MaxDurability { get; private set; }
+        public int MaxDurability { get; set; }
 
-        public int MinFactionId { get; private set; }
+        public int MinFactionId { get; set; }
 
-        public int MinRepuration { get; private set; }
+        public int MinRepuration { get; set; }
 
-        public ItemQuality Quality { get; private set; }
+        public ItemQuality Quality { get; set; }
 
-        public GoldValue SellPrice { get; private set; }
+        public GoldValue SellPrice { get; set; }
 
-        public int RequiredSkill { get; private set; }
+        public int RequiredSkill { get; set; }
 
-        public int RequiredLevel { get; private set; }
+        public int RequiredLevel { get; set; }
 
-        public int RequiredSkillRank { get; private set; }
+        public int RequiredSkillRank { get; set; }
 
-        public ItemSource ItemSource { get; private set; }
+        public ItemSource ItemSource { get; set; }
 
-        public int BaseArmor { get; private set; }
+        public int BaseArmor { get; set; }
 
-        public bool HasSockets { get; private set; }
+        public bool HasSockets { get; set; }
 
-        public bool IsAuctionable { get; private set; }
+        public bool IsAuctionable { get; set; }
 
-        public int Armor { get; private set; }
+        public int Armor { get; set; }
 
-        public int DisplayInfoId { get; private set; }
+        public int DisplayInfoId { get; set; }
 
-        public string NameDescription { get; private set; }
+        public string NameDescription { get; set; }
 
-        public string NameDescriptionColor { get; private set; }
+        public string NameDescriptionColor { get; set; }
 
-        public bool Upgradable { get; private set; }
+        public bool Upgradable { get; set; }
 
-        public bool HeroicTooltip { get; private set; }
+        public bool HeroicTooltip { get; set; }
 
-        public string Context { get; private set; }
+        public string Context { get; set; }
 
-        public List<int> BonusLists { get; private set; }
+        public List<int> BonusLists { get; set; }
 
-        public List<string> AvailableContexts { get; private set; }
+        public List<string> AvailableContexts { get; set; }
 
-        public BonusSummary BonusSummary { get; private set; }
+        public BonusSummary BonusSummary { get; set; }
 
-        public ItemTooltipParams TooltipParams { get; private set; }
+        public ItemTooltipParams TooltipParams { get; set; }
 
-        public int DisenchantingSkillRank { get; private set; }
+        public int DisenchantingSkillRank { get; set; }
 
-        public int ArtifactId { get; private set; }
+        public int ArtifactId { get; set; }
         #endregion
 
         internal static Item ParseItemJson(JObject itemJson)

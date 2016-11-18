@@ -8,11 +8,11 @@ namespace BattleNetApi.Objects.WoW
     public class BonusChance
     {
         #region Properties
-        public string ChanceType { get; private set; }
+        public string ChanceType { get; set; }
 
-        public List<BonusChanceStat> Stats { get; private set; }
+        public List<BonusChanceStat> Stats { get; set; }
 
-        public List<BonusChanceSocket> Sockets { get; private set; }
+        public List<BonusChanceSocket> Sockets { get; set; }
         #endregion
 
         internal static BonusChance ParseBonusChanceJson(JObject bonusChanceJson)

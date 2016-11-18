@@ -7,11 +7,11 @@ namespace BattleNetApi.Objects.WoW
     public class BonusSummary
     {
         #region Properties
-        public List<int> DefaultBonusLists { get; private set; }
+        public List<int> DefaultBonusLists { get; set; }
 
-        public List<int> ChanceBonusLists { get; private set; }
+        public List<int> ChanceBonusLists { get; set; }
 
-        public List<BonusChance> BonusChances { get; private set; }
+        public List<BonusChance> BonusChances { get; set; }
         #endregion
 
         internal static BonusSummary ParseBonusSummary(JObject bonusSummaryJson)

@@ -4,7 +4,7 @@ namespace BattleNetApi.Objects.WoW
 {
     public class GuildNewsPlayerItem : GuildNews
     {
-        public int ItemId { get; private set; }
+        public int ItemId { get; set; }
 
         internal static GuildNewsPlayerItem BuildPlayerItemNews(JObject playerItemNewsJson, string timezone)
         {

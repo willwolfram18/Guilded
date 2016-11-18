@@ -8,21 +8,21 @@ namespace BattleNetApi.Objects.WoW
     public class GuildEmblem
     {
         #region Properties
-        public int Icon { get; private set; }
+        public int Icon { get; set; }
 
-        public string IconColor { get; private set; }
+        public string IconColor { get; set; }
 
-        public int IconColorId { get; private set; }
+        public int IconColorId { get; set; }
 
-        public int Border { get; private set; }
+        public int Border { get; set; }
 
-        public string BorderColor { get; private set; }
+        public string BorderColor { get; set; }
 
-        public int BorderColorId { get; private set; }
+        public int BorderColorId { get; set; }
 
-        public string BackgroundColor { get; private set; }
+        public string BackgroundColor { get; set; }
 
-        public int BackgroundColorId { get; private set; }
+        public int BackgroundColorId { get; set; }
         #endregion
 
         internal GuildEmblem(JObject guildEmblemJson)

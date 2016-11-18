@@ -57,113 +57,113 @@ namespace BattleNetApi.Objects.WoW
         }
 
         #region Properties
-        public int Health { get; private set; }
+        public int Health { get; set; }
 
-        public PowerType PowerType { get; private set; }
+        public PowerType PowerType { get; set; }
 
-        public int Power { get; private set; }
+        public int Power { get; set; }
 
         #region Main character stats
-        public int Strength { get; private set; }
+        public int Strength { get; set; }
 
-        public int Agility { get; private set; }
+        public int Agility { get; set; }
 
-        public int Intellect { get; private set; }
+        public int Intellect { get; set; }
 
-        public int Stamina { get; private set; }
+        public int Stamina { get; set; }
         #endregion
 
-        public double SpeedRating { get; private set; }
+        public double SpeedRating { get; set; }
 
-        public double SpeedRatingBonus { get; private set; }
+        public double SpeedRatingBonus { get; set; }
 
-        public double Crit { get; private set; }
+        public double Crit { get; set; }
 
-        public int CritRating { get; private set; }
+        public int CritRating { get; set; }
 
-        public double Haste { get; private set; }
+        public double Haste { get; set; }
 
-        public int HasteRating { get; private set; }
+        public int HasteRating { get; set; }
 
-        public double HasteRatingPercent { get; private set; }
+        public double HasteRatingPercent { get; set; }
 
-        public double Mastery { get; private set; }
+        public double Mastery { get; set; }
 
-        public int MasteryRating { get; private set; }
+        public int MasteryRating { get; set; }
 
-        public double Leech { get; private set; }
+        public double Leech { get; set; }
 
-        public double LeechRating { get; private set; }
+        public double LeechRating { get; set; }
 
-        public double LeechRatingBonus { get; private set; }
+        public double LeechRatingBonus { get; set; }
 
-        public int Versatility { get; private set; }
+        public int Versatility { get; set; }
 
-        public double VersatilityDamageDoneBonus { get; private set; }
+        public double VersatilityDamageDoneBonus { get; set; }
 
-        public double VersatilityHealingDoneBonus { get; private set; }
+        public double VersatilityHealingDoneBonus { get; set; }
 
-        public double VersatilityDamageTakenBonus { get; private set; }
+        public double VersatilityDamageTakenBonus { get; set; }
 
-        public double AvoidanceRating { get; private set; }
+        public double AvoidanceRating { get; set; }
 
-        public double AvoidanceRatingBonus { get; private set; }
+        public double AvoidanceRatingBonus { get; set; }
 
-        public double SpellPenetration { get; private set; }
+        public double SpellPenetration { get; set; }
 
-        public double SpellCrit { get; private set; }
+        public double SpellCrit { get; set; }
 
-        public int SpellCritRating { get; private set; }
+        public int SpellCritRating { get; set; }
 
-        public double Mana5 { get; private set; }
+        public double Mana5 { get; set; }
 
-        public double Mana5Combat { get; private set; }
+        public double Mana5Combat { get; set; }
 
         #region Defensive stats
-        public int Armor { get; private set; }
+        public int Armor { get; set; }
 
-        public double Dodge { get; private set; }
+        public double Dodge { get; set; }
 
-        public int DodgeRating { get; private set; }
+        public int DodgeRating { get; set; }
 
-        public double Parry { get; private set; }
+        public double Parry { get; set; }
 
-        public int ParryRating { get; private set; }
+        public int ParryRating { get; set; }
 
-        public double Block { get; private set; }
+        public double Block { get; set; }
 
-        public int BlockRating { get; private set; }
+        public int BlockRating { get; set; }
         #endregion
 
         #region Weapon damage stats
         #region Main hand
-        public double MainHandDamageMin { get; private set; }
+        public double MainHandDamageMin { get; set; }
 
-        public double MainHandDamageMax { get; private set; }
+        public double MainHandDamageMax { get; set; }
 
-        public double MainHandSpeed { get; private set; }
+        public double MainHandSpeed { get; set; }
 
-        public double MainHandDps { get; private set; }
+        public double MainHandDps { get; set; }
         #endregion
 
         #region Offhand
-        public double OffHandDamageMin { get; private set; }
+        public double OffHandDamageMin { get; set; }
 
-        public double OffHandDamageMax { get; private set; }
+        public double OffHandDamageMax { get; set; }
 
-        public double OffHandSpeed { get; private set; }
+        public double OffHandSpeed { get; set; }
 
-        public double OffHandDps { get; private set; }
+        public double OffHandDps { get; set; }
         #endregion
 
         #region Ranged
-        public double RangedDamageMin { get; private set; }
+        public double RangedDamageMin { get; set; }
 
-        public double RangedDamageMax { get; private set; }
+        public double RangedDamageMax { get; set; }
 
-        public double RangedSpeed { get; private set; }
+        public double RangedSpeed { get; set; }
 
-        public double RangedDps { get; private set; }
+        public double RangedDps { get; set; }
         #endregion
         #endregion
         #endregion

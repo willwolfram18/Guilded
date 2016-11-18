@@ -6,21 +6,21 @@ namespace BattleNetApi.Objects.WoW
     public class Spell
     {
         #region Properties
-        public int Id { get; private set; }
+        public int Id { get; set; }
 
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
-        public string Icon { get; private set; }
+        public string Icon { get; set; }
 
-        public string Description { get; private set; }
+        public string Description { get; set; }
 
-        public string Range { get; private set; }
+        public string Range { get; set; }
 
-        public string CastTime { get; private set; }
+        public string CastTime { get; set; }
 
-        public string CoolDown { get; private set; }
+        public string CoolDown { get; set; }
 
-        public string PowerCost { get; private set; }
+        public string PowerCost { get; set; }
         #endregion
 
         internal static Spell ParseSpellJson(JObject spellJson)

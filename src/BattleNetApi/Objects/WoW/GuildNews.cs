@@ -10,18 +10,17 @@ namespace BattleNetApi.Objects.WoW
     public class GuildNews
     {
         #region Properties
-        public GuildNewsType Type { get; private set; }
+        public GuildNewsType Type { get; set; }
 
-        public string CharacterName { get; private set; }
+        public string CharacterName { get; set; }
 
-        public long BattleNetTimestamp { get; private set; }
+        public long BattleNetTimestamp { get; set; }
 
-        public DateTime DateTimeTimestamp { get; private set; }
+        public DateTime DateTimeTimestamp { get; set; }
 
-        public string Context { get; private set; }
+        public string Context { get; set; }
 
-        public List<int> BonusLists { get; private set; }
-
+        public List<int> BonusLists { get; set; }
         #endregion
 
         internal static GuildNews ParseGuildNews(JObject guildNewsJson, string timezone)

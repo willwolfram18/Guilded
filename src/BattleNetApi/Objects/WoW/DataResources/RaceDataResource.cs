@@ -26,13 +26,13 @@ namespace BattleNetApi.Objects.WoW.DataResources
             Faction = Util.ParseEnum<Faction>(raceDataResourceJson, "side");
         }
 
-        public int Id { get; private set; }
+        public int Id { get; set; }
 
-        public int Mask { get; private set; }
+        public int Mask { get; set; }
 
-        public Race Race { get; private set; }
+        public Race Race { get; set; }
         
-        public Faction Faction { get; private set; }
+        public Faction Faction { get; set; }
 
     }
 }

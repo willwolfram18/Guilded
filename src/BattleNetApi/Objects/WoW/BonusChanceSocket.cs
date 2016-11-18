@@ -4,7 +4,7 @@ namespace BattleNetApi.Objects.WoW
 {
     public class BonusChanceSocket
     {
-        public string SocketType { get; private set; }
+        public string SocketType { get; set; }
 
         internal static BonusChanceSocket ParseBonusChanceSocketJson(JObject bonusChanceSocketJson)
         {

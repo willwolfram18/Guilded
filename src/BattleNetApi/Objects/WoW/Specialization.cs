@@ -22,17 +22,17 @@ namespace BattleNetApi.Objects.WoW
             Description = specializationJson["description"].Value<string>();
         }
 
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
-        public Class ClassSpecBelongsTo { get; private set; }
+        public Class ClassSpecBelongsTo { get; set; }
 
-        public Role Role { get; private set; }
+        public Role Role { get; set; }
 
-        public bool Selected { get; private set; }
+        public bool Selected { get; set; }
 
-        public int SortOrder { get; private set; }
+        public int SortOrder { get; set; }
 
-        public string Description { get; private set; }
+        public string Description { get; set; }
 
         public override string ToString()
         {

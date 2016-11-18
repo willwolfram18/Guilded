@@ -5,9 +5,9 @@ namespace BattleNetApi.Objects.WoW
     public class ItemSource
     {
         #region Properties
-        public int SourceId { get; private set; }
+        public int SourceId { get; set; }
 
-        public string SourceType { get; private set; }
+        public string SourceType { get; set; }
         #endregion
 
         internal static ItemSource ParseItemSource(JObject itemSourceJson)

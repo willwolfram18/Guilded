@@ -2,8 +2,8 @@
 {
     public class TalentGridCoordinates
     {
-        public int Tier { get; private set; }
+        public int Tier { get; set; }
 
-        public int Column { get; private set; }
+        public int Column { get; set; }
     }
 }

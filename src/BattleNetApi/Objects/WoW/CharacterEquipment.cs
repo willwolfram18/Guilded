@@ -9,39 +9,39 @@ namespace BattleNetApi.Objects.WoW
     public class CharacterEquipment
     {
         #region Properties
-        public int AverageItemLevel { get; private set; }
+        public int AverageItemLevel { get; set; }
 
-        public int AverageItemLevelEquipped { get; private set; }
+        public int AverageItemLevelEquipped { get; set; }
 
-        public Item Head { get; private set; }
+        public Item Head { get; set; }
 
-        public Item Neck { get; private set; }
+        public Item Neck { get; set; }
 
-        public Item Shoulder { get; private set; }
+        public Item Shoulder { get; set; }
 
-        public Item Back { get; private set; }
+        public Item Back { get; set; }
 
-        public Item Chest { get; private set; }
+        public Item Chest { get; set; }
 
-        public Item Shirt { get; private set; }
+        public Item Shirt { get; set; }
 
-        public Item Wrist { get; private set; }
+        public Item Wrist { get; set; }
 
-        public Item Hands { get; private set; }
+        public Item Hands { get; set; }
 
-        public Item Waist { get; private set; }
+        public Item Waist { get; set; }
 
-        public Item Legs { get; private set; }
+        public Item Legs { get; set; }
 
-        public Item Feet { get; private set; }
+        public Item Feet { get; set; }
 
-        public Item Finger1 { get; private set; }
+        public Item Finger1 { get; set; }
 
-        public Item Finger2 { get; private set; }
+        public Item Finger2 { get; set; }
 
-        public Item Trinket1 { get; private set; }
+        public Item Trinket1 { get; set; }
 
-        public Item Trinket2 { get; private set; }
+        public Item Trinket2 { get; set; }
         #endregion
 
         internal static CharacterEquipment BuildCharacterEquipment(JObject equipmentJson)

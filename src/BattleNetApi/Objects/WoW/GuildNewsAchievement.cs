@@ -4,7 +4,7 @@ namespace BattleNetApi.Objects.WoW
 {
     public class GuildNewsAchievement : GuildNews
     {
-        public Achievement Achievement { get; private set; }
+        public Achievement Achievement { get; set; }
 
         internal static GuildNewsAchievement BuildPlayerAchievement(JObject playerAchievementNewsJson, string timezone)
         {
