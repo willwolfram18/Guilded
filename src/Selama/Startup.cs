@@ -121,21 +121,21 @@ namespace Selama
 
         private void InitOAuthProviders(IApplicationBuilder app)
         {
-            var OAtuhProviders = Configuration.GetSection("OAuthProviders");
+            var OAuthProviders = Configuration.GetSection("OAuthProviders");
             app.UseGoogleAuthentication(new GoogleOptions
             {
-                ClientId = OAtuhProviders.GetValue<string>("GoogleClientId"),
-                ClientSecret = OAtuhProviders.GetValue<string>("GoogleClientSecret"),
+                ClientId = OAuthProviders.GetValue<string>("GoogleClientId"),
+                ClientSecret = OAuthProviders.GetValue<string>("GoogleClientSecret"),
             });
             app.UseFacebookAuthentication(new FacebookOptions
             {
-                ClientId = OAtuhProviders.GetValue<string>("FacebookClientId"),
-                ClientSecret = OAtuhProviders.GetValue<string>("FacebookClientSecret"),
+                ClientId = OAuthProviders.GetValue<string>("FacebookClientId"),
+                ClientSecret = OAuthProviders.GetValue<string>("FacebookClientSecret"),
             });
             app.UseBattleNetAuthentication(new BattleNetAuthenticationOptions
             {
-                ClientId = OAtuhProviders.GetValue<string>("BattleNetClientId"),
-                ClientSecret = OAtuhProviders.GetValue<string>("BattleNetClientSecret"),
+                ClientId = OAuthProviders.GetValue<string>("BattleNetClientId"),
+                ClientSecret = OAuthProviders.GetValue<string>("BattleNetClientSecret"),
                 Region = BattleNetAuthenticationRegion.America,
                 DisplayName = "Battle.net",
             });
