@@ -18,16 +18,17 @@ namespace Selama.Controllers
 
         public ViewResult About()
         {
-            ViewData["Message"] = "Your application description page.";
-
             return View();
         }
 
-        public ViewResult Contact()
+        public ViewResult Join()
         {
-            ViewData["Message"] = "Your contact page.";
-
             return View();
+        }
+
+        public PartialViewResult MarkdownHelp()
+        {
+            return PartialView();
         }
 
         public ViewResult Error()

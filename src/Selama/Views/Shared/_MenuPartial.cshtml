@@ -1,3 +1,7 @@
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<ApplicationUser> SignInManager
+
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -11,9 +15,27 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                @if (SignInManager.IsSignedIn(User))
+                {
+
+                }
+                else
+                {
+                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <dropdown bs-title="Sample" bs-render-tag="li">
+                        <dropdown-item>
+                            <a href="#1">
+                                Item 1
+                            </a>
+                        </dropdown-item>
+                        <dropdown-item>
+                            <a href="#2">
+                                Item 2
+                            </a>
+                        </dropdown-item>
+                    </dropdown>
+                }
             </ul>
             @await Html.PartialAsync("_LoginPartial")
         </div>
