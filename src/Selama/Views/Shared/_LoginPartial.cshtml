@@ -6,8 +6,13 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
+
     <form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
+            @if (User.IsInRole("Admin") || User.IsInRole("Guild Officer"))
+            {
+                @await Html.PartialAsync("_AdminMenuPartial")
+            }
             <dropdown bs-title="Hello @UserManager.GetUserName(User)!" bs-render-tag="li">
                 <dropdown-item>
                     <a asp-area="" asp-controller="Manage" asp-action="Index">
