@@ -1,4 +1,4 @@
-﻿namespace BattleNetApi.Api.Enums
+﻿namespace BattleNetApi.Apis.Enums
 {
     public enum Locale
     {

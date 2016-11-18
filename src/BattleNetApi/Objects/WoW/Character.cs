@@ -9,35 +9,35 @@ namespace BattleNetApi.Objects.WoW
     public class Character
     {
         #region Properties
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
-        public string Realm { get; private set; }
+        public string Realm { get; set; }
 
-        public Class Class { get; private set; }
+        public Class Class { get; set; }
 
-        public Race Race { get; private set; }
+        public Race Race { get; set; }
 
-        public Gender Gender { get; private set; }
+        public Gender Gender { get; set; }
 
-        public int Level { get; private set; }
+        public int Level { get; set; }
 
-        public Guild Guild { get; protected set; }
+        public Guild Guild { get; set; }
 
-        public Faction Faction { get; private set; }
+        public Faction Faction { get; set; }
 
-        public string Thumbnail { get; private set; }
+        public string Thumbnail { get; set; }
 
-        public Specialization Specialization { get; private set; }
+        public Specialization Specialization { get; set; }
 
-        public int AchievementPoints { get; private set; }
+        public int AchievementPoints { get; set; }
 
-        public List<Title> Titles { get; private set; }
+        public List<Title> Titles { get; set; }
 
-        public Stats Stats { get; private set; }
+        public Stats Stats { get; set; }
 
-        public CharacterEquipment Items { get; private set; }
+        public CharacterEquipment Items { get; set; }
 
-        public int TotalHonorableKills { get; private set; }
+        public int TotalHonorableKills { get; set; }
         #endregion
 
         internal static Character BuildOAuthProfileCharacter(JObject jsonCharacter)
@@ -62,7 +62,7 @@ namespace BattleNetApi.Objects.WoW
         }
         #endregion
 
-        #region Private interface
+        #region Private methods
         private void ParsePrimitiveTypes(JObject jsonCharacter)
         {
             Name = jsonCharacter["name"].Value<string>();

@@ -1,7 +1,7 @@
-﻿using BattleNetApi.Api.ApiInterfaces;
-using BattleNetApi.Api.Enums;
+﻿using BattleNetApi.Apis.Enums;
+using BattleNetApi.Apis.Interfaces;
 
-namespace BattleNetApi.Api
+namespace BattleNetApi.Apis
 {
     public class BattleNetApiClient
     {
@@ -24,9 +24,9 @@ namespace BattleNetApi.Api
             }
         }
 
-        public OAuthApi OAuthApi { get; private set; }
+        public IOAuthApiMethods OAuthApi { get; private set; }
 
-        public WoWCommunityApi WowCommunityApi { get; private set; }
+        public IWowCommunityApiMethods WowCommunityApi { get; private set; }
 
         public BattleNetApiClient(string apiClientKey, Region region = Region.US, Locale locale = Locale.en_US)
         {
@@ -39,8 +39,8 @@ namespace BattleNetApi.Api
 
         private void InitializeApiInterfaces()
         {
-            OAuthApi = new OAuthApi(_region, _locale);
-            WowCommunityApi = new WoWCommunityApi(_apiClientKey, _region, _locale);
+            OAuthApi = new OAuthApiMethods(_region, _locale);
+            WowCommunityApi = new WowCommunityApiMethods(_apiClientKey, _region, _locale);
         }
     }
 }

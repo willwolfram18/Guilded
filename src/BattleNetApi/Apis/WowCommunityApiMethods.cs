@@ -1,4 +1,5 @@
-﻿using BattleNetApi.Api.Enums;
+﻿using BattleNetApi.Apis.Enums;
+using BattleNetApi.Apis.Interfaces;
 using BattleNetApi.Objects.WoW;
 using BattleNetApi.Objects.WoW.DataResources;
 using Microsoft.AspNetCore.WebUtilities;
@@ -9,9 +10,9 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace BattleNetApi.Api.ApiInterfaces
+namespace BattleNetApi.Apis
 {
-    public class WoWCommunityApi : BattleNetApiInterfaceBase
+    public class WowCommunityApiMethods : BattleNetApiCollectionBase, IWowCommunityApiMethods
     {
         private string _apiClientKey { get; set; }
 
@@ -24,7 +25,7 @@ namespace BattleNetApi.Api.ApiInterfaces
         }
 
         #region Constructors
-        public WoWCommunityApi(string apiClientKey, Region region, Locale locale) : base(region, locale)
+        public WowCommunityApiMethods(string apiClientKey, Region region, Locale locale) : base(region, locale)
         {
             _apiClientKey = apiClientKey;
         }

@@ -1,4 +1,4 @@
-﻿using BattleNetApi.Api.Enums;
+﻿using BattleNetApi.Apis.Enums;
 using BattleNetApi.Objects.WoW;
 using Newtonsoft.Json.Linq;
 using System;
@@ -6,13 +6,14 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.WebUtilities;
+using BattleNetApi.Apis.Interfaces;
 
-namespace BattleNetApi.Api.ApiInterfaces
+namespace BattleNetApi.Apis
 {
-    public class OAuthApi : BattleNetApiInterfaceBase
+    public class OAuthApiMethods : BattleNetApiCollectionBase, IOAuthApiMethods
     {
         #region Constructors
-        public OAuthApi(Region region, Locale locale) : base(region, locale) { }
+        public OAuthApiMethods(Region region, Locale locale) : base(region, locale) { }
         #endregion
 
         #region Public interface

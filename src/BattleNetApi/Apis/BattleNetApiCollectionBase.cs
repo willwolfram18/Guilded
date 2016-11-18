@@ -1,11 +1,11 @@
-﻿using BattleNetApi.Api.Enums;
+﻿using BattleNetApi.Apis.Enums;
 using Newtonsoft.Json.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace BattleNetApi.Api.ApiInterfaces
+namespace BattleNetApi.Apis
 {
-    public class BattleNetApiInterfaceBase
+    public class BattleNetApiCollectionBase
     {
         private const string _baseUriMissingRegionAndEndpoint = "https://{0}.api.battle.net/";
         protected Region _region { get; set; }
@@ -34,7 +34,7 @@ namespace BattleNetApi.Api.ApiInterfaces
             }
         }
 
-        internal BattleNetApiInterfaceBase(Region region, Locale locale)
+        internal BattleNetApiCollectionBase(Region region, Locale locale)
         {
             _region = region;
             _locale = locale;
