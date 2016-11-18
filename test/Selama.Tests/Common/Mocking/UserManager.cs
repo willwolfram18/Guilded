@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace Selama.Tests.Common.Mocking
 {
+    /// <summary>
+    /// Acts as a mock-able user manager for testing. Idea for this
+    /// and the <see cref="SignInManager"/> come from http://stackoverflow.com/a/35668648
+    /// </summary>
     public class UserManager : UserManager<ApplicationUser>
     {
         public UserManager()

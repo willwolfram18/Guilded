@@ -7,6 +7,9 @@ using Selama.Common.Http;
 
 namespace Selama.Controllers
 {
+    /// <summary>
+    /// Base controller from which all project controllers should derive
+    /// </summary>
     [RequireHttps]
     public class _ControllerBase : Controller
     {

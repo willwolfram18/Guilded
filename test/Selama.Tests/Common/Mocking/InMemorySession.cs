@@ -86,5 +86,19 @@ namespace Selama.Tests.Common.Mocking
         {
             return _source[key];
         }
+
+        public void SetInt32(string key, int value)
+        {
+            _source.Add(key, value.ToString());
+        }
+
+        public int? GetInt32(string key)
+        {
+            if (_source.ContainsKey(key))
+            {
+                return int.Parse(_source[key]);
+            }
+            return null;
+        }
     }
 }

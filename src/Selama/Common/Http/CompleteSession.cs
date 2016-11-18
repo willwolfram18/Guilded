@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Selama.Common.Http
 {
+    /// <summary>
+    /// Acts as a replacement for the <see cref="HttpContext.Session"/> object
+    /// within controllers
+    /// </summary>
     public class CompleteSession : ICompleteSession
     {
         private ISession Session { get; set; }
@@ -88,6 +90,16 @@ namespace Selama.Common.Http
         public bool TryGetValue(string key, out byte[] value)
         {
             return Session.TryGetValue(key, out value);
+        }
+
+        public void SetInt32(string key, int value)
+        {
+            Session.SetInt32(key, value);
+        }
+
+        public int? GetInt32(string key)
+        {
+            return Session.GetInt32(key);
         }
     }
 }
