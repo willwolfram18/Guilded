@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Html;
+﻿using BattleNetApi.Objects.WoW;
+using Microsoft.AspNetCore.Html;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Selama.ViewModels.Home
 {
-    public class GuildNewsFeedViewModel
+    public class GuildNewsFeedViewModel : IComparable<GuildNewsFeedViewModel>
     {
         #region Properties
         #region Public properties
@@ -26,6 +27,20 @@ namespace Selama.ViewModels.Home
             Timestamp = timestamp;
             Content = new HtmlString(content);
         }
+        #endregion
+
+        #region Methods
+        #region Public methods
+        public static GuildNewsFeedViewModel CreateFromBattleNetNews(GuildNews newsItem)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int CompareTo(GuildNewsFeedViewModel other)
+        {
+            return -(Timestamp.CompareTo(other.Timestamp));
+        }
+        #endregion
         #endregion
     }
 }
