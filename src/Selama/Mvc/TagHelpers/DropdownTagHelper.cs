@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Selama.Mvc.TagHelpers
 {
-    [HtmlTargetElement("dropdown", Attributes = TITLE)]
+    [HtmlTargetElement("dropdown", Attributes = TITLE + "," + ROOT_TAG_OUTPUT)]
     [RestrictChildren("dropdown-item")]
     public class DropdownTagHelper : TagHelper
     {

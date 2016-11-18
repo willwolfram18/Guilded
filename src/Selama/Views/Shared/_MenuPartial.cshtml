@@ -17,24 +17,72 @@
             <ul class="nav navbar-nav">
                 @if (SignInManager.IsSignedIn(User))
                 {
-
+                    <dropdown bs-title="Roster" bs-render-tag="li">
+                        <dropdown-item>
+                            <a href="#">Members</a>
+                            <a href="#">Characters</a>
+                        </dropdown-item>
+                    </dropdown>
+                    <dropdown bs-title="Lore" bs-render-tag="li">
+                        <dropdown-item>
+                            <a asp-area="Forums" asp-controller="Home" asp-action="Thread" asp-route-id="16">
+                                Horde
+                            </a>
+                        </dropdown-item>
+                        <dropdown-item>
+                            <a asp-area="Forums" asp-controller="Home" asp-action="Thread" asp-route-id="17">
+                                Alliance
+                            </a>
+                        </dropdown-item>
+                        <dropdown-item>
+                            <a asp-area="Forums" asp-controller="Home" asp-action="Thread" asp-route-id="18">
+                                Dragons
+                            </a>
+                        </dropdown-item>
+                        <dropdown-item>
+                            <a asp-area="Forums" asp-controller="Home" asp-action="Thread" asp-route-id="19">
+                                Races
+                            </a>
+                        </dropdown-item>
+                        <dropdown-item>
+                            <a asp-area="Forums" asp-controller="Home" asp-action="Thread" asp-route-id="20">
+                                Oranizations
+                            </a>
+                        </dropdown-item>
+                    </dropdown>
+                    <dropdown bs-render-tag="li" bs-title="Role Playing Guides">
+                        <dropdown-item>
+                            <a href="#">
+                                Blood Elves
+                            </a>
+                            <a href="#">
+                                Tauren
+                            </a>
+                            <a href="#">
+                                More to come!
+                            </a>
+                        </dropdown-item>
+                    </dropdown>
+                    <li>
+                        <a href="#">
+                            Gallery
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-area="Forums" asp-controller="Home" asp-action="Index">
+                            Forums
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Reports
+                        </a>
+                    </li>
                 }
                 else
                 {
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    <dropdown bs-title="Sample" bs-render-tag="li">
-                        <dropdown-item>
-                            <a href="#1">
-                                Item 1
-                            </a>
-                        </dropdown-item>
-                        <dropdown-item>
-                            <a href="#2">
-                                Item 2
-                            </a>
-                        </dropdown-item>
-                    </dropdown>
                 }
             </ul>
             @await Html.PartialAsync("_LoginPartial")

@@ -140,9 +140,15 @@ namespace Selama.Controllers
         // POST: /Account/ExternalLogin
         [HttpPost]
         [AllowAnonymous]
+        [Route("[controller]/external-login")]
         [ValidateAntiForgeryToken]
         public IActionResult ExternalLogin(string provider, string returnUrl = null)
         {
+            if (Request.Cookies["Identity.External"] != null)
+            {
+                Response.Cookies.Delete("Identity.External");
+                return RedirectToAction("Login", new { returnUrl = returnUrl });
+            }
             // Request a redirect to the external login provider.
             var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
@@ -153,6 +159,7 @@ namespace Selama.Controllers
         // GET: /Account/ExternalLoginCallback
         [HttpGet]
         [AllowAnonymous]
+        [Route("[controller]/external-login-callback")]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
             if (remoteError != null)
