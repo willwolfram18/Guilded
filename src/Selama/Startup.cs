@@ -15,6 +15,7 @@ using Selama.Services;
 using Microsoft.AspNetCore.Mvc;
 using Selama.Common;
 using AspNet.Security.OAuth.BattleNet;
+using Selama.Data.DAL.Home;
 
 namespace Selama
 {
@@ -73,8 +74,14 @@ namespace Selama
             services.AddSession();
 
             // Add application services.
+            RegisterDependencyInjections(services);
+        }
+
+        private static void RegisterDependencyInjections(IServiceCollection services)
+        {
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddTransient<IGuildNewsUnitOfWork, GuildNewsUnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

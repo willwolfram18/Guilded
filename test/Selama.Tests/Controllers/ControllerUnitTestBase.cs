@@ -16,8 +16,8 @@ using System.Threading.Tasks;
 
 namespace Selama.Tests.Controllers
 {
-    public class ControllerUnitTestBase<TController>
-        where TController : _ControllerBase, new()
+    public abstract class ControllerUnitTestBase<TController>
+        where TController : _ControllerBase
     {
         #region Properties
         #region Protected properties
@@ -86,10 +86,7 @@ namespace Selama.Tests.Controllers
             return new Mock<ControllerActionDescriptor>();
         }
 
-        protected virtual TController SetupController()
-        {
-            return new TController();
-        }
+        protected abstract TController SetupController();
 
         protected virtual void AdditionalSetup()
         {
