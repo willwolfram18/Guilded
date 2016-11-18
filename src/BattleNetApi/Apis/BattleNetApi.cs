@@ -3,7 +3,7 @@ using BattleNetApi.Apis.Interfaces;
 
 namespace BattleNetApi.Apis
 {
-    public class BattleNetApiClient
+    public class BattleNetApi
     {
         private string _apiClientKey { get; set; }
         private Region _region { get; set; }
@@ -28,7 +28,7 @@ namespace BattleNetApi.Apis
 
         public IWowCommunityApiMethods WowCommunityApi { get; private set; }
 
-        public BattleNetApiClient(string apiClientKey, Region region = Region.US, Locale locale = Locale.en_US)
+        public BattleNetApi(string apiClientKey, Region region = Region.US, Locale locale = Locale.en_US)
         {
             _apiClientKey = apiClientKey;
             _region = region;

@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Mvc;
 using Selama.Common;
 using AspNet.Security.OAuth.BattleNet;
 using Selama.Data.DAL.Home;
+using BattleNetApi.Apis.Interfaces;
+using BattleNetApi.Apis;
 
 namespace Selama
 {
@@ -81,6 +83,7 @@ namespace Selama
         {
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
             services.AddTransient<IGuildNewsUnitOfWork, GuildNewsUnitOfWork>();
         }
 
