@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Selama.Mvc.TagHelpers
 {
-    [HtmlTargetElement("dropdown", Attributes = TITLE + "," + ROOT_TAG_OUTPUT)]
+    [HtmlTargetElement("dropdown", Attributes = TagAttributes)]
     [RestrictChildren("dropdown-item")]
     public class DropdownTagHelper : TagHelper
     {
@@ -13,6 +13,7 @@ namespace Selama.Mvc.TagHelpers
         #region Public Properties
         public const string TITLE = "bs-title";
         public const string ROOT_TAG_OUTPUT = "bs-render-tag";
+        public const string TagAttributes = TITLE + "," + ROOT_TAG_OUTPUT;
 
         [HtmlAttributeName(TITLE)]
         public string Title { get; set; }
@@ -26,6 +27,8 @@ namespace Selama.Mvc.TagHelpers
         #endregion
         #endregion
 
+        #region Methods
+        #region Public methods
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             DropdownContext = new DropdownContext();
@@ -39,7 +42,9 @@ namespace Selama.Mvc.TagHelpers
 
             AppendHtmlToOutput(context, output);
         }
+        #endregion
 
+        #region Private methods
         private void ForceDropdownCssClassOnTag(TagHelperOutput output)
         {
             string classNames = "dropdown";
@@ -60,16 +65,16 @@ namespace Selama.Mvc.TagHelpers
                 output.Content.AppendHtml(item);
                 output.Content.AppendHtml("</li>");
             }
-            output.Content.AppendHtml($@"</ul>");
+            output.Content.AppendHtml("</ul>");
         }
+        #endregion
+        #endregion
     }
 
     public class DropdownContext
     {
         #region Properties
         #region Public properties
-        public TagHelperContent Title { get; set; }
-
         public List<IHtmlContent> Items { get; set; }
         #endregion
         #endregion
@@ -80,18 +85,6 @@ namespace Selama.Mvc.TagHelpers
             Items = new List<IHtmlContent>();
         }
         #endregion
-    }
-
-    [HtmlTargetElement("dropdown-title", ParentTag = "dropdown")]
-    public class DropdownItemTitleTagHelper : TagHelper
-    {
-        public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
-        {
-            var titleContent = output.GetChildContentAsync();
-            DropdownContext dropdownContext = context.Items[typeof(DropdownContext)] as DropdownContext;
-            dropdownContext.Title = await titleContent;
-            output.SuppressOutput();
-        }
     }
 
     [HtmlTargetElement("dropdown-item", ParentTag = "dropdown")]

@@ -8,12 +8,19 @@
 {
     <form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-            </li>
-            <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
-            </li>
+            <dropdown bs-title="Hello @UserManager.GetUserName(User)!" bs-render-tag="li">
+                <dropdown-item>
+                    <a asp-area="" asp-controller="Manage" asp-action="Index">
+                        <i class="fa fa-cogs fa-icontext"></i> Manage
+                    </a>
+                </dropdown-item>
+                <dropdown-item>
+                    <a href="javascript:document.getElementById('logoutForm').submit()">
+                        <i class="fa fa-sign-out fa-icontext"></i>
+                        Sign out
+                    </a>
+                </dropdown-item>
+            </dropdown>
         </ul>
     </form>
 }
@@ -29,7 +36,7 @@ else
         <li>
             <a asp-area="" asp-controller="Account" asp-action="Login">
                 <i class="fa fa-sign-in fa-icontext"></i>
-                Log in
+                Sign in
             </a>
         </li>
     </ul>
