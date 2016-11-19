@@ -35,16 +35,26 @@ namespace Selama.Data.DAL.Home
         }
         #endregion
 
-        public Task<List<GuildNewsFeedViewModel>> GetMembersOnlyNewsAsync(int pageNumber, int pageSize)
+        #region Methods
+        #region Public Methods
+        public async Task<List<GuildNewsFeedViewModel>> GetMembersOnlyNewsAsync(int pageNumber, int pageSize)
         {
+            var battleNetNews = GetBattleNetGuildNews();
             throw new NotImplementedException();
         }
 
-        public Task<List<GuildNewsFeedViewModel>> GetPublicGuildNewsAsync(int pageNumber, int pageSize)
+        public async Task<List<GuildNewsFeedViewModel>> GetPublicGuildNewsAsync(int pageNumber, int pageSize)
         {
+            var battleNetNews = await GetBattleNetGuildNews();
             throw new NotImplementedException();
         }
+        public void Dispose()
+        {
+            _websiteNews.Dispose();
+        }
+        #endregion
 
+        #region Private methods
         private async Task<List<GuildNewsFeedViewModel>> GetBattleNetGuildNews()
         {
             Guild guildProfile = await _battleNetClient.WowCommunityApi.GetGuildProfileAsync("", "", "news");
@@ -54,9 +64,11 @@ namespace Selama.Data.DAL.Home
             return result;
         }
 
-        public void Dispose()
+        private async Task<List<GuildNewsFeedViewModel>> GetWebsiteNews()
         {
-
+            return null;
         }
+        #endregion
+        #endregion
     }
 }
