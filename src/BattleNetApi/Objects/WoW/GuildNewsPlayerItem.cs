@@ -6,6 +6,11 @@ namespace BattleNetApi.Objects.WoW
     {
         public int ItemId { get; set; }
 
+        public GuildNewsPlayerItem()
+        {
+            
+        }
+
         internal static GuildNewsPlayerItem BuildPlayerItemNews(JObject playerItemNewsJson, string timezone)
         {
             return new GuildNewsPlayerItem(playerItemNewsJson, timezone);

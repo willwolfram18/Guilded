@@ -42,6 +42,11 @@ namespace BattleNetApi.Objects.WoW
         }
         #endregion
 
+        public Guild()
+        {
+            
+        }
+
         #region Private constructors
         private Guild(string name, string realm, Faction faction)
         {

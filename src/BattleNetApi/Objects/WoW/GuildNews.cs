@@ -40,6 +40,11 @@ namespace BattleNetApi.Objects.WoW
             }
         }
 
+        public GuildNews()
+        {
+            
+        }
+
         protected GuildNews(JObject guildNewsJson, string timezone)
         {
             Type = Util.ParseEnum<GuildNewsType>(guildNewsJson, "type");
