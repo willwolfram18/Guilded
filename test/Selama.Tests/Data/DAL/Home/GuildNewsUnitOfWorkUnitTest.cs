@@ -106,10 +106,12 @@ namespace Selama.Tests.Data.DAL.Home
         {
             #region Arrange
             List<GuildNewsFeedViewModel> expectedNews = BattleNetNews
-                .Skip((pageNum - 1) * PAGE_SIZE)
-                .Take(PAGE_SIZE)
                 .ToListOfDifferentType(GuildNewsFeedViewModel.CreateFromBattleNetNews);
             expectedNews.Sort();
+            expectedNews = expectedNews
+                .Skip((pageNum - 1) * PAGE_SIZE)
+                .Take(PAGE_SIZE)
+                .ToList();
             #endregion
 
             #region Act
@@ -276,7 +278,7 @@ namespace Selama.Tests.Data.DAL.Home
             for (int i = 0; i < expected.Count; i++)
             {
                 Assert.Equal(expected[i].Timestamp, result[i].Timestamp);
-                Assert.Equal(expected[i].Content, result[i].Content);
+                Assert.Equal(expected[i].Content.Value, result[i].Content.Value);
             }
         }
         #endregion

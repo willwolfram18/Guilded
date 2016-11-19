@@ -40,13 +40,14 @@ namespace Selama.Data.DAL.Home
         public async Task<List<GuildNewsFeedViewModel>> GetMembersOnlyNewsAsync(int pageNumber, int pageSize)
         {
             var battleNetNews = GetBattleNetGuildNews();
-            throw new NotImplementedException();
+            var websiteNews = GetWebsiteNews();
+            return GetPageItems(pageNumber, pageSize, websiteNews, await battleNetNews);
         }
 
         public async Task<List<GuildNewsFeedViewModel>> GetPublicGuildNewsAsync(int pageNumber, int pageSize)
         {
             var battleNetNews = await GetBattleNetGuildNews();
-            throw new NotImplementedException();
+            return GetPageItems(pageNumber, pageSize, battleNetNews);
         }
         public void Dispose()
         {
@@ -64,9 +65,31 @@ namespace Selama.Data.DAL.Home
             return result;
         }
 
-        private async Task<List<GuildNewsFeedViewModel>> GetWebsiteNews()
+        private List<GuildNewsFeedViewModel> GetWebsiteNews()
         {
-            return null;
+            IQueryable<GuildNewsFeedItem> websiteNews = _websiteNews.Get(orderBy: n => n.OrderByDescending(i => i.Timestamp));
+            return websiteNews.ToListOfDifferentType(n =>
+                new GuildNewsFeedViewModel(n.Timestamp, n.Content)
+            );
+        }
+
+        private List<GuildNewsFeedViewModel> GetPageItems(int pageNumber, int pageSize, params List<GuildNewsFeedViewModel>[] sources)
+        {
+            List<GuildNewsFeedViewModel> results = new List<GuildNewsFeedViewModel>();
+            if (pageNumber < 1 || sources == null || sources.Length == 0)
+            {
+                return results;
+            }
+
+            foreach (var newsSource in sources)
+            {
+                results.AddRange(newsSource);
+            }
+            results.Sort();
+            return results
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
         }
         #endregion
         #endregion

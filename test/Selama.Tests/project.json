@@ -8,6 +8,7 @@
             "version": "1.0.1",
             "type": "platform"
         },
+        "Microsoft.AspNetCore.Http.Features": "1.1.0",
         "Moq":  "4.6.38-alpha",
         "Selama": "1.0.0-*",
         "System.Diagnostics.TraceSource": "4.0.0",
