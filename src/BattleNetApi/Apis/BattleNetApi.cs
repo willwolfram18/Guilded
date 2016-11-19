@@ -3,7 +3,7 @@ using BattleNetApi.Apis.Interfaces;
 
 namespace BattleNetApi.Apis
 {
-    public class BattleNetApi
+    public class BattleNetApi : IBattleNetApi
     {
         private string _apiClientKey { get; set; }
         private Region _region { get; set; }

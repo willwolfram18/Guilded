@@ -21,12 +21,6 @@ namespace Selama.Data.DAL.Home
         #endregion
 
         #region Constructor
-        public GuildNewsUnitOfWork()
-        {
-            // _battleNetClient = new BattleNetApiClient();
-            // _websiteNews = new GuildNewsFeedRepo();
-        }
-
         public GuildNewsUnitOfWork(IBattleNetApi bnetClient, 
             IEntityRepo<GuildNewsFeedItem> websiteNews)
         {
