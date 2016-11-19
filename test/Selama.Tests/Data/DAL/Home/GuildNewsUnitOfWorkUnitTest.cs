@@ -11,6 +11,7 @@ using System;
 using System.Linq;
 using Selama.Common.Extensions;
 using Selama.Models.Home;
+using Selama.Data.DAL;
 
 namespace Selama.Tests.Data.DAL.Home
 {
@@ -25,6 +26,7 @@ namespace Selama.Tests.Data.DAL.Home
         private GuildNewsUnitOfWork UnitOfWork { get; set; }
         private Mock<IBattleNetApi> MockBattleNetApi { get; set; }
         private Mock<IWowCommunityApiMethods> MockWowCommunityApi { get; set; }
+        private Mock<IEntityRepo<GuildNewsFeedItem>> MockWebsiteRepo { get; set; }
         private List<GuildNews> BattleNetNews { get; set; }
         private List<GuildNewsFeedItem> WebsiteNews { get; set; }
         #endregion
@@ -35,7 +37,10 @@ namespace Selama.Tests.Data.DAL.Home
         {
             InitializeBattleNetApi();
             InitializeGuildNewsRepo();
-            UnitOfWork = new GuildNewsUnitOfWork(MockBattleNetApi.Object);
+            UnitOfWork = new GuildNewsUnitOfWork(
+                MockBattleNetApi.Object,
+                MockWebsiteRepo.Object
+            );
         }
         #endregion
 
@@ -225,7 +230,7 @@ namespace Selama.Tests.Data.DAL.Home
         private void CreateBattleNetNews()
         {
             BattleNetNews = new List<GuildNews>();
-            for (int i = NUM_BATTLE_NET_NEWS_ENTRIES; i >= 0; i--)
+            for (int i = NUM_BATTLE_NET_NEWS_ENTRIES - 1; i >= 0; i--)
             {
                 BattleNetNews.Add(new GuildNewsPlayerItem
                 {
@@ -240,11 +245,19 @@ namespace Selama.Tests.Data.DAL.Home
         private void InitializeGuildNewsRepo()
         {
             CreateWebsiteNews();
+            MockWebsiteRepo = new Mock<IEntityRepo<GuildNewsFeedItem>>();
+            MockWebsiteRepo.Setup(r => 
+                r.Get(
+                    It.IsAny<Func<IQueryable<GuildNewsFeedItem>, IOrderedQueryable<GuildNewsFeedItem>>>()
+                )
+            ).Returns(
+                WebsiteNews.OrderByDescending(t => t.Timestamp).AsQueryable()
+            );
         }
         private void CreateWebsiteNews()
         {
             WebsiteNews = new List<GuildNewsFeedItem>();
-            for (int i = NUM_WEBSITE_NEWS_ENTRIES; i >= 0; i--)
+            for (int i = NUM_WEBSITE_NEWS_ENTRIES - 1; i >= 0; i--)
             {
                 int adjustedIndex = NUM_WEBSITE_NEWS_ENTRIES - i;
                 WebsiteNews.Add(new GuildNewsFeedItem

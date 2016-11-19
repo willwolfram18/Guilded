@@ -7,6 +7,7 @@ using BattleNetApi.Apis.Interfaces;
 using BattleNetApi.Apis;
 using BattleNetApi.Objects.WoW;
 using Selama.Common.Extensions;
+using Selama.Models.Home;
 
 namespace Selama.Data.DAL.Home
 {
@@ -15,6 +16,7 @@ namespace Selama.Data.DAL.Home
         #region Properties
         #region Private properties
         private readonly IBattleNetApi _battleNetClient;
+        private readonly IEntityRepo<GuildNewsFeedItem> _websiteNews;
         #endregion
         #endregion
 
@@ -22,11 +24,14 @@ namespace Selama.Data.DAL.Home
         public GuildNewsUnitOfWork()
         {
             // _battleNetClient = new BattleNetApiClient();
+            // _websiteNews = new GuildNewsFeedRepo();
         }
 
-        public GuildNewsUnitOfWork(IBattleNetApi bnetClient)
+        public GuildNewsUnitOfWork(IBattleNetApi bnetClient, 
+            IEntityRepo<GuildNewsFeedItem> websiteNews)
         {
             _battleNetClient = bnetClient;
+            _websiteNews = websiteNews;
         }
         #endregion
 
