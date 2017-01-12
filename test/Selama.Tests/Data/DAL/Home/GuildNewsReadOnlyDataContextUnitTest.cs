@@ -15,7 +15,7 @@ using Selama.Data.DAL;
 
 namespace Selama.Tests.Data.DAL.Home
 {
-    public class GuildNewsUnitOfWorkUnitTest
+    public class GuildNewsReadOnlyDataContextUnitTest
     {
         #region Properties
         #region Private properties
@@ -23,23 +23,23 @@ namespace Selama.Tests.Data.DAL.Home
         private const int NUM_BATTLE_NET_NEWS_ENTRIES = PAGE_SIZE * 4;
         private const int NUM_WEBSITE_NEWS_ENTRIES = PAGE_SIZE * 3;
 
-        private GuildNewsUnitOfWork UnitOfWork { get; set; }
-        private Mock<IBattleNetApi> MockBattleNetApi { get; set; }
-        private Mock<IWowCommunityApiMethods> MockWowCommunityApi { get; set; }
-        private Mock<IEntityRepo<GuildNewsFeedItem>> MockWebsiteRepo { get; set; }
-        private List<GuildNews> BattleNetNews { get; set; }
-        private List<GuildNewsFeedItem> WebsiteNews { get; set; }
+        private readonly GuildNewsReadOnlyDataContext _dataContext;
+        private readonly Mock<IBattleNetApi> _mockBattleNetNews = new Mock<IBattleNetApi>();
+        private readonly Mock<IWowCommunityApiMethods> _mockWowCommunityApi = new Mock<IWowCommunityApiMethods>();
+        private readonly Mock<IReadOnlyRepository<GuildNewsFeedItem>> _mockGuildNewsRepo = new Mock<IReadOnlyRepository<GuildNewsFeedItem>>();
+        private readonly List<GuildNews> _battleNetNews = new List<GuildNews>();
+        private readonly List<GuildNewsFeedItem> _websiteNews = new List<GuildNewsFeedItem>();
         #endregion
         #endregion
 
         #region Constructor
-        public GuildNewsUnitOfWorkUnitTest()
+        public GuildNewsReadOnlyDataContextUnitTest()
         {
             InitializeBattleNetApi();
             InitializeGuildNewsRepo();
-            UnitOfWork = new GuildNewsUnitOfWork(
-                MockBattleNetApi.Object,
-                MockWebsiteRepo.Object
+            _dataContext = new GuildNewsReadOnlyDataContext(
+                _mockBattleNetNews.Object,
+                _mockGuildNewsRepo.Object
             );
         }
         #endregion
@@ -57,7 +57,7 @@ namespace Selama.Tests.Data.DAL.Home
             int pageNum = 0;
             if (isEmptyNews)
             {
-                BattleNetNews.Clear();
+                _battleNetNews.Clear();
             }
             #endregion
 
@@ -65,11 +65,11 @@ namespace Selama.Tests.Data.DAL.Home
             List<GuildNewsFeedViewModel> result = null;
             if (isMember)
             {
-                result = await UnitOfWork.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
+                result = await _dataContext.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
             }
             else
             {
-                result = await UnitOfWork.GetPublicGuildNewsAsync(pageNum, PAGE_SIZE);
+                result = await _dataContext.GetPublicGuildNewsAsync(pageNum, PAGE_SIZE);
             }
             #endregion
 
@@ -83,14 +83,14 @@ namespace Selama.Tests.Data.DAL.Home
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public async Task EmptyPublicNewsGivesEmptyList(int pageNum)
+        public async Task GetPublicGuildNewsAsync_EmptyPublicNewsGivesEmptyList(int pageNum)
         {
             #region Arrange
-            BattleNetNews.Clear();
+            _battleNetNews.Clear();
             #endregion
 
             #region Act
-            List<GuildNewsFeedViewModel> result = await UnitOfWork.GetPublicGuildNewsAsync(pageNum, PAGE_SIZE);
+            List<GuildNewsFeedViewModel> result = await _dataContext.GetPublicGuildNewsAsync(pageNum, PAGE_SIZE);
             #endregion
 
             #region Assert
@@ -102,10 +102,10 @@ namespace Selama.Tests.Data.DAL.Home
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public async Task PublicNewsWithPageInRangeGivesCorrectResult(int pageNum)
+        public async Task GetPublicGuildNewsAsync_PublicNewsWithPageInRangeGivesCorrectResult(int pageNum)
         {
             #region Arrange
-            List<GuildNewsFeedViewModel> expectedNews = BattleNetNews
+            List<GuildNewsFeedViewModel> expectedNews = _battleNetNews
                 .ToListOfDifferentType(GuildNewsFeedViewModel.CreateFromBattleNetNews);
             expectedNews.Sort();
             expectedNews = expectedNews
@@ -115,7 +115,7 @@ namespace Selama.Tests.Data.DAL.Home
             #endregion
 
             #region Act
-            List<GuildNewsFeedViewModel> result = await UnitOfWork.GetPublicGuildNewsAsync(pageNum, PAGE_SIZE);
+            List<GuildNewsFeedViewModel> result = await _dataContext.GetPublicGuildNewsAsync(pageNum, PAGE_SIZE);
             #endregion
 
             #region Assert
@@ -124,14 +124,14 @@ namespace Selama.Tests.Data.DAL.Home
         }
 
         [Fact]
-        public async Task PublicNewsWithPageOutsideRangeGivesEmptyList()
+        public async Task GetPublicGuildNewsAsync_PublicNewsWithPageOutsideRangeGivesEmptyList()
         {
             #region Arrange
             int pageNum = (NUM_BATTLE_NET_NEWS_ENTRIES / PAGE_SIZE) + 1;
             #endregion
 
             #region Act
-            List<GuildNewsFeedViewModel> result = await UnitOfWork.GetPublicGuildNewsAsync(pageNum, PAGE_SIZE);
+            List<GuildNewsFeedViewModel> result = await _dataContext.GetPublicGuildNewsAsync(pageNum, PAGE_SIZE);
             #endregion
 
             #region Assert
@@ -145,15 +145,15 @@ namespace Selama.Tests.Data.DAL.Home
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public async Task EmptyMembersNewsGivesEmptyList(int pageNum)
+        public async Task GetMembersOnlyNewsAsync_EmptyMembersNewsGivesEmptyList(int pageNum)
         {
             #region Arrange
-            BattleNetNews.Clear();
-            WebsiteNews.Clear();
+            _battleNetNews.Clear();
+            _websiteNews.Clear();
             #endregion
 
             #region Act
-            List<GuildNewsFeedViewModel> result = await UnitOfWork.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
+            List<GuildNewsFeedViewModel> result = await _dataContext.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
             #endregion
 
             #region Assert
@@ -165,13 +165,13 @@ namespace Selama.Tests.Data.DAL.Home
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public async Task MembersNewsWithPageInRangeGivesCorrectResult(int pageNum)
+        public async Task GetMembersOnlyNewsAsync_MembersNewsWithPageInRangeGivesCorrectResult(int pageNum)
         {
             #region Arrange
-            List<GuildNewsFeedViewModel> expectedNews = BattleNetNews
+            List<GuildNewsFeedViewModel> expectedNews = _battleNetNews
                 .ToListOfDifferentType(GuildNewsFeedViewModel.CreateFromBattleNetNews)
                 .Concat(
-                    WebsiteNews.ToListOfDifferentType(n =>
+                    _websiteNews.ToListOfDifferentType(n =>
                         new GuildNewsFeedViewModel(n.Timestamp, n.Content)
                     )
                 )
@@ -183,7 +183,7 @@ namespace Selama.Tests.Data.DAL.Home
             #endregion
 
             #region Act
-            List<GuildNewsFeedViewModel> result = await UnitOfWork.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
+            List<GuildNewsFeedViewModel> result = await _dataContext.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
             #endregion
 
             #region Assert
@@ -192,14 +192,14 @@ namespace Selama.Tests.Data.DAL.Home
         }
 
         [Fact]
-        public async Task MembersNewsWithPageOutsideRangeGivesEmptyList()
+        public async Task GetMembersOnlyNewsAsync_MembersNewsWithPageOutsideRangeGivesEmptyList()
         {
             #region Arrange
             int pageNum = ((NUM_BATTLE_NET_NEWS_ENTRIES + NUM_WEBSITE_NEWS_ENTRIES) / PAGE_SIZE) + 1;
             #endregion
 
             #region Act
-            List<GuildNewsFeedViewModel> result = await UnitOfWork.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
+            List<GuildNewsFeedViewModel> result = await _dataContext.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
             #endregion
 
             #region Assert
@@ -212,29 +212,22 @@ namespace Selama.Tests.Data.DAL.Home
         #region Private methods
         private void InitializeBattleNetApi()
         {
-            SetupMockApiObjects();
+            _mockBattleNetNews.Setup(b => b.WowCommunityApi).Returns(_mockWowCommunityApi.Object);
             CreateBattleNetNews();
 
-            MockWowCommunityApi.Setup(c =>
+            _mockWowCommunityApi.Setup(c =>
                 c.GetGuildProfileAsync(
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     "news"
                 )
-            ).ReturnsAsync(new Guild { News = BattleNetNews });
-        }
-        private void SetupMockApiObjects()
-        {
-            MockWowCommunityApi = new Mock<IWowCommunityApiMethods>();
-            MockBattleNetApi = new Mock<IBattleNetApi>();
-            MockBattleNetApi.Setup(b => b.WowCommunityApi).Returns(MockWowCommunityApi.Object);
+            ).ReturnsAsync(new Guild { News = _battleNetNews });
         }
         private void CreateBattleNetNews()
         {
-            BattleNetNews = new List<GuildNews>();
             for (int i = NUM_BATTLE_NET_NEWS_ENTRIES - 1; i >= 0; i--)
             {
-                BattleNetNews.Add(new GuildNewsPlayerItem
+                _battleNetNews.Add(new GuildNewsPlayerItem
                 {
                     Type = GuildNewsType.ItemLoot,
                     CharacterName = "Ickthid",
@@ -247,22 +240,21 @@ namespace Selama.Tests.Data.DAL.Home
         private void InitializeGuildNewsRepo()
         {
             CreateWebsiteNews();
-            MockWebsiteRepo = new Mock<IEntityRepo<GuildNewsFeedItem>>();
-            MockWebsiteRepo.Setup(r => 
+
+            _mockGuildNewsRepo.Setup(r =>
                 r.Get(
                     It.IsAny<Func<IQueryable<GuildNewsFeedItem>, IOrderedQueryable<GuildNewsFeedItem>>>()
                 )
             ).Returns(
-                WebsiteNews.OrderByDescending(t => t.Timestamp).AsQueryable()
+                _websiteNews.OrderByDescending(t => t.Timestamp).AsQueryable()
             );
         }
         private void CreateWebsiteNews()
         {
-            WebsiteNews = new List<GuildNewsFeedItem>();
             for (int i = NUM_WEBSITE_NEWS_ENTRIES - 1; i >= 0; i--)
             {
                 int adjustedIndex = NUM_WEBSITE_NEWS_ENTRIES - i;
-                WebsiteNews.Add(new GuildNewsFeedItem
+                _websiteNews.Add(new GuildNewsFeedItem
                 {
                     Id = adjustedIndex + 1,
                     Content = "Sample string for news entry " + i.ToString(),

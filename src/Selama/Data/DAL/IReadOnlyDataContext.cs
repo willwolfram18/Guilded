@@ -6,15 +6,9 @@ using System.Threading.Tasks;
 
 namespace Selama.Data.DAL
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IReadOnlyDataContext : IDisposable
     {
         void Reload(object entity);
         Task ReloadAsync(object entity);
-
-        void SaveChanges();
-        Task SaveChangesAsync();
-
-        bool TrySaveChanges();
-        Task<bool> TrySaveChangesAsync();
     }
 }

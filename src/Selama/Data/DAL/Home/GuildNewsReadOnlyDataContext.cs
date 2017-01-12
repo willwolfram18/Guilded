@@ -11,18 +11,18 @@ using Selama.Models.Home;
 
 namespace Selama.Data.DAL.Home
 {
-    public class GuildNewsUnitOfWork : IGuildNewsUnitOfWork
+    public class GuildNewsReadOnlyDataContext : IGuildNewsReadOnlyDataContext
     {
         #region Properties
         #region Private properties
         private readonly IBattleNetApi _battleNetClient;
-        private readonly IEntityRepo<GuildNewsFeedItem> _websiteNews;
+        private readonly IReadOnlyRepository<GuildNewsFeedItem> _websiteNews;
         #endregion
         #endregion
 
         #region Constructor
-        public GuildNewsUnitOfWork(IBattleNetApi bnetClient, 
-            IEntityRepo<GuildNewsFeedItem> websiteNews)
+        public GuildNewsReadOnlyDataContext(IBattleNetApi bnetClient,
+            IReadOnlyRepository<GuildNewsFeedItem> websiteNews)
         {
             _battleNetClient = bnetClient;
             _websiteNews = websiteNews;

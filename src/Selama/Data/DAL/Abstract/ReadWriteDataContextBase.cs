@@ -1,43 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Selama.Data.DAL.Abstract
 {
-    public abstract class UnitOfWorkBase : IUnitOfWork
+    public abstract class ReadWriteDataContextBase : ReadOnlyDataContextBase, IReadWriteDataContext
     {
-        #region Properties
-        #region Private properties
-        private readonly ApplicationDbContext _context;
-        private bool _isDisposed = false;
-        #endregion
-        #endregion
-
         #region Constructors
-        public UnitOfWorkBase(ApplicationDbContext context)
+        public ReadWriteDataContextBase(ApplicationDbContext context) : base(context)
         {
-            _context = context;
         }
         #endregion
 
         #region Methods
         #region Public methods
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        public void Reload(object entity)
-        {
-            _context.Entry(entity).Reload();
-        }
-
-        public async Task ReloadAsync(object entity)
-        {
-            await _context.Entry(entity).ReloadAsync();
-        }
-
         public void SaveChanges()
         {
             TrySaveChanges();
@@ -64,6 +42,7 @@ namespace Selama.Data.DAL.Abstract
             }
             catch (Exception e)
             {
+                // TODO: What happens in case of other exception types?
             }
 
             // If we've reached here an error occurred
@@ -86,24 +65,11 @@ namespace Selama.Data.DAL.Abstract
             }
             catch (Exception e)
             {
+                // TODO: What happens in case of other exception types?
             }
 
             // If we've reached here an error occurred
             return false;
-        }
-        #endregion
-
-        #region Private methods
-        private void Dispose(bool disposing)
-        {
-            if (!_isDisposed)
-            {
-                if (disposing && _context != null)
-                {
-                    _context.Dispose();
-                }
-            }
-            _isDisposed = true;
         }
         #endregion
         #endregion

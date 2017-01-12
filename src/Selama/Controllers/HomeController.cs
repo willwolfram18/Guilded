@@ -21,13 +21,13 @@ namespace Selama.Controllers
         #endregion
 
         #region Private properties
-        private readonly IGuildNewsUnitOfWork _newsFeedDb;
+        private readonly IGuildNewsReadOnlyDataContext _newsFeedDb;
         private readonly SignInManager<ApplicationUser> _signInManager;
         #endregion
         #endregion
 
         #region Constructor
-        public HomeController(IGuildNewsUnitOfWork db,
+        public HomeController(IGuildNewsReadOnlyDataContext db,
             SignInManager<ApplicationUser> signInManager)
         {
             _newsFeedDb = db;

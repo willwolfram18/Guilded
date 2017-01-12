@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace Selama.Data.DAL.Abstract
 {
-    public abstract class EntityRepoBase<TEntity> : IEntityRepo<TEntity>
+    public abstract class ReadOnlyRepositoryBase<TEntity> : IReadOnlyRepository<TEntity>
         where TEntity : class
     {
         #region Properties
-        #region Private properties
-        private readonly ApplicationDbContext _context;
-        private readonly DbSet<TEntity> _source;
+        #region Protected properties
+        protected readonly ApplicationDbContext _context;
+        protected readonly DbSet<TEntity> _source;
         #endregion
         #endregion
 
         #region Constructor
-        public EntityRepoBase(ApplicationDbContext context)
+        public ReadOnlyRepositoryBase(ApplicationDbContext context)
         {
             _context = context;
             _source = _context.Set<TEntity>();
@@ -27,22 +27,17 @@ namespace Selama.Data.DAL.Abstract
 
         #region Methods
         #region Public methods
-        public void Add(TEntity entityToAdd)
-        {
-            _source.Add(entityToAdd);
-        }
-
         public void Dispose()
         {
             _context.Dispose();
         }
 
-        public TEntity FindById(object id)
+        public TEntity GetById(object id)
         {
             return _source.Find(id);
         }
 
-        public Task<TEntity> FindByIdAsync(object id)
+        public Task<TEntity> GetByIdAsync(object id)
         {
             return _source.FindAsync(id);
         }
@@ -74,35 +69,6 @@ namespace Selama.Data.DAL.Abstract
                 result = orderBy(result).AsQueryable();
             }
             return result;
-        }
-
-        public void Remove(TEntity entityToRemove)
-        {
-            if (entityToRemove != null)
-            {
-                if (_context.Entry(entityToRemove).State == EntityState.Detached)
-                {
-                    _context.Attach(entityToRemove);
-                }
-                _source.Remove(entityToRemove);
-            }
-        }
-
-        public void RemoveById(object id)
-        {
-            TEntity entityToRemove = FindById(id);
-            Remove(entityToRemove);
-        }
-
-        public async Task RemoveByIdAsync(object id)
-        {
-            TEntity entityToRemove = await FindByIdAsync(id);
-            Remove(entityToRemove);
-        }
-
-        public void Update(TEntity entityToUpdate)
-        {
-            _source.Update(entityToUpdate);
         }
         #endregion
         #endregion

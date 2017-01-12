@@ -1,4 +1,4 @@
-#define OS_X
+//#define OS_X
 
 namespace Selama.Common
 {

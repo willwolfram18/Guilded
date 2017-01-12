@@ -49,7 +49,12 @@ namespace Selama.ViewModels.Home
 
         public int CompareTo(GuildNewsFeedViewModel other)
         {
-            return -(Timestamp.CompareTo(other.Timestamp));
+            int timestampComparison = -(Timestamp.CompareTo(other.Timestamp));
+            if (timestampComparison != 0)
+            {
+                return timestampComparison;
+            }
+            return Content.ToString().CompareTo(other.Content.ToString());
         }
         #endregion
 
@@ -59,8 +64,8 @@ namespace Selama.ViewModels.Home
             return new GuildNewsFeedViewModel(
                 itemNews.DateTimeTimestamp,
                 string.Format(
-                    "{0} obtained {1}.", 
-                    itemNews.CharacterName, 
+                    "{0} obtained {1}.",
+                    itemNews.CharacterName,
                     ItemTag(itemNews)
                 )
             );
@@ -82,9 +87,9 @@ namespace Selama.ViewModels.Home
             return new GuildNewsFeedViewModel(
                 achievementNews.DateTimeTimestamp,
                 string.Format(
-                    "{0} earned {1} for {2} points.", 
-                    achievementEarner, 
-                    AchievementTag(achievementNews), 
+                    "{0} earned {1} for {2} points.",
+                    achievementEarner,
+                    AchievementTag(achievementNews),
                     achievementNews.Achievement.Points
                 )
             );

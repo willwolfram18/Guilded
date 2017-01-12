@@ -24,32 +24,32 @@ namespace Selama.Tests.Controllers
         private const int PUBLIC_NEWS_FEED_PAGE_COUNT = 2;
         private const int PUBLIC_FULL_NEWS_FEED_PAGE_COUNT = PUBLIC_NEWS_FEED_PAGE_COUNT - 1;
 
-        private Mock<IGuildNewsUnitOfWork> MockGuildNewsFeed { get; set; }
         private Mock<SignInManager> MockSignInManager { get; set; }
-        private List<GuildNewsFeedViewModel> MembersNewsItems { get; set; }
-        public List<GuildNewsFeedViewModel> PublicNewsItems { get; set; }
+
+        private readonly Mock<IGuildNewsReadOnlyDataContext> _mockGuildNewsFeed = new Mock<IGuildNewsReadOnlyDataContext>();
+        private readonly List<GuildNewsFeedViewModel> _membersNewsItems = new List<GuildNewsFeedViewModel>();
+        private readonly List<GuildNewsFeedViewModel> _publicNewsItems = new List<GuildNewsFeedViewModel>();
         #endregion
         #endregion
 
         #region Test setup overrides
         protected override HomeController SetupController()
         {
-            MockGuildNewsFeed = new Mock<IGuildNewsUnitOfWork>();
             InitializeSignInManager();
-            return new HomeController(MockGuildNewsFeed.Object, MockSignInManager.Object);
+            return new HomeController(_mockGuildNewsFeed.Object, MockSignInManager.Object);
         }
 
         protected override void AdditionalSetup()
         {
-            MembersNewsItems = CreateListOfNewsFeedItems(MEMBERS_FULL_NEWS_FEED_PAGE_COUNT);
-            PublicNewsItems = CreateListOfNewsFeedItems(PUBLIC_FULL_NEWS_FEED_PAGE_COUNT);
+            _membersNewsItems.AddRange(CreateListOfNewsFeedItems(MEMBERS_FULL_NEWS_FEED_PAGE_COUNT));
+            _publicNewsItems.AddRange(CreateListOfNewsFeedItems(PUBLIC_FULL_NEWS_FEED_PAGE_COUNT));
         }
         #endregion
 
         #region Methods
         #region Test methods
         [Fact]
-        public void IndexIsNotNull()
+        public void Index_IsNotNull()
         {
             #region Arrange
             #endregion
@@ -64,7 +64,7 @@ namespace Selama.Tests.Controllers
         }
 
         [Fact]
-        public void JoinIsNotNull()
+        public void Join_IsNotNull()
         {
             #region Arrange
             #endregion
@@ -79,7 +79,7 @@ namespace Selama.Tests.Controllers
         }
 
         [Fact]
-        public void AboutIsNotNull()
+        public void About_IsNotNull()
         {
             #region Arrange
             #endregion
@@ -94,7 +94,7 @@ namespace Selama.Tests.Controllers
         }
 
         [Fact]
-        public void MarkdownHelperIsNotNull()
+        public void MarkdownHelper_IsNotNull()
         {
             #region Arrange
             #endregion
@@ -109,7 +109,7 @@ namespace Selama.Tests.Controllers
         }
 
         [Fact]
-        public void ErrorIsNotNul()
+        public void Error_IsNotNul()
         {
             #region Arrange
             #endregion
@@ -129,7 +129,7 @@ namespace Selama.Tests.Controllers
         [InlineData(2)]
         [InlineData(3)]
         [InlineData(4)]
-        public async Task NewsFeedForPublicIsCorrect(int requestPageNum)
+        public async Task NewsFeed_ForPublicIsCorrect(int requestPageNum)
         {
             #region Arrange
             MockSignInManager.Setup(m => m.IsSignedIn(It.IsAny<ClaimsPrincipal>())).Returns(false);
@@ -140,10 +140,10 @@ namespace Selama.Tests.Controllers
             }
             else
             {
-                expectedNewsFeedItems = PublicNewsItems.Skip(requestPageNum - 1).Take(HomeController.NEWS_FEED_PAGE_SIZE).ToList();
+                expectedNewsFeedItems = _publicNewsItems.Skip(requestPageNum - 1).Take(HomeController.NEWS_FEED_PAGE_SIZE).ToList();
             }
 
-            MockGuildNewsFeed.Setup(f =>
+            _mockGuildNewsFeed.Setup(f =>
                 f.GetPublicGuildNewsAsync(
                     It.Is<int>(i => i == requestPageNum),
                     HomeController.NEWS_FEED_PAGE_SIZE
@@ -157,7 +157,7 @@ namespace Selama.Tests.Controllers
 
             #region Assert
             Assert.NotNull(result);
-            MockGuildNewsFeed.Verify(f =>
+            _mockGuildNewsFeed.Verify(f =>
                 f.GetMembersOnlyNewsAsync(
                     It.Is<int>(i => i == requestPageNum),
                     HomeController.NEWS_FEED_PAGE_SIZE
@@ -176,7 +176,7 @@ namespace Selama.Tests.Controllers
         [InlineData(2)]
         [InlineData(3)]
         [InlineData(4)]
-        public async Task NewsFeedForMembersIsCorrect(int requestPageNum)
+        public async Task NewsFeed_ForMembersIsCorrect(int requestPageNum)
         {
             #region Arrange
             MockSignInManager.Setup(m => m.IsSignedIn(It.IsAny<ClaimsPrincipal>())).Returns(true);
@@ -187,10 +187,10 @@ namespace Selama.Tests.Controllers
             }
             else
             {
-                expectedNewsFeedItems = MembersNewsItems.Skip(requestPageNum - 1).Take(HomeController.NEWS_FEED_PAGE_SIZE).ToList();
+                expectedNewsFeedItems = _membersNewsItems.Skip(requestPageNum - 1).Take(HomeController.NEWS_FEED_PAGE_SIZE).ToList();
             }
 
-            MockGuildNewsFeed.Setup(f =>
+            _mockGuildNewsFeed.Setup(f =>
                 f.GetMembersOnlyNewsAsync(
                     It.Is<int>(i => i == requestPageNum),
                     HomeController.NEWS_FEED_PAGE_SIZE
@@ -205,7 +205,7 @@ namespace Selama.Tests.Controllers
             #region Assert
             Assert.NotNull(result);
             Assert.NotNull(result);
-            MockGuildNewsFeed.Verify(f =>
+            _mockGuildNewsFeed.Verify(f =>
                 f.GetPublicGuildNewsAsync(
                     It.Is<int>(i => i == requestPageNum),
                     HomeController.NEWS_FEED_PAGE_SIZE
