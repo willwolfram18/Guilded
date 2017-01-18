@@ -26,9 +26,9 @@ namespace Selama.Tests.Controllers
 
         private Mock<SignInManager> MockSignInManager { get; set; }
 
-        private readonly Mock<IGuildNewsReadOnlyDataContext> _mockGuildNewsFeed = new Mock<IGuildNewsReadOnlyDataContext>();
-        private readonly List<GuildNewsFeedViewModel> _membersNewsItems = new List<GuildNewsFeedViewModel>();
-        private readonly List<GuildNewsFeedViewModel> _publicNewsItems = new List<GuildNewsFeedViewModel>();
+        private readonly Mock<IGuildActivityOnlyDataContext> _mockGuildNewsFeed = new Mock<IGuildActivityOnlyDataContext>();
+        private readonly List<GuildActivityViewModel> _membersNewsItems = new List<GuildActivityViewModel>();
+        private readonly List<GuildActivityViewModel> _publicNewsItems = new List<GuildActivityViewModel>();
         #endregion
         #endregion
 
@@ -133,26 +133,26 @@ namespace Selama.Tests.Controllers
         {
             #region Arrange
             MockSignInManager.Setup(m => m.IsSignedIn(It.IsAny<ClaimsPrincipal>())).Returns(false);
-            List<GuildNewsFeedViewModel> expectedNewsFeedItems;
+            List<GuildActivityViewModel> expectedNewsFeedItems;
             if (requestPageNum < 1)
             {
-                expectedNewsFeedItems = new List<GuildNewsFeedViewModel>();
+                expectedNewsFeedItems = new List<GuildActivityViewModel>();
             }
             else
             {
-                expectedNewsFeedItems = _publicNewsItems.Skip(requestPageNum - 1).Take(HomeController.NEWS_FEED_PAGE_SIZE).ToList();
+                expectedNewsFeedItems = _publicNewsItems.Skip(requestPageNum - 1).Take(HomeController.ACTIVITY_PAGE_SIZE).ToList();
             }
 
             _mockGuildNewsFeed.Setup(f =>
                 f.GetPublicGuildNewsAsync(
                     It.Is<int>(i => i == requestPageNum),
-                    HomeController.NEWS_FEED_PAGE_SIZE
+                    HomeController.ACTIVITY_PAGE_SIZE
                 )
             ).ReturnsAsync(expectedNewsFeedItems);
             #endregion
 
             #region Act
-            PartialViewResult result = await Controller.NewsFeed(requestPageNum);
+            PartialViewResult result = await Controller.Activity(requestPageNum);
             #endregion
 
             #region Assert
@@ -160,11 +160,11 @@ namespace Selama.Tests.Controllers
             _mockGuildNewsFeed.Verify(f =>
                 f.GetMembersOnlyNewsAsync(
                     It.Is<int>(i => i == requestPageNum),
-                    HomeController.NEWS_FEED_PAGE_SIZE
+                    HomeController.ACTIVITY_PAGE_SIZE
                 ),
                 Times.Never()
             );
-            IEnumerable<GuildNewsFeedViewModel> Model = result.ViewData.Model as IEnumerable<GuildNewsFeedViewModel>;
+            IEnumerable<GuildActivityViewModel> Model = result.ViewData.Model as IEnumerable<GuildActivityViewModel>;
             Assert.NotNull(Model);
             AssertModelMatchesExpected(Model, expectedNewsFeedItems);
             #endregion
@@ -180,26 +180,26 @@ namespace Selama.Tests.Controllers
         {
             #region Arrange
             MockSignInManager.Setup(m => m.IsSignedIn(It.IsAny<ClaimsPrincipal>())).Returns(true);
-            List<GuildNewsFeedViewModel> expectedNewsFeedItems;
+            List<GuildActivityViewModel> expectedNewsFeedItems;
             if (requestPageNum < 1)
             {
-                expectedNewsFeedItems = new List<GuildNewsFeedViewModel>();
+                expectedNewsFeedItems = new List<GuildActivityViewModel>();
             }
             else
             {
-                expectedNewsFeedItems = _membersNewsItems.Skip(requestPageNum - 1).Take(HomeController.NEWS_FEED_PAGE_SIZE).ToList();
+                expectedNewsFeedItems = _membersNewsItems.Skip(requestPageNum - 1).Take(HomeController.ACTIVITY_PAGE_SIZE).ToList();
             }
 
             _mockGuildNewsFeed.Setup(f =>
                 f.GetMembersOnlyNewsAsync(
                     It.Is<int>(i => i == requestPageNum),
-                    HomeController.NEWS_FEED_PAGE_SIZE
+                    HomeController.ACTIVITY_PAGE_SIZE
                 )
             ).ReturnsAsync(expectedNewsFeedItems);
             #endregion
 
             #region Act
-            PartialViewResult result = await Controller.NewsFeed(requestPageNum);
+            PartialViewResult result = await Controller.Activity(requestPageNum);
             #endregion
 
             #region Assert
@@ -208,11 +208,11 @@ namespace Selama.Tests.Controllers
             _mockGuildNewsFeed.Verify(f =>
                 f.GetPublicGuildNewsAsync(
                     It.Is<int>(i => i == requestPageNum),
-                    HomeController.NEWS_FEED_PAGE_SIZE
+                    HomeController.ACTIVITY_PAGE_SIZE
                 ),
                 Times.Never()
             );
-            IEnumerable<GuildNewsFeedViewModel> Model = result.ViewData.Model as IEnumerable<GuildNewsFeedViewModel>;
+            IEnumerable<GuildActivityViewModel> Model = result.ViewData.Model as IEnumerable<GuildActivityViewModel>;
             Assert.NotNull(Model);
             AssertModelMatchesExpected(Model, expectedNewsFeedItems);
             #endregion
@@ -227,20 +227,20 @@ namespace Selama.Tests.Controllers
             MockSignInManager = new Mock<SignInManager>(mockContextAccessor.Object);
         }
 
-        private List<GuildNewsFeedViewModel> CreateListOfNewsFeedItems(int numFullPages)
+        private List<GuildActivityViewModel> CreateListOfNewsFeedItems(int numFullPages)
         {
-            List<GuildNewsFeedViewModel> newsFeedItems = new List<GuildNewsFeedViewModel>();
-            for (int i = 0; i < numFullPages * HomeController.NEWS_FEED_PAGE_SIZE; i++)
+            List<GuildActivityViewModel> newsFeedItems = new List<GuildActivityViewModel>();
+            for (int i = 0; i < numFullPages * HomeController.ACTIVITY_PAGE_SIZE; i++)
             {
                 newsFeedItems.Add(
-                    new GuildNewsFeedViewModel(
+                    new GuildActivityViewModel(
                         DateTime.Now.AddMinutes(-i),
                         "Message for news item " + i.ToString()
                     )
                 );
             }
             newsFeedItems.Add(
-                new GuildNewsFeedViewModel(
+                new GuildActivityViewModel(
                     DateTime.Now.AddMinutes(-newsFeedItems.Count),
                     "Message for news item " + newsFeedItems.Count
                 )
@@ -248,9 +248,9 @@ namespace Selama.Tests.Controllers
             return newsFeedItems;
         }
 
-        private void AssertModelMatchesExpected(IEnumerable<GuildNewsFeedViewModel> Model, List<GuildNewsFeedViewModel> expectedNewsFeedItems)
+        private void AssertModelMatchesExpected(IEnumerable<GuildActivityViewModel> Model, List<GuildActivityViewModel> expectedNewsFeedItems)
         {
-            List<GuildNewsFeedViewModel> modelAsList = Model.ToList();
+            List<GuildActivityViewModel> modelAsList = Model.ToList();
             Assert.Equal(expectedNewsFeedItems.Count, modelAsList.Count);
             for (int i = 0; i < expectedNewsFeedItems.Count; i++)
             {

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Selama.ViewModels.Home
 {
-    public class GuildNewsFeedViewModel : IComparable<GuildNewsFeedViewModel>
+    public class GuildActivityViewModel : IComparable<GuildActivityViewModel>
     {
         #region Properties
         #region Public properties
@@ -22,7 +22,7 @@ namespace Selama.ViewModels.Home
         #endregion
 
         #region Constructors
-        public GuildNewsFeedViewModel(DateTime timestamp, string content)
+        public GuildActivityViewModel(DateTime timestamp, string content)
         {
             Timestamp = timestamp;
             Content = new HtmlString(content);
@@ -31,7 +31,7 @@ namespace Selama.ViewModels.Home
 
         #region Methods
         #region Public methods
-        public static GuildNewsFeedViewModel CreateFromBattleNetNews(GuildNews newsItem)
+        public static GuildActivityViewModel CreateFromBattleNetNews(GuildNews newsItem)
         {
             switch (newsItem.Type)
             {
@@ -47,7 +47,7 @@ namespace Selama.ViewModels.Home
             }
         }
 
-        public int CompareTo(GuildNewsFeedViewModel other)
+        public int CompareTo(GuildActivityViewModel other)
         {
             int timestampComparison = -(Timestamp.CompareTo(other.Timestamp));
             if (timestampComparison != 0)
@@ -59,9 +59,9 @@ namespace Selama.ViewModels.Home
         #endregion
 
         #region Private methods
-        private static GuildNewsFeedViewModel BuildGuildItemNews(GuildNewsPlayerItem itemNews)
+        private static GuildActivityViewModel BuildGuildItemNews(GuildNewsPlayerItem itemNews)
         {
-            return new GuildNewsFeedViewModel(
+            return new GuildActivityViewModel(
                 itemNews.DateTimeTimestamp,
                 string.Format(
                     "{0} obtained {1}.",
@@ -81,10 +81,10 @@ namespace Selama.ViewModels.Home
             return string.Format(baseTag, itemNews.ItemId, relAttribute);
         }
 
-        private static GuildNewsFeedViewModel BuildGuildAchievementNews(GuildNewsAchievement achievementNews)
+        private static GuildActivityViewModel BuildGuildAchievementNews(GuildNewsAchievement achievementNews)
         {
             string achievementEarner = DetermineAchievementEarner(achievementNews);
-            return new GuildNewsFeedViewModel(
+            return new GuildActivityViewModel(
                 achievementNews.DateTimeTimestamp,
                 string.Format(
                     "{0} earned {1} for {2} points.",
@@ -108,6 +108,7 @@ namespace Selama.ViewModels.Home
                 case BattleNetApi.Objects.WoW.Enums.GuildNewsType.PlayerAchievement:
                     return achievementNews.CharacterName;
                 case BattleNetApi.Objects.WoW.Enums.GuildNewsType.GuildAchievement:
+                    // TODO: Get guild name from a config
                     return "Selama Ashalanore";
                 default:
                     throw new NotImplementedException(string.Format("No case implemented for guild news type {0}", achievementNews.Type.ToString()));

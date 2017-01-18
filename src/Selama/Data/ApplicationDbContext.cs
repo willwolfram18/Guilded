@@ -11,12 +11,19 @@ namespace Selama.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<GuildNewsFeedItem> GuildNewsFeed { get; set; }
+        #region Properties
+        #region Public properties
+        public DbSet<GuildActivity> GuildActivities { get; set; }
+        #endregion
+        #endregion
 
+        #region Constructors
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
+        #endregion
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

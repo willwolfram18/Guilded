@@ -11,18 +11,18 @@ using Selama.Models.Home;
 
 namespace Selama.Data.DAL.Home
 {
-    public class GuildNewsReadOnlyDataContext : IGuildNewsReadOnlyDataContext
+    public class GuildActivityReadOnlyDataContext : IGuildActivityOnlyDataContext
     {
         #region Properties
         #region Private properties
         private readonly IBattleNetApi _battleNetClient;
-        private readonly IReadOnlyRepository<GuildNewsFeedItem> _websiteNews;
+        private readonly IReadOnlyRepository<GuildActivity> _websiteNews;
         #endregion
         #endregion
 
         #region Constructor
-        public GuildNewsReadOnlyDataContext(IBattleNetApi bnetClient,
-            IReadOnlyRepository<GuildNewsFeedItem> websiteNews)
+        public GuildActivityReadOnlyDataContext(IBattleNetApi bnetClient,
+            IReadOnlyRepository<GuildActivity> websiteNews)
         {
             _battleNetClient = bnetClient;
             _websiteNews = websiteNews;
@@ -31,14 +31,14 @@ namespace Selama.Data.DAL.Home
 
         #region Methods
         #region Public Methods
-        public async Task<List<GuildNewsFeedViewModel>> GetMembersOnlyNewsAsync(int pageNumber, int pageSize)
+        public async Task<List<GuildActivityViewModel>> GetMembersOnlyNewsAsync(int pageNumber, int pageSize)
         {
             var battleNetNews = GetBattleNetGuildNews();
             var websiteNews = GetWebsiteNews();
             return GetPageItems(pageNumber, pageSize, websiteNews, await battleNetNews);
         }
 
-        public async Task<List<GuildNewsFeedViewModel>> GetPublicGuildNewsAsync(int pageNumber, int pageSize)
+        public async Task<List<GuildActivityViewModel>> GetPublicGuildNewsAsync(int pageNumber, int pageSize)
         {
             var battleNetNews = await GetBattleNetGuildNews();
             return GetPageItems(pageNumber, pageSize, battleNetNews);
@@ -50,26 +50,26 @@ namespace Selama.Data.DAL.Home
         #endregion
 
         #region Private methods
-        private async Task<List<GuildNewsFeedViewModel>> GetBattleNetGuildNews()
+        private async Task<List<GuildActivityViewModel>> GetBattleNetGuildNews()
         {
             Guild guildProfile = await _battleNetClient.WowCommunityApi.GetGuildProfileAsync("", "", "news");
 
-            var result = guildProfile.News.ToListOfDifferentType(GuildNewsFeedViewModel.CreateFromBattleNetNews);
+            var result = guildProfile.News.ToListOfDifferentType(GuildActivityViewModel.CreateFromBattleNetNews);
             result.Sort();
             return result;
         }
 
-        private List<GuildNewsFeedViewModel> GetWebsiteNews()
+        private List<GuildActivityViewModel> GetWebsiteNews()
         {
-            IQueryable<GuildNewsFeedItem> websiteNews = _websiteNews.Get(orderBy: n => n.OrderByDescending(i => i.Timestamp));
+            IQueryable<GuildActivity> websiteNews = _websiteNews.Get(orderBy: n => n.OrderByDescending(i => i.Timestamp));
             return websiteNews.ToListOfDifferentType(n =>
-                new GuildNewsFeedViewModel(n.Timestamp, n.Content)
+                new GuildActivityViewModel(n.Timestamp, n.Content)
             );
         }
 
-        private List<GuildNewsFeedViewModel> GetPageItems(int pageNumber, int pageSize, params List<GuildNewsFeedViewModel>[] sources)
+        private List<GuildActivityViewModel> GetPageItems(int pageNumber, int pageSize, params List<GuildActivityViewModel>[] sources)
         {
-            List<GuildNewsFeedViewModel> results = new List<GuildNewsFeedViewModel>();
+            List<GuildActivityViewModel> results = new List<GuildActivityViewModel>();
             if (pageNumber < 1 || sources == null || sources.Length == 0)
             {
                 return results;

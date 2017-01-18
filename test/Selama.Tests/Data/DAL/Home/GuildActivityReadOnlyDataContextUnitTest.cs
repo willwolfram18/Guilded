@@ -15,7 +15,7 @@ using Selama.Data.DAL;
 
 namespace Selama.Tests.Data.DAL.Home
 {
-    public class GuildNewsReadOnlyDataContextUnitTest
+    public class GuildActivityReadOnlyDataContextUnitTest
     {
         #region Properties
         #region Private properties
@@ -23,21 +23,21 @@ namespace Selama.Tests.Data.DAL.Home
         private const int NUM_BATTLE_NET_NEWS_ENTRIES = PAGE_SIZE * 4;
         private const int NUM_WEBSITE_NEWS_ENTRIES = PAGE_SIZE * 3;
 
-        private readonly GuildNewsReadOnlyDataContext _dataContext;
+        private readonly GuildActivityReadOnlyDataContext _dataContext;
         private readonly Mock<IBattleNetApi> _mockBattleNetNews = new Mock<IBattleNetApi>();
         private readonly Mock<IWowCommunityApiMethods> _mockWowCommunityApi = new Mock<IWowCommunityApiMethods>();
-        private readonly Mock<IReadOnlyRepository<GuildNewsFeedItem>> _mockGuildNewsRepo = new Mock<IReadOnlyRepository<GuildNewsFeedItem>>();
+        private readonly Mock<IReadOnlyRepository<GuildActivity>> _mockGuildNewsRepo = new Mock<IReadOnlyRepository<GuildActivity>>();
         private readonly List<GuildNews> _battleNetNews = new List<GuildNews>();
-        private readonly List<GuildNewsFeedItem> _websiteNews = new List<GuildNewsFeedItem>();
+        private readonly List<GuildActivity> _websiteNews = new List<GuildActivity>();
         #endregion
         #endregion
 
         #region Constructor
-        public GuildNewsReadOnlyDataContextUnitTest()
+        public GuildActivityReadOnlyDataContextUnitTest()
         {
             InitializeBattleNetApi();
             InitializeGuildNewsRepo();
-            _dataContext = new GuildNewsReadOnlyDataContext(
+            _dataContext = new GuildActivityReadOnlyDataContext(
                 _mockBattleNetNews.Object,
                 _mockGuildNewsRepo.Object
             );
@@ -62,7 +62,7 @@ namespace Selama.Tests.Data.DAL.Home
             #endregion
 
             #region Act
-            List<GuildNewsFeedViewModel> result = null;
+            List<GuildActivityViewModel> result = null;
             if (isMember)
             {
                 result = await _dataContext.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
@@ -74,7 +74,7 @@ namespace Selama.Tests.Data.DAL.Home
             #endregion
 
             #region Assert
-            AssertResultMatchesExpected(result, new List<GuildNewsFeedViewModel>());
+            AssertResultMatchesExpected(result, new List<GuildActivityViewModel>());
             #endregion
         }
 
@@ -90,11 +90,11 @@ namespace Selama.Tests.Data.DAL.Home
             #endregion
 
             #region Act
-            List<GuildNewsFeedViewModel> result = await _dataContext.GetPublicGuildNewsAsync(pageNum, PAGE_SIZE);
+            List<GuildActivityViewModel> result = await _dataContext.GetPublicGuildNewsAsync(pageNum, PAGE_SIZE);
             #endregion
 
             #region Assert
-            AssertResultMatchesExpected(result, new List<GuildNewsFeedViewModel>());
+            AssertResultMatchesExpected(result, new List<GuildActivityViewModel>());
             #endregion
         }
 
@@ -105,8 +105,8 @@ namespace Selama.Tests.Data.DAL.Home
         public async Task GetPublicGuildNewsAsync_PublicNewsWithPageInRangeGivesCorrectResult(int pageNum)
         {
             #region Arrange
-            List<GuildNewsFeedViewModel> expectedNews = _battleNetNews
-                .ToListOfDifferentType(GuildNewsFeedViewModel.CreateFromBattleNetNews);
+            List<GuildActivityViewModel> expectedNews = _battleNetNews
+                .ToListOfDifferentType(GuildActivityViewModel.CreateFromBattleNetNews);
             expectedNews.Sort();
             expectedNews = expectedNews
                 .Skip((pageNum - 1) * PAGE_SIZE)
@@ -115,7 +115,7 @@ namespace Selama.Tests.Data.DAL.Home
             #endregion
 
             #region Act
-            List<GuildNewsFeedViewModel> result = await _dataContext.GetPublicGuildNewsAsync(pageNum, PAGE_SIZE);
+            List<GuildActivityViewModel> result = await _dataContext.GetPublicGuildNewsAsync(pageNum, PAGE_SIZE);
             #endregion
 
             #region Assert
@@ -131,11 +131,11 @@ namespace Selama.Tests.Data.DAL.Home
             #endregion
 
             #region Act
-            List<GuildNewsFeedViewModel> result = await _dataContext.GetPublicGuildNewsAsync(pageNum, PAGE_SIZE);
+            List<GuildActivityViewModel> result = await _dataContext.GetPublicGuildNewsAsync(pageNum, PAGE_SIZE);
             #endregion
 
             #region Assert
-            AssertResultMatchesExpected(result, new List<GuildNewsFeedViewModel>());
+            AssertResultMatchesExpected(result, new List<GuildActivityViewModel>());
             #endregion
         }
         #endregion
@@ -153,11 +153,11 @@ namespace Selama.Tests.Data.DAL.Home
             #endregion
 
             #region Act
-            List<GuildNewsFeedViewModel> result = await _dataContext.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
+            List<GuildActivityViewModel> result = await _dataContext.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
             #endregion
 
             #region Assert
-            AssertResultMatchesExpected(result, new List<GuildNewsFeedViewModel>());
+            AssertResultMatchesExpected(result, new List<GuildActivityViewModel>());
             #endregion
         }
 
@@ -168,11 +168,11 @@ namespace Selama.Tests.Data.DAL.Home
         public async Task GetMembersOnlyNewsAsync_MembersNewsWithPageInRangeGivesCorrectResult(int pageNum)
         {
             #region Arrange
-            List<GuildNewsFeedViewModel> expectedNews = _battleNetNews
-                .ToListOfDifferentType(GuildNewsFeedViewModel.CreateFromBattleNetNews)
+            List<GuildActivityViewModel> expectedNews = _battleNetNews
+                .ToListOfDifferentType(GuildActivityViewModel.CreateFromBattleNetNews)
                 .Concat(
                     _websiteNews.ToListOfDifferentType(n =>
-                        new GuildNewsFeedViewModel(n.Timestamp, n.Content)
+                        new GuildActivityViewModel(n.Timestamp, n.Content)
                     )
                 )
                 .ToList();
@@ -183,7 +183,7 @@ namespace Selama.Tests.Data.DAL.Home
             #endregion
 
             #region Act
-            List<GuildNewsFeedViewModel> result = await _dataContext.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
+            List<GuildActivityViewModel> result = await _dataContext.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
             #endregion
 
             #region Assert
@@ -199,11 +199,11 @@ namespace Selama.Tests.Data.DAL.Home
             #endregion
 
             #region Act
-            List<GuildNewsFeedViewModel> result = await _dataContext.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
+            List<GuildActivityViewModel> result = await _dataContext.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
             #endregion
 
             #region Assert
-            AssertResultMatchesExpected(result, new List<GuildNewsFeedViewModel>());
+            AssertResultMatchesExpected(result, new List<GuildActivityViewModel>());
             #endregion
         }
         #endregion
@@ -243,7 +243,7 @@ namespace Selama.Tests.Data.DAL.Home
 
             _mockGuildNewsRepo.Setup(r =>
                 r.Get(
-                    It.IsAny<Func<IQueryable<GuildNewsFeedItem>, IOrderedQueryable<GuildNewsFeedItem>>>()
+                    It.IsAny<Func<IQueryable<GuildActivity>, IOrderedQueryable<GuildActivity>>>()
                 )
             ).Returns(
                 _websiteNews.OrderByDescending(t => t.Timestamp).AsQueryable()
@@ -254,7 +254,7 @@ namespace Selama.Tests.Data.DAL.Home
             for (int i = NUM_WEBSITE_NEWS_ENTRIES - 1; i >= 0; i--)
             {
                 int adjustedIndex = NUM_WEBSITE_NEWS_ENTRIES - i;
-                _websiteNews.Add(new GuildNewsFeedItem
+                _websiteNews.Add(new GuildActivity
                 {
                     Id = adjustedIndex + 1,
                     Content = "Sample string for news entry " + i.ToString(),
@@ -263,7 +263,7 @@ namespace Selama.Tests.Data.DAL.Home
             }
         }
 
-        private void AssertResultMatchesExpected(List<GuildNewsFeedViewModel> result, List<GuildNewsFeedViewModel> expected)
+        private void AssertResultMatchesExpected(List<GuildActivityViewModel> result, List<GuildActivityViewModel> expected)
         {
             Assert.NotNull(result);
             Assert.Equal(result.Count, expected.Count);

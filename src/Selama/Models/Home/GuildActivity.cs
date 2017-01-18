@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Selama.Models.Home
 {
-    [Table("GuildNewsFeed")]
-    public class GuildNewsFeedItem
+    [Table("GuildActivities")]
+    public class GuildActivity
     {
         #region Properties
         #region Public properties

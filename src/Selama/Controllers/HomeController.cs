@@ -17,20 +17,20 @@ namespace Selama.Controllers
     {
         #region Properties
         #region Public properties
-        public const int NEWS_FEED_PAGE_SIZE = 25;
+        public const int ACTIVITY_PAGE_SIZE = 25;
         #endregion
 
         #region Private properties
-        private readonly IGuildNewsReadOnlyDataContext _newsFeedDb;
+        private readonly IGuildActivityOnlyDataContext _activityDb;
         private readonly SignInManager<ApplicationUser> _signInManager;
         #endregion
         #endregion
 
         #region Constructor
-        public HomeController(IGuildNewsReadOnlyDataContext db,
+        public HomeController(IGuildActivityOnlyDataContext db,
             SignInManager<ApplicationUser> signInManager)
         {
-            _newsFeedDb = db;
+            _activityDb = db;
             _signInManager = signInManager;
         }
         #endregion
@@ -62,17 +62,17 @@ namespace Selama.Controllers
             return View();
         }
 
-        [Route("[controller]/news-feed")]
-        public async Task<PartialViewResult> NewsFeed(int page = 1)
+        [Route("[controller]/activity")]
+        public async Task<PartialViewResult> Activity(int page = 1)
         {
-            List<GuildNewsFeedViewModel> model = new List<GuildNewsFeedViewModel>();
+            List<GuildActivityViewModel> model = new List<GuildActivityViewModel>();
             if (_signInManager.IsSignedIn(User))
             {
-                model = await _newsFeedDb.GetMembersOnlyNewsAsync(page, NEWS_FEED_PAGE_SIZE);
+                model = await _activityDb.GetMembersOnlyNewsAsync(page, ACTIVITY_PAGE_SIZE);
             }
             else
             {
-                model = await _newsFeedDb.GetPublicGuildNewsAsync(page, NEWS_FEED_PAGE_SIZE);
+                model = await _activityDb.GetPublicGuildNewsAsync(page, ACTIVITY_PAGE_SIZE);
             }
 
             return PartialView(model);
@@ -82,7 +82,7 @@ namespace Selama.Controllers
         #region Protected methods
         protected override void Dispose(bool disposing)
         {
-            _newsFeedDb.Dispose();
+            _activityDb.Dispose();
             base.Dispose(disposing);
         }
         #endregion

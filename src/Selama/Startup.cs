@@ -86,11 +86,11 @@ namespace Selama
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
-            services.AddTransient<IReadOnlyRepository<GuildNewsFeedItem>, GuildNewsFeedRepo>();
+            services.AddTransient<IReadOnlyRepository<GuildActivity>, GuildActivityRepo>();
             services.AddSingleton<IBattleNetApi>(implementationInstance:
                 new BattleNetApi.Apis.BattleNetApi(Configuration["OAuthProviders:BattleNetClientId"])
             );
-            services.AddTransient<IGuildNewsReadOnlyDataContext, GuildNewsReadOnlyDataContext>();
+            services.AddTransient<IGuildActivityOnlyDataContext, GuildActivityReadOnlyDataContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
