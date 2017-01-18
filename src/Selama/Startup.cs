@@ -55,13 +55,13 @@ namespace Selama
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                if (Globals.OS_X)
+                if (Globals.OSX)
                 {
-                    options.UseSqlite(Configuration.GetConnectionString("DefaultConnection_OSX"));
+                    options.UseSqlite(Configuration.GetConnectionString("DefaultConnection:OSX"));
                 }
                 else
                 {
-                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection:Windows"));
                 }
             });
 
@@ -81,14 +81,14 @@ namespace Selama
             RegisterDependencyInjections(services);
         }
 
-        private static void RegisterDependencyInjections(IServiceCollection services)
+        private void RegisterDependencyInjections(IServiceCollection services)
         {
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
             services.AddTransient<IReadOnlyRepository<GuildNewsFeedItem>, GuildNewsFeedRepo>();
-            services.AddSingleton<IBattleNetApi>(implementationInstance: 
-                new BattleNetApi.Apis.BattleNetApi("")
+            services.AddSingleton<IBattleNetApi>(implementationInstance:
+                new BattleNetApi.Apis.BattleNetApi(Configuration["OAuthProviders:BattleNetClientId"])
             );
             services.AddTransient<IGuildNewsReadOnlyDataContext, GuildNewsReadOnlyDataContext>();
         }
@@ -140,18 +140,18 @@ namespace Selama
             var OAuthProviders = Configuration.GetSection("OAuthProviders");
             app.UseGoogleAuthentication(new GoogleOptions
             {
-                ClientId = OAuthProviders.GetValue<string>("GoogleClientId"),
-                ClientSecret = OAuthProviders.GetValue<string>("GoogleClientSecret"),
+                ClientId = OAuthProviders["GoogleClientId"],
+                ClientSecret = OAuthProviders["GoogleClientSecret"],
             });
             app.UseFacebookAuthentication(new FacebookOptions
             {
-                ClientId = OAuthProviders.GetValue<string>("FacebookClientId"),
-                ClientSecret = OAuthProviders.GetValue<string>("FacebookClientSecret"),
+                ClientId = OAuthProviders["FacebookClientId"],
+                ClientSecret = OAuthProviders["FacebookClientSecret"],
             });
             app.UseBattleNetAuthentication(new BattleNetAuthenticationOptions
             {
-                ClientId = OAuthProviders.GetValue<string>("BattleNetClientId"),
-                ClientSecret = OAuthProviders.GetValue<string>("BattleNetClientSecret"),
+                ClientId = OAuthProviders["BattleNetClientId"],
+                ClientSecret = OAuthProviders["BattleNetClientSecret"],
                 Region = BattleNetAuthenticationRegion.America,
                 DisplayName = "Battle.net",
             });

@@ -1,18 +1,14 @@
-//#define OS_X
+using System.Runtime.InteropServices;
 
 namespace Selama.Common
 {
     public static class Globals
     {
-        public static bool OS_X
+        public static bool OSX
         {
             get
             {
-#if OS_X
-                return true;
-#else
-                return false;
-#endif
+                return RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
             }
         }
     }

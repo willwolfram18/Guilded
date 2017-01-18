@@ -26,7 +26,7 @@ namespace Selama
             var host = new WebHostBuilder()
                 .UseKestrel(opts =>
                 {
-                    if (Globals.OS_X)
+                    if (Globals.OSX)
                     {
                         opts.UseHttps("testCert.pfx", "testPassword");
                     }
@@ -34,7 +34,7 @@ namespace Selama
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>();
-            if (Globals.OS_X)
+            if (Globals.OSX)
             {
                 host.UseUrls("https://localhost:44358");
             }
