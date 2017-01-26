@@ -6,16 +6,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require("@angular/core");
-var AppComponent = (function () {
-    function AppComponent() {
+var HomeComponent = (function () {
+    function HomeComponent() {
     }
-    return AppComponent;
+    return HomeComponent;
 }());
-AppComponent = __decorate([
+HomeComponent = __decorate([
     core_1.Component({
-        selector: "root-app",
-        template: "<router-outlet name=\"menu\"></router-outlet>\n    <h1>Index page</h1>Tada!!\n    <br />\n    <router-outlet></router-outlet>\n    <router-outlet name=\"menu\"></router-outlet>"
+        selector: "home",
+        template: "<h3>This is the home component</h3>",
     })
-], AppComponent);
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.js.map
+], HomeComponent);
+exports.HomeComponent = HomeComponent;
+//# sourceMappingURL=home.js.map

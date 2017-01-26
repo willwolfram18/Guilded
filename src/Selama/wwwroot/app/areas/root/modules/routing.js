@@ -1,13 +1,13 @@
 "use strict";
-var app_1 = require("../components/app");
+var home_1 = require("../components/home");
 exports.ROUTES = [
     {
         path: "",
-        component: app_1.AppComponent,
+        component: home_1.HomeComponent,
     },
     {
         path: "home",
-        component: app_1.AppComponent,
+        component: home_1.HomeComponent,
     },
 ];
 //# sourceMappingURL=routing.js.map

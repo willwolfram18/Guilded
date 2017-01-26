@@ -1,14 +1,14 @@
 import { Route } from "@angular/router"
 
-import { AppComponent } from "../components/app"
+import { HomeComponent } from "../components/home"
 
 export const ROUTES: Route[] = [
     {
         path: "",
-        component: AppComponent,
+        component: HomeComponent,
     },
     {
         path: "home",
-        component: AppComponent,
+        component: HomeComponent,
     },
 ];

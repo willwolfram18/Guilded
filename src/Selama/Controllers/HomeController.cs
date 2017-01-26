@@ -49,7 +49,7 @@ namespace Selama.Controllers
         [AngularTemplate("index")]
         public PartialViewResult IndexTemplate()
         {
-            return PartialView("index-tempalte");
+            return PartialView("index-template");
         }
 
         [AngularTemplate("about/{*catchall}")]

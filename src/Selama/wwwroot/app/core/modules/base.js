@@ -8,9 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var core_1 = require("@angular/core");
 var material_1 = require("@angular/material");
 var platform_browser_1 = require("@angular/platform-browser");
+var router_1 = require("@angular/router");
 var ng2_slim_loading_bar_1 = require("ng2-slim-loading-bar");
-var footer_1 = require("../components/footer");
-var menu_1 = require("../components/menu");
 var progress_bar_1 = require("../services/progress-bar");
 var BaseModule = (function () {
     function BaseModule() {
@@ -22,11 +21,8 @@ BaseModule = __decorate([
         imports: [
             platform_browser_1.BrowserModule,
             material_1.MaterialModule.forRoot(),
+            router_1.RouterModule,
             ng2_slim_loading_bar_1.SlimLoadingBarModule.forRoot(),
-        ],
-        declarations: [
-            footer_1.FooterComponent,
-            menu_1.MenuComponent,
         ],
         providers: [
             progress_bar_1.ProgressBarService,

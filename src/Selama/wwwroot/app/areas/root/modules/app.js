@@ -8,7 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var core_1 = require("@angular/core");
 var base_1 = require("../../../core/modules/base");
 var routing_factory_1 = require("../../../core/services/routing-factory");
+var footer_1 = require("../../../core/components/footer");
+var menu_1 = require("../../../core/components/menu");
 var app_1 = require("../components/app");
+var home_1 = require("../components/home");
 var routing_1 = require("./routing");
 var AppModule = (function () {
     function AppModule() {
@@ -23,6 +26,9 @@ AppModule = __decorate([
         ],
         declarations: [
             app_1.AppComponent,
+            home_1.HomeComponent,
+            footer_1.FooterComponent,
+            menu_1.MenuComponent,
         ],
         bootstrap: [
             app_1.AppComponent
