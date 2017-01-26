@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var core_1 = require("@angular/core");
 var base_1 = require("../../../core/modules/base");
+var routing_factory_1 = require("../../../core/services/routing-factory");
 var app_1 = require("../components/app");
 var routing_1 = require("./routing");
 var AppModule = (function () {
@@ -18,7 +19,7 @@ AppModule = __decorate([
     core_1.NgModule({
         imports: [
             base_1.BaseModule,
-            routing_1.RoutingModule,
+            routing_factory_1.RoutingFactoryService.create(routing_1.ROUTES),
         ],
         declarations: [
             app_1.AppComponent,

@@ -1,15 +1,15 @@
 ﻿import { NgModule } from "@angular/core"
-import { RouterModule } from "@angular/router"
 
 import { BaseModule } from "../../../core/modules/base"
+import { RoutingFactoryService } from "../../../core/services/routing-factory"
 
 import { AppComponent } from "../components/app"
-import { RoutingModule } from "./routing"
+import { ROUTES } from "./routing"
 
 @NgModule({
     imports: [
         BaseModule,
-        RoutingModule,
+        RoutingFactoryService.create(ROUTES),
     ],
     declarations: [
         AppComponent,

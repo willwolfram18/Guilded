@@ -1,9 +1,8 @@
-import { NgModule } from "@angular/core"
-import { Route, RouterModule } from "@angular/router"
+import { Route } from "@angular/router"
 
 import { AppComponent } from "../components/app"
 
-const ROUTES: Route[] = [
+export const ROUTES: Route[] = [
     {
         path: "",
         component: AppComponent,
@@ -13,15 +12,3 @@ const ROUTES: Route[] = [
         component: AppComponent,
     },
 ];
-
-@NgModule({
-    imports: [
-        RouterModule.forRoot(ROUTES),
-    ],
-    exports: [
-        RoutingModule,
-    ]
-})
-export class RoutingModule
-{
-}
