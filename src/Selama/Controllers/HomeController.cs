@@ -11,6 +11,7 @@ using Selama.Models;
 using Microsoft.AspNetCore.Html;
 using Selama.ViewModels.Home;
 using Selama.Common.Attributes;
+using System.Threading;
 
 namespace Selama.Controllers
 {
@@ -55,6 +56,7 @@ namespace Selama.Controllers
         [AngularTemplate("about/{*catchall}")]
         public PartialViewResult About()
         {
+            Thread.Sleep(5000);
             return PartialView();
         }
 

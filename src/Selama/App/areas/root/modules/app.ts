@@ -7,6 +7,7 @@ import { MenuComponent } from "../../../core/components/menu"
 
 import { AppComponent } from "../components/app"
 import { HomeComponent } from "../components/home"
+import { AboutComponent } from "../components/about"
 import { ROUTES } from "./routing"
 
 @NgModule({
@@ -16,6 +17,7 @@ import { ROUTES } from "./routing"
     ],
     declarations: [
         AppComponent,
+        AboutComponent,
         HomeComponent,
         FooterComponent,
         MenuComponent,

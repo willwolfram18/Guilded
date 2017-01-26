@@ -14,8 +14,7 @@ var HomeComponent = (function () {
 HomeComponent = __decorate([
     core_1.Component({
         selector: "home",
-        template: "<h3>This is the home component</h3>",
+        template: "<h3>This is the home component</h3><a routerLink='home/about'>About us</a>",
     })
 ], HomeComponent);
 exports.HomeComponent = HomeComponent;
-//# sourceMappingURL=home.js.map

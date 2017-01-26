@@ -35,4 +35,3 @@ BaseModule = __decorate([
     })
 ], BaseModule);
 exports.BaseModule = BaseModule;
-//# sourceMappingURL=base.js.map

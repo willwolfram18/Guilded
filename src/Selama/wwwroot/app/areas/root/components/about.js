@@ -6,21 +6,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require("@angular/core");
-var FooterComponent = FooterComponent_1 = (function () {
-    function FooterComponent() {
+var AboutComponent = (function () {
+    function AboutComponent() {
     }
-    return FooterComponent;
+    return AboutComponent;
 }());
-FooterComponent.FooterRoute = {
-    path: "",
-    component: FooterComponent_1,
-    outlet: "footer"
-};
-FooterComponent = FooterComponent_1 = __decorate([
+AboutComponent = __decorate([
     core_1.Component({
-        selector: "ng-footer",
-        templateUrl: "templates/footer"
+        selector: "about",
+        templateUrl: "templates/about"
     })
-], FooterComponent);
-exports.FooterComponent = FooterComponent;
-var FooterComponent_1;
+], AboutComponent);
+exports.AboutComponent = AboutComponent;

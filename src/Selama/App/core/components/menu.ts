@@ -5,7 +5,7 @@ import { Route } from "@angular/router"
     selector: "ng-menu",
     templateUrl: "templates/menu"
 })
-export class MenuComponent
+export class MenuComponent 
 {
     static MenuRoute: Route = {
         path: "",

@@ -14,7 +14,7 @@
         "noImplicitReturns": true,
         "outDir": "../wwwroot/app",
         "rootDir": "./",
-        "sourceMap": true,
+        "sourceMap": false,
         "target": "es5",
         "typeRoots": [
             "node_modules",

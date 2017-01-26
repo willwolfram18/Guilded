@@ -24,4 +24,3 @@ MenuComponent = MenuComponent_1 = __decorate([
 ], MenuComponent);
 exports.MenuComponent = MenuComponent;
 var MenuComponent_1;
-//# sourceMappingURL=menu.js.map

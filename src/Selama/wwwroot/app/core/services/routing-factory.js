@@ -13,4 +13,3 @@ var RoutingFactoryService = (function () {
     return RoutingFactoryService;
 }());
 exports.RoutingFactoryService = RoutingFactoryService;
-//# sourceMappingURL=routing-factory.js.map

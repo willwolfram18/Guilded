@@ -12,6 +12,7 @@ var footer_1 = require("../../../core/components/footer");
 var menu_1 = require("../../../core/components/menu");
 var app_1 = require("../components/app");
 var home_1 = require("../components/home");
+var about_1 = require("../components/about");
 var routing_1 = require("./routing");
 var AppModule = (function () {
     function AppModule() {
@@ -26,6 +27,7 @@ AppModule = __decorate([
         ],
         declarations: [
             app_1.AppComponent,
+            about_1.AboutComponent,
             home_1.HomeComponent,
             footer_1.FooterComponent,
             menu_1.MenuComponent,
@@ -36,4 +38,3 @@ AppModule = __decorate([
     })
 ], AppModule);
 exports.AppModule = AppModule;
-//# sourceMappingURL=app.js.map

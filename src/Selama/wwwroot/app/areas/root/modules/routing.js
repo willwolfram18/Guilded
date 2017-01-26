@@ -1,5 +1,6 @@
 "use strict";
 var home_1 = require("../components/home");
+var about_1 = require("../components/about");
 exports.ROUTES = [
     {
         path: "",
@@ -9,5 +10,8 @@ exports.ROUTES = [
         path: "home",
         component: home_1.HomeComponent,
     },
+    {
+        path: "home/about",
+        component: about_1.AboutComponent,
+    }
 ];
-//# sourceMappingURL=routing.js.map

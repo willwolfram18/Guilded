@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 var ng2_slim_loading_bar_1 = require("ng2-slim-loading-bar");
 var ProgressBarService = (function () {
     function ProgressBarService(progressBar) {
@@ -29,6 +30,16 @@ var ProgressBarService = (function () {
     ProgressBarService.prototype.stop = function () {
         this.progressBar.stop();
     };
+    ProgressBarService.prototype.handleRoutingEvent = function (event) {
+        if (event instanceof router_1.NavigationStart) {
+            this.start();
+        }
+        else if (event instanceof router_1.NavigationCancel ||
+            event instanceof router_1.NavigationEnd ||
+            event instanceof router_1.NavigationError) {
+            this.complete();
+        }
+    };
     return ProgressBarService;
 }());
 ProgressBarService = __decorate([
@@ -36,4 +47,3 @@ ProgressBarService = __decorate([
     __metadata("design:paramtypes", [ng2_slim_loading_bar_1.SlimLoadingBarService])
 ], ProgressBarService);
 exports.ProgressBarService = ProgressBarService;
-//# sourceMappingURL=progress-bar.js.map
