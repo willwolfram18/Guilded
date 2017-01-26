@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Selama.Models;
 using Microsoft.AspNetCore.Html;
 using Selama.ViewModels.Home;
+using Selama.Common.Attributes;
 
 namespace Selama.Controllers
 {
@@ -37,19 +38,30 @@ namespace Selama.Controllers
 
         #region Methods
         #region Action methods
+        [Route("/home/index/{*catchall}")]
+        [Route("/home/{*catchall}")]
+        [Route("{*catachall}")]
         public ViewResult Index()
         {
             return View();
         }
 
-        public ViewResult About()
+        [AngularTemplate("index")]
+        public PartialViewResult IndexTemplate()
         {
-            return View();
+            return PartialView("index-tempalte");
         }
 
-        public ViewResult Join()
+        [AngularTemplate("about/{*catchall}")]
+        public PartialViewResult About()
         {
-            return View();
+            return PartialView();
+        }
+
+        [AngularTemplate("join/{*catchall}")]
+        public PartialViewResult Join()
+        {
+            return PartialView();
         }
 
         public PartialViewResult MarkdownHelp()
@@ -57,6 +69,7 @@ namespace Selama.Controllers
             return PartialView();
         }
 
+        [Route("~/error")]
         public ViewResult Error()
         {
             return View();
