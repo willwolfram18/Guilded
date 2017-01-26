@@ -6,27 +6,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require("@angular/core");
-var base_1 = require("../../../core/modules/base");
-var app_1 = require("../components/app");
-var routing_1 = require("./routing");
-var AppModule = (function () {
-    function AppModule() {
+var MenuComponent = MenuComponent_1 = (function () {
+    function MenuComponent() {
     }
-    return AppModule;
+    return MenuComponent;
 }());
-AppModule = __decorate([
-    core_1.NgModule({
-        imports: [
-            base_1.BaseModule,
-            routing_1.RoutingModule,
-        ],
-        declarations: [
-            app_1.AppComponent,
-        ],
-        bootstrap: [
-            app_1.AppComponent
-        ],
+MenuComponent.MenuRoute = {
+    path: "templates/menu",
+    component: MenuComponent_1,
+    outlet: "menu",
+};
+MenuComponent = MenuComponent_1 = __decorate([
+    core_1.Component({
+        templateUrl: "templates/menu"
     })
-], AppModule);
-exports.AppModule = AppModule;
-//# sourceMappingURL=app.js.map
+], MenuComponent);
+exports.MenuComponent = MenuComponent;
+var MenuComponent_1;
+//# sourceMappingURL=menu.js.map

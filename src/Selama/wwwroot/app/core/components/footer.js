@@ -6,27 +6,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require("@angular/core");
-var base_1 = require("../../../core/modules/base");
-var app_1 = require("../components/app");
-var routing_1 = require("./routing");
-var AppModule = (function () {
-    function AppModule() {
+var FooterComponent = FooterComponent_1 = (function () {
+    function FooterComponent() {
     }
-    return AppModule;
+    return FooterComponent;
 }());
-AppModule = __decorate([
-    core_1.NgModule({
-        imports: [
-            base_1.BaseModule,
-            routing_1.RoutingModule,
-        ],
-        declarations: [
-            app_1.AppComponent,
-        ],
-        bootstrap: [
-            app_1.AppComponent
-        ],
+FooterComponent.FooterRoute = {
+    path: "templates/footer",
+    component: FooterComponent_1,
+    outlet: "footer"
+};
+FooterComponent = FooterComponent_1 = __decorate([
+    core_1.Component({
+        templateUrl: "templates/footer"
     })
-], AppModule);
-exports.AppModule = AppModule;
-//# sourceMappingURL=app.js.map
+], FooterComponent);
+exports.FooterComponent = FooterComponent;
+var FooterComponent_1;
+//# sourceMappingURL=footer.js.map

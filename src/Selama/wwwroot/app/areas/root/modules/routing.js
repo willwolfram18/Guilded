@@ -6,27 +6,33 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require("@angular/core");
-var base_1 = require("../../../core/modules/base");
+var router_1 = require("@angular/router");
 var app_1 = require("../components/app");
-var routing_1 = require("./routing");
-var AppModule = (function () {
-    function AppModule() {
+var ROUTES = [
+    {
+        path: "",
+        component: app_1.AppComponent,
+    },
+    {
+        path: "home",
+        component: app_1.AppComponent,
+    },
+];
+var RoutingModule = RoutingModule_1 = (function () {
+    function RoutingModule() {
     }
-    return AppModule;
+    return RoutingModule;
 }());
-AppModule = __decorate([
+RoutingModule = RoutingModule_1 = __decorate([
     core_1.NgModule({
         imports: [
-            base_1.BaseModule,
-            routing_1.RoutingModule,
+            router_1.RouterModule.forRoot(ROUTES),
         ],
-        declarations: [
-            app_1.AppComponent,
-        ],
-        bootstrap: [
-            app_1.AppComponent
-        ],
+        exports: [
+            RoutingModule_1,
+        ]
     })
-], AppModule);
-exports.AppModule = AppModule;
-//# sourceMappingURL=app.js.map
+], RoutingModule);
+exports.RoutingModule = RoutingModule;
+var RoutingModule_1;
+//# sourceMappingURL=routing.js.map

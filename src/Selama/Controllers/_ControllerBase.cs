@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Selama.Common.Attributes;
 using Selama.Common.Http;
 
 namespace Selama.Controllers
@@ -39,5 +40,17 @@ namespace Selama.Controllers
         private ICompleteSession _session;
         #endregion
         #endregion
+
+        [AngularTemplate("menu")]
+        public PartialViewResult MenuTemplate()
+        {
+            return PartialView();
+        }
+
+        [AngularTemplate("footer")]
+        public PartialViewResult FooterTemplate()
+        {
+            return PartialView();
+        }
     }
 }
