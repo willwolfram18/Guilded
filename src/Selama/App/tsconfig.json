@@ -19,7 +19,8 @@
         "typeRoots": [
             "node_modules",
             "node_modules/@types"
-        ]
+        ],
+        "watch": true
     },
     "exclude": [
         "node_modules"

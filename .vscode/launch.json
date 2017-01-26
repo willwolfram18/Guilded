@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}/src/Selama/bin/Debug/netcoreapp1.0/Selama.dll",
+            "program": "${workspaceRoot}/src/Selama/bin/Debug/netcoreapp1.1/Selama.dll",
             "args": [],
             "cwd": "${workspaceRoot}/src/Selama",
             "stopAtEntry": false,
