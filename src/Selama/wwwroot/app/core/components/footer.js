@@ -12,12 +12,13 @@ var FooterComponent = FooterComponent_1 = (function () {
     return FooterComponent;
 }());
 FooterComponent.FooterRoute = {
-    path: "templates/footer",
+    path: "",
     component: FooterComponent_1,
     outlet: "footer"
 };
 FooterComponent = FooterComponent_1 = __decorate([
     core_1.Component({
+        selector: "ng-footer",
         templateUrl: "templates/footer"
     })
 ], FooterComponent);

@@ -12,12 +12,13 @@ var MenuComponent = MenuComponent_1 = (function () {
     return MenuComponent;
 }());
 MenuComponent.MenuRoute = {
-    path: "templates/menu",
+    path: "",
     component: MenuComponent_1,
     outlet: "menu",
 };
 MenuComponent = MenuComponent_1 = __decorate([
     core_1.Component({
+        selector: "ng-menu",
         templateUrl: "templates/menu"
     })
 ], MenuComponent);

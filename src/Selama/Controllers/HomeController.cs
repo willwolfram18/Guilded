@@ -75,6 +75,18 @@ namespace Selama.Controllers
             return View();
         }
 
+        [AngularTemplate("menu")]
+        public PartialViewResult MenuTemplate()
+        {
+            return PartialView();
+        }
+
+        [AngularTemplate("footer")]
+        public PartialViewResult FooterTemplate()
+        {
+            return PartialView();
+        }
+
         [Route("[controller]/activity")]
         public async Task<PartialViewResult> Activity(int page = 1)
         {

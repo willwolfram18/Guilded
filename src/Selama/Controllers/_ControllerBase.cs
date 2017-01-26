@@ -40,17 +40,5 @@ namespace Selama.Controllers
         private ICompleteSession _session;
         #endregion
         #endregion
-
-        [AngularTemplate("menu")]
-        public PartialViewResult MenuTemplate()
-        {
-            return PartialView();
-        }
-
-        [AngularTemplate("footer")]
-        public PartialViewResult FooterTemplate()
-        {
-            return PartialView();
-        }
     }
 }

@@ -10,9 +10,10 @@ namespace Selama.Common.Attributes
     public class AngularTemplateAttribute : RouteAttribute
     {
         public AngularTemplateAttribute(string template, bool includeArea = false, bool includeController = false) : base(
+            "~/" +
             (includeArea ? "[area]/" : "") +
             (includeController ? "[controller]/" : "" ) +
-            "template/" + template
+            "templates/" + template
         )
         {
         }
