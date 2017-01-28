@@ -8,6 +8,11 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Selama_SPA.Data;
+using Selama_SPA.Common;
+using Microsoft.EntityFrameworkCore;
+using Selama_SPA.Extensions;
+using Microsoft.AspNet.Builder;
 
 namespace Selama_SPA
 {
@@ -20,6 +25,13 @@ namespace Selama_SPA
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+
+            if (env.IsDevelopment())
+            {
+                // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
+                builder.AddUserSecrets();
+            }
+            builder.AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
@@ -29,7 +41,10 @@ namespace Selama_SPA
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            services.AddSelamaDb(Configuration);
             services.AddMvc();
+            services.AddRouting(options => options.LowercaseUrls = true);
+            services.AddMiscServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +56,7 @@ namespace Selama_SPA
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
                     HotModuleReplacement = true
                 });
@@ -51,6 +67,7 @@ namespace Selama_SPA
             }
 
             app.UseStaticFiles();
+            app.UseIdentity();
 
             app.UseMvc(routes =>
             {
