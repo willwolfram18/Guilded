@@ -34,7 +34,9 @@ module.exports = {
             'es6-promise',
             'jquery',
             'zone.js',
-        ]
+            './wwwroot/lib/font-awesome/css/font-awesome.css',
+            './wwwroot/css/bootstrap-social.css',
+        ],
     },
     output: {
         path: path.join(__dirname, 'wwwroot', 'dist'),
