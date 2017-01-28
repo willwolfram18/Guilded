@@ -2,17 +2,13 @@
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
     "version": "0.1.0",
-    "command": "bash",
+    "command": "dotnet",
     "isShellCommand": true,
-    "args": [
-        "-c"
-    ],
-    "suppressTaskName": true,
     "tasks": [
         {
             "taskName": "build",
             "args": [
-                "dotnet build ${workspaceRoot}/src/Selama"
+                "${workspaceRoot}/src/Selama-SPA"
             ],
             "isBuildCommand": true,
             "showOutput": "always",
@@ -25,14 +21,8 @@
             ],
             "isTestCommand": true,
             "showOutput": "always",
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "taskName": "node-sass",
-            "args":[
-                "node-sass --output-style expanded ${workspaceRoot}/src/Selama/wwwroot/scss -o ${workspaceRoot}/src/Selama/wwwroot/css"
-            ],
-            "showOutput": "always"
+            "problemMatcher": "$msCompile",
+            "suppressTaskName": true
         }
     ]
 }

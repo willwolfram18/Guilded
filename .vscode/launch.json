@@ -6,9 +6,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}/src/Selama/bin/Debug/netcoreapp1.1/Selama.dll",
+            "program": "${workspaceRoot}/src/Selama-SPA/bin/Debug/netcoreapp1.1/Selama-SPA.dll",
             "args": [],
-            "cwd": "${workspaceRoot}/src/Selama",
+            "cwd": "${workspaceRoot}/src/Selama-SPA",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
