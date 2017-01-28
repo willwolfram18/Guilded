@@ -39,5 +39,9 @@
     "webpack-hot-middleware": "^2.10.0",
     "webpack-merge": "^0.14.1",
     "zone.js": "^0.6.21"
+  },
+  "devDependencies": {
+    "@angular/material": "^2.0.0-beta.1",
+    "ng2-slim-loading-bar": "^2.3.0"
   }
 }
