@@ -17,7 +17,7 @@ namespace Selama_SPA.Data.ViewModels.Home
         public DateTime Timestamp { get; set; }
 
         [JsonProperty("content")]
-        public IHtmlContent Content { get; set; }
+        public string Content { get; set; }
         #endregion
         #endregion
 
@@ -25,7 +25,7 @@ namespace Selama_SPA.Data.ViewModels.Home
         public GuildActivity(DateTime timestamp, string content)
         {
             Timestamp = timestamp;
-            Content = new HtmlString(content);
+            Content = new HtmlString(content).ToString();
         }
         #endregion
 

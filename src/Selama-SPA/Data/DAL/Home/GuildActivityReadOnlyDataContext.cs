@@ -52,7 +52,8 @@ namespace Selama_SPA.Data.DAL.Home
         #region Private methods
         private async Task<List<ViewModels.Home.GuildActivity>> GetBattleNetGuildNews()
         {
-            Guild guildProfile = await _battleNetClient.WowCommunityApi.GetGuildProfileAsync("", "", "news");
+            // TODO: Remove hard coding of Guild server and name
+            Guild guildProfile = await _battleNetClient.WowCommunityApi.GetGuildProfileAsync("Wyrmrest Accord", "Selama Ashalanore", "news");
 
             var result = guildProfile.News.ToListOfDifferentType(ViewModels.Home.GuildActivity.CreateFromBattleNetNews);
             result.Sort();

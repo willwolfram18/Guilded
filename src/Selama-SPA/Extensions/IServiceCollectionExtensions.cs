@@ -10,6 +10,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Selama_SPA.Data.DAL;
+using Selama_SPA.Data.DAL.Home;
+using Selama_SPA.Data.Models.Home;
+using BattleNetApi.Apis.Interfaces;
 
 namespace Selama_SPA.Extensions
 {
@@ -34,9 +38,13 @@ namespace Selama_SPA.Extensions
                 .AddDefaultTokenProviders();
         }
 
-        public static void AddMiscServices(this IServiceCollection services)
+        public static void AddSelamaDAL(this IServiceCollection services, IConfigurationRoot Configuration)
         {
-            // TODO: Include miscellaneous services
+            services.AddTransient<IReadOnlyRepository<GuildActivity>, GuildActivityRepo>();
+            services.AddSingleton<IBattleNetApi>(implementationInstance:
+                new BattleNetApi.Apis.BattleNetApi(Configuration["OAuthProviders:BattleNetClientId"])
+            );
+            services.AddTransient<IGuildActivityReadOnlyDataContext, GuildActivityReadOnlyDataContext>();
         }
     }
 }

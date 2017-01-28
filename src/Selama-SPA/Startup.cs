@@ -43,7 +43,7 @@ namespace Selama_SPA
             services.AddSelamaDb(Configuration);
             services.AddMvc();
             services.AddRouting(options => options.LowercaseUrls = true);
-            services.AddMiscServices();
+            services.AddSelamaDAL(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,7 +57,7 @@ namespace Selama_SPA
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
-                    HotModuleReplacement = true
+                    HotModuleReplacement = true,
                 });
             }
             else

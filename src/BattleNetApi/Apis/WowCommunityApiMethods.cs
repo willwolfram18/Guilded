@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Collections.Specialized;
+using BattleNetApi.Common.Extensions;
 
 namespace BattleNetApi.Apis
 {
@@ -173,7 +175,7 @@ namespace BattleNetApi.Apis
             {
                 query["fields"] = string.Join(",", fields);
             }
-            characterProfileUriBuilder.Query = query.ToString();
+            characterProfileUriBuilder.Query = query.ToQueryString();
 
             return characterProfileUriBuilder;
         }
@@ -186,7 +188,7 @@ namespace BattleNetApi.Apis
             {
                 query["fields"] = string.Join(",", fields);
             }
-            guildProfileUriBuilder.Query = query.ToString();
+            guildProfileUriBuilder.Query = query.ToQueryString();
 
             return guildProfileUriBuilder;
         }
@@ -195,7 +197,7 @@ namespace BattleNetApi.Apis
         {
             UriBuilder dataResourceUriBuilder = BuildUriWithEndpoint("data/" + resourceEndPoint);
             var query = BuildCommonQuery();
-            dataResourceUriBuilder.Query = query.ToString();
+            dataResourceUriBuilder.Query = query.ToQueryString();
 
             return dataResourceUriBuilder;
         }
@@ -211,15 +213,16 @@ namespace BattleNetApi.Apis
                     query.Add("realm", realm);
                 }
             }
-            realmStatusUrilBuilder.Query = query.ToString();
+
+            realmStatusUrilBuilder.Query = query.ToQueryString();
             return realmStatusUrilBuilder;
         }
 
-        private IDictionary<string, StringValues> BuildCommonQuery()
+        private NameValueCollection BuildCommonQuery()
         {
-            var query = QueryHelpers.ParseQuery("");
-            query["locale"] = LocaleString;
-            query["apikey"] = _apiClientKey;
+            var query = new NameValueCollection();
+            query.Add("locale", LocaleString);
+            query.Add("apikey",  _apiClientKey);
             return query;
         }
         private UriBuilder BuildUriWithEndpoint(string endpoint)
