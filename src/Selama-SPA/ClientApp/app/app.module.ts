@@ -6,7 +6,7 @@ import { SlimLoadingBarModule } from "ng2-slim-loading-bar";
 import { ProgressBarService } from "./core/services/progress-bar";
 
 import { AppComponent } from "./app.component"
-import { NavMenuComponent } from "./root/components/navmenu";
+import { NavMenuComponent } from "./core/components/navmenu";
 import { HomeComponent } from "./root/components/home";
 import { FetchDataComponent } from "./root/components/fetchdata";
 import { CounterComponent } from "./root/components/counter";

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-    selector: 'home',
-    template: require('../templates/home.html')
+    selector: "home",
+    template: require("../templates/home.html")
 })
-export class HomeComponent {
+export class HomeComponent
+{
 }
