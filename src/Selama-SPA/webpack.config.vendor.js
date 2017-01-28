@@ -26,6 +26,8 @@ module.exports = {
             '@angular/platform-server',
             'angular2-universal',
             'angular2-universal-polyfills',
+            "ng2-slim-loading-bar",
+            "ng2-slim-loading-bar/bundles/style.css",
             'bootstrap',
             'bootstrap/dist/css/bootstrap.css',
             'es6-shim',

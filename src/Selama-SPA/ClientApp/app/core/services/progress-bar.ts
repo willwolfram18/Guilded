@@ -28,20 +28,4 @@ export class ProgressBarService
     {
         this.progressBar.stop();
     }
-
-    public handleRoutingEvent(event: NavigationStart | NavigationCancel | NavigationEnd | NavigationError | RoutesRecognized): void
-    {
-        if (event instanceof NavigationStart)
-        {
-            this.start();
-        }
-        else if (
-            event instanceof NavigationCancel ||
-            event instanceof NavigationEnd ||
-            event instanceof NavigationError
-        )
-        {
-            this.complete();
-        }
-    }
 }
