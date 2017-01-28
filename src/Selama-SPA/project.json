@@ -1,4 +1,6 @@
 {
+    "userSecretsId": "Not-so-secret-key-for-dev",
+
     "dependencies": {
         "Microsoft.AspNetCore.SpaServices": "1.1.0-*",
         "Microsoft.AspNetCore.Razor.Tools": {

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Selama_SPA.Common.Attributes;
 
 namespace Selama_SPA.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiRoute("[controller]")]
     public class SampleDataController : Controller
     {
         private static string[] Summaries = new[]

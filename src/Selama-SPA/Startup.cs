@@ -12,7 +12,6 @@ using Selama_SPA.Data;
 using Selama_SPA.Common;
 using Microsoft.EntityFrameworkCore;
 using Selama_SPA.Extensions;
-using Microsoft.AspNet.Builder;
 
 namespace Selama_SPA
 {

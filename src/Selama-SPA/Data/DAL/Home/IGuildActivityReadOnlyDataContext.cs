@@ -1,4 +1,4 @@
-﻿using Selama_SPA.ViewModels.Home;
+﻿using Selama_SPA.Data.ViewModels.Home;
 using System;
 using System.Collections.Generic;
 using System.Linq;
