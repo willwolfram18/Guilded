@@ -23,14 +23,13 @@ var AppComponent = (function () {
     AppComponent.prototype.ngOnDestroy = function () {
         this.progressBarSubscription.destroy();
     };
+    AppComponent = __decorate([
+        core_1.Component({
+            selector: "root-app",
+            template: "<router-outlet name=\"menu\"></router-outlet>\n    <h1>Index page</h1>Tada!!\n    <br />\n    <router-outlet></router-outlet>\n    <router-outlet name=\"footer\"></router-outlet>"
+        }), 
+        __metadata('design:paramtypes', [progress_bar_1.ProgressBarService, router_1.Router])
+    ], AppComponent);
     return AppComponent;
 }());
-AppComponent = __decorate([
-    core_1.Component({
-        selector: "root-app",
-        template: "<router-outlet name=\"menu\"></router-outlet>\n    <h1>Index page</h1>Tada!!\n    <br />\n    <router-outlet></router-outlet>\n    <router-outlet name=\"footer\"></router-outlet>"
-    }),
-    __metadata("design:paramtypes", [progress_bar_1.ProgressBarService,
-        router_1.Router])
-], AppComponent);
 exports.AppComponent = AppComponent;

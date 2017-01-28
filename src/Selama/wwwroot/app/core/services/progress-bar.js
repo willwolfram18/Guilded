@@ -40,10 +40,10 @@ var ProgressBarService = (function () {
             this.complete();
         }
     };
+    ProgressBarService = __decorate([
+        core_1.Injectable(), 
+        __metadata('design:paramtypes', [ng2_slim_loading_bar_1.SlimLoadingBarService])
+    ], ProgressBarService);
     return ProgressBarService;
 }());
-ProgressBarService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [ng2_slim_loading_bar_1.SlimLoadingBarService])
-], ProgressBarService);
 exports.ProgressBarService = ProgressBarService;
