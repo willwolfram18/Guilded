@@ -8,7 +8,7 @@ import { ProgressBarService } from "./core/services/progress-bar";
 import { AppComponent } from "./app.component"
 import { NavMenuComponent } from "./core/components/navmenu";
 import { HomeComponent } from "./root/components/home";
-import { FetchDataComponent } from "./root/components/fetchdata";
+import { GuildActivityComponent } from "./root/components/guild-activity";
 import { CounterComponent } from "./root/components/counter";
 
 @NgModule({
@@ -19,8 +19,8 @@ import { CounterComponent } from "./root/components/counter";
         AppComponent,
         NavMenuComponent,
         CounterComponent,
-        FetchDataComponent,
-        HomeComponent,
+        GuildActivityComponent,
+        HomeComponent
     ],
     providers: [
         ProgressBarService,
@@ -32,7 +32,6 @@ import { CounterComponent } from "./root/components/counter";
             { path: "", redirectTo: "home", pathMatch: "full" },
             { path: "home", component: HomeComponent },
             { path: "counter", component: CounterComponent },
-            { path: "fetch-data", component: FetchDataComponent },
             { path: "**", redirectTo: "home" },
         ]),
     ]
