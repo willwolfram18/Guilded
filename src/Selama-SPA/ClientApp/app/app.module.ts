@@ -8,9 +8,9 @@ import { RoutingModule } from "./core/modules/routing";
 
 import { AppComponent } from "./app.component"
 import { NavMenuComponent } from "./core/components/navmenu";
-import { HomeComponent } from "./root/components/home";
-import { GuildActivityComponent } from "./root/components/guild-activity";
-import { CounterComponent } from "./root/components/counter";
+import { HomeComponent } from "./home/components/home";
+import { GuildActivityComponent } from "./home/components/guild-activity";
+import { CounterComponent } from "./home/components/counter";
 
 import { HomeComponent as ForumsHomeComponent } from "./forums/components/home";
 
