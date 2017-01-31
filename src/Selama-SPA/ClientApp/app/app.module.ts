@@ -4,14 +4,12 @@ import { UniversalModule } from "angular2-universal";
 import { SlimLoadingBarModule } from "ng2-slim-loading-bar";
 
 import { ProgressBarService } from "./core/services/progress-bar";
-import { RoutingModule } from "./core/modules/routing";
 
 import { HomeAppModule } from "./home/modules/app";
+import { ForumsAppModule } from "./forums/modules/app";
 
 import { AppComponent } from "./app.component"
 import { NavMenuComponent } from "./core/components/navmenu";
-
-import { HomeComponent as ForumsHomeComponent } from "./forums/components/home";
 
 @NgModule({
     bootstrap: [
@@ -20,7 +18,6 @@ import { HomeComponent as ForumsHomeComponent } from "./forums/components/home";
     declarations: [
         AppComponent,
         NavMenuComponent,
-        ForumsHomeComponent,
     ],
     providers: [
         ProgressBarService,
@@ -28,8 +25,9 @@ import { HomeComponent as ForumsHomeComponent } from "./forums/components/home";
     imports: [
         UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
         SlimLoadingBarModule.forRoot(),
-        RoutingModule,
+        RouterModule.forRoot([]),
         HomeAppModule,
+        ForumsAppModule,
     ]
 })
 export class AppModule {
