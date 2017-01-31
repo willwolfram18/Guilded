@@ -7,7 +7,7 @@
     "emitDecoratorMetadata": true,
     "skipDefaultLibCheck": true,
     "lib": [ "es6", "dom" ],
-    "types": [ "node", "jquery" ],
+    "types": [ "node", "jquery", "hammerjs" ],
     "rootDir": "./"
   },
   "exclude": [ "bin", "node_modules", "dist" ],

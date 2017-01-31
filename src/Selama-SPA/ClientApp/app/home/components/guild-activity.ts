@@ -7,7 +7,7 @@ import { Http } from "@angular/http";
 })
 export class GuildActivityComponent implements OnInit
 {
-    public guildActivity: GuildActivity[];
+    public guildActivity: GuildActivity[] = Array<GuildActivity>();
     private oldListSize: number = 0;
     private page: number = 1;
     private $WowheadPower: any;
@@ -28,19 +28,16 @@ export class GuildActivityComponent implements OnInit
         if (!this.isLoading)
         {
             this.isLoading = true;
-            this.http.get(`/api/guild-activity?page=${this.page}`).subscribe(result =>
-            {
-                if (!this.guildActivity)
-                {
-                    this.guildActivity = new Array<GuildActivity>();
-                }
-                this.guildActivity = this.guildActivity.concat(result.json() as GuildActivity[]);
-                this.page++;
-                this.isLoading = false;
-            });
+            // this.http.get(`/api/guild-activity?page=${this.page}`)
+            //     .finally(() => this.isLoading = false)
+            //     .subscribe(result =>
+            //     {
+            //         this.guildActivity = this.guildActivity.concat(result.json() as GuildActivity[]);
+            //         this.page++;
+            //     });
         }
     }
-    
+
     private hasActivityRefreshed(): boolean
     {
         return this.guildActivity && this.guildActivity.length != this.oldListSize;

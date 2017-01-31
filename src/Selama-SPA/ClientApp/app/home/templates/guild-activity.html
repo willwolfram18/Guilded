@@ -2,14 +2,11 @@
     Recent Guild Activity
 </h1>
 
-<p *ngIf="!guildActivity">
-    <em>Loading...</em>
-</p>
-
 <div class="btn btn-primary" (click)="loadItems()">
     Load more
 </div>
-<div *ngIf="guildActivity">
+<div>
+    <md-spinner *ngIf="isLoading" mode="indeterminate"></md-spinner>
     <table class='table table-striped'>
         <tbody *ngIf="guildActivity.length > 0">
             <tr *ngFor="let activity of guildActivity">
