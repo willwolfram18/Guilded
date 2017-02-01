@@ -1,6 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Selama_SPA.Common.Attributes;
 using Selama_SPA.Data.ViewModels.Account;
@@ -12,10 +13,13 @@ namespace Selama_SPA.Controllers
     public class AccountController : Controller
     {
         private readonly JwtOptions _jwtOptions;
+        private readonly ILogger _logger;
 
-        public AccountController(IOptions<JwtOptions> jwtOptions)
+        public AccountController(IOptions<JwtOptions> jwtOptions,
+            ILoggerFactory loggerFactory)
         {
             _jwtOptions = jwtOptions.Value;
+            _logger = loggerFactory.CreateLogger<AccountController>();
         }
 
         [AllowAnonymous]
