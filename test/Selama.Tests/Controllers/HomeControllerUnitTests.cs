@@ -15,7 +15,7 @@ using Xunit;
 
 namespace Selama.Tests.Controllers
 {
-    public class HomeControllerUnitTests : ControllerUnitTestBase<HomeController>
+    public class HomeControllerUnitTests : ControllerUnitTestBase<Selama.Controllers.HomeController>
     {
         #region Properties
         #region Private properties
@@ -63,35 +63,35 @@ namespace Selama.Tests.Controllers
             #endregion
         }
 
-        [Fact]
-        public void Join_IsNotNull()
-        {
-            #region Arrange
-            #endregion
+        // [Fact]
+        // public void Join_IsNotNull()
+        // {
+        //     #region Arrange
+        //     #endregion
 
-            #region Act
-            ViewResult result = Controller.Join();
-            #endregion
+        //     #region Act
+        //     ViewResult result = Controller.Join();
+        //     #endregion
 
-            #region Assert
-            Assert.NotNull(result);
-            #endregion
-        }
+        //     #region Assert
+        //     Assert.NotNull(result);
+        //     #endregion
+        // }
 
-        [Fact]
-        public void About_IsNotNull()
-        {
-            #region Arrange
-            #endregion
+        // [Fact]
+        // public void About_IsNotNull()
+        // {
+        //     #region Arrange
+        //     #endregion
 
-            #region Act
-            ViewResult result = Controller.About();
-            #endregion
+        //     #region Act
+        //     ViewResult result = Controller.About();
+        //     #endregion
 
-            #region Assert
-            Assert.NotNull(result);
-            #endregion
-        }
+        //     #region Assert
+        //     Assert.NotNull(result);
+        //     #endregion
+        // }
 
         [Fact]
         public void MarkdownHelper_IsNotNull()

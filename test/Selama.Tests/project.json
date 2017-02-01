@@ -3,6 +3,7 @@
     "testRunner": "xunit",
 
     "dependencies": {
+        "BattleNetApi": "1.0.0-*",
         "dotnet-test-xunit": "2.2.0-preview2-build1029",
         "Microsoft.NETCore.App": {
             "version": "1.1.0",
@@ -12,6 +13,7 @@
         "Microsoft.AspNetCore.Http.Features": "1.1.0",
         "Moq": "4.6.38-alpha",
         "Selama": "1.0.0-*",
+        "Selama-SPA": "1.0.0-*",
         "System.Diagnostics.TraceSource": "4.0.0",
         "xunit": "2.2.0-beta4-build3444"
     },
@@ -29,5 +31,5 @@
         "copyToOutput": {
             "include": [ "xunit.runner.json" ]
         }
-    },
+    }
 }
