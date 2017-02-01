@@ -28,6 +28,9 @@ namespace Selama_SPA.Extensions
             services.AddSelamaDAL(Configuration);
             services.AddSelamaOptions(Configuration);
 
+            services.AddSingleton<IBattleNetApi>(implementationInstance:
+                new BattleNetApi.Apis.BattleNetApi(Configuration["OAuthProviders:BattleNetClientId"])
+            );
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
@@ -54,15 +57,11 @@ namespace Selama_SPA.Extensions
         private static void AddSelamaDAL(this IServiceCollection services, IConfigurationRoot Configuration)
         {
             services.AddTransient<IReadOnlyRepository<GuildActivity>, GuildActivityRepo>();
-            services.AddSingleton<IBattleNetApi>(implementationInstance:
-                new BattleNetApi.Apis.BattleNetApi(Configuration["OAuthProviders:BattleNetClientId"])
-            );
             services.AddTransient<IGuildActivityReadOnlyDataContext, GuildActivityReadOnlyDataContext>();
         }
-    
+
         private const string SECRET_KEY = "SampleNotSoSecretKey";
         private static readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SECRET_KEY));
-
         private static void AddSelamaOptions(this IServiceCollection services, IConfigurationRoot Configuration)
         {
             services.Configure<JwtOptions>(options =>
