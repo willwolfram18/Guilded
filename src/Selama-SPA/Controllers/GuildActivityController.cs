@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Selama_SPA.Common.Attributes;
 using Selama_SPA.Data.DAL.Home;
@@ -17,6 +18,7 @@ namespace Selama_SPA.Controllers
             _db = db;
         }
 
+        [AllowAnonymous]
         [HttpGet()]
         public async Task<JsonResult> Get(int page = 1)
         {

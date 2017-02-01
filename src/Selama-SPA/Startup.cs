@@ -12,6 +12,8 @@ using Selama_SPA.Data;
 using Selama_SPA.Common;
 using Microsoft.EntityFrameworkCore;
 using Selama_SPA.Extensions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace Selama_SPA
 {
@@ -41,7 +43,13 @@ namespace Selama_SPA
         {
             // Add framework services.
             services.AddSelamaDb(Configuration);
-            services.AddMvc();
+            services.AddMvc(config =>
+            {
+                var authorizationPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+                config.Filters.Add(new AuthorizeFilter(authorizationPolicy));
+            });
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddSelamaDAL(Configuration);
         }
@@ -56,7 +64,8 @@ namespace Selama_SPA
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
                     HotModuleReplacement = true,
                 });
             }
