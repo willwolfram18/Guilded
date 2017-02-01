@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Selama_SPA.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Selama_SPA.Options;
 
 namespace Selama_SPA
 {
@@ -42,6 +43,8 @@ namespace Selama_SPA
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            services.AddOptions();
+            services.AddSelamaOptions(Configuration);
             services.AddSelamaDb(Configuration);
             services.AddMvc(config =>
             {

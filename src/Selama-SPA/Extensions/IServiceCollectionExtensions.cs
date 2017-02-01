@@ -14,6 +14,8 @@ using Selama_SPA.Data.DAL;
 using Selama_SPA.Data.DAL.Home;
 using Selama_SPA.Data.Models.Home;
 using BattleNetApi.Apis.Interfaces;
+using Selama_SPA.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Selama_SPA.Extensions
 {
@@ -45,6 +47,26 @@ namespace Selama_SPA.Extensions
                 new BattleNetApi.Apis.BattleNetApi(Configuration["OAuthProviders:BattleNetClientId"])
             );
             services.AddTransient<IGuildActivityReadOnlyDataContext, GuildActivityReadOnlyDataContext>();
+        }
+    
+        private const string SECRET_KEY = "SampleNotSoSecretKey";
+        private static readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SECRET_KEY));
+
+        public static void AddSelamaOptions(this IServiceCollection services, IConfigurationRoot Configuration)
+        {
+            services.Configure<JwtOptions>(options =>
+            {
+                var optionSettings = Configuration.GetSection("JwtOptions");
+                options.Issuer = optionSettings["Issuer"];
+                if (Globals.OSX)
+                {
+                    options.Audience = optionSettings["Audience:OSX"];
+                }
+                else
+                {
+                    options.Audience = optionSettings["Audience:Windows"];
+                }
+            });
         }
     }
 }
