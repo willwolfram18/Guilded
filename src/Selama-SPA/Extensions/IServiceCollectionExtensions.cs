@@ -16,12 +16,23 @@ using Selama_SPA.Data.Models.Home;
 using BattleNetApi.Apis.Interfaces;
 using Selama_SPA.Options;
 using Microsoft.IdentityModel.Tokens;
+using Selama_SPA.Services;
 
 namespace Selama_SPA.Extensions
 {
     public static class IServiceCollectionExtensions
     {
-        public static void AddSelamaDb(this IServiceCollection services, IConfigurationRoot Configuration)
+        public static void AddSelama(this IServiceCollection services, IConfigurationRoot Configuration)
+        {
+            services.AddSelamaDb(Configuration);
+            services.AddSelamaDAL(Configuration);
+            services.AddSelamaOptions(Configuration);
+
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddTransient<ISmsSender, AuthMessageSender>();
+        }
+
+        private static void AddSelamaDb(this IServiceCollection services, IConfigurationRoot Configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -40,7 +51,7 @@ namespace Selama_SPA.Extensions
                 .AddDefaultTokenProviders();
         }
 
-        public static void AddSelamaDAL(this IServiceCollection services, IConfigurationRoot Configuration)
+        private static void AddSelamaDAL(this IServiceCollection services, IConfigurationRoot Configuration)
         {
             services.AddTransient<IReadOnlyRepository<GuildActivity>, GuildActivityRepo>();
             services.AddSingleton<IBattleNetApi>(implementationInstance:
@@ -52,7 +63,7 @@ namespace Selama_SPA.Extensions
         private const string SECRET_KEY = "SampleNotSoSecretKey";
         private static readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SECRET_KEY));
 
-        public static void AddSelamaOptions(this IServiceCollection services, IConfigurationRoot Configuration)
+        private static void AddSelamaOptions(this IServiceCollection services, IConfigurationRoot Configuration)
         {
             services.Configure<JwtOptions>(options =>
             {

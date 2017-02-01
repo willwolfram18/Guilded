@@ -44,8 +44,7 @@ namespace Selama_SPA
         {
             // Add framework services.
             services.AddOptions();
-            services.AddSelamaOptions(Configuration);
-            services.AddSelamaDb(Configuration);
+            services.AddSelama(Configuration);
             services.AddMvc(config =>
             {
                 var authorizationPolicy = new AuthorizationPolicyBuilder()
@@ -54,7 +53,6 @@ namespace Selama_SPA
                 config.Filters.Add(new AuthorizeFilter(authorizationPolicy));
             });
             services.AddRouting(options => options.LowercaseUrls = true);
-            services.AddSelamaDAL(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

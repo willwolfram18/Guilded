@@ -6,6 +6,8 @@ namespace Selama_SPA.Options
 {
     public class JwtOptions
     {
+        #region Properties
+        #region Public Properties
         public string Issuer { get; set; }
 
         public string Subject { get; set; }
@@ -30,10 +32,28 @@ namespace Selama_SPA.Options
         {
             get
             {
-                return () => Task.FromResult(Guid.NewGuid().ToString());
+                return _jitGenerator;
             }
         }
 
         public SigningCredentials SigningCredentials { get; set; }
+        #endregion
+
+        #region Private Properties
+        private readonly Func<Task<string>> _jitGenerator;
+        #endregion
+        #endregion
+
+        #region Constructors
+        public JwtOptions()
+        {
+            _jitGenerator = () => Task.FromResult(Guid.NewGuid().ToString());
+        }
+
+        public JwtOptions(Func<Task<string>> jitGenerator)
+        {
+            _jitGenerator = jitGenerator;
+        }
+        #endregion
     }
 }
