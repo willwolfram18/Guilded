@@ -5,21 +5,25 @@
 <div class="btn btn-primary" (click)="loadItems()">
     Load more
 </div>
-<div>
-    <md-spinner *ngIf="isLoading" mode="indeterminate"></md-spinner>
-    <table class='table table-striped'>
-        <tbody *ngIf="guildActivity.length > 0">
-            <tr *ngFor="let activity of guildActivity">
-                <td>{{ activity.timestamp | date: "MM/dd/yyyy hh:mm" }}</td>
-                <td [innerHtml]="activity.content"></td>
-            </tr>
-        </tbody>
-        <tbody *ngIf="guildActivity.length === 0">
-            <tr>
-                <td class="alert alert-info">
-                    No guild activity found
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<div class="guild-activity-container">
+    <div class="guild-activity-scroll" [ngClass]="{ 'disable-scroll': isLoading }">
+        <div class="md-spinner-wrapper" *ngIf="isLoading">
+            <md-spinner mode="indeterminate"></md-spinner>
+        </div>
+        <table class='table table-striped'>
+            <tbody *ngIf="guildActivity.length > 0">
+                <tr *ngFor="let activity of guildActivity">
+                    <td>{{ activity.timestamp | date: "MM/dd/yyyy hh:mm" }}</td>
+                    <td [innerHtml]="activity.content"></td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="guildActivity.length === 0">
+                <tr>
+                    <td class="alert alert-info">
+                        No guild activity found
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

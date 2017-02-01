@@ -4,6 +4,9 @@ import { Http } from "@angular/http";
 @Component({
     selector: "guild-activity",
     template: require("../templates/guild-activity.html"),
+    styles: [
+        require("../templates/guild-activity.css"),
+    ],
 })
 export class GuildActivityComponent implements OnInit
 {
@@ -28,20 +31,16 @@ export class GuildActivityComponent implements OnInit
         if (!this.isLoading)
         {
             this.isLoading = true;
-            // this.http.get(`/api/guild-activity?page=${this.page}`)
-            //     .finally(() => this.isLoading = false)
-            //     .subscribe(result =>
-            //     {
-            //         this.guildActivity = this.guildActivity.concat(result.json() as GuildActivity[]);
-            //         this.page++;
-            //     });
+            this.http.get(`/api/guild-activity?page=${this.page}`)
+                .finally(() => this.isLoading = false)
+                .subscribe(result =>
+                {
+                    this.guildActivity = this.guildActivity.concat(result.json() as GuildActivity[]);
+                    this.page++;
+                });
         }
     }
 
-    private hasActivityRefreshed(): boolean
-    {
-        return this.guildActivity && this.guildActivity.length != this.oldListSize;
-    }
     public refreshLinks(): void
     {
         if (this.hasActivityRefreshed())
@@ -53,6 +52,10 @@ export class GuildActivityComponent implements OnInit
                 this.$WowheadPower.refreshLinks();
             }
         }
+    }
+    private hasActivityRefreshed(): boolean
+    {
+        return this.guildActivity && this.guildActivity.length != this.oldListSize;
     }
 }
 

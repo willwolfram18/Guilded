@@ -1,0 +1,38 @@
+.guild-activity-container
+{
+    $guild-activity-min-height: 100px; // min height of the md-spinner
+    $guild-activity-max-height: 350px;
+    position: relative;
+    min-height: $guild-activity-min-height;
+    max-height: $guild-activity-max-height;
+
+    .guild-activity-scroll
+    {
+        position: relative;
+        min-height: $guild-activity-min-height;
+        max-height: $guild-activity-max-height;
+        overflow-y: auto;
+
+        .md-spinner-wrapper
+        {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.45);
+
+            md-spinner
+            {
+                width: 100%;
+            }
+        }
+
+        &.disable-scroll
+        {
+            overflow-y: hidden;
+        }
+    }
+}
