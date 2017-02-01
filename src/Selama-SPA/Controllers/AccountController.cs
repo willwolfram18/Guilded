@@ -43,7 +43,20 @@ namespace Selama_SPA.Controllers
 
         [AllowAnonymous]
         [HttpPost("sign-in")]
-        public IActionResult SignIn([FromBody] UserSignIn signIn)
+        public IActionResult SignIn([FromBody] UserSignIn user)
+        {
+            throw new NotImplementedException();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult Register([FromBody] RegisterUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPost("sign-out")]
+        public IActionResult SignOut()
         {
             throw new NotImplementedException();
         }
