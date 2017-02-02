@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -43,14 +44,14 @@ namespace Selama_SPA.Controllers
 
         [AllowAnonymous]
         [HttpPost("sign-in")]
-        public IActionResult SignIn([FromBody] UserSignIn user)
+        public Task<JsonResult> SignIn([FromBody] SignInUser user)
         {
             throw new NotImplementedException();
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Register([FromBody] RegisterUser user)
+        public Task<IActionResult> Register([FromBody] RegisterUser user)
         {
             throw new NotImplementedException();
         }

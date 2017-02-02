@@ -17,7 +17,8 @@
         {
             "taskName": "test",
             "args": [
-                "dotnet test ${workspaceRoot}/test/Selama.Tests"
+                "test",
+                "${workspaceRoot}/test/Selama.Tests"
             ],
             "isTestCommand": true,
             "showOutput": "always",

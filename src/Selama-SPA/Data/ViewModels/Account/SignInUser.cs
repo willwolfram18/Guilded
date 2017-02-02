@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Selama_SPA.Data.ViewModels.Account
 {
-    public class UserSignIn
+    public class SignInUser
     {
         [Required]
         public string Username { get; set; }
@@ -10,5 +10,7 @@ namespace Selama_SPA.Data.ViewModels.Account
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        public bool RememberMe { get; set; }
     }
 }

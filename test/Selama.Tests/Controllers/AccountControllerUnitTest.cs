@@ -12,10 +12,16 @@ using Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Selama_SPA.Data;
+using Selama_SPA.Data.ViewModels.Account;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http.Features.Authentication;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Selama_SPA.Extensions;
 
 namespace Selama.Tests.Controllers
 {
@@ -97,9 +103,23 @@ namespace Selama.Tests.Controllers
         #region Methods
         #region Private methods
         [Fact]
-        public void Testm()
-        {
-            Assert.True(true);
+        public async Task SignIn_InvalidModelReturnsBadRequest() {
+            #region Arrange
+            SignInUser user = new SignInUser();
+            Controller.ModelState.AddModelError("Username", "Username is required");
+            Controller.ModelState.AddModelError("Password", "Password is required");
+            #endregion
+        
+            #region Act
+            JsonResult result = await Controller.SignIn(user);
+            #endregion
+        
+            #region Assert
+            Assert.Equal((int)HttpStatusCode.BadRequest, result.StatusCode);
+            JObject resultJson = JObject.FromObject(result.Value);
+            Assert.True(resultJson.ContainsKey("Username"));
+            Assert.True(resultJson.ContainsKey("Password"));
+            #endregion
         }
         #endregion
         #endregion
