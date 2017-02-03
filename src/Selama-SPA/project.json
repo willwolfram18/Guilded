@@ -30,7 +30,8 @@
         "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
         "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "1.1.0",
         "Newtonsoft.Json": "9.0.1",
-        "BattleNetApi": "1.0.0-*"
+        "BattleNetApi": "1.0.0-*",
+        "System.IdentityModel.Tokens.Jwt": "5.0.0"
     },
     "tools": {
         "Microsoft.AspNetCore.Razor.Tools": "1.0.0-preview2-final",
