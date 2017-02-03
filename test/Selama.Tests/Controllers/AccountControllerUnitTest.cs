@@ -22,6 +22,8 @@ using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Selama_SPA.Extensions;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Builder;
 
 namespace Selama.Tests.Controllers
 {
@@ -46,7 +48,7 @@ namespace Selama.Tests.Controllers
         private IServiceProvider _serviceProvider;
         private ApplicationDbContext _dbContext;
         private UserManager<ApplicationUser> _userManager;
-        private SignInManager<ApplicationUser> _signInManager;
+        private Mock<SignInManager<ApplicationUser>> _mockSignInManager;
         #endregion
         #endregion
 
@@ -59,7 +61,7 @@ namespace Selama.Tests.Controllers
             return new AccountController(_mockJwtOptions.Object,
                 _serviceProvider.GetRequiredService<ILoggerFactory>(),
                 _userManager,
-                _signInManager,
+                _mockSignInManager.Object,
                 _mockEmailSender.Object,
                 _mockSmsSender.Object
             );
@@ -76,7 +78,13 @@ namespace Selama.Tests.Controllers
             _serviceProvider = services.BuildServiceProvider();
             _dbContext = _serviceProvider.GetRequiredService<ApplicationDbContext>();
             _userManager = _serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-            _signInManager = _serviceProvider.GetRequiredService<SignInManager<ApplicationUser>>();
+            _mockSignInManager = new Mock<SignInManager<ApplicationUser>>(
+                _userManager,
+                _serviceProvider.GetService<IHttpContextAccessor>(),
+                _serviceProvider.GetService<IUserClaimsPrincipalFactory<ApplicationUser>>(),
+                _serviceProvider.GetService<IOptions<IdentityOptions>>(),
+                _serviceProvider.GetService<ILogger<SignInManager<ApplicationUser>>>()
+            );
         }
         private void AddInMemoryDbServices(ServiceCollection services)
         {
@@ -101,25 +109,166 @@ namespace Selama.Tests.Controllers
         #endregion
 
         #region Methods
-        #region Private methods
+        #region Unit tests
+        #region AccountController.SignIn
         [Fact]
-        public async Task SignIn_InvalidModelReturnsBadRequest() {
+        public async Task SignIn_InvalidModelReturnsBadRequest()
+        {
             #region Arrange
             SignInUser user = new SignInUser();
             Controller.ModelState.AddModelError("Username", "Username is required");
             Controller.ModelState.AddModelError("Password", "Password is required");
             #endregion
-        
+
             #region Act
             JsonResult result = await Controller.SignIn(user);
             #endregion
-        
+
             #region Assert
-            Assert.Equal((int)HttpStatusCode.BadRequest, result.StatusCode);
-            JObject resultJson = JObject.FromObject(result.Value);
+            AssertIsBadRequest();
+            JObject resultJson = ConvertResultToJson(result);
             Assert.True(resultJson.ContainsKey("Username"));
             Assert.True(resultJson.ContainsKey("Password"));
             #endregion
+        }
+
+        [Fact]
+        public async Task SignIn_InvalidUserNameReturnsBadRequest()
+        {
+            #region Arrange
+            Tuple<ApplicationUser, string> userPassword = await CreateSampleUser();
+
+            SignInUser user = new SignInUser
+            {
+                Username = "boop",
+                Password = userPassword.Item2
+            };
+            SignInFails();
+            #endregion
+
+            #region Act & Assert
+            await AssertInvaludUsernameOrPassword(user);
+            #endregion
+        }
+
+        [Fact]
+        public async Task SignIn_InvalidPasswordReturnsBadRequest()
+        {
+            #region Arrange
+            Tuple<ApplicationUser, string> userPassword = await CreateSampleUser();
+
+            SignInUser user = new SignInUser
+            {
+                Username = userPassword.Item1.UserName,
+                Password = "boop"
+            };
+            SignInFails();
+            #endregion
+
+            #region Act & Assert
+            await AssertInvaludUsernameOrPassword(user);
+            #endregion
+        }
+
+        [Fact]
+        public async Task SignIn_ProperJwtIssued()
+        {
+            #region Arrange
+            Tuple<ApplicationUser, string> userPassword = await CreateSampleUser();
+            SignInUser user = new SignInUser
+            {
+                Username = userPassword.Item1.UserName,
+                Password = userPassword.Item2,
+                RememberMe = false,
+            };
+            SignInSucceeds();
+            #endregion
+
+            #region Act
+            JsonResult result = await Controller.SignIn(user);
+            #endregion
+
+            #region Assert
+            AssertIsOkRequest();
+            JObject jsonResult = ConvertResultToJson(result);
+            Assert.True(jsonResult.ContainsKey("access_token"));
+            Assert.True(jsonResult.ContainsKey("expires_in"));
+            Assert.Equal(_jwtOptions.ValidFor.TotalSeconds, jsonResult["expires_in"].ToObject<double>());
+            #endregion
+        }
+
+        [Fact]
+        public async Task SignIn_RememberMeIssuesSevenDayToken()
+        {
+            #region Arrange
+            Tuple<ApplicationUser, string> userPassword = await CreateSampleUser();
+            SignInUser user = new SignInUser
+            {
+                Username = userPassword.Item1.UserName,
+                Password = userPassword.Item2,
+                RememberMe = true,
+            };
+            SignInSucceeds();
+            #endregion
+
+            #region Act
+            JsonResult result = await Controller.SignIn(user);
+            #endregion
+
+            #region Assert
+            AssertIsOkRequest();
+            JObject jsonResult = ConvertResultToJson(result);
+            Assert.True(jsonResult.ContainsKey("access_token"));
+            Assert.True(jsonResult.ContainsKey("expires_in"));
+            Assert.Equal(TimeSpan.FromDays(7).TotalSeconds, jsonResult["expires_in"].ToObject<double>());
+            #endregion
+        }
+        #endregion
+        #endregion
+
+        #region Private methods
+        private async Task<Tuple<ApplicationUser, string>> CreateSampleUser()
+        {
+            ApplicationUser sampleUser = new ApplicationUser
+            {
+                UserName = "test@example.com",
+            };
+            string samplePassword = "1234&Abc";
+            var t = await _userManager.CreateAsync(sampleUser, samplePassword);
+            Tuple<ApplicationUser, string> userPassword = new Tuple<ApplicationUser, string>(sampleUser, samplePassword);
+            return userPassword;
+        }
+        private async Task AssertInvaludUsernameOrPassword(SignInUser user)
+        {
+            #region Act
+            JsonResult result = await Controller.SignIn(user);
+            #endregion
+
+            #region Assert
+            AssertIsBadRequest();
+            JObject resultJson = ConvertResultToJson(result);
+            List<string> modelErrors = GetPropertyErrors(resultJson, "");
+            Assert.Equal(1, modelErrors.Count);
+            Assert.Equal("Invalid username or password", modelErrors[0]);
+            #endregion
+        }
+        private void SignInFails()
+        {
+            _mockSignInManager.Setup(s => s.PasswordSignInAsync(
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<bool>(),
+                It.IsAny<bool>()
+            )).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Failed);
+        }
+        private void SignInSucceeds()
+        {
+            _mockSignInManager.Setup(s => s.PasswordSignInAsync(
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<bool>(),
+                It.IsAny<bool>()
+            )).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
         }
         #endregion
         #endregion

@@ -4,15 +4,19 @@ using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Routing;
 using Moq;
+using Newtonsoft.Json.Linq;
 using Selama.Controllers;
 using Selama.Tests.Common.Mocking;
+using Selama_SPA.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace Selama.Tests.Controllers
 {
@@ -214,6 +218,28 @@ namespace Selama.Tests.Controllers
         {
             // Nothing to do in base class
         }
+
+        protected void AssertIsOkRequest()
+        {
+            MockHttpResponse.VerifySet(r => r.StatusCode = It.IsAny<int>(), Times.Never());
+        }
+        protected void AssertIsBadRequest()
+        {
+            MockHttpResponse.VerifySet(r => r.StatusCode = It.Is<int>(i =>
+                i == (int)HttpStatusCode.BadRequest
+            ));
+        }
+        protected JObject ConvertResultToJson(JsonResult result)
+        {
+            return JObject.FromObject(result.Value);
+        }
+        protected static List<string> GetPropertyErrors(JObject resultJson, string propertyName)
+        {
+            Assert.True(resultJson.ContainsKey(""));
+            List<string> modelErrors = resultJson.GetValue(propertyName).ToObject<List<string>>();
+            Assert.NotNull(modelErrors);
+            return modelErrors;
+        }
         #endregion
 
         #region Private methods
@@ -229,6 +255,7 @@ namespace Selama.Tests.Controllers
             MockUser = SetupUser();
             MockHttpContext = SetupHttpContext();
             MockHttpResponse = SetupHttpResponse();
+            MockHttpResponse.SetupSet(r => r.StatusCode = It.IsAny<int>()).Verifiable();
         }
         private void MapHttpContextPropertiesToMockObjects()
         {
