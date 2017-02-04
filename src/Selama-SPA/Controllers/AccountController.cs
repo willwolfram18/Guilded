@@ -13,13 +13,12 @@ using Selama_SPA.Services;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Selama_SPA.Extensions;
-using System.Net;
 using System.Collections.Generic;
 
 namespace Selama_SPA.Controllers
 {
     [ApiRoute("[controller]")]
-    public class AccountController : Controller
+    public class AccountController : ApiControllerBase
     {
         #region Properties
         #region Private Properties
@@ -94,14 +93,6 @@ namespace Selama_SPA.Controllers
         public IActionResult SignOut()
         {
             throw new NotImplementedException();
-        }
-        #endregion
-
-        #region Protected methods
-        protected JsonResult BadRequestJson(object data)
-        {
-            Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            return Json(data);
         }
         #endregion
 

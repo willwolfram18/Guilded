@@ -7,6 +7,7 @@ using Moq;
 using Newtonsoft.Json.Linq;
 using Selama.Controllers;
 using Selama.Tests.Common.Mocking;
+using Selama_SPA.Controllers;
 using Selama_SPA.Extensions;
 using System;
 using System.Collections.Generic;
@@ -143,7 +144,7 @@ namespace Selama.Tests.Controllers
     }
 
     public abstract class ApiControllerUnitTestBase<TController>
-        where TController : Controller
+        where TController : ApiControllerBase
     {
         #region Properties
         #region Protected properties

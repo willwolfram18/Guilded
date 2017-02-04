@@ -7,7 +7,7 @@ using Selama_SPA.Data.DAL.Home;
 namespace Selama_SPA.Controllers
 {
     [ApiRoute("guild-activity")]
-    public class GuildActivityController : Controller
+    public class GuildActivityController : ApiControllerBase
     {
         public const int PAGE_SIZE = 25;
 
