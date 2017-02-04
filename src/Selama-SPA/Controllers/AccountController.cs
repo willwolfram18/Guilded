@@ -98,9 +98,10 @@ namespace Selama_SPA.Controllers
         }
 
         [HttpPost("sign-out")]
-        public IActionResult SignOut()
+        public async Task<IActionResult> SignOut()
         {
-            throw new NotImplementedException();
+            await _signInManager.SignOutAsync();
+            return Ok();
         }
         #endregion
 

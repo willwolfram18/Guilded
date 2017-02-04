@@ -224,6 +224,21 @@ namespace Selama.Tests.Controllers
             #endregion
         }
         #endregion
+
+        [Fact]
+        public async Task SignOut_VerifySignOutCalled() {
+            #region Arrange
+            #endregion
+        
+            #region Act
+            IActionResult result = await Controller.SignOut();
+            #endregion
+        
+            #region Assert
+            AssertIsOkRequest();
+            _mockSignInManager.Verify(s => s.SignOutAsync(), Times.Once());
+            #endregion
+        }
         #endregion
 
         #region Private methods
