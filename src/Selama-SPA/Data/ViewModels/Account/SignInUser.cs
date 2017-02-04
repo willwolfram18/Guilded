@@ -5,7 +5,8 @@ namespace Selama_SPA.Data.ViewModels.Account
     public class SignInUser
     {
         [Required]
-        public string Username { get; set; }
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

@@ -54,28 +54,36 @@ namespace Selama_SPA.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(user.Username, user.Password, user.RememberMe, false);
-                if (result.Succeeded)
+                var appUser = await _userManager.FindByEmailAsync(user.Email);
+                if (appUser != null)
                 {
-                    _logger.LogInformation(1, string.Format("User {0} logged in", user.Username));
-                    if (user.RememberMe)
+                    var result = await _signInManager.PasswordSignInAsync(appUser.UserName, user.Password, user.RememberMe, false);
+                    if (result.Succeeded)
                     {
-                        _jwtOptions.ValidFor = TimeSpan.FromDays(7);
+                        _logger.LogInformation(1, string.Format("User {0} logged in", user.Email));
+                        if (user.RememberMe)
+                        {
+                            _jwtOptions.ValidFor = TimeSpan.FromDays(7);
+                        }
+                        return await IssueJwt(user.Email);
                     }
-                    return await IssueJwt(user.Username);
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    // TODO: Implement Two-factor auth
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning(2, string.Format("User {0} locked out", user.Username));
-                    // TODO: Implement lock out
+                    if (result.RequiresTwoFactor)
+                    {
+                        // TODO: Implement Two-factor auth
+                    }
+                    if (result.IsLockedOut)
+                    {
+                        _logger.LogWarning(2, string.Format("User {0} locked out", user.Email));
+                        // TODO: Implement lock out
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Invalid email or password");
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Invalid username or password");
+                    ModelState.AddModelError("", "Invalid email or password");
                 }
             }
 

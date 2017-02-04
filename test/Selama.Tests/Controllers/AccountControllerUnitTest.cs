@@ -116,7 +116,7 @@ namespace Selama.Tests.Controllers
         {
             #region Arrange
             SignInUser user = new SignInUser();
-            Controller.ModelState.AddModelError("Username", "Username is required");
+            Controller.ModelState.AddModelError("Email", "Username is required");
             Controller.ModelState.AddModelError("Password", "Password is required");
             #endregion
 
@@ -127,7 +127,7 @@ namespace Selama.Tests.Controllers
             #region Assert
             AssertIsBadRequest();
             JObject resultJson = ConvertResultToJson(result);
-            Assert.True(resultJson.ContainsKey("Username"));
+            Assert.True(resultJson.ContainsKey("Email"));
             Assert.True(resultJson.ContainsKey("Password"));
             #endregion
         }
@@ -140,7 +140,7 @@ namespace Selama.Tests.Controllers
 
             SignInUser user = new SignInUser
             {
-                Username = "boop",
+                Email = "boop",
                 Password = userPassword.Item2
             };
             SignInFails();
@@ -159,7 +159,7 @@ namespace Selama.Tests.Controllers
 
             SignInUser user = new SignInUser
             {
-                Username = userPassword.Item1.UserName,
+                Email = userPassword.Item1.Email,
                 Password = "boop"
             };
             SignInFails();
@@ -177,7 +177,7 @@ namespace Selama.Tests.Controllers
             Tuple<ApplicationUser, string> userPassword = await CreateSampleUser();
             SignInUser user = new SignInUser
             {
-                Username = userPassword.Item1.UserName,
+                Email = userPassword.Item1.Email,
                 Password = userPassword.Item2,
                 RememberMe = false,
             };
@@ -204,7 +204,7 @@ namespace Selama.Tests.Controllers
             Tuple<ApplicationUser, string> userPassword = await CreateSampleUser();
             SignInUser user = new SignInUser
             {
-                Username = userPassword.Item1.UserName,
+                Email = userPassword.Item1.Email,
                 Password = userPassword.Item2,
                 RememberMe = true,
             };
@@ -231,7 +231,8 @@ namespace Selama.Tests.Controllers
         {
             ApplicationUser sampleUser = new ApplicationUser
             {
-                UserName = "test@example.com",
+                UserName = "Sample.User",
+                Email = "test@example.com",
             };
             string samplePassword = "1234&Abc";
             var t = await _userManager.CreateAsync(sampleUser, samplePassword);
@@ -249,7 +250,7 @@ namespace Selama.Tests.Controllers
             JObject resultJson = ConvertResultToJson(result);
             List<string> modelErrors = GetPropertyErrors(resultJson, "");
             Assert.Equal(1, modelErrors.Count);
-            Assert.Equal("Invalid username or password", modelErrors[0]);
+            Assert.Equal("Invalid email or password", modelErrors[0]);
             #endregion
         }
         private void SignInFails()
