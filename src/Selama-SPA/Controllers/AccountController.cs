@@ -92,16 +92,30 @@ namespace Selama_SPA.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public Task<IActionResult> Register([FromBody] RegisterUser user)
+        public async Task<JsonResult> Register([FromBody] RegisterUser user)
         {
-            throw new NotImplementedException();
+            if (ModelState.IsValid)
+            {
+                var appUser = new ApplicationUser
+                {
+                    UserName = user.Username,
+                    Email = user.Email,
+                };
+                var result = await _userManager.CreateAsync(appUser, user.Password);
+                if (result.Succeeded)
+                {
+                    throw new NotImplementedException();
+                }
+                AddErrors(result);
+            }
+            return BadRequestJson(ModelErrorsAsJson());
         }
 
         [HttpPost("sign-out")]
-        public async Task<IActionResult> SignOut()
+        public async Task<JsonResult> SignOut()
         {
             await _signInManager.SignOutAsync();
-            return Ok();
+            return Json("");
         }
         #endregion
 
@@ -154,6 +168,14 @@ namespace Selama_SPA.Controllers
                 }
             }
             return result;
+        }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
         }
         #endregion
         #endregion

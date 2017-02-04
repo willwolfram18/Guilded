@@ -1,4 +1,4 @@
-    using System;
+using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -93,7 +93,10 @@ namespace Selama.Tests.Controllers
                 opts.UseInMemoryDatabase()
                     .UseInternalServiceProvider(efServiceProvider)
             );
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(opts => 
+                {
+                    opts.User.RequireUniqueEmail = true;
+                })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
         }
         private void AddHttpContextAccessorService(ServiceCollection services)
@@ -226,19 +229,102 @@ namespace Selama.Tests.Controllers
         #endregion
 
         [Fact]
-        public async Task SignOut_VerifySignOutCalled() {
+        public async Task SignOut_VerifySignOutCalled()
+        {
             #region Arrange
             #endregion
-        
+
             #region Act
             IActionResult result = await Controller.SignOut();
             #endregion
-        
+
             #region Assert
             AssertIsOkRequest();
             _mockSignInManager.Verify(s => s.SignOutAsync(), Times.Once());
             #endregion
         }
+
+        #region AccountController.Register
+        [Fact]
+        public async Task Register_InvalidModelReturnsBadRequest()
+        {
+            #region Arrange
+            RegisterUser user = new RegisterUser
+            {
+                Email = "test@example.com",
+                Password = "1234@Abc",
+                Username = "Sample.User",
+            };
+            Controller.ModelState.AddModelError("Email", "Email address is required");
+            Controller.ModelState.AddModelError("Password", "Password is required");
+            Controller.ModelState.AddModelError("Username", "Username is required");
+            #endregion
+
+            #region Act
+            JsonResult result = await Controller.Register(user);
+            #endregion
+
+            #region Assert
+            AssertIsBadRequest();
+            JObject jsonResult = ConvertResultToJson(result);
+            Assert.True(jsonResult.ContainsKey("Email"));
+            Assert.True(jsonResult.ContainsKey("Password"));
+            Assert.True(jsonResult.ContainsKey("Username"));
+            #endregion
+        }
+
+        [Fact]
+        public async Task Register_EmailAddressInUse()
+        {
+            #region Arrange
+            var sampleUser = await CreateSampleUser();
+            RegisterUser user = new RegisterUser
+            {
+                Email = sampleUser.Item1.Email,
+                Username = "Boop",
+                Password = sampleUser.Item2,
+            };
+            #endregion
+        
+            #region Act
+            JsonResult result = await Controller.Register(user);
+            #endregion
+        
+            #region Assert
+            AssertIsBadRequest();
+            JObject jsonResult = ConvertResultToJson(result);
+            Assert.True(jsonResult.ContainsKey(""));
+            List<string> errors = GetPropertyErrors(jsonResult, "");
+            Assert.Equal(1, errors.Count);
+            Assert.Equal($"Email '{user.Email}' is already taken.", errors[0]);
+            #endregion
+        }
+
+        [Fact]
+        public async Task Register_PasswordInvalid()
+        {
+            #region Arrange
+            RegisterUser user = new RegisterUser
+            {
+                Email = "test@example.com",
+                Username = "Boop",
+                Password = "abc",
+            };
+            #endregion
+        
+            #region Act
+            JsonResult result = await Controller.Register(user);
+            #endregion
+        
+            #region Assert
+            AssertIsBadRequest();
+            JObject jsonResult = ConvertResultToJson(result);
+            Assert.True(jsonResult.ContainsKey(""));
+            List<string> errors = GetPropertyErrors(jsonResult, "");
+            Assert.True(errors.Count > 0);
+            #endregion
+        }
+        #endregion
         #endregion
 
         #region Private methods
