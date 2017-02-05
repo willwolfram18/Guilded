@@ -2,8 +2,15 @@
     Recent Guild Activity
 </h1>
 
+<div>
+    <span *ngIf="isLoggedIn()">Logged in</span>
+    <span *ngIf="!isLoggedIn()">Logged out</span>
+</div>
 <div class="btn btn-primary" (click)="loadItems()">
     Load more
+</div>
+<div class="btn btn-success" (click)="logIn()">
+    Login
 </div>
 <div class="guild-activity-container">
     <div class="guild-activity-scroll" [ngClass]="{ 'disable-scroll': isLoading }">

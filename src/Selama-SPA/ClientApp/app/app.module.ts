@@ -3,6 +3,7 @@ import { RouterModule } from "@angular/router";
 import { UniversalModule } from "angular2-universal";
 import { SlimLoadingBarModule } from "ng2-slim-loading-bar";
 
+import { AuthModule } from "./core/modules/auth";
 import { ProgressBarService } from "./core/services/progress-bar";
 
 import { HomeAppModule } from "./home/modules/app";
@@ -26,6 +27,7 @@ import { NavMenuComponent } from "./core/components/navmenu";
         UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
         SlimLoadingBarModule.forRoot(),
         RouterModule.forRoot([]),
+        AuthModule,
         HomeAppModule,
         ForumsAppModule,
     ]
