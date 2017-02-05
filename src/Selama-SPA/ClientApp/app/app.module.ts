@@ -8,6 +8,7 @@ import { ProgressBarService } from "./core/services/progress-bar";
 
 import { HomeAppModule } from "./home/modules/app";
 import { ForumsAppModule } from "./forums/modules/app";
+import { AccountModule } from "./account/modules/app";
 
 import { AppComponent } from "./app.component"
 import { NavMenuComponent } from "./core/components/navmenu";
@@ -30,6 +31,7 @@ import { NavMenuComponent } from "./core/components/navmenu";
         AuthModule,
         HomeAppModule,
         ForumsAppModule,
+        AccountModule,
     ]
 })
 export class AppModule {

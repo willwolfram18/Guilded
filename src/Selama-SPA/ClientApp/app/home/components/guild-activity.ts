@@ -60,11 +60,11 @@ export class GuildActivityComponent implements OnInit
 
     public logIn(): void
     {
-        this.authService.login("wolfington98@gmail.com", "@bcXyz123", false);
+        this.authService.logIn("wolfington98@gmail.com", "@bcXyz123", false)
     }
     public logOut(): void
     {
-        this.authService.logout();
+        this.authService.logOut();
     }
 
     public refreshLinks(): void

@@ -7,26 +7,37 @@ const TOKEN_KEY = "id_token";
 @Injectable()
 export class AuthService
 {
-    private loginUrl: string = "/api/account/sign-in";
+    private logInUrl: string = "/api/account/sign-in";
+    private logOutUrl: string = "/api/account/sign-out";
     private jwtHelper: JwtHelper = new JwtHelper();
 
     constructor(private http: Http, private authHttp: AuthHttp)
     {
     }
 
-    public login(emailAddress: string, password: string, rememberMe: boolean): void
+    public logIn(emailAddress: string, password: string, rememberMe: boolean)
     {
-        this.http.post(this.loginUrl, { Email: emailAddress, Password: password, RememberMe: rememberMe })
-            .subscribe(result =>
-            {
-                var accessToken: AccessToken = result.json() as AccessToken;
-                localStorage.setItem(TOKEN_KEY, accessToken.access_token);
-            });
+        let logInObservable = this.http.post(this.logInUrl, { Email: emailAddress, Password: password, RememberMe: rememberMe })
+        logInObservable.subscribe(result =>
+        {
+            var accessToken: AccessToken = result.json() as AccessToken;
+            localStorage.setItem(TOKEN_KEY, accessToken.access_token);
+        });
+        return logInObservable;
     }
 
-    public logout(): void
+    public logOut()
     {
-        localStorage.removeItem(TOKEN_KEY);
+        if (!this.isLoggedIn())
+        {
+            return null;
+        }
+        let logOutObservable = this.authHttp.post(this.logOutUrl, {});
+        logOutObservable.subscribe(result =>
+        {
+            localStorage.removeItem(TOKEN_KEY);    
+        });
+        return logOutObservable;
     }
 
     public isLoggedIn(): boolean
