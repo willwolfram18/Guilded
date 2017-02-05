@@ -58,15 +58,6 @@ export class GuildActivityComponent implements OnInit
         return this.authService.isLoggedIn();
     }
 
-    public logIn(): void
-    {
-        this.authService.logIn("wolfington98@gmail.com", "@bcXyz123", false)
-    }
-    public logOut(): void
-    {
-        this.authService.logOut();
-    }
-
     public refreshLinks(): void
     {
         if (this.hasActivityRefreshed())

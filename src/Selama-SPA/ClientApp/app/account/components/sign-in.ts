@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { AuthService } from "../../core/services/auth";
+import { AuthService, SignInModel } from "../../core/services/auth";
 import { ProgressBarService } from "../../core/services/progress-bar";
 
 @Component({
@@ -15,7 +15,7 @@ export class SignInComponent
 {
     user: SignInModel = new SignInModel();
     isLoading: boolean = false;
-    formErrors: FormErrors = new FormErrors();
+    formErrors: SignInErrors = new SignInErrors();
 
     constructor(private authService: AuthService, private router: Router, private progressBar: ProgressBarService)
     {
@@ -27,7 +27,7 @@ export class SignInComponent
         {
             this.isLoading = true;
             this.progressBar.start();
-            this.authService.logIn(this.user.Email, this.user.Password, this.user.RememberMe)
+            this.authService.logIn(this.user)
                 .finally(() => 
                 {
                     this.isLoading = false;
@@ -35,7 +35,7 @@ export class SignInComponent
                 })
                 .subscribe(
                     result => this.router.navigate(["/home"]),
-                    result => this.parseErrors(result.json()),
+                    errors => this.parseErrors(errors.json()),
                 );
         }
     }
@@ -47,13 +47,7 @@ export class SignInComponent
     }
 }
 
-class SignInModel
-{
-    Email: string;
-    Password: string;
-    RememberMe: boolean = false;
-}
-class FormErrors
+class SignInErrors
 {
     Model: string[] = [];
     Username: string[] = [];
