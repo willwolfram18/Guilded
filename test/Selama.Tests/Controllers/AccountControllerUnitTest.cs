@@ -193,10 +193,7 @@ namespace Selama.Tests.Controllers
 
             #region Assert
             AssertIsOkRequest();
-            JObject jsonResult = ConvertResultToJson(result);
-            Assert.True(jsonResult.ContainsKey("access_token"));
-            Assert.True(jsonResult.ContainsKey("expires_in"));
-            Assert.Equal(_jwtOptions.ValidFor.TotalSeconds, jsonResult["expires_in"].ToObject<double>());
+            AssertResultIsStandardJwt(result);
             #endregion
         }
 
@@ -324,6 +321,28 @@ namespace Selama.Tests.Controllers
             Assert.True(errors.Count > 0);
             #endregion
         }
+
+        [Fact]
+        public async Task Register_VerifyUserSignsIn() {
+            #region Arrange
+            RegisterUser user = new RegisterUser
+            {
+                Email = "test@example.com",
+                Password = "1234@Abc",
+                Username = "Sample.User",
+            };
+            SignInSucceeds();
+            #endregion
+        
+            #region Act
+            JsonResult result = await Controller.Register(user);
+            #endregion
+        
+            #region Assert
+            AssertIsOkRequest();
+            AssertResultIsStandardJwt(result);
+            #endregion
+        }
         #endregion
         #endregion
 
@@ -371,6 +390,14 @@ namespace Selama.Tests.Controllers
                 It.IsAny<bool>(),
                 It.IsAny<bool>()
             )).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
+        }
+
+        private void AssertResultIsStandardJwt(JsonResult result)
+        {
+            JObject jsonResult = ConvertResultToJson(result);
+            Assert.True(jsonResult.ContainsKey("access_token"));
+            Assert.True(jsonResult.ContainsKey("expires_in"));
+            Assert.Equal(_jwtOptions.ValidFor.TotalSeconds, jsonResult["expires_in"].ToObject<double>());
         }
         #endregion
         #endregion

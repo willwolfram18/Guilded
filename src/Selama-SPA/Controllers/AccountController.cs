@@ -104,7 +104,12 @@ namespace Selama_SPA.Controllers
                 var result = await _userManager.CreateAsync(appUser, user.Password);
                 if (result.Succeeded)
                 {
-                    throw new NotImplementedException();
+                    return await SignIn(new SignInUser 
+                    { 
+                        Email = user.Email,
+                        Password = user.Password,
+                        RememberMe = false
+                    });
                 }
                 AddErrors(result);
             }

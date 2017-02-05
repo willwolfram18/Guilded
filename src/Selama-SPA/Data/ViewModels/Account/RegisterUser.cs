@@ -17,6 +17,6 @@ namespace Selama_SPA.Data.ViewModels.Account
 
         [Compare("Password")]
         [DataType(DataType.Password)]
-        public string PasswordConfirm {get;set;}
+        public string PasswordConfirm { get; set; }
     }
 }
