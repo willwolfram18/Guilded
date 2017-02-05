@@ -1,4 +1,8 @@
 import { Component } from "@angular/core";
+import { Router } from "@angular/router";
+
+import { AuthService } from "../../core/services/auth";
+import { ProgressBarService } from "../../core/services/progress-bar";
 
 @Component({
     selector: "account-sign-in",
@@ -10,10 +14,26 @@ import { Component } from "@angular/core";
 export class SignInComponent
 {
     user: SignInModel = new SignInModel();
+    isLoading: boolean = false;
 
-    public log(): void
+    constructor(private authService: AuthService, private router: Router, private progressBar: ProgressBarService)
     {
-        console.log(this.user.Email, this.user.Password, this.user.RememberMe);
+    }
+
+    public logIn(): void
+    {
+        if (!this.isLoading)
+        {
+            this.isLoading = true;
+            this.progressBar.start();
+            this.authService.logIn(this.user.Email, this.user.Password, this.user.RememberMe)
+                .finally(() => 
+                {
+                    this.isLoading = false;
+                    this.progressBar.complete();
+                })
+                .subscribe(result => this.router.navigate(["/home"]))
+        }
     }
 }
 

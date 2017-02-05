@@ -6,22 +6,22 @@
         Log in using a local account
     </h4>
     <hr />
-    <div class="form-horizontal">
+    <form (ngSubmit)="logIn()" class="form-horizontal">
         <md-input-container>
-            <input md-input placeholder="Email" type="email" [(ngModel)]="user.Email" />
+            <input md-input placeholder="Email" type="email" [(ngModel)]="user.Email" name="Email" required />
         </md-input-container>
         <md-input-container>
-            <input md-input placeholder="Password" type="password" [(ngModel)]="user.Password" />
+            <input md-input placeholder="Password" type="password" [(ngModel)]="user.Password" name="Password" required />
         </md-input-container>
         <div class="form-group">
-            <md-checkbox [(ngModel)]="user.RememberMe">Remember me?</md-checkbox>
+            <md-checkbox [(ngModel)]="user.RememberMe" name="RememberMe">Remember me?</md-checkbox>
         </div>
         <div class="form-group">
-            <button md-raised-button (click)="log()">
-                Log
+            <button type="submit" md-raised-button (click)="logIn()" [disabled]="isLoading">
+                Log in
             </button>
         </div>
-    </div>
+    </form>
 </div>
 <div class="padded col-xs-12 col-sm-6 col-md-6 col-lg-6">
     <h4>
