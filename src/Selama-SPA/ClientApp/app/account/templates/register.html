@@ -1,0 +1,37 @@
+<h2>
+    Register
+</h2>
+<div class="padded col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <h4>
+        Create a new account
+    </h4>
+    <form (ngSubmit)="register()" class="form-horizontal">
+        <div class="alert alert-danger" [ngClass]="{ 'hidden': !modelErrors.length }">
+            <div *ngFor="let error of modelErrors">
+                {{ error }}
+            </div>
+        </div>
+        <md-input-container>
+            <input md-input placeholder="Username" required [(ngModel)]="user.Username" name="Username" />
+        </md-input-container>
+        <md-input-container>
+            <input md-input placeholder="Email" type="email" required [(ngModel)]="user.Email" name="Email" />
+        </md-input-container>
+        <md-input-container>
+            <input md-input placeholder="Password" type="password" required [(ngModel)]="user.Password" name="Password" />
+        </md-input-container>
+        <md-input-container>
+            <input md-input placeholder="Confirm Password" type="password" required [(ngModel)]="user.ConfirmPassword" name="ConfirmPassword" />
+        </md-input-container>
+        <div class="form-group">
+            <button type="submit" md-raised-button [disabled]="isLoading">
+                Register
+            </button>
+        </div>
+    </form>
+</div>
+<div class="padded col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <h4>
+        Register with another service
+    </h4>
+</div>

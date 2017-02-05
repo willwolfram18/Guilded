@@ -1,0 +1,29 @@
+.padded
+{
+    padding: 15px;
+}
+
+.form-horizontal
+{
+    $margin-bottom: 14px;
+    md-input-container
+    {
+        width: 100%;
+        margin-bottom: $margin-bottom;
+    }
+
+    .form-group
+    {
+        md-checkbox,
+        button[md-raised-button]
+        {
+            margin-left: 16px;
+            margin-bottom: $margin-bottom;
+        }
+
+        md-checkbox
+        {
+            display: inline-block;
+        }
+    }
+}

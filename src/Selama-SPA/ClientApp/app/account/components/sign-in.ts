@@ -15,7 +15,7 @@ export class SignInComponent
 {
     user: SignInModel = new SignInModel();
     isLoading: boolean = false;
-    modelErrors: string[] = [];
+    formErrors: FormErrors = new FormErrors();
 
     constructor(private authService: AuthService, private router: Router, private progressBar: ProgressBarService)
     {
@@ -41,7 +41,9 @@ export class SignInComponent
     }
     private parseErrors(errors: any): void
     {
-        this.modelErrors = errors[""];
+        this.formErrors.Model = errors[""] || [];
+        this.formErrors.Username = errors.Username || [];
+        this.formErrors.Password = errors.Password || [];
     }
 }
 
@@ -50,4 +52,10 @@ class SignInModel
     Email: string;
     Password: string;
     RememberMe: boolean = false;
+}
+class FormErrors
+{
+    Model: string[] = [];
+    Username: string[] = [];
+    Password: string[] = [];
 }

@@ -7,8 +7,8 @@
     </h4>
     <hr />
     <form (ngSubmit)="logIn()" class="form-horizontal">
-        <div class="alert alert-danger" [ngClass]="{ 'hidden': !modelErrors.length }">
-            <div *ngFor="let error of modelErrors">
+        <div class="alert alert-danger" [ngClass]="{ 'hidden': !formErrors.Model.length }">
+            <div *ngFor="let error of formErrors.Model">
                 {{ error }}
             </div>
         </div>
