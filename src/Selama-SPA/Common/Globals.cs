@@ -16,5 +16,8 @@ namespace Selama_SPA.Common
                 return RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
             }
         }
+
+        public const string JWT_CLAIM_TYPE = "Selama Ashalanore Member";
+        public const string JWT_CLAIM_VALUE = "Is Member";
     }
 }

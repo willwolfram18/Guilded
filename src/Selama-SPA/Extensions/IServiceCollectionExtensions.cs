@@ -22,11 +22,11 @@ namespace Selama_SPA.Extensions
 {
     public static class IServiceCollectionExtensions
     {
-        public static void AddSelama(this IServiceCollection services, IConfigurationRoot Configuration)
+        public static void AddSelama(this IServiceCollection services, IConfigurationRoot Configuration, SymmetricSecurityKey signingKey)
         {
             services.AddSelamaDb(Configuration);
             services.AddSelamaDAL(Configuration);
-            services.AddSelamaOptions(Configuration);
+            services.AddSelamaOptions(Configuration, signingKey);
 
             services.AddSingleton<IBattleNetApi>(implementationInstance:
                 new BattleNetApi.Apis.BattleNetApi(Configuration["OAuthProviders:BattleNetClientId"])
@@ -62,10 +62,8 @@ namespace Selama_SPA.Extensions
             services.AddTransient<IReadOnlyRepository<GuildActivity>, GuildActivityRepo>();
             services.AddTransient<IGuildActivityReadOnlyDataContext, GuildActivityReadOnlyDataContext>();
         }
-
-        private const string SECRET_KEY = "SampleNotSoSecretKey";
-        private static readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SECRET_KEY));
-        private static void AddSelamaOptions(this IServiceCollection services, IConfigurationRoot Configuration)
+        
+        private static void AddSelamaOptions(this IServiceCollection services, IConfigurationRoot Configuration, SymmetricSecurityKey signingKey)
         {
             services.Configure<JwtOptions>(options =>
             {
@@ -79,6 +77,7 @@ namespace Selama_SPA.Extensions
                 {
                     options.Audience = optionSettings["Audience:Windows"];
                 }
+                options.SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
             });
         }
     }

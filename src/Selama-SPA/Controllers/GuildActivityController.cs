@@ -24,5 +24,11 @@ namespace Selama_SPA.Controllers
         {
             return Json(await _db.GetPublicGuildNewsAsync(page, PAGE_SIZE));
         }
+
+        [HttpGet("test")]
+        public string Test()
+        {
+            return "Hello, world";
+        }
     }
 }

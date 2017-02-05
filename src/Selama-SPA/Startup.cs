@@ -15,6 +15,9 @@ using Selama_SPA.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Selama_SPA.Options;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Selama_SPA
 {
@@ -39,18 +42,22 @@ namespace Selama_SPA
 
         public IConfigurationRoot Configuration { get; }
 
+        private const string SECRET_KEY = "SampleNotSoSecretKey";
+        private static readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SECRET_KEY));
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
             services.AddOptions();
-            services.AddSelama(Configuration);
+            services.AddSelama(Configuration, _signingKey);
             services.AddMvc(config =>
             {
-                var authorizationPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-                config.Filters.Add(new AuthorizeFilter(authorizationPolicy));
+                config.Filters.Add(new AuthorizeFilter("Selama Ashalanore"));
+            });
+            services.AddAuthorization(opts =>
+            {
+                opts.AddPolicy("Selama Ashalanore", policy => policy.RequireClaim(Globals.JWT_CLAIM_TYPE, Globals.JWT_CLAIM_VALUE));
             });
             services.AddRouting(options => options.LowercaseUrls = true);
         }
@@ -77,6 +84,12 @@ namespace Selama_SPA
 
             app.UseStaticFiles();
             app.UseIdentity();
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                TokenValidationParameters = CreateTokenValidationParameters(),
+            });
 
             app.UseMvc(routes =>
             {
@@ -88,6 +101,27 @@ namespace Selama_SPA
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
             });
+        }
+
+        private TokenValidationParameters CreateTokenValidationParameters()
+        {
+            var jwtOptions = Configuration.GetSection("JwtOptions");
+            return new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidIssuer = jwtOptions["Issuer"],
+
+                ValidateAudience = true,
+                ValidAudience = (Globals.OSX ? jwtOptions["Audience:OSX"] : jwtOptions["Audience:Windows"]),
+
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = _signingKey,
+
+                RequireExpirationTime = true,
+                ValidateLifetime = true,
+
+                ClockSkew = TimeSpan.Zero,
+            };
         }
     }
 }

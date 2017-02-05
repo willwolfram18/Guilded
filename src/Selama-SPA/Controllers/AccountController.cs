@@ -14,6 +14,7 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Selama_SPA.Extensions;
 using System.Collections.Generic;
+using Selama_SPA.Common;
 
 namespace Selama_SPA.Controllers
 {
@@ -91,7 +92,7 @@ namespace Selama_SPA.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<JsonResult> Register([FromBody] RegisterUser user)
         {
             if (ModelState.IsValid)
@@ -125,9 +126,9 @@ namespace Selama_SPA.Controllers
         #endregion
 
         #region Private methods
-        private async Task<JsonResult> IssueJwt(string username)
+        private async Task<JsonResult> IssueJwt(string emailAddress)
         {
-            Claim[] jwtClaims = await CreateJwtClaims(username);
+            Claim[] jwtClaims = await CreateJwtClaims(emailAddress);
             string encodedJwt = CreateEncodedJwt(jwtClaims);
 
             var accessToken = new
@@ -137,14 +138,14 @@ namespace Selama_SPA.Controllers
             };
             return Json(accessToken);
         }
-        private async Task<Claim[]> CreateJwtClaims(string username)
+        private async Task<Claim[]> CreateJwtClaims(string emailAddress)
         {
             return new Claim[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, username),
+                new Claim(JwtRegisteredClaimNames.Sub, emailAddress),
                 new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JitGenerator()),
                 new Claim(JwtRegisteredClaimNames.Iat, _jwtOptions.IssuedAt.ToUnixEpochTime().ToString()),
-                new Claim("Selama Ashalanore User", username)
+                new Claim(Globals.JWT_CLAIM_TYPE, Globals.JWT_CLAIM_VALUE)
             };
         }
         private string CreateEncodedJwt(Claim[] jwtClaims)
