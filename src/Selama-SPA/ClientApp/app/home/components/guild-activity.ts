@@ -1,6 +1,6 @@
 import { Component, AfterContentChecked, AfterContentInit, OnInit } from "@angular/core";
-import { Http } from "@angular/http";
-import { AuthHttp, tokenNotExpired, JwtHelper } from "angular2-jwt";
+
+import { AuthService } from "../../core/services/auth";
 
 @Component({
     selector: "guild-activity",
@@ -17,7 +17,7 @@ export class GuildActivityComponent implements OnInit
     private $WowheadPower: any;
     private isLoading: boolean = false;
 
-    constructor(private http: Http, private authHttp: AuthHttp)
+    constructor(private authService: AuthService)
     {
         this.$WowheadPower = window["$WowheadPower"];
     }
@@ -34,7 +34,7 @@ export class GuildActivityComponent implements OnInit
             this.isLoading = true;
             if (!this.isLoggedIn())
             {
-                this.http.get(`/api/guild-activity?page=${this.page}`)
+                this.authService.get(`/api/guild-activity?page=${this.page}`)
                     .finally(() => this.isLoading = false)
                     .subscribe(result =>
                     {
@@ -44,7 +44,8 @@ export class GuildActivityComponent implements OnInit
             }
             else
             {
-                this.authHttp.get("/api/guild-activity/test")
+                this.authService.get("/api/guild-activity/test")
+                    .finally(() => this.isLoading = false)
                     .subscribe(result =>
                         console.log(result)
                     );
@@ -54,19 +55,16 @@ export class GuildActivityComponent implements OnInit
 
     public isLoggedIn(): boolean
     {
-        return tokenNotExpired();
+        return this.authService.isLoggedIn();
     }
 
     public logIn(): void
     {
-        this.http.post("/api/account/sign-in", { Email: "wolfington98@gmail.com", Password: "@bcXyz123", })
-            .subscribe(result =>
-            {
-                let token = result.json();
-                localStorage.setItem("id_token", token.access_token);
-                let j = new JwtHelper();
-                console.log(j.decodeToken(token.access_token), j.getTokenExpirationDate(token.access_token), j.isTokenExpired(token.access_token))
-            });
+        this.authService.login("wolfington98@gmail.com", "@bcXyz123", false);
+    }
+    public logOut(): void
+    {
+        this.authService.logout();
     }
 
     public refreshLinks(): void
