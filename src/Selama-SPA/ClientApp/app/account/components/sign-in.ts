@@ -15,6 +15,7 @@ export class SignInComponent
 {
     user: SignInModel = new SignInModel();
     isLoading: boolean = false;
+    modelErrors: string[] = [];
 
     constructor(private authService: AuthService, private router: Router, private progressBar: ProgressBarService)
     {
@@ -32,8 +33,15 @@ export class SignInComponent
                     this.isLoading = false;
                     this.progressBar.complete();
                 })
-                .subscribe(result => this.router.navigate(["/home"]))
+                .subscribe(
+                    result => this.router.navigate(["/home"]),
+                    result => this.parseErrors(result.json()),
+                );
         }
+    }
+    private parseErrors(errors: any): void
+    {
+        this.modelErrors = errors[""];
     }
 }
 
