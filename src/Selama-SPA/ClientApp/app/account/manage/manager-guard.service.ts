@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { CanActivateChild, Router } from "@angular/router";
 
-import { AuthService } from "../../../../core/services/auth";
+import { AuthService } from "../../core/auth.service";
 
 @Injectable()
 export class ManagerGuard implements CanActivateChild

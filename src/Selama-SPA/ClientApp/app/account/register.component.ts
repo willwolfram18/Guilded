@@ -1,14 +1,14 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { AuthService, RegisterUserModel } from "../../core/services/auth";
-import { ProgressBarService } from "../../core/services/progress-bar";
+import { AuthService, RegisterUserModel } from "../core/auth.service";
+import { ProgressBarService } from "../core/progress-bar.service";
 
 @Component({
     selector: "account-register",
-    template: require("../templates/register.html"),
+    template: require("./templates/register.html"),
     styles: [
-        require("../templates/register.css"),
+        require("./templates/register.css"),
     ],
 })
 export class RegisterComponent

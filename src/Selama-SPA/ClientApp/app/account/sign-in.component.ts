@@ -1,14 +1,14 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { AuthService, SignInModel } from "../../core/services/auth";
-import { ProgressBarService } from "../../core/services/progress-bar";
+import { AuthService, SignInModel } from "../core/auth.service";
+import { ProgressBarService } from "../core/progress-bar.service";
 
 @Component({
     selector: "account-sign-in",
-    template: require("../templates/sign-in.html"),
+    template: require("./templates/sign-in.html"),
     styles: [
-        require("../templates/sign-in.css"),
+        require("./templates/sign-in.css"),
     ],
 })
 export class SignInComponent

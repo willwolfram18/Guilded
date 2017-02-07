@@ -1,12 +1,12 @@
 import { Component, AfterContentChecked, AfterContentInit, OnInit } from "@angular/core";
 
-import { AuthService } from "../../core/services/auth";
+import { AuthService } from "../core/auth.service";
 
 @Component({
     selector: "guild-activity",
-    template: require("../templates/guild-activity.html"),
+    template: require("./templates/guild-activity.html"),
     styles: [
-        require("../templates/guild-activity.css"),
+        require("./templates/guild-activity.css"),
     ],
 })
 export class GuildActivityComponent implements OnInit

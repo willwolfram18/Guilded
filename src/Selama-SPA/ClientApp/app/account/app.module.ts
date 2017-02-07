@@ -3,12 +3,12 @@ import { FormsModule } from "@angular/forms";
 import { MaterialModule } from "@angular/material";
 import { UniversalModule } from "angular2-universal";
 
-import { AccountRoutingModule } from "./routing";
-import { AccountManagerModule } from "./manage/modules/app";
+import { AccountRoutingModule } from "./app.routing";
+import { AccountManagerModule } from "./manage/app.module";
 
-import { SignInGuard } from "../components/sign-in.guard";
-import { RegisterComponent } from "../components/register";
-import { SignInComponent } from "../components/sign-in";
+import { SignInGuard } from "./sign-in-guard.service";
+import { RegisterComponent } from "./register.component";
+import { SignInComponent } from "./sign-in.component";
 
 @NgModule({
     imports: [

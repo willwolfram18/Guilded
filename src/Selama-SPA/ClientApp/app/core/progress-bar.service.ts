@@ -1,7 +1,6 @@
 ﻿import { Injectable } from "@angular/core";
 import { MdProgressBar } from "@angular/material";
 import { NavigationStart, NavigationCancel, NavigationEnd, NavigationError, RoutesRecognized } from "@angular/router";
-import { SlimLoadingBarService } from "ng2-slim-loading-bar";
 
 @Injectable()
 export class ProgressBarService

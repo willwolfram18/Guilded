@@ -2,9 +2,9 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Route } from "@angular/router";
 import { UniversalModule } from "angular2-universal";
 
-import { SignInGuard } from "../components/sign-in.guard";
-import { SignInComponent } from "../components/sign-in";
-import { RegisterComponent } from "../components/register";
+import { SignInGuard } from "./sign-in-guard.service";
+import { RegisterComponent } from "./register.component";
+import { SignInComponent } from "./sign-in.component";
 
 const ROUTES: Route[] = [
     {

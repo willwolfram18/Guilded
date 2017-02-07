@@ -1,8 +1,8 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Route } from "@angular/router";
 
-import { ManagerGuard } from "../components/manager.guard";
-import { HomeComponent } from "../components/home";
+import { ManagerGuard } from "./manager-guard.service";
+import { HomeComponent } from "./home.component";
 
 const ROUTES: Route[] = [
     {

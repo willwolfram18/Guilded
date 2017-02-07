@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { Http, RequestOptions } from "@angular/http";
 import { AuthHttp, AuthConfig } from "angular2-jwt";
 
-import { AuthService } from "../services/auth";
+import { AuthService } from "./auth.service";
 
 const AUTH_CONFIG = new AuthConfig();
 

@@ -2,7 +2,7 @@ import { Component, ViewChild, AfterViewChecked } from "@angular/core";
 import { MdProgressBar } from "@angular/material";
 import { Router, NavigationStart, NavigationCancel, NavigationEnd, NavigationError } from "@angular/router";
 
-import { ProgressBarService } from "./core/services/progress-bar";
+import { ProgressBarService } from "./core/progress-bar.service";
 
 @Component({
     selector: "app",

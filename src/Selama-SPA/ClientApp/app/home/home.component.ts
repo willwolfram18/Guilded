@@ -1,10 +1,10 @@
 import { Component, ViewChild, AfterViewChecked} from "@angular/core";
 
-import { GuildActivityComponent } from "./guild-activity";
+import { GuildActivityComponent } from "./guild-activity.component";
 
 @Component({
     selector: "home",
-    template: require("../templates/home.html")
+    template: require("./templates/home.html")
 })
 export class HomeComponent implements AfterViewChecked
 {

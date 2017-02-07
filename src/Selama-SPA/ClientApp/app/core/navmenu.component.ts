@@ -1,12 +1,12 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { AuthService } from "../services/auth";
+import { AuthService } from "./auth.service";
 
 @Component({
     selector: "nav-menu",
-    template: require("../templates/navmenu.html"),
-    styles: [require("../templates/navmenu.css")]
+    template: require("./templates/navmenu.html"),
+    styles: [require("./templates/navmenu.css")]
 })
 export class NavMenuComponent
 {

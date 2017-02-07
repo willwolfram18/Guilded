@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 
 @Component({
     selector: "counter",
-    template: require("../templates/counter.html")
+    template: require("./templates/counter.html")
 })
 export class CounterComponent
 {
