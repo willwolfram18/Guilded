@@ -4,6 +4,7 @@ import { MaterialModule } from "@angular/material";
 import { UniversalModule } from "angular2-universal";
 
 import { AccountRoutingModule } from "./routing";
+import { AccountManagerModule } from "./manage/modules/app";
 
 import { SignInGuard } from "../components/sign-in.guard";
 import { RegisterComponent } from "../components/register";
@@ -14,6 +15,7 @@ import { SignInComponent } from "../components/sign-in";
         UniversalModule,
         MaterialModule.forRoot(),
         AccountRoutingModule,
+        AccountManagerModule,
         FormsModule,
     ],
     declarations: [

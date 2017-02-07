@@ -29,11 +29,6 @@ const ROUTES: Route[] = [
                     SignInGuard,
                 ],
             },
-            {
-                path: "**",
-                redirectTo: "sign-in",
-                pathMatch: "full",
-            }
         ]
     }
 ];
