@@ -5,6 +5,7 @@ import { UniversalModule } from "angular2-universal";
 
 import { AccountRoutingModule } from "./routing";
 
+import { SignInGuard } from "../components/sign-in.guard";
 import { RegisterComponent } from "../components/register";
 import { SignInComponent } from "../components/sign-in";
 
@@ -18,6 +19,9 @@ import { SignInComponent } from "../components/sign-in";
     declarations: [
         RegisterComponent,
         SignInComponent,
+    ],
+    providers: [
+        SignInGuard,
     ],
 })
 export class AccountModule
