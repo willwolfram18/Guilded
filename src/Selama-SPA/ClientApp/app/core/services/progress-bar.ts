@@ -1,31 +1,37 @@
 ﻿import { Injectable } from "@angular/core";
+import { MdProgressBar } from "@angular/material";
 import { NavigationStart, NavigationCancel, NavigationEnd, NavigationError, RoutesRecognized } from "@angular/router";
 import { SlimLoadingBarService } from "ng2-slim-loading-bar";
 
 @Injectable()
 export class ProgressBarService
 {
-    constructor(private progressBar: SlimLoadingBarService)
+    private static progressBar: MdProgressBar;
+
+    public setProgressBar(progressBar: MdProgressBar)
     {
+        ProgressBarService.progressBar = progressBar;
     }
 
     public start(): void
     {
-        this.progressBar.start();
+        ProgressBarService.progressBar.mode = "indeterminate";
     }
 
     public complete(): void
     {
-        this.progressBar.complete();
+        ProgressBarService.progressBar.mode = "determinate";
+        ProgressBarService.progressBar.value = 0;
     }
 
     public reset(): void
     {
-        this.progressBar.reset();
+        this.start();
     }
 
     public stop(): void
     {
-        this.progressBar.stop();
+        ProgressBarService.progressBar.mode = "determinate";
+        ProgressBarService.progressBar.value = (Math.random() * 10000) % 100;
     }
 }

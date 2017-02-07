@@ -46,7 +46,6 @@
     "zone.js": "^0.6.21"
   },
   "devDependencies": {
-    "@angular/material": "^2.0.0-beta.1",
-    "ng2-slim-loading-bar": "^2.3.0"
+    
   }
 }

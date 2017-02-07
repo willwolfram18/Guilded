@@ -1,4 +1,5 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild, AfterViewChecked } from "@angular/core";
+import { MdProgressBar } from "@angular/material";
 import { Router, NavigationStart, NavigationCancel, NavigationEnd, NavigationError } from "@angular/router";
 
 import { ProgressBarService } from "./core/services/progress-bar";
@@ -8,6 +9,17 @@ import { ProgressBarService } from "./core/services/progress-bar";
     template: require("./core/templates/app.component.html"),
     styles: [require("./core/templates/app.component.css")]
 })
-export class AppComponent
+export class AppComponent implements AfterViewChecked
 {
+    @ViewChild(MdProgressBar)
+    progressBar: MdProgressBar;
+
+    constructor(private progressBarService: ProgressBarService)
+    {
+    }
+
+    ngAfterViewChecked()
+    {
+        this.progressBarService.setProgressBar(this.progressBar);
+    }
 }

@@ -5,7 +5,7 @@
     <h4>
         Create a new account
     </h4>
-    <form class="form-horizontal">
+    <form class="form-horizontal" (ngForm)="register()">
         <div class="form-gorup text-danger" [ngClass]="{ 'hidden': !formErrors.Model.length }">
             <div *ngFor="let error of formErrors.Model">
                 {{ error }}
@@ -52,7 +52,7 @@
             </div>
         </div>
         <div class="form-group">
-            <button type="submit" md-raised-button [disabled]="isLoading" (click)="register()">
+            <button type="submit" md-raised-button [disabled]="isLoading">
                 Register
             </button>
         </div>
