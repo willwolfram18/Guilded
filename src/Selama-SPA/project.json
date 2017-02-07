@@ -53,6 +53,7 @@
     "buildOptions": {
         "emitEntryPoint": true,
         "preserveCompilationContext": true,
+        "debugType": "portable",
         "compile": {
             "exclude": [
                 "node_modules"
