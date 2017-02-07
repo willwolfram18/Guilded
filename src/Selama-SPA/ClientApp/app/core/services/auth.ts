@@ -49,7 +49,7 @@ export class AuthService
 
     public logOut()
     {
-        if (!this.isLoggedIn())
+        if (!this.isLoggedIn)
         {
             return null;
         }
@@ -60,14 +60,14 @@ export class AuthService
         });
     }
 
-    public isLoggedIn(): boolean
+    public get isLoggedIn(): boolean
     {
         return tokenNotExpired();
     }
 
     public get(url: string, options?: RequestOptionsArgs)
     {
-        if (this.isLoggedIn())
+        if (this.isLoggedIn)
         {
             return this.authHttp.get(url, options).share();
         }
@@ -79,7 +79,7 @@ export class AuthService
 
     public post(url: string, body: any, options?: RequestOptionsArgs)
     {
-        if (this.isLoggedIn())
+        if (this.isLoggedIn)
         {
             return this.authHttp.post(url, body, options).share();
         }

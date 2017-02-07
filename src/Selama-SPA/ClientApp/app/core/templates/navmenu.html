@@ -27,18 +27,18 @@
                         <span class="fa fa-comment"></span> Forums
                     </a>
                 </li>
-                <li *ngIf="!isLoggedIn()" [routerLinkActive]="['link-active']">
+                <li *ngIf="!isLoggedIn" [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/account/sign-in']">
                         <span class="fa fa-sign-in"></span> Sign in
                     </a>
                 </li>
-                <li *ngIf="!isLoggedIn()" [routerLinkActive]="['link-active']">
+                <li *ngIf="!isLoggedIn" [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/account/register']">
                         <span class="fa fa-pencil-square-o"></span> Register
                     </a>
                 </li>
-                <li *ngIf="isLoggedIn()" style="cursor: pointer;">
-                    <a (click)="logOut()">
+                <li *ngIf="isLoggedIn" style="cursor: pointer;">
+                    <a (click)="logOut">
                         <span class="fa fa-sign-out"></span> Sign out
                     </a>
                 </li>

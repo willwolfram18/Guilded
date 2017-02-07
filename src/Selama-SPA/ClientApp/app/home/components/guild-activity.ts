@@ -32,7 +32,7 @@ export class GuildActivityComponent implements OnInit
         if (!this.isLoading)
         {
             this.isLoading = true;
-            if (!this.isLoggedIn())
+            if (!this.isLoggedIn)
             {
                 this.authService.get(`/api/guild-activity?page=${this.page}`)
                     .finally(() => this.isLoading = false)
@@ -53,9 +53,9 @@ export class GuildActivityComponent implements OnInit
         }
     }
 
-    public isLoggedIn(): boolean
+    public get isLoggedIn(): boolean
     {
-        return this.authService.isLoggedIn();
+        return this.authService.isLoggedIn;
     }
 
     public refreshLinks(): void

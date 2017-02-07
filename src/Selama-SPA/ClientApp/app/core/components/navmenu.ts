@@ -14,14 +14,14 @@ export class NavMenuComponent
     {
     }
 
-    public isLoggedIn(): boolean
+    public get isLoggedIn(): boolean
     {
-        return this.authService.isLoggedIn();
+        return this.authService.isLoggedIn;
     }
 
     public logOut(): void
     {
-        if (this.isLoggedIn())
+        if (this.isLoggedIn)
         {
             this.authService.logOut()
                 .subscribe(result => this.router.navigate(["/home"]));

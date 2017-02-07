@@ -67,7 +67,7 @@ namespace Selama_SPA.Controllers
                         {
                             _jwtOptions.ValidFor = TimeSpan.FromDays(7);
                         }
-                        return await IssueJwt(user.Email);
+                        return await IssueJwt(appUser);
                     }
                     if (result.RequiresTwoFactor)
                     {
@@ -127,9 +127,9 @@ namespace Selama_SPA.Controllers
         #endregion
 
         #region Private methods
-        private async Task<JsonResult> IssueJwt(string emailAddress)
+        private async Task<JsonResult> IssueJwt(ApplicationUser user)
         {
-            Claim[] jwtClaims = await CreateJwtClaims(emailAddress);
+            Claim[] jwtClaims = await CreateJwtClaims(user);
             string encodedJwt = CreateEncodedJwt(jwtClaims);
 
             var accessToken = new
@@ -139,14 +139,16 @@ namespace Selama_SPA.Controllers
             };
             return Json(accessToken);
         }
-        private async Task<Claim[]> CreateJwtClaims(string emailAddress)
+        private async Task<Claim[]> CreateJwtClaims(ApplicationUser user)
         {
             return new Claim[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, emailAddress),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                 new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JitGenerator()),
                 new Claim(JwtRegisteredClaimNames.Iat, _jwtOptions.IssuedAt.ToUnixEpochTime().ToString()),
-                new Claim(Globals.JWT_CLAIM_TYPE, Globals.JWT_CLAIM_VALUE)
+                new Claim(Globals.JWT_CLAIM_TYPE, Globals.JWT_CLAIM_VALUE),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Name, user.UserName),
             };
         }
         private string CreateEncodedJwt(Claim[] jwtClaims)
