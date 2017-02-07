@@ -40,6 +40,7 @@ namespace Selama_SPA.Controllers
             ISmsSender smsSender)
         {
             _jwtOptions = jwtOptions.Value;
+            _jwtOptions.IssuedAt = _jwtOptions.NotBefore = DateTime.UtcNow;
             _logger = loggerFactory.CreateLogger<AccountController>();
             _userManager = userManager;
             _signInManager = signInManager;
