@@ -7,7 +7,7 @@ import { ProgressBarService } from "./core/progress-bar.service";
 @Component({
     selector: "app",
     template: require("./core/templates/app.component.html"),
-    styles: [require("./core/templates/app.component.css")]
+    styles: [require("./core/templates/app.component.scss")]
 })
 export class AppComponent implements AfterViewChecked
 {

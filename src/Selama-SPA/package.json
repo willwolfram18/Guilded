@@ -46,6 +46,7 @@
     "zone.js": "^0.6.21"
   },
   "devDependencies": {
-    
+    "node-sass": "^4.5.0",
+    "sass-loader": "^5.0.1"
   }
 }

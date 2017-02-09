@@ -6,7 +6,7 @@ import { AuthService } from "./auth.service";
 @Component({
     selector: "nav-menu",
     template: require("./templates/navmenu.html"),
-    styles: [require("./templates/navmenu.css")]
+    styles: [require("./templates/navmenu.scss")]
 })
 export class NavMenuComponent
 {
