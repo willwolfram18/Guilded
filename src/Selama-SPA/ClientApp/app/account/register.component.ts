@@ -8,7 +8,7 @@ import { ProgressBarService } from "../core/progress-bar.service";
     selector: "account-register",
     template: require("./templates/register.html"),
     styles: [
-        require("./templates/register.css"),
+        require("./templates/register.scss"),
     ],
 })
 export class RegisterComponent

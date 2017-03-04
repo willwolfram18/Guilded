@@ -6,7 +6,7 @@ import { AuthService } from "../core/auth.service";
     selector: "guild-activity",
     template: require("./templates/guild-activity.html"),
     styles: [
-        require("./templates/guild-activity.css"),
+        require("./templates/guild-activity.scss"),
     ],
 })
 export class GuildActivityComponent implements OnInit

@@ -8,7 +8,7 @@ import { ProgressBarService } from "../core/progress-bar.service";
     selector: "account-sign-in",
     template: require("./templates/sign-in.html"),
     styles: [
-        require("./templates/sign-in.css"),
+        require("./templates/sign-in.scss"),
     ],
 })
 export class SignInComponent
