@@ -70,7 +70,7 @@ namespace Selama.Tests.Controllers.Forums
             #endregion
         
             #region Assert
-            List<ViewModel> data = AssertResultIs<List<ViewModel>>(result);
+            List<ViewModel> data = AssertResultIs<IEnumerable<ViewModel>>(result).ToList();
             Assert.Equal(expectedSections.Count, data.Count);
             for (int i = 0; i < expectedSections.Count; i++)
             {
@@ -78,8 +78,8 @@ namespace Selama.Tests.Controllers.Forums
                 Assert.Equal(expectedSections[i].Title, data[i].Title);
             }
             mockForumSectionsRepo.Verify(r => r.Get(
-                s => s.IsActive,
-                sections => sections.OrderBy(s => s.DisplayOrder)
+                It.IsAny<Expression<Func<DataModel, bool>>>(),
+                It.IsAny<Func<IQueryable<DataModel>, IOrderedQueryable<DataModel>>>()
             ), Times.Once());
             #endregion
         }
@@ -95,11 +95,11 @@ namespace Selama.Tests.Controllers.Forums
             #endregion
         
             #region Act
-            JsonResult result = Controller.Get();
+            JsonResult result = Controller.Get(false);
             #endregion
         
             #region Assert
-            List<ViewModel> data = AssertResultIs<List<ViewModel>>(result);
+            List<ViewModel> data = AssertResultIs<IEnumerable<ViewModel>>(result).ToList();
             Assert.Equal(expectedSections.Count, data.Count);
             for (int i = 0; i < expectedSections.Count; i++)
             {
@@ -107,7 +107,7 @@ namespace Selama.Tests.Controllers.Forums
                 Assert.Equal(expectedSections[i].Title, data[i].Title);
             }
             mockForumSectionsRepo.Verify(r => r.Get(
-                sections => sections.OrderBy(s => s.DisplayOrder)
+                It.IsAny<Func<IQueryable<DataModel>, IOrderedQueryable<DataModel>>>()
             ), Times.Once());
             #endregion
         }

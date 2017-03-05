@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Selama_SPA.Common.Attributes;
 using Selama_SPA.Data.DAL.Forums;
 using Selama_SPA.Data.ViewModels.Forums;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Selama_SPA.Extensions;
+using DataModel = Selama_SPA.Data.Models.Forums.ForumSection;
 
 namespace Selama_SPA.Controllers.Forums
 {
@@ -30,7 +30,21 @@ namespace Selama_SPA.Controllers.Forums
         [HttpGet]
         public JsonResult Get(bool activeOnly = true)
         {
-            throw new NotImplementedException();
+            IQueryable<DataModel> result;
+            Func<IQueryable<DataModel>, IOrderedQueryable<DataModel>> sectionOrdering = (sections => sections.OrderBy(s => s.DisplayOrder));
+            if (activeOnly)
+            {
+                result = _db.ForumSections.Get(
+                    s => s.IsActive,
+                    sectionOrdering
+                );
+            }
+            else
+            {
+                result = _db.ForumSections.Get(sectionOrdering);
+            }
+
+            return Json(result.ToListOfDifferentType(s => new ForumSection(s)));
         }
 
         [HttpGet]
