@@ -42,6 +42,7 @@ namespace Selama_SPA
 
         public IConfigurationRoot Configuration { get; }
 
+        private const string CORS_POLICY_NAME = "Selama-AngularApp";
         private const string SECRET_KEY = "SampleNotSoSecretKey";
         private static readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SECRET_KEY));
 
@@ -60,6 +61,16 @@ namespace Selama_SPA
                 opts.AddPolicy("Selama Ashalanore", policy => policy.RequireClaim(Globals.JWT_CLAIM_TYPE, Globals.JWT_CLAIM_VALUE));
             });
             services.AddRouting(options => options.LowercaseUrls = true);
+            services.AddCors(opts =>
+            {
+                opts.AddPolicy(
+                    CORS_POLICY_NAME,
+                    // TODO: Use config for "with origins"
+                    builder => builder.WithOrigins("http://localhost:8000")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                );
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,6 +93,7 @@ namespace Selama_SPA
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseCors(CORS_POLICY_NAME);
             app.UseStaticFiles();
             app.UseIdentity();
             app.UseJwtBearerAuthentication(new JwtBearerOptions
