@@ -9,11 +9,16 @@ namespace Selama_SPA.Data.Models.Forums
     {
         #region Properties
         #region Database properties
+        public const int TITLE_MAX_LENGTH = 35;
+        public const int TITLE_MIN_LENGTH = 4;
+        public const string REQUIRED_ERROR_MSG = "The title cannot be blank";
+        public const string LENGTH_ERROR_MSG = "The title must be between {0} and {1} characters in length";
+
         [Key]
         public int Id { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "The title cannot be blank")]
-        [StringLength(35, MinimumLength = 4, ErrorMessage = "The title must be between {0} and {1} characters in length")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = REQUIRED_ERROR_MSG)]
+        [StringLength(TITLE_MAX_LENGTH, MinimumLength = TITLE_MIN_LENGTH, ErrorMessage = LENGTH_ERROR_MSG)]
         public string Title { get; set; }
 
         [Required]
