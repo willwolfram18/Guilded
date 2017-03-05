@@ -28,7 +28,7 @@ namespace Selama_SPA.Controllers.Forums
         #region Methods
         #region Action methods        
         [HttpGet]
-        public JsonResult Get()
+        public JsonResult Get(bool activeOnly = true)
         {
             throw new NotImplementedException();
         }
