@@ -12,6 +12,7 @@ using ViewModel = Selama_SPA.Data.ViewModels.Core.ResourcePrivilege;
 
 namespace Selama_SPA.Controllers.Manager
 {
+    // TODO: Remove AllowAnonymous
     [AllowAnonymous]
     public class PrivilegesController : ManagerControllerBase
     {

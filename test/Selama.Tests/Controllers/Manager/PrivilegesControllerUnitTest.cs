@@ -14,43 +14,12 @@ using ViewModel = Selama_SPA.Data.ViewModels.Core.ResourcePrivilege;
 
 namespace Selama.Tests.Controllers.Manager
 {
-    public class PrivilegeControllerUnitTest : ApiControllerUnitTestBase<PrivilegesController>
+    public class PrivilegeControllerUnitTest : ManagerAreaControllerUnitTestBase<PrivilegesController>
     {
-        #region Properties
-        #region Private Properties
-        private const int NUM_PRIVILEGES = 5;
-
-        private readonly List<DataModel> _privileges = new List<ResourcePrivilege>();
-        private readonly Mock<IPrivilegeReadWriteDataContext> _mockPrivilegeDb = new Mock<IPrivilegeReadWriteDataContext>(); 
-        #endregion
-        #endregion
-
         #region Test setup
         protected override PrivilegesController SetupController()
         {
             return new PrivilegesController(_mockPrivilegeDb.Object);
-        }
-
-        protected override void AdditionalSetup()
-        {
-            CreatePrivileges();
-            _mockPrivilegeDb.Setup(r => r.Privileges.Get())
-                .Returns(_privileges.AsQueryable());
-            _mockPrivilegeDb.Setup(r => r.Privileges.GetByIdAsync(It.IsAny<int>()))
-                .Returns((Func<int, Task<ResourcePrivilege>>)(i => 
-                Task.FromResult(_privileges.FirstOrDefault(p => p.Id == i))
-            ));
-        }
-        private void CreatePrivileges()
-        {
-            for (int i = 0; i < NUM_PRIVILEGES; i++)
-            {
-                _privileges.Add(new DataModel
-                {
-                    Id = i + 1,
-                    Name = "Privilege " + (i + 1).ToString(),
-                });
-            }
         }
         #endregion
 
