@@ -10,21 +10,21 @@ namespace Selama_SPA.Data.DAL.Core
     {
         #region Properties
         #region Public Properties
-        public UserManager<ApplicationUser> UserManager => _userManager;
+        public RoleManager<ApplicationRole> RoleManager => _roleManager;
 
         public IPrivilegeReadOnlyRepository Privileges => _privileges;
         #endregion
 
         #region Private Properties
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IPrivilegeReadOnlyRepository _privileges;
         #endregion
         #endregion
         
 
-        public PrivilegeReadWriteDataContext(ApplicationDbContext context, UserManager<ApplicationUser> userManager) : base(context)
+        public PrivilegeReadWriteDataContext(ApplicationDbContext context, RoleManager<ApplicationRole> roleManager) : base(context)
         {
-            _userManager = userManager;
+            _roleManager = roleManager;
             _privileges = new PrivilegeReadOnlyRepository(_context);
         }
 

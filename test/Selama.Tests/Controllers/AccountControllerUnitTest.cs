@@ -18,8 +18,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http.Features.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Selama_SPA.Extensions;
 using System.Collections.Generic;
@@ -93,7 +91,7 @@ namespace Selama.Tests.Controllers
                 opts.UseInMemoryDatabase()
                     .UseInternalServiceProvider(efServiceProvider)
             );
-            services.AddIdentity<ApplicationUser, IdentityRole>(opts => 
+            services.AddIdentity<ApplicationUser, ApplicationRole>(opts => 
                 {
                     opts.User.RequireUniqueEmail = true;
                 })

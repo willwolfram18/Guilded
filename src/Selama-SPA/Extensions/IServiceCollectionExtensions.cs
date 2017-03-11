@@ -50,7 +50,7 @@ namespace Selama_SPA.Extensions
                 }
             });
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(opts => 
+            services.AddIdentity<ApplicationUser, ApplicationRole>(opts => 
                 {
                     opts.User.RequireUniqueEmail = true;
                 })

@@ -10,7 +10,7 @@ namespace Selama_SPA.Data.DAL.Core
     public interface IPrivilegeReadWriteDataContext : IReadWriteDataContext
     {
         #region Properties
-        UserManager<ApplicationUser> UserManager { get; }
+        RoleManager<ApplicationRole> RoleManager { get; }
 
         IPrivilegeReadOnlyRepository Privileges { get; }
         #endregion
