@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Selama_SPA.Data.DAL.Core;
+using Selama_SPA.Extensions;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using DataModel = Selama_SPA.Data.Models.Core.ResourcePrivilege;
+using ViewModel = Selama_SPA.Data.ViewModels.Core.ResourcePrivilege;
 
 namespace Selama_SPA.Controllers.Manager
 {
@@ -25,13 +27,18 @@ namespace Selama_SPA.Controllers.Manager
         [HttpGet]
         public JsonResult Get()
         {
-            throw new NotImplementedException();
+            return Json(_db.Privileges.Get().ToListOfDifferentType(p => new ViewModel(p)));
         }
 
         [HttpGet("[id:number]")]
-        public JsonResult Get(int id)
+        public async Task<JsonResult> Get(int id)
         {
-            throw new NotImplementedException();
+            DataModel privilege = await _db.Privileges.GetByIdAsync(id);
+            if (privilege == null)
+            {
+                return Json(null);
+            }
+            return Json(new ViewModel(privilege));
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Selama_SPA.Controllers.Manager;
@@ -35,6 +36,10 @@ namespace Selama.Tests.Controllers.Manager
             CreatePrivileges();
             _mockPrivilegeDb.Setup(r => r.Privileges.Get())
                 .Returns(_privileges.AsQueryable());
+            _mockPrivilegeDb.Setup(r => r.Privileges.GetByIdAsync(It.IsAny<int>()))
+                .Returns((Func<int, Task<ResourcePrivilege>>)(i => 
+                Task.FromResult(_privileges.FirstOrDefault(p => p.Id == i))
+            ));
         }
         private void CreatePrivileges()
         {
@@ -79,14 +84,14 @@ namespace Selama.Tests.Controllers.Manager
         [InlineData(3)]
         [InlineData(4)]
         [InlineData(5)]
-        public void Get_ValidIdCorrectPrivilege(int expectedPrivilegeId)
+        public async Task Get_ValidIdCorrectPrivilege(int expectedPrivilegeId)
         {
             #region Arrange
             DataModel privilege = _privileges.FirstOrDefault(p => p.Id == expectedPrivilegeId);
             #endregion
         
             #region Act
-            JsonResult result = Controller.Get(expectedPrivilegeId);
+            JsonResult result = await Controller.Get(expectedPrivilegeId);
             #endregion
         
             #region Assert
@@ -99,13 +104,13 @@ namespace Selama.Tests.Controllers.Manager
         [Theory]
         [InlineData(0)]
         [InlineData(NUM_PRIVILEGES + 1)]
-        public void Get_InvalidIdReturnsNull(int invalidId)
+        public async Task Get_InvalidIdReturnsNull(int invalidId)
         {
             #region Arrange
             #endregion
         
             #region Act
-            JsonResult result = Controller.Get(invalidId);
+            JsonResult result = await Controller.Get(invalidId);
             #endregion
         
             #region Assert
