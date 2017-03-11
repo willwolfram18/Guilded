@@ -21,5 +21,17 @@ namespace Selama_SPA.Controllers.Manager
         {
             _db = db;
         }
+
+        [HttpGet]
+        public JsonResult Get()
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet("[id:number]")]
+        public JsonResult Get(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
