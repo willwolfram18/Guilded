@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Selama_SPA.Data.DAL.Core;
 using Selama_SPA.Extensions;
@@ -11,6 +12,7 @@ using ViewModel = Selama_SPA.Data.ViewModels.Core.ResourcePrivilege;
 
 namespace Selama_SPA.Controllers.Manager
 {
+    [AllowAnonymous]
     public class PrivilegesController : ManagerControllerBase
     {
         #region Properties
@@ -30,7 +32,7 @@ namespace Selama_SPA.Controllers.Manager
             return Json(_db.Privileges.Get().ToListOfDifferentType(p => new ViewModel(p)));
         }
 
-        [HttpGet("[id:number]")]
+        [HttpGet("{id}")]
         public async Task<JsonResult> Get(int id)
         {
             DataModel privilege = await _db.Privileges.GetByIdAsync(id);

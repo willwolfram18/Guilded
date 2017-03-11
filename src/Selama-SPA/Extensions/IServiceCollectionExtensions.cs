@@ -17,6 +17,7 @@ using BattleNetApi.Apis.Interfaces;
 using Selama_SPA.Options;
 using Microsoft.IdentityModel.Tokens;
 using Selama_SPA.Services;
+using Selama_SPA.Data.DAL.Core;
 
 namespace Selama_SPA.Extensions
 {
@@ -61,6 +62,7 @@ namespace Selama_SPA.Extensions
         {
             services.AddTransient<IReadOnlyRepository<GuildActivity>, GuildActivityRepo>();
             services.AddTransient<IGuildActivityReadOnlyDataContext, GuildActivityReadOnlyDataContext>();
+            services.AddTransient<IPrivilegeReadWriteDataContext, PrivilegeReadWriteDataContext>();
         }
         
         private static void AddSelamaOptions(this IServiceCollection services, IConfigurationRoot Configuration, SymmetricSecurityKey signingKey)

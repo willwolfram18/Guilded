@@ -11,7 +11,7 @@ using DataModel = Selama_SPA.Data.Models.Forums.ForumSection;
 
 namespace Selama_SPA.Controllers.Forums
 {
-    [ApiRoute("forum-sections/[id?:number]")]
+    [ApiRoute("forum-sections/{id?}")]
     public class ForumSectionController : ApiControllerBase
     {
         #region Properties
