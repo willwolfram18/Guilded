@@ -12,7 +12,7 @@ namespace Selama_SPA.Data.DAL.Core
         #region Properties
         UserManager<ApplicationUser> UserManager { get; }
 
-        IPrivilegeReadWriteRepository Privileges { get; }
+        IPrivilegeReadOnlyRepository Privileges { get; }
         #endregion
 
         #region Methods

@@ -6,7 +6,7 @@ using Selama_SPA.Data.Models.Core;
 
 namespace Selama_SPA.Data.DAL.Core
 {
-    public interface IPrivilegeReadWriteRepository : IReadWriteRepository<ResourcePrivilege>
+    public interface IPrivilegeReadOnlyRepository : IReadOnlyRepository<ResourcePrivilege>
     {
     }
 }
