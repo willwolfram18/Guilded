@@ -1,7 +1,6 @@
 {
     "userSecretsId": "Not-so-secret-key-for-dev",
     "dependencies": {
-        "Microsoft.AspNetCore.SpaServices": "1.1.0-*",
         "Microsoft.AspNetCore.Razor.Tools": {
             "version": "1.0.0-preview2-final",
             "type": "build"
@@ -10,7 +9,6 @@
         "Microsoft.AspNetCore.Mvc": "1.1.1",
         "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0",
         "Microsoft.AspNetCore.Server.Kestrel": "1.1.0",
-        "Microsoft.AspNetCore.StaticFiles": "1.1.0",
         "Microsoft.Extensions.Configuration.CommandLine": "1.1.0",
         "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.1.0",
         "Microsoft.Extensions.Configuration.Json": "1.1.0",

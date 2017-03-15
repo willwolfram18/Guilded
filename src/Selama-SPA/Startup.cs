@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -83,10 +82,6 @@ namespace Selama_SPA
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                {
-                    HotModuleReplacement = true,
-                });
             }
             else
             {
@@ -94,7 +89,6 @@ namespace Selama_SPA
             }
 
             app.UseCors(CORS_POLICY_NAME);
-            app.UseStaticFiles();
             app.UseIdentity();
             app.UseJwtBearerAuthentication(new JwtBearerOptions
             {
@@ -107,11 +101,8 @@ namespace Selama_SPA
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-
-                routes.MapSpaFallbackRoute(
-                    name: "spa-fallback",
-                    defaults: new { controller = "Home", action = "Index" });
+                    template: "{controller=Home}/{action=Index}/{id?}"
+                );
             });
         }
 
