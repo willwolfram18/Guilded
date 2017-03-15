@@ -8,6 +8,7 @@ using Selama_SPA.Data.DAL.Core;
 using Selama_SPA.Data.ViewModels.Core;
 
 using ViewModel = Selama_SPA.Data.ViewModels.Core.ApplicationRole;
+using Selama_SPA.Extensions;
 
 namespace Selama_SPA.Controllers.Manager
 {
@@ -31,7 +32,10 @@ namespace Selama_SPA.Controllers.Manager
         [HttpGet]
         public JsonResult Get()
         {
-            throw new NotImplementedException();
+            return Json(
+                _db.RoleManager.Roles.ToListOfDifferentType(r => new ViewModel(r))
+                    .OrderBy(r => r.Name)
+            );
         }
 
         [HttpGet("{id}")]

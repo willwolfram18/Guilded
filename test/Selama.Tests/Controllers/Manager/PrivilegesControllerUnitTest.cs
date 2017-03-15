@@ -30,13 +30,13 @@ namespace Selama.Tests.Controllers.Manager
         {
             #region Arrange
             #endregion
-        
+
             #region Act
             JsonResult result = Controller.Get();
             #endregion
-        
+
             #region Assert
-            List<ResourcePrivilege> privileges = AssertResultIsListOfResourcePrivileges(result);
+            List<ViewModel> privileges = AssertResultIsListOfResourcePrivileges(result);
             Assert.Equal(_privileges.Count, privileges.Count);
             for (int i = 0; i < _privileges.Count; i++)
             {
@@ -58,11 +58,11 @@ namespace Selama.Tests.Controllers.Manager
             #region Arrange
             DataModel privilege = _privileges.FirstOrDefault(p => p.Id == expectedPrivilegeId);
             #endregion
-        
+
             #region Act
             JsonResult result = await Controller.Get(expectedPrivilegeId);
             #endregion
-        
+
             #region Assert
             ViewModel receivedPrivilege = AssertResultIsResourcePrivilege(result);
             Assert.Equal(privilege.Id, receivedPrivilege.Id);
@@ -77,11 +77,11 @@ namespace Selama.Tests.Controllers.Manager
         {
             #region Arrange
             #endregion
-        
+
             #region Act
             JsonResult result = await Controller.Get(invalidId);
             #endregion
-        
+
             #region Assert
             Assert.NotNull(result);
             Assert.Null(result.Value);
@@ -91,10 +91,10 @@ namespace Selama.Tests.Controllers.Manager
         #endregion
 
         #region Private Methods
-        private List<ResourcePrivilege> AssertResultIsListOfResourcePrivileges(JsonResult result)
+        private List<ViewModel> AssertResultIsListOfResourcePrivileges(JsonResult result)
         {
             Assert.NotNull(result);
-            List<ResourcePrivilege> privileges = result.Value as List<ResourcePrivilege>;
+            List<ViewModel> privileges = result.Value as List<ViewModel>;
             Assert.NotNull(privileges);
             return privileges;
         }

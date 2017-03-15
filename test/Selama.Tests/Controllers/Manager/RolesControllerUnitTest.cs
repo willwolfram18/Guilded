@@ -16,6 +16,13 @@ using Selama_SPA.Controllers.Manager;
 using Selama_SPA.Data;
 using Selama_SPA.Data.Models.Core;
 
+using ViewModel = Selama_SPA.Data.ViewModels.Core.ApplicationRole;
+using DataModel = Selama_SPA.Data.Models.Core.ApplicationRole;
+using Selama_SPA.Extensions;
+using Microsoft.AspNetCore.Mvc;
+using Selama_SPA.Data.ViewModels.Core;
+using Xunit;
+
 namespace Selama.Tests.Controllers.Manager
 {
     public class RolesControllerUnitTest : ManagerAreaControllerUnitTestBase<RolesController>
@@ -26,8 +33,8 @@ namespace Selama.Tests.Controllers.Manager
 
         private IServiceProvider _serviceProvider;
         private ApplicationDbContext _dbContext;
-        private RoleManager<ApplicationRole> _roleManager;
-        private readonly List<ApplicationRole> _roles = new List<ApplicationRole>();
+        private RoleManager<DataModel> _roleManager;
+        private readonly List<DataModel> _roles = new List<DataModel>();
         #endregion
         #endregion
 
@@ -49,7 +56,7 @@ namespace Selama.Tests.Controllers.Manager
 
             _serviceProvider = services.BuildServiceProvider();
             _dbContext = _serviceProvider.GetRequiredService<ApplicationDbContext>();
-            _roleManager = _serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
+            _roleManager = _serviceProvider.GetRequiredService<RoleManager<DataModel>>();
         }
         private void AddInMemoryDbServices(ServiceCollection services)
         {
@@ -58,7 +65,7 @@ namespace Selama.Tests.Controllers.Manager
                 opts.UseInMemoryDatabase()
                     .UseInternalServiceProvider(efServiceProvider)
             );
-            services.AddIdentity<ApplicationUser, ApplicationRole>(opts => 
+            services.AddIdentity<ApplicationUser, DataModel>(opts =>
                 {
                     opts.User.RequireUniqueEmail = true;
                 })
@@ -80,26 +87,67 @@ namespace Selama.Tests.Controllers.Manager
             base.AdditionalSetup();
             CreateRoles().ConfigureAwait(false).GetAwaiter().GetResult();
         }
-        private async Task CreateRoles()
+        private Task CreateRoles()
         {
             for (int i = 0; i < NUM_ROLES; i++)
             {
-                var newRole = new ApplicationRole
+                var newRole = new DataModel
                 {
                     Id = (i + 1).ToString(),
                     Name = "Role " + (i + 1).ToString(),
+                    RolePrivileges = new List<RolePrivilege>(),
                 };
+                int associatedPrivilegeId = (i % NUM_PRIVILEGES) + 1;
                 newRole.RolePrivileges.Add(new RolePrivilege
                 {
                     RoleId = (i + 1).ToString(),
                     Role = newRole,
-                    PrivilegeId = (i % NUM_PRIVILEGES) + 1,
-                    Privilege = _privileges.FirstOrDefault(p => p.Id == (i % NUM_PRIVILEGES) + 1),
+                    PrivilegeId = associatedPrivilegeId,
+                    Privilege = _privileges.FirstOrDefault(p => p.Id == associatedPrivilegeId),
                 });
                 _roles.Add(newRole);
                 _roleManager.CreateAsync(newRole).ConfigureAwait(false).GetAwaiter().GetResult();
             }
+            return Task.CompletedTask;
         }
+        #endregion
+
+        #region Methods
+        #region Unit tests
+        [Fact]
+        public void Get_CorrectList()
+        {
+            #region Arrange
+            List<ViewModel> expectedRoles = _roles.ToListOfDifferentType(r => new ViewModel(r))
+                .OrderBy(r => r.Name)
+                .ToList();
+            #endregion
+
+            #region Act
+            JsonResult result = Controller.Get();
+            #endregion
+
+            #region Assert
+            List<ViewModel> roles = AssertResultIsListOfRoles(result);
+            Assert.Equal(expectedRoles.Count, roles.Count);
+            for (int i = 0; i < expectedRoles.Count; i++)
+            {
+                Assert.Equal(expectedRoles[i].Id, roles[i].Id);
+                Assert.Equal(expectedRoles[i].Name, roles[i].Name);
+            }
+            #endregion
+        }
+        #endregion
+
+        #region Private methods
+        private List<ViewModel> AssertResultIsListOfRoles(JsonResult result)
+        {
+            Assert.NotNull(result);
+            IEnumerable<ViewModel> roles = result.Value as IEnumerable<ViewModel>;
+            Assert.NotNull(roles);
+            return roles.ToList();
+        }
+        #endregion
         #endregion
     }
 }

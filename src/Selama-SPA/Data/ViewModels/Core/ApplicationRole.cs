@@ -2,6 +2,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
+using DataModel = Selama_SPA.Data.Models.Core.ApplicationRole;
+using Selama_SPA.Extensions;
+using System.Linq;
+
 namespace Selama_SPA.Data.ViewModels.Core
 {
     public class ApplicationRole
@@ -21,12 +25,21 @@ namespace Selama_SPA.Data.ViewModels.Core
         public IList<ResourcePrivilege> Privileges { get; set; }
         #endregion
         #endregion
-        
+
         public ApplicationRole()
         {
             Id = null;
             Name = null;
             Privileges = new List<ResourcePrivilege>();
+        }
+
+        public ApplicationRole(DataModel role)
+        {
+            Id = role.Id;
+            Name = role.Name;
+            Privileges = role.Privileges.ToListOfDifferentType(p => new ResourcePrivilege(p))
+                .OrderBy(p => p.Name)
+                .ToList();
         }
     }
 }
