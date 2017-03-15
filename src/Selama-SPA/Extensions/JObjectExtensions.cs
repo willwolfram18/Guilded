@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
-namespace Selama_SPA.Extensions
+namespace Selama.Extensions
 {
     public static class JObjectExtensions
     {

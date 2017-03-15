@@ -5,18 +5,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Selama_SPA.Common.Attributes;
-using Selama_SPA.Data.Models.Core;
-using Selama_SPA.Data.ViewModels.Account;
-using Selama_SPA.Options;
-using Selama_SPA.Services;
+using Selama.Common.Attributes;
+using Selama.Data.Models.Core;
+using Selama.Data.ViewModels.Account;
+using Selama.Options;
+using Selama.Services;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
-using Selama_SPA.Extensions;
+using Selama.Extensions;
 using System.Collections.Generic;
-using Selama_SPA.Common;
+using Selama.Common;
 
-namespace Selama_SPA.Controllers
+namespace Selama.Controllers
 {
     [ApiRoute("[controller]")]
     public class AccountController : ApiControllerBase

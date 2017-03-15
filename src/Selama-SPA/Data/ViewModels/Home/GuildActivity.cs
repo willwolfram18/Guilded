@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Html;
 using BattleNetApi.Objects.WoW;
 
-namespace Selama_SPA.Data.ViewModels.Home
+namespace Selama.Data.ViewModels.Home
 {
     public class GuildActivity : IComparable<GuildActivity>
     {

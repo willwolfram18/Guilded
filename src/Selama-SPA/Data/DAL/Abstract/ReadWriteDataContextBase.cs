@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Selama_SPA.Data.DAL.Abstract
+namespace Selama.Data.DAL.Abstract
 {
     public abstract class ReadWriteDataContextBase : ReadOnlyDataContextBase, IReadWriteDataContext
     {

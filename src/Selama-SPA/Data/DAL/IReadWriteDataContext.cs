@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Selama_SPA.Data.DAL
+namespace Selama.Data.DAL
 {
     public interface IReadWriteDataContext : IReadOnlyDataContext
     {

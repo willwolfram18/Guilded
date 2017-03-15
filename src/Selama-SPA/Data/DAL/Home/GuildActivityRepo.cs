@@ -1,7 +1,7 @@
-using Selama_SPA.Data.DAL.Abstract;
-using Selama_SPA.Data.Models.Home;
+using Selama.Data.DAL.Abstract;
+using Selama.Data.Models.Home;
 
-namespace Selama_SPA.Data.DAL.Home
+namespace Selama.Data.DAL.Home
 {
     public class GuildActivityRepo : ReadOnlyRepositoryBase<GuildActivity>
     {

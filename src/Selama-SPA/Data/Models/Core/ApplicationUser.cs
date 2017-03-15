@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace Selama_SPA.Data.Models.Core
+namespace Selama.Data.Models.Core
 {
     public class ApplicationUser : IdentityUser
     {

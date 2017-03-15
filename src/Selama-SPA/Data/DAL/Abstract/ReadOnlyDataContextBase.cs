@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Selama_SPA.Data.DAL.Abstract
+namespace Selama.Data.DAL.Abstract
 {
     public abstract class ReadOnlyDataContextBase : IReadOnlyDataContext
     {

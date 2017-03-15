@@ -4,13 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Selama_SPA.Data.DAL.Core;
-using Selama_SPA.Extensions;
+using Selama.Data.DAL.Core;
+using Selama.Extensions;
 
-using DataModel = Selama_SPA.Data.Models.Core.ResourcePrivilege;
-using ViewModel = Selama_SPA.Data.ViewModels.Core.ResourcePrivilege;
+using DataModel = Selama.Data.Models.Core.ResourcePrivilege;
+using ViewModel = Selama.Data.ViewModels.Core.ResourcePrivilege;
 
-namespace Selama_SPA.Controllers.Manager
+namespace Selama.Controllers.Manager
 {
     // TODO: Remove AllowAnonymous
     [AllowAnonymous]

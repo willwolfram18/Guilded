@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Selama_SPA.Controllers
+namespace Selama.Controllers
 {
     public class ApiControllerBase : Controller
     {

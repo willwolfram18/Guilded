@@ -7,16 +7,16 @@ using Microsoft.AspNetCore.Http.Features.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Selama_SPA.Controllers.Manager;
-using Selama_SPA.Data;
-using Selama_SPA.Data.Models.Core;
+using Selama.Controllers.Manager;
+using Selama.Data;
+using Selama.Data.Models.Core;
 
-using ViewModel = Selama_SPA.Data.ViewModels.Core.ApplicationRole;
-using DataModel = Selama_SPA.Data.Models.Core.ApplicationRole;
-using Selama_SPA.Extensions;
+using ViewModel = Selama.Data.ViewModels.Core.ApplicationRole;
+using DataModel = Selama.Data.Models.Core.ApplicationRole;
+using Selama.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
-using Selama_SPA.Data.ViewModels.Core;
+using Selama.Data.ViewModels.Core;
 
 namespace Selama.Tests.Controllers.Manager
 {

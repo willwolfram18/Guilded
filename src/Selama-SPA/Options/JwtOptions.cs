@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Selama_SPA.Options
+namespace Selama.Options
 {
     public class JwtOptions
     {

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Selama_SPA.Data.DAL
+namespace Selama.Data.DAL
 {
     public interface IReadOnlyRepository<TEntity> : IDisposable
         where TEntity : class

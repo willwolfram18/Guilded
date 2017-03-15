@@ -1,8 +1,8 @@
 using Newtonsoft.Json;
 using System;
-using DataModel = Selama_SPA.Data.Models.Core.ResourcePrivilege;
+using DataModel = Selama.Data.Models.Core.ResourcePrivilege;
 
-namespace Selama_SPA.Data.ViewModels.Core
+namespace Selama.Data.ViewModels.Core
 {
     public class ResourcePrivilege
     {

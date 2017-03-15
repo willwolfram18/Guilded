@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Selama_SPA.Data.DAL
+namespace Selama.Data.DAL
 {
     public interface IReadOnlyDataContext : IDisposable
     {

@@ -2,24 +2,24 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Selama_SPA.Common;
-using Selama_SPA.Data;
-using Selama_SPA.Data.Models.Core;
+using Selama.Common;
+using Selama.Data;
+using Selama.Data.Models.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Selama_SPA.Data.DAL;
-using Selama_SPA.Data.DAL.Home;
-using Selama_SPA.Data.Models.Home;
+using Selama.Data.DAL;
+using Selama.Data.DAL.Home;
+using Selama.Data.Models.Home;
 using BattleNetApi.Apis.Interfaces;
-using Selama_SPA.Options;
+using Selama.Options;
 using Microsoft.IdentityModel.Tokens;
-using Selama_SPA.Services;
-using Selama_SPA.Data.DAL.Core;
+using Selama.Services;
+using Selama.Data.DAL.Core;
 
-namespace Selama_SPA.Extensions
+namespace Selama.Extensions
 {
     public static class IServiceCollectionExtensions
     {

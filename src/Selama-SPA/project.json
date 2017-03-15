@@ -66,27 +66,18 @@
     "publishOptions": {
         "include": [
             "appsettings.json",
-            "ClientApp/dist",
-            "node_modules",
-            "Views",
-            "web.config",
-            "wwwroot"
+            "web.config"
         ],
         "exclude": [
             "wwwroot/dist/*.map"
         ]
     },
     "scripts": {
-        "prepublish": [
-            "npm install",
-            "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env.prod",
-            "node node_modules/webpack/bin/webpack.js --env.prod"
-        ],
         "postpublish": [
             "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"
         ]
     },
     "tooling": {
-        "defaultNamespace": "Selama_SPA"
+        "defaultNamespace": "Selama"
     }
 }

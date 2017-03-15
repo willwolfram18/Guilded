@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
-using Selama_SPA.Data.DAL.Abstract;
-using Selama_SPA.Data.Models.Core;
+using Selama.Data.DAL.Abstract;
+using Selama.Data.Models.Core;
 
-namespace Selama_SPA.Data.DAL.Core
+namespace Selama.Data.DAL.Core
 {
     public class PrivilegeReadWriteDataContext : ReadWriteDataContextBase, IPrivilegeReadWriteDataContext
     {

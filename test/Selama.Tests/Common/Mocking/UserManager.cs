@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
-using Selama.Models;
+using Selama.Data.Models.Core;
 using System;
 using System.Threading.Tasks;
 

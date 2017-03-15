@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using BattleNetApi.Apis.Interfaces;
 using BattleNetApi.Apis;
 using BattleNetApi.Objects.WoW;
-using Selama_SPA.Data.Models.Home;
-using Selama_SPA.Data.ViewModels.Home;
-using Selama_SPA.Extensions;
+using Selama.Data.Models.Home;
+using Selama.Data.ViewModels.Home;
+using Selama.Extensions;
 
-namespace Selama_SPA.Data.DAL.Home
+namespace Selama.Data.DAL.Home
 {
     public class GuildActivityReadOnlyDataContext : IGuildActivityReadOnlyDataContext
     {

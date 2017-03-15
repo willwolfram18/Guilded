@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
-using DataModel = Selama_SPA.Data.Models.Core.ApplicationRole;
-using Selama_SPA.Extensions;
+using DataModel = Selama.Data.Models.Core.ApplicationRole;
+using Selama.Extensions;
 using System.Linq;
 using System;
 
-namespace Selama_SPA.Data.ViewModels.Core
+namespace Selama.Data.ViewModels.Core
 {
     public class ApplicationRole
     {

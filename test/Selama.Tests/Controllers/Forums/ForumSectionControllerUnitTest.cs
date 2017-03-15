@@ -4,13 +4,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Selama_SPA.Controllers.Forums;
-using Selama_SPA.Data.DAL.Forums;
-using Selama_SPA.Data.Models.Forums;
+using Selama.Controllers.Forums;
+using Selama.Data.DAL.Forums;
+using Selama.Data.Models.Forums;
 using Xunit;
 
-using DataModel = Selama_SPA.Data.Models.Forums.ForumSection;
-using ViewModel = Selama_SPA.Data.ViewModels.Forums.ForumSection;
+using DataModel = Selama.Data.Models.Forums.ForumSection;
+using ViewModel = Selama.Data.ViewModels.Forums.ForumSection;
 
 namespace Selama.Tests.Controllers.Forums
 {

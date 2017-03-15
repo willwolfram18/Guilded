@@ -1,11 +1,11 @@
-﻿using Selama_SPA.Data.ViewModels.Home;
+﻿using Selama.Data.ViewModels.Home;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Selama_SPA.Data.DAL.Home
+namespace Selama.Data.DAL.Home
 {
     public interface IGuildActivityReadOnlyDataContext : IDisposable
     {

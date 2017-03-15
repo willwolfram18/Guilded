@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Selama_SPA.Data.Models.Core;
+using Selama.Data.Models.Core;
 
-namespace Selama_SPA.Data.DAL.Core
+namespace Selama.Data.DAL.Core
 {
     public interface IPrivilegeReadWriteDataContext : IReadWriteDataContext
     {

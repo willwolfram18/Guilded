@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
-namespace Selama_SPA.Data.Models.Core
+namespace Selama.Data.Models.Core
 {
     [Table("AspNetPrivileges")]
     public class ResourcePrivilege

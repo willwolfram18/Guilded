@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Moq;
-using Selama_SPA.Controllers.Manager;
-using Selama_SPA.Data.DAL.Core;
-using Selama_SPA.Data.Models.Core;
+using Selama.Controllers.Manager;
+using Selama.Data.DAL.Core;
+using Selama.Data.Models.Core;
 
-using DataModel = Selama_SPA.Data.Models.Core.ResourcePrivilege;
+using DataModel = Selama.Data.Models.Core.ResourcePrivilege;
 
 namespace Selama.Tests.Controllers.Manager
 {

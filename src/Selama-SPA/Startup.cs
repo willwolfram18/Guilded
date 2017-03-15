@@ -7,18 +7,18 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Selama_SPA.Data;
-using Selama_SPA.Common;
+using Selama.Data;
+using Selama.Common;
 using Microsoft.EntityFrameworkCore;
-using Selama_SPA.Extensions;
+using Selama.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Selama_SPA.Options;
+using Selama.Options;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace Selama_SPA
+namespace Selama
 {
     public class Startup
     {

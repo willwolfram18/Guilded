@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Selama_SPA.Extensions
+namespace Selama.Extensions
 {
     public static class DateTimeExtensions
     {

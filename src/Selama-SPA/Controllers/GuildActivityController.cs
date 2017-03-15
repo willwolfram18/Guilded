@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Selama_SPA.Common.Attributes;
-using Selama_SPA.Data.DAL.Home;
+using Selama.Common.Attributes;
+using Selama.Data.DAL.Home;
 
-namespace Selama_SPA.Controllers
+namespace Selama.Controllers
 {
     [ApiRoute("guild-activity")]
     public class GuildActivityController : ApiControllerBase

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Selama_SPA.Data.DAL.Abstract
+namespace Selama.Data.DAL.Abstract
 {
     public abstract class ReadOnlyRepositoryBase<TEntity> : IReadOnlyRepository<TEntity>
         where TEntity : class

@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Selama_SPA.Data.Models.Core;
-using Selama_SPA.Data.Models.Home;
+using Selama.Data.Models.Core;
+using Selama.Data.Models.Home;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Selama_SPA.Data.Models.Forums;
+using Selama.Data.Models.Forums;
 
-namespace Selama_SPA.Data
+namespace Selama.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {

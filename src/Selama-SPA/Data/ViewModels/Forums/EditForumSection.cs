@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using DataModel = Selama_SPA.Data.Models.Forums.ForumSection;
+using DataModel = Selama.Data.Models.Forums.ForumSection;
 
-namespace Selama_SPA.Data.ViewModels.Forums
+namespace Selama.Data.ViewModels.Forums
 {
     public class EditForumSection
     {

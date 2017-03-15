@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Selama_SPA.Common.Attributes;
-using Selama_SPA.Data.DAL.Forums;
-using Selama_SPA.Data.ViewModels.Forums;
-using Selama_SPA.Extensions;
-using DataModel = Selama_SPA.Data.Models.Forums.ForumSection;
+using Selama.Common.Attributes;
+using Selama.Data.DAL.Forums;
+using Selama.Data.ViewModels.Forums;
+using Selama.Extensions;
+using DataModel = Selama.Data.Models.Forums.ForumSection;
 
-namespace Selama_SPA.Controllers.Forums
+namespace Selama.Controllers.Forums
 {
     [ApiRoute("forum-sections/{id?}")]
     public class ForumSectionController : ApiControllerBase

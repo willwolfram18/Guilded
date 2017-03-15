@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace Selama_SPA.Data.Models.Core
+namespace Selama.Data.Models.Core
 {
     public class ApplicationRole : IdentityRole
     {

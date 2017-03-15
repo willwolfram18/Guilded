@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Selama_SPA.Data.Models.Forums
+namespace Selama.Data.Models.Forums
 {
     [Table("ForumSections")]
     public class ForumSection

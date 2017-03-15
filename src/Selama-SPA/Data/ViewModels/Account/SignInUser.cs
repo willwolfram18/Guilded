@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Selama_SPA.Data.ViewModels.Account
+namespace Selama.Data.ViewModels.Account
 {
     public class SignInUser
     {

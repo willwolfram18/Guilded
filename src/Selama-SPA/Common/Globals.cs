@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Selama_SPA.Common
+namespace Selama.Common
 {
     public static class Globals
     {

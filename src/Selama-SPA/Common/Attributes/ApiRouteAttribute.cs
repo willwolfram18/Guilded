@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Selama_SPA.Common.Attributes
+namespace Selama.Common.Attributes
 {
     public class ApiRouteAttribute : RouteAttribute
     {

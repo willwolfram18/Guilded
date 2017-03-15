@@ -4,13 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Selama_SPA.Controllers.Manager;
-using Selama_SPA.Data.DAL.Core;
-using Selama_SPA.Data.Models.Core;
+using Selama.Controllers.Manager;
+using Selama.Data.DAL.Core;
+using Selama.Data.Models.Core;
 using Xunit;
 
-using DataModel = Selama_SPA.Data.Models.Core.ResourcePrivilege;
-using ViewModel = Selama_SPA.Data.ViewModels.Core.ResourcePrivilege;
+using DataModel = Selama.Data.Models.Core.ResourcePrivilege;
+using ViewModel = Selama.Data.ViewModels.Core.ResourcePrivilege;
 
 namespace Selama.Tests.Controllers.Manager
 {

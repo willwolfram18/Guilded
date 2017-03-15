@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Selama_SPA.Data.Models.Home
+namespace Selama.Data.Models.Home
 {
     [Table("GuildActivities")]
     public class GuildActivity
