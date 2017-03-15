@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using DataModel = Selama_SPA.Data.Models.Core.ApplicationRole;
 using Selama_SPA.Extensions;
 using System.Linq;
+using System;
 
 namespace Selama_SPA.Data.ViewModels.Core
 {
@@ -33,8 +34,12 @@ namespace Selama_SPA.Data.ViewModels.Core
             Privileges = new List<ResourcePrivilege>();
         }
 
-        public ApplicationRole(DataModel role)
+        public ApplicationRole(DataModel role) : this()
         {
+            if (role == null)
+            {
+                throw new ArgumentNullException("role");
+            }
             Id = role.Id;
             Name = role.Name;
             Privileges = role.Privileges.ToListOfDifferentType(p => new ResourcePrivilege(p))

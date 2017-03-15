@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Selama_SPA.Data.DAL.Core;
 using Selama_SPA.Data.ViewModels.Core;
 
+using DataModel = Selama_SPA.Data.Models.Core.ApplicationRole;
 using ViewModel = Selama_SPA.Data.ViewModels.Core.ApplicationRole;
 using Selama_SPA.Extensions;
 
@@ -39,9 +40,15 @@ namespace Selama_SPA.Controllers.Manager
         }
 
         [HttpGet("{id}")]
-        public JsonResult Get(string id)
+        public async Task<JsonResult> Get(string id)
         {
-            throw new NotImplementedException();
+            DataModel role = await _db.RoleManager.FindByIdAsync(id);
+            if (role == null)
+            {
+                return Json(null);
+            }
+
+            return Json(new ViewModel(role));
         }
 
         [HttpPost]

@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System;
 using DataModel = Selama_SPA.Data.Models.Core.ResourcePrivilege;
 
 namespace Selama_SPA.Data.ViewModels.Core
@@ -21,6 +22,11 @@ namespace Selama_SPA.Data.ViewModels.Core
 
         public ResourcePrivilege(DataModel privilege)
         {
+            if (privilege == null)
+            {
+                throw new ArgumentNullException("privilege");
+            }
+
             Id = privilege.Id;
             Name = privilege.Name;
         }
