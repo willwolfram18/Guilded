@@ -16,7 +16,7 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Selama.Tests", "test\Selama
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "BattleNetApi", "src\BattleNetApi\BattleNetApi.xproj", "{76D7A69D-1107-4C0E-9972-AC6A6F43C223}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Selama-SPA", "src\Selama-SPA\Selama-SPA.xproj", "{D9BF1637-11E9-4C2E-BF42-A717F7F1D4A5}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Selama", "src\Selama\Selama.xproj", "{D9BF1637-11E9-4C2E-BF42-A717F7F1D4A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
