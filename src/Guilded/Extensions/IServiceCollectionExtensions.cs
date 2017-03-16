@@ -50,11 +50,12 @@ namespace Guilded.Extensions
                 }
             });
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>(opts => 
+            services.AddIdentity<ApplicationUser, ApplicationRole>(opts =>
                 {
                     opts.User.RequireUniqueEmail = true;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddRoleManager<ApplicationRoleManager>()
                 .AddDefaultTokenProviders();
         }
 
@@ -64,7 +65,7 @@ namespace Guilded.Extensions
             services.AddTransient<IGuildActivityReadOnlyDataContext, GuildActivityReadOnlyDataContext>();
             services.AddTransient<IPrivilegeReadWriteDataContext, PrivilegeReadWriteDataContext>();
         }
-        
+
         private static void AddSelamaOptions(this IServiceCollection services, IConfigurationRoot Configuration, SymmetricSecurityKey signingKey)
         {
             services.Configure<JwtOptions>(options =>
