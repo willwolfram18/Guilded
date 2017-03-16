@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace SelamaSPA.Migrations
+namespace Guilded.Migrations
 {
     public partial class ForumSection_And_Forums : Migration
     {
@@ -13,7 +14,8 @@ namespace SelamaSPA.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Sqlite:Autoincrement", true)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -26,7 +28,8 @@ namespace SelamaSPA.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Sqlite:Autoincrement", true)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     DisplayOrder = table.Column<int>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     Title = table.Column<string>(maxLength: 35, nullable: false),
@@ -42,7 +45,8 @@ namespace SelamaSPA.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Sqlite:Autoincrement", true)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ForumSectionId = table.Column<int>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     SubTitle = table.Column<string>(maxLength: 85, nullable: true),

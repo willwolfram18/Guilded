@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace SelamaSPA.Migrations
+namespace Guilded.Migrations
 {
     public partial class CustomApplicationRole : Migration
     {
@@ -16,7 +17,8 @@ namespace SelamaSPA.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Sqlite:Autoincrement", true)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
