@@ -19,6 +19,7 @@ namespace Guilded.Data.Models.Core
         #endregion
 
         #region Navigation properties
+        [InverseProperty("Privilege")]
         public virtual ICollection<RolePrivilege> RolePrivileges { get; set; }
 
         [NotMapped]

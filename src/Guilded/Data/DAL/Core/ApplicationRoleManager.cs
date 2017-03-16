@@ -20,7 +20,9 @@ namespace Guilded.Data.DAL.Core
         {
             get
             {
-                return base.Roles.Include(r => r.RolePrivileges)
+                return base.Roles
+                        .Include(r => r.ParentRole)
+                        .Include(r => r.RolePrivileges)
                         .ThenInclude(rp => rp.Privilege);
             }
         }
