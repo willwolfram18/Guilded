@@ -42,7 +42,7 @@ namespace Guilded
         {
             // Add framework services.
             services.AddOptions();
-            services.AddSelama(Configuration, _signingKey);
+            services.AddGuilded(Configuration, _signingKey);
             services.AddMvc(config =>
             {
                 config.Filters.Add(new AuthorizeFilter("Selama Ashalanore"));

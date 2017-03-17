@@ -16,11 +16,11 @@ namespace Guilded.Services.Extensions
 {
     public static class IServiceCollectionExtensions
     {
-        public static void AddSelama(this IServiceCollection services, IConfigurationRoot Configuration, SymmetricSecurityKey signingKey)
+        public static void AddGuilded(this IServiceCollection services, IConfigurationRoot Configuration, SymmetricSecurityKey signingKey)
         {
-            services.AddSelamaDb(Configuration);
-            services.AddSelamaDAL(Configuration);
-            services.AddSelamaOptions(Configuration, signingKey);
+            services.AddGuildedDb(Configuration);
+            services.AddGuildedDAL(Configuration);
+            services.AddGuildedOptions(Configuration, signingKey);
 
             services.AddSingleton<IBattleNetApi>(implementationInstance:
                 new BattleNetApi.Apis.BattleNetApi(Configuration["OAuthProviders:BattleNetClientId"])
@@ -29,7 +29,7 @@ namespace Guilded.Services.Extensions
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
-        private static void AddSelamaDb(this IServiceCollection services, IConfigurationRoot Configuration)
+        private static void AddGuildedDb(this IServiceCollection services, IConfigurationRoot Configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -52,14 +52,14 @@ namespace Guilded.Services.Extensions
                 .AddDefaultTokenProviders();
         }
 
-        private static void AddSelamaDAL(this IServiceCollection services, IConfigurationRoot Configuration)
+        private static void AddGuildedDAL(this IServiceCollection services, IConfigurationRoot Configuration)
         {
             services.AddTransient<IReadOnlyRepository<GuildActivity>, GuildActivityRepo>();
             services.AddTransient<IGuildActivityReadOnlyDataContext, GuildActivityReadOnlyDataContext>();
             services.AddTransient<IPrivilegeReadWriteDataContext, PrivilegeReadWriteDataContext>();
         }
 
-        private static void AddSelamaOptions(this IServiceCollection services, IConfigurationRoot Configuration, SymmetricSecurityKey signingKey)
+        private static void AddGuildedOptions(this IServiceCollection services, IConfigurationRoot Configuration, SymmetricSecurityKey signingKey)
         {
             services.Configure<JwtOptions>(options =>
             {
