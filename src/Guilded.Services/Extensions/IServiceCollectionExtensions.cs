@@ -1,25 +1,18 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using BattleNetApi.Apis.Interfaces;
+using Guilded.Common;
+using Guilded.Common.Options;
+using Guilded.Data;
+using Guilded.Data.DAL;
+using Guilded.Data.DAL.Core;
+using Guilded.Data.DAL.Home;
+using Guilded.Data.Models.Core;
+using Guilded.Data.Models.Home;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Guilded.Common;
-using Guilded.Data;
-using Guilded.Data.Models.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Guilded.Data.DAL;
-using Guilded.Data.DAL.Home;
-using Guilded.Data.Models.Home;
-using BattleNetApi.Apis.Interfaces;
-using Guilded.Options;
 using Microsoft.IdentityModel.Tokens;
-using Guilded.Services;
-using Guilded.Data.DAL.Core;
 
-namespace Guilded.Extensions
+namespace Guilded.Services.Extensions
 {
     public static class IServiceCollectionExtensions
     {

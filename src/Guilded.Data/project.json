@@ -1,0 +1,22 @@
+{
+    "version": "1.0.0-*",
+
+    "dependencies": {
+        "BattleNetApi": "1.0.0-*",
+        "Guilded.Extensions": "1.0.0-*",
+        "Microsoft.AspNetCore.Html.Abstractions": "1.1.0",
+        "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.1.0",
+        "Microsoft.EntityFrameworkCore.Sqlite": "1.1.0",
+        "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
+        "Newtonsoft.Json": "9.0.1"
+    },
+
+    "frameworks": {
+        "netcoreapp1.1": {
+            "imports": [
+                "dotnet5.6",
+                "portable-net45+win8"
+            ]
+        }
+    }
+}

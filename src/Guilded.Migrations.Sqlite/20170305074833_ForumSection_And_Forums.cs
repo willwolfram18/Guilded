@@ -14,8 +14,7 @@ namespace Guilded.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -28,8 +27,7 @@ namespace Guilded.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     DisplayOrder = table.Column<int>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     Title = table.Column<string>(maxLength: 35, nullable: false),
@@ -45,8 +43,7 @@ namespace Guilded.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     ForumSectionId = table.Column<int>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     SubTitle = table.Column<string>(maxLength: 85, nullable: true),

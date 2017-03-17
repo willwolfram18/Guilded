@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Guilded.Common.Attributes
+namespace Guilded.Attributes
 {
     public class ApiRouteAttribute : RouteAttribute
     {

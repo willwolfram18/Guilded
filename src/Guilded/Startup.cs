@@ -1,21 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Guilded.Common;
+using Guilded.Services.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Guilded.Data;
-using Guilded.Common;
-using Microsoft.EntityFrameworkCore;
-using Guilded.Extensions;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using Guilded.Options;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Text;
 
 namespace Guilded
@@ -41,7 +33,7 @@ namespace Guilded
 
         public IConfigurationRoot Configuration { get; }
 
-        private const string CORS_POLICY_NAME = "Guilded-AngularApp";
+        private const string CORS_POLICY_NAME = "Selama-AngularApp";
         private const string SECRET_KEY = "SampleNotSoSecretKey";
         private static readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SECRET_KEY));
 
@@ -53,11 +45,11 @@ namespace Guilded
             services.AddSelama(Configuration, _signingKey);
             services.AddMvc(config =>
             {
-                config.Filters.Add(new AuthorizeFilter("Guilded Ashalanore"));
+                config.Filters.Add(new AuthorizeFilter("Selama Ashalanore"));
             });
             services.AddAuthorization(opts =>
             {
-                opts.AddPolicy("Guilded Ashalanore", policy => policy.RequireClaim(Globals.JWT_CLAIM_TYPE, Globals.JWT_CLAIM_VALUE));
+                opts.AddPolicy("Selama Ashalanore", policy => policy.RequireClaim(Globals.JWT_CLAIM_TYPE, Globals.JWT_CLAIM_VALUE));
             });
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddCors(opts =>

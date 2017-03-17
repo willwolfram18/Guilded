@@ -5,16 +5,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Guilded.Common.Attributes;
 using Guilded.Data.Models.Core;
 using Guilded.Data.ViewModels.Account;
-using Guilded.Options;
-using Guilded.Services;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Guilded.Extensions;
 using System.Collections.Generic;
 using Guilded.Common;
+using Guilded.Attributes;
+using Guilded.Common.Options;
+using Guilded.Services;
 
 namespace Guilded.Controllers
 {
@@ -106,8 +106,8 @@ namespace Guilded.Controllers
                 var result = await _userManager.CreateAsync(appUser, user.Password);
                 if (result.Succeeded)
                 {
-                    return await SignIn(new SignInUser 
-                    { 
+                    return await SignIn(new SignInUser
+                    {
                         Email = user.Email,
                         Password = user.Password,
                         RememberMe = false

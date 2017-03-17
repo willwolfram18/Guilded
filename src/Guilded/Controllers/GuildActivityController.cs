@@ -1,8 +1,8 @@
-using System.Threading.Tasks;
+using Guilded.Attributes;
+using Guilded.Data.DAL.Home;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Guilded.Common.Attributes;
-using Guilded.Data.DAL.Home;
+using System.Threading.Tasks;
 
 namespace Guilded.Controllers
 {

@@ -1,12 +1,12 @@
+using Guilded.Attributes;
+using Guilded.Data.DAL.Forums;
+using Guilded.Data.ViewModels.Forums;
+using Guilded.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Guilded.Common.Attributes;
-using Guilded.Data.DAL.Forums;
-using Guilded.Data.ViewModels.Forums;
-using Guilded.Extensions;
 using DataModel = Guilded.Data.Models.Forums.ForumSection;
 
 namespace Guilded.Controllers.Forums
@@ -26,7 +26,7 @@ namespace Guilded.Controllers.Forums
         }
 
         #region Methods
-        #region Action methods        
+        #region Action methods
         [HttpGet]
         public JsonResult Get(bool activeOnly = true)
         {

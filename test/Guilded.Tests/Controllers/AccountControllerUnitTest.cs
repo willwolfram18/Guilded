@@ -1,27 +1,26 @@
-using System;
+using Guilded.Common.Options;
+using Guilded.Controllers;
+using Guilded.Data;
+using Guilded.Data.Models.Core;
+using Guilded.Data.ViewModels.Account;
+using Guilded.Extensions;
+using Guilded.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features.Authentication;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
-using Guilded.Controllers;
-using Guilded.Data.Models.Core;
-using Guilded.Options;
-using Guilded.Services;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Guilded.Data;
-using Guilded.Data.ViewModels.Account;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http.Features.Authentication;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
-using Guilded.Extensions;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Builder;
 
 namespace Guilded.Tests.Controllers
 {
@@ -91,7 +90,7 @@ namespace Guilded.Tests.Controllers
                 opts.UseInMemoryDatabase()
                     .UseInternalServiceProvider(efServiceProvider)
             );
-            services.AddIdentity<ApplicationUser, ApplicationRole>(opts => 
+            services.AddIdentity<ApplicationUser, ApplicationRole>(opts =>
                 {
                     opts.User.RequireUniqueEmail = true;
                 })
@@ -280,11 +279,11 @@ namespace Guilded.Tests.Controllers
                 Password = sampleUser.Item2,
             };
             #endregion
-        
+
             #region Act
             JsonResult result = await Controller.Register(user);
             #endregion
-        
+
             #region Assert
             AssertIsBadRequest();
             JObject jsonResult = ConvertResultToJson(result);
@@ -306,11 +305,11 @@ namespace Guilded.Tests.Controllers
                 Password = "abc",
             };
             #endregion
-        
+
             #region Act
             JsonResult result = await Controller.Register(user);
             #endregion
-        
+
             #region Assert
             AssertIsBadRequest();
             JObject jsonResult = ConvertResultToJson(result);
@@ -331,11 +330,11 @@ namespace Guilded.Tests.Controllers
             };
             SignInSucceeds();
             #endregion
-        
+
             #region Act
             JsonResult result = await Controller.Register(user);
             #endregion
-        
+
             #region Assert
             AssertIsOkRequest();
             AssertResultIsStandardJwt(result);

@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Guilded.Options
+namespace Guilded.Common.Options
 {
     public class JwtOptions
     {
