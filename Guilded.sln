@@ -1,34 +1,29 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26114.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3EFE6692-0ED9-43B3-9C6D-DF3D4FBA0F56}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BF29311A-3B15-47EE-BEFD-328AA20F13A5}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0AE35626-4FA3-4CF5-94D9-D84087F08AAE}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Guilded.Tests", "test\Guilded.Tests\Guilded.Tests.xproj", "{4CACEFEB-BDC1-405E-8A26-C334968862AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guilded.Tests", "test\Guilded.Tests\Guilded.Tests.csproj", "{4CACEFEB-BDC1-405E-8A26-C334968862AF}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "BattleNetApi", "src\BattleNetApi\BattleNetApi.xproj", "{76D7A69D-1107-4C0E-9972-AC6A6F43C223}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleNetApi", "src\BattleNetApi\BattleNetApi.csproj", "{76D7A69D-1107-4C0E-9972-AC6A6F43C223}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Guilded", "src\Guilded\Guilded.xproj", "{D9BF1637-11E9-4C2E-BF42-A717F7F1D4A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guilded", "src\Guilded\Guilded.csproj", "{D9BF1637-11E9-4C2E-BF42-A717F7F1D4A5}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Guilded.Migrations.Sqlite", "src\Guilded.Migrations.Sqlite\Guilded.Migrations.Sqlite.xproj", "{064A53C7-81AE-479B-BA7B-68FEB3F691F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guilded.Migrations.Sqlite", "src\Guilded.Migrations.Sqlite\Guilded.Migrations.Sqlite.csproj", "{064A53C7-81AE-479B-BA7B-68FEB3F691F0}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Guilded.Data", "src\Guilded.Data\Guilded.Data.xproj", "{7FE36D7D-1E41-49A3-A35A-4750A10785AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guilded.Data", "src\Guilded.Data\Guilded.Data.csproj", "{7FE36D7D-1E41-49A3-A35A-4750A10785AE}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Guilded.Extensions", "src\Guilded.Extensions\Guilded.Extensions.xproj", "{3706EEFF-2746-4F49-978C-DF25081074EC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guilded.Extensions", "src\Guilded.Extensions\Guilded.Extensions.csproj", "{3706EEFF-2746-4F49-978C-DF25081074EC}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Guilded.Common", "src\Guilded.Common\Guilded.Common.xproj", "{E9C183E9-D7CD-4D69-A1E8-F085D2C9FCF2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guilded.Common", "src\Guilded.Common\Guilded.Common.csproj", "{E9C183E9-D7CD-4D69-A1E8-F085D2C9FCF2}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Guilded.Services", "src\Guilded.Services\Guilded.Services.xproj", "{EC15A682-62F1-41A3-B2FB-4F0EFA011391}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guilded.Services", "src\Guilded.Services\Guilded.Services.csproj", "{EC15A682-62F1-41A3-B2FB-4F0EFA011391}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Guilded.Migrations.SqlServer", "src\Guilded.Migrations.SqlServer\Guilded.Migrations.SqlServer.xproj", "{F63B1E31-1203-4DE9-B2B5-F7E17A106B39}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guilded.Migrations.SqlServer", "src\Guilded.Migrations.SqlServer\Guilded.Migrations.SqlServer.csproj", "{F63B1E31-1203-4DE9-B2B5-F7E17A106B39}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
