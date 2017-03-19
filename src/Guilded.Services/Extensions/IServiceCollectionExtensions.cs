@@ -35,11 +35,17 @@ namespace Guilded.Services.Extensions
             {
                 if (Globals.OSX)
                 {
-                    options.UseSqlite(Configuration.GetConnectionString("DefaultConnection:OSX"));
+                    options.UseSqlite(
+                        Configuration.GetConnectionString("DefaultConnection:OSX"),
+                        opts => opts.MigrationsAssembly("Guilded.Migrations.Sqlite")
+                    );
                 }
                 else
                 {
-                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection:Windows"));
+                    options.UseSqlServer(
+                        Configuration.GetConnectionString("DefaultConnection:Windows"),
+                        opts => opts.MigrationsAssembly("Guilded.Migrations.SqlServer")
+                    );
                 }
             });
 
