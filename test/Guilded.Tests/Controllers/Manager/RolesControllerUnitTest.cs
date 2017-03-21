@@ -17,6 +17,8 @@ using Guilded.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
 using Guilded.Data.ViewModels.Core;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Guilded.Data.DAL.Core;
 
 namespace Guilded.Tests.Controllers.Manager
 {
@@ -64,6 +66,7 @@ namespace Guilded.Tests.Controllers.Manager
                 {
                     opts.User.RequireUniqueEmail = true;
                 })
+                .AddRoleManager<ApplicationRoleManager>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
         }
         private void AddHttpContextAccessorService(ServiceCollection services)
@@ -84,6 +87,7 @@ namespace Guilded.Tests.Controllers.Manager
         }
         private Task CreateRoles()
         {
+            int identityRoleClaimCounter = 1;
             for (int i = 0; i < NUM_ROLES; i++)
             {
                 var newRole = new DataModel
@@ -93,12 +97,12 @@ namespace Guilded.Tests.Controllers.Manager
                     RolePrivileges = new List<RolePrivilege>(),
                 };
                 int associatedPrivilegeId = (i % NUM_PRIVILEGES) + 1;
-                newRole.RolePrivileges.Add(new RolePrivilege
+                newRole.Claims.Add(new IdentityRoleClaim<string>
                 {
+                    Id = identityRoleClaimCounter++,
                     RoleId = (i + 1).ToString(),
-                    Role = newRole,
-                    PrivilegeId = associatedPrivilegeId,
-                    Privilege = _privileges.FirstOrDefault(p => p.Id == associatedPrivilegeId),
+                    ClaimType = _permissions[i].PermissionType,
+                    ClaimValue = true.ToString(),
                 });
                 _roles.Add(newRole);
                 _roleManager.CreateAsync(newRole).ConfigureAwait(false).GetAwaiter().GetResult();

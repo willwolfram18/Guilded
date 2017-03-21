@@ -23,7 +23,7 @@ namespace Guilded.Data.ViewModels.Core
         public string Name { get; set; }
 
         [JsonProperty("privileges")]
-        public IList<ResourcePrivilege> Privileges { get; set; }
+        public IList<Permission> Privileges { get; set; }
         #endregion
         #endregion
 
@@ -31,7 +31,7 @@ namespace Guilded.Data.ViewModels.Core
         {
             Id = null;
             Name = null;
-            Privileges = new List<ResourcePrivilege>();
+            Privileges = new List<Permission>();
         }
 
         public ApplicationRole(DataModel role) : this()
@@ -42,8 +42,8 @@ namespace Guilded.Data.ViewModels.Core
             }
             Id = role.Id;
             Name = role.Name;
-            Privileges = role.Privileges.ToListOfDifferentType(p => new ResourcePrivilege(p))
-                .OrderBy(p => p.Name)
+            Privileges = role.Claims.ToListOfDifferentType(p => new Permission(p))
+                .OrderBy(p => p.PermissionType)
                 .ToList();
         }
     }

@@ -8,7 +8,7 @@ using Guilded.Data.DAL.Core;
 using Guilded.Extensions;
 
 using DataModel = Guilded.Data.Models.Core.ResourcePrivilege;
-using ViewModel = Guilded.Data.ViewModels.Core.ResourcePrivilege;
+using ViewModel = Guilded.Data.ViewModels.Core.Permission;
 
 namespace Guilded.Controllers.Manager
 {
@@ -30,18 +30,7 @@ namespace Guilded.Controllers.Manager
         [HttpGet]
         public JsonResult Get()
         {
-            return Json(_db.Permissions.Get().ToListOfDifferentType(p => new ViewModel(p)));
-        }
-
-        [HttpGet("{id}")]
-        public async Task<JsonResult> Get(int id)
-        {
-            DataModel privilege = await _db.Permissions.GetByIdAsync(id);
-            if (privilege == null)
-            {
-                return Json(null);
-            }
-            return Json(new ViewModel(privilege));
+            return Json(_db.Permissions.Get());
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,11 +7,77 @@ namespace Guilded.Security.Claims
 {
     public static class RoleClaimTypes
     {
-        public const string RoleManagement = "Guilded:Role Management";
+        #region Properties
+        #region Public properties
+        public static readonly RoleClaim RoleManagement = new RoleClaim
+        {
+            ClaimType = "Guilded:Role Management",
+            Description = "Gives permission to create, edit, and apply roles",
+        };
 
-        public const string ForumsPinning = "Guilded:Forums Pinning";
-        public const string ForumsLocking = "Guilded:Forums Locking";
-        public const string ForumsReaded = "Guilded:Forums Reader";
-        public const string ForumsWriter = "Guilded:Forums Writer";
+        public static readonly RoleClaim ForumsPinning = new RoleClaim
+        {
+            ClaimType = "Guilded:Forums Pinning",
+            Description = "Gives permission to pin posts in the forums",
+        };
+        public static readonly RoleClaim ForumsLocking = new RoleClaim
+        {
+            ClaimType = "Guilded:Forums Locking",
+            Description = "Gives permission to lock posts in the forums",
+        };
+        public static readonly RoleClaim ForumsReader = new RoleClaim
+        {
+            ClaimType = "Guilded:Forums Reader",
+            Description = "Gives permission to read posts in the forums",
+        };
+        public static readonly RoleClaim ForumsWriter = new RoleClaim
+        {
+            ClaimType = "Guilded:Forums Writer",
+            Description = "Gives permission to create and reply to posts in the forums",
+        };
+
+        public static readonly IEnumerable<RoleClaim> RoleClaims = new List<RoleClaim>
+        {
+            RoleManagement,
+            ForumsPinning,
+            ForumsLocking,
+            ForumsReader,
+            ForumsWriter,
+        };
+        #endregion
+
+        #region Private properties
+        private static Dictionary<string, RoleClaim> TypesToRoleClaims
+        {
+            get
+            {
+                if (_typesToRolesClaims == null)
+                {
+                    _typesToRolesClaims = new Dictionary<string, RoleClaim>();
+                    foreach (RoleClaim rc in RoleClaims)
+                    {
+                        _typesToRolesClaims.Add(rc.ClaimType, rc);
+                    }
+                }
+                return _typesToRolesClaims;
+            }
+        }
+
+        private static Dictionary<string, RoleClaim> _typesToRolesClaims;
+        #endregion
+        #endregion
+
+        #region Methods
+        #region Public methods
+        public static RoleClaim LookUpRoleClaimByIdentityRoleClaim(IdentityRoleClaim<string> identityRoleClaim)
+        {
+            if (!TypesToRoleClaims.ContainsKey(identityRoleClaim.ClaimType))
+            {
+                throw new KeyNotFoundException($"Unable to fined role claim {identityRoleClaim.ClaimType}");
+            }
+            return TypesToRoleClaims[identityRoleClaim.ClaimType];
+        }
+        #endregion
+        #endregion
     }
 }

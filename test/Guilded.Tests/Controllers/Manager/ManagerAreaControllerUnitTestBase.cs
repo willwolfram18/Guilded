@@ -8,6 +8,9 @@ using Guilded.Data.DAL.Core;
 using Guilded.Data.Models.Core;
 
 using DataModel = Guilded.Data.Models.Core.ResourcePrivilege;
+using Guilded.Security.Claims;
+using Guilded.Data.ViewModels.Core;
+using Guilded.Extensions;
 
 namespace Guilded.Tests.Controllers.Manager
 {
@@ -18,7 +21,7 @@ namespace Guilded.Tests.Controllers.Manager
         #region Protected Properties
         protected const int NUM_PRIVILEGES = 5;
 
-        protected readonly List<DataModel> _privileges = new List<ResourcePrivilege>();
+        protected readonly List<Permission> _permissions = new List<Permission>();
         protected readonly Mock<IManagerDataContext> _mockPrivilegeDb = new Mock<IManagerDataContext>(); 
         #endregion
         #endregion
@@ -26,24 +29,8 @@ namespace Guilded.Tests.Controllers.Manager
         #region Test setup
         protected override void AdditionalSetup()
         {
-            CreatePrivileges();
-            _mockPrivilegeDb.Setup(r => r.Permissions.Get())
-                .Returns(_privileges.AsQueryable());
-            _mockPrivilegeDb.Setup(r => r.Permissions.GetByIdAsync(It.IsAny<int>()))
-                .Returns((Func<int, Task<ResourcePrivilege>>)(i => 
-                Task.FromResult(_privileges.FirstOrDefault(p => p.Id == i))
-            ));
-        }
-        private void CreatePrivileges()
-        {
-            for (int i = 0; i < NUM_PRIVILEGES; i++)
-            {
-                _privileges.Add(new DataModel
-                {
-                    Id = i + 1,
-                    Name = "Privilege " + (i + 1).ToString(),
-                });
-            }
+            _permissions.AddRange(RoleClaimTypes.RoleClaims.ToListOfDifferentType(rc => new Permission(rc)));
+            _mockPrivilegeDb.Setup(db => db.Permissions.Get()).Returns(_permissions);
         }
         #endregion
     }
