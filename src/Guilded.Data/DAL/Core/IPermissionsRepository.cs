@@ -6,7 +6,7 @@ using Guilded.Data.Models.Core;
 
 namespace Guilded.Data.DAL.Core
 {
-    public interface IPrivilegeReadOnlyRepository : IReadOnlyRepository<ResourcePrivilege>
+    public interface IPermissionsRepository : IReadOnlyRepository<ResourcePrivilege>
     {
     }
 }

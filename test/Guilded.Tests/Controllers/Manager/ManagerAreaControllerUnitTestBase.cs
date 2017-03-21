@@ -19,7 +19,7 @@ namespace Guilded.Tests.Controllers.Manager
         protected const int NUM_PRIVILEGES = 5;
 
         protected readonly List<DataModel> _privileges = new List<ResourcePrivilege>();
-        protected readonly Mock<IPrivilegeReadWriteDataContext> _mockPrivilegeDb = new Mock<IPrivilegeReadWriteDataContext>(); 
+        protected readonly Mock<IManagerDataContext> _mockPrivilegeDb = new Mock<IManagerDataContext>(); 
         #endregion
         #endregion
 
@@ -27,9 +27,9 @@ namespace Guilded.Tests.Controllers.Manager
         protected override void AdditionalSetup()
         {
             CreatePrivileges();
-            _mockPrivilegeDb.Setup(r => r.Privileges.Get())
+            _mockPrivilegeDb.Setup(r => r.Permissions.Get())
                 .Returns(_privileges.AsQueryable());
-            _mockPrivilegeDb.Setup(r => r.Privileges.GetByIdAsync(It.IsAny<int>()))
+            _mockPrivilegeDb.Setup(r => r.Permissions.GetByIdAsync(It.IsAny<int>()))
                 .Returns((Func<int, Task<ResourcePrivilege>>)(i => 
                 Task.FromResult(_privileges.FirstOrDefault(p => p.Id == i))
             ));

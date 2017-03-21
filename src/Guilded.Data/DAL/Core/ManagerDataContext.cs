@@ -6,29 +6,29 @@ using Guilded.Data.Models.Core;
 
 namespace Guilded.Data.DAL.Core
 {
-    public class PrivilegeReadWriteDataContext : ReadWriteDataContextBase, IPrivilegeReadWriteDataContext
+    public class ManagerDataContext : ReadWriteDataContextBase, IManagerDataContext
     {
         #region Properties
         #region Public Properties
         public RoleManager<ApplicationRole> RoleManager => _roleManager;
 
-        public IPrivilegeReadOnlyRepository Privileges => _privileges;
+        public IPermissionsRepository Permissions => _privileges;
         #endregion
 
         #region Private Properties
         private readonly RoleManager<ApplicationRole> _roleManager;
-        private readonly IPrivilegeReadOnlyRepository _privileges;
+        private readonly IPermissionsRepository _privileges;
         #endregion
         #endregion
         
 
-        public PrivilegeReadWriteDataContext(ApplicationDbContext context, RoleManager<ApplicationRole> roleManager) : base(context)
+        public ManagerDataContext(ApplicationDbContext context, RoleManager<ApplicationRole> roleManager) : base(context)
         {
             _roleManager = roleManager;
-            _privileges = new PrivilegeReadOnlyRepository(_context);
+            _privileges = new PermissionsRepository(_context);
         }
 
-        public IEnumerable<ResourcePrivilege> AddPrivilegeToRole(ApplicationRole role, ResourcePrivilege privilege)
+        public IEnumerable<ResourcePrivilege> AddPermissionToRole(ApplicationRole role, ResourcePrivilege privilege)
         {
             throw new NotImplementedException();
         }

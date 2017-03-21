@@ -7,18 +7,18 @@ using Guilded.Data.Models.Core;
 
 namespace Guilded.Data.DAL.Core
 {
-    public interface IPrivilegeReadWriteDataContext : IReadWriteDataContext
+    public interface IManagerDataContext : IReadWriteDataContext
     {
         #region Properties
         RoleManager<ApplicationRole> RoleManager { get; }
 
-        IPrivilegeReadOnlyRepository Privileges { get; }
+        IPermissionsRepository Permissions { get; }
         #endregion
 
         #region Methods
         ApplicationRole CreateRole(string roleName);
 
-        IEnumerable<ResourcePrivilege> AddPrivilegeToRole(ApplicationRole role, ResourcePrivilege privilege);
+        IEnumerable<ResourcePrivilege> AddPermissionToRole(ApplicationRole role, ResourcePrivilege privilege);
         #endregion
     }
 }

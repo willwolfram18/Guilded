@@ -18,11 +18,11 @@ namespace Guilded.Controllers.Manager
     {
         #region Properties
         #region Private Properties
-        private readonly IPrivilegeReadWriteDataContext _db;
+        private readonly IManagerDataContext _db;
         #endregion
         #endregion
 
-        public PrivilegesController(IPrivilegeReadWriteDataContext db)
+        public PrivilegesController(IManagerDataContext db)
         {
             _db = db;
         }
@@ -30,13 +30,13 @@ namespace Guilded.Controllers.Manager
         [HttpGet]
         public JsonResult Get()
         {
-            return Json(_db.Privileges.Get().ToListOfDifferentType(p => new ViewModel(p)));
+            return Json(_db.Permissions.Get().ToListOfDifferentType(p => new ViewModel(p)));
         }
 
         [HttpGet("{id}")]
         public async Task<JsonResult> Get(int id)
         {
-            DataModel privilege = await _db.Privileges.GetByIdAsync(id);
+            DataModel privilege = await _db.Permissions.GetByIdAsync(id);
             if (privilege == null)
             {
                 return Json(null);

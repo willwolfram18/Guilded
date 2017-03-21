@@ -19,11 +19,11 @@ namespace Guilded.Controllers.Manager
     {
         #region Properties
         #region Private Properties
-        private readonly IPrivilegeReadWriteDataContext _db;
+        private readonly IManagerDataContext _db;
         #endregion
         #endregion
 
-        public RolesController(IPrivilegeReadWriteDataContext db)
+        public RolesController(IManagerDataContext db)
         {
             _db = db;
         }
