@@ -25,6 +25,7 @@
     <ProjectReference Include="..\BattleNetApi\BattleNetApi.csproj" />
     <ProjectReference Include="..\Guilded.Migrations.Sqlite\Guilded.Migrations.Sqlite.csproj" />
     <ProjectReference Include="..\Guilded.Migrations.SqlServer\Guilded.Migrations.SqlServer.csproj" />
+    <ProjectReference Include="..\Guilded.Security\Guilded.Security.csproj" />
     <ProjectReference Include="..\Guilded.Services\Guilded.Services.csproj" />
     <ProjectReference Include="..\Guilded.Extensions\Guilded.Extensions.csproj" />
   </ItemGroup>

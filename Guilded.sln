@@ -1,7 +1,6 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26114.2
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3EFE6692-0ED9-43B3-9C6D-DF3D4FBA0F56}"
 EndProject
@@ -24,6 +23,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guilded.Services", "src\Guilded.Services\Guilded.Services.csproj", "{EC15A682-62F1-41A3-B2FB-4F0EFA011391}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guilded.Migrations.SqlServer", "src\Guilded.Migrations.SqlServer\Guilded.Migrations.SqlServer.csproj", "{F63B1E31-1203-4DE9-B2B5-F7E17A106B39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guilded.Security", "src\Guilded.Security\Guilded.Security.csproj", "{B54E5A42-246E-4FE5-B6DC-855889E4E485}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +68,10 @@ Global
 		{F63B1E31-1203-4DE9-B2B5-F7E17A106B39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F63B1E31-1203-4DE9-B2B5-F7E17A106B39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F63B1E31-1203-4DE9-B2B5-F7E17A106B39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B54E5A42-246E-4FE5-B6DC-855889E4E485}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B54E5A42-246E-4FE5-B6DC-855889E4E485}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B54E5A42-246E-4FE5-B6DC-855889E4E485}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B54E5A42-246E-4FE5-B6DC-855889E4E485}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,5 +86,6 @@ Global
 		{E9C183E9-D7CD-4D69-A1E8-F085D2C9FCF2} = {3EFE6692-0ED9-43B3-9C6D-DF3D4FBA0F56}
 		{EC15A682-62F1-41A3-B2FB-4F0EFA011391} = {3EFE6692-0ED9-43B3-9C6D-DF3D4FBA0F56}
 		{F63B1E31-1203-4DE9-B2B5-F7E17A106B39} = {3EFE6692-0ED9-43B3-9C6D-DF3D4FBA0F56}
+		{B54E5A42-246E-4FE5-B6DC-855889E4E485} = {3EFE6692-0ED9-43B3-9C6D-DF3D4FBA0F56}
 	EndGlobalSection
 EndGlobal
