@@ -1,4 +1,4 @@
-using Guilded.Controllers.Manager;
+using Guilded.Controllers.Admin;
 using Guilded.Data;
 using Guilded.Data.DAL.Core;
 using Guilded.Data.Models.Core;

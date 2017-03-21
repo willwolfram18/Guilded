@@ -62,7 +62,7 @@ namespace Guilded.Services.Extensions
         {
             services.AddTransient<IReadOnlyRepository<GuildActivity>, GuildActivityRepo>();
             services.AddTransient<IGuildActivityReadOnlyDataContext, GuildActivityReadOnlyDataContext>();
-            services.AddTransient<IManagerDataContext, ManagerDataContext>();
+            services.AddTransient<IAdminDataContext, AdminDataContext>();
         }
 
         private static void AddGuildedOptions(this IServiceCollection services, IConfigurationRoot Configuration, SymmetricSecurityKey signingKey)

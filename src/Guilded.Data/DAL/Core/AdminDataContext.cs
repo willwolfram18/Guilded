@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Guilded.Data.DAL.Core
 {
-    public class ManagerDataContext : ReadWriteDataContextBase, IManagerDataContext
+    public class AdminDataContext : ReadWriteDataContextBase, IAdminDataContext
     {
         #region Properties
         #region Public Properties
@@ -22,7 +22,7 @@ namespace Guilded.Data.DAL.Core
         #endregion
         
 
-        public ManagerDataContext(ApplicationDbContext context, RoleManager<Models.Core.ApplicationRole> roleManager) : base(context)
+        public AdminDataContext(ApplicationDbContext context, RoleManager<Models.Core.ApplicationRole> roleManager) : base(context)
         {
             _roleManager = roleManager;
             _privileges = new PermissionsRepository();

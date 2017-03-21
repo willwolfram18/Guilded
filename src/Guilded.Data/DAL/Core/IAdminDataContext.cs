@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Guilded.Data.DAL.Core
 {
-    public interface IManagerDataContext : IReadWriteDataContext
+    public interface IAdminDataContext : IReadWriteDataContext
     {
         #region Properties
         RoleManager<Models.Core.ApplicationRole> RoleManager { get; }

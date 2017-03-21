@@ -11,19 +11,19 @@ using DataModel = Guilded.Data.Models.Core.ApplicationRole;
 using ViewModel = Guilded.Data.ViewModels.Core.ApplicationRole;
 using Guilded.Extensions;
 
-namespace Guilded.Controllers.Manager
+namespace Guilded.Controllers.Admin
 {
     // TODO: Remove AllowAnonymous
     [AllowAnonymous]
-    public class RolesController : ManagerControllerBase
+    public class RolesController : AdminControllerBase
     {
         #region Properties
         #region Private Properties
-        private readonly IManagerDataContext _db;
+        private readonly IAdminDataContext _db;
         #endregion
         #endregion
 
-        public RolesController(IManagerDataContext db)
+        public RolesController(IAdminDataContext db)
         {
             _db = db;
         }

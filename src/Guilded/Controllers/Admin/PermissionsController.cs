@@ -2,19 +2,19 @@ using Guilded.Data.DAL.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Guilded.Controllers.Manager
+namespace Guilded.Controllers.Admin
 {
     // TODO: Remove AllowAnonymous
     [AllowAnonymous]
-    public class PrivilegesController : ManagerControllerBase
+    public class PermissionsController : AdminControllerBase
     {
         #region Properties
         #region Private Properties
-        private readonly IManagerDataContext _db;
+        private readonly IAdminDataContext _db;
         #endregion
         #endregion
 
-        public PrivilegesController(IManagerDataContext db)
+        public PermissionsController(IAdminDataContext db)
         {
             _db = db;
         }

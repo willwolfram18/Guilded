@@ -1,4 +1,4 @@
-using Guilded.Controllers.Manager;
+using Guilded.Controllers.Admin;
 using Guilded.Data.DAL.Core;
 using Guilded.Data.ViewModels.Core;
 using Guilded.Extensions;
@@ -9,14 +9,14 @@ using System.Collections.Generic;
 namespace Guilded.Tests.Controllers.Manager
 {
     public abstract class ManagerAreaControllerUnitTestBase<TController> : ApiControllerUnitTestBase<TController>
-        where TController : ManagerControllerBase
+        where TController : AdminControllerBase
     {
         #region Properties
         #region Protected Properties
         protected const int NUM_PRIVILEGES = 5;
 
         protected readonly List<Permission> _permissions = new List<Permission>();
-        protected readonly Mock<IManagerDataContext> _mockPrivilegeDb = new Mock<IManagerDataContext>(); 
+        protected readonly Mock<IAdminDataContext> _mockPrivilegeDb = new Mock<IAdminDataContext>(); 
         #endregion
         #endregion
 
