@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Guilded.Data.Models.Core;
 using Guilded.Data.ViewModels.Core;
+using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 
 namespace Guilded.Data.DAL.Core
 {
@@ -19,7 +15,7 @@ namespace Guilded.Data.DAL.Core
         #region Methods
         Models.Core.ApplicationRole CreateRole(string roleName);
 
-        IEnumerable<ResourcePrivilege> AddPermissionToRole(Models.Core.ApplicationRole role, Permission privilege);
+        IEnumerable<Permission> AddPermissionToRole(Models.Core.ApplicationRole role, Permission privilege);
         #endregion
     }
 }

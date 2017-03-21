@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Moq;
 using Guilded.Controllers.Manager;
 using Guilded.Data.DAL.Core;
-using Guilded.Data.Models.Core;
-
-using DataModel = Guilded.Data.Models.Core.ResourcePrivilege;
-using Guilded.Security.Claims;
 using Guilded.Data.ViewModels.Core;
 using Guilded.Extensions;
+using Guilded.Security.Claims;
+using Moq;
+using System.Collections.Generic;
 
 namespace Guilded.Tests.Controllers.Manager
 {

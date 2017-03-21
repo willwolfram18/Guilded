@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Guilded.Migrations.SqlServer.Migrations
+namespace Guilded.Migrations.SqlServer
 {
     public partial class InitialSqlServer : Migration
     {

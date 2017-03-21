@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Guilded.Data;
 
-namespace Guilded.Migrations
+namespace Guilded.Migrations.Sqlite
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20170205051522_IdentitySchema")]

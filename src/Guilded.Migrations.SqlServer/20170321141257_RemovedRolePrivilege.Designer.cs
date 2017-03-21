@@ -5,15 +5,161 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Guilded.Data;
 
-namespace Guilded.Migrations
+namespace Guilded.Migrations.SqlServer
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170321141257_RemovedRolePrivilege")]
+    partial class RemovedRolePrivilege
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
+                .HasAnnotation("ProductVersion", "1.1.1")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Guilded.Data.Models.Core.ApplicationRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("ParentRoleId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex");
+
+                    b.HasIndex("ParentRoleId");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Guilded.Data.Models.Core.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("SecurityStamp");
+
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Guilded.Data.Models.Forums.Forum", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ForumSectionId");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("SubTitle")
+                        .HasMaxLength(85);
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(35);
+
+                    b.Property<byte[]>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ForumSectionId");
+
+                    b.ToTable("Forums");
+                });
+
+            modelBuilder.Entity("Guilded.Data.Models.Forums.ForumSection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("DisplayOrder");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(35);
+
+                    b.Property<byte[]>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ForumSections");
+                });
+
+            modelBuilder.Entity("Guilded.Data.Models.Home.GuildActivity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Content")
+                        .IsRequired();
+
+                    b.Property<DateTime>("Timestamp");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GuildActivities");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
@@ -101,165 +247,17 @@ namespace Guilded.Migrations
 
             modelBuilder.Entity("Guilded.Data.Models.Core.ApplicationRole", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasName("RoleNameIndex");
-
-                    b.ToTable("AspNetRoles");
-                });
-
-            modelBuilder.Entity("Guilded.Data.Models.Core.ApplicationUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AccessFailedCount");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256);
-
-                    b.Property<bool>("EmailConfirmed");
-
-                    b.Property<bool>("LockoutEnabled");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("PasswordHash");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<bool>("PhoneNumberConfirmed");
-
-                    b.Property<string>("SecurityStamp");
-
-                    b.Property<bool>("TwoFactorEnabled");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasName("UserNameIndex");
-
-                    b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("Guilded.Data.Models.Core.ResourcePrivilege", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AspNetPrivileges");
-                });
-
-            modelBuilder.Entity("Guilded.Data.Models.Core.RolePrivilege", b =>
-                {
-                    b.Property<string>("RoleId");
-
-                    b.Property<int>("PrivilegeId");
-
-                    b.HasKey("RoleId", "PrivilegeId");
-
-                    b.HasIndex("PrivilegeId");
-
-                    b.ToTable("AspNetRolePrivileges");
+                    b.HasOne("Guilded.Data.Models.Core.ApplicationRole", "ParentRole")
+                        .WithMany("ChildRoles")
+                        .HasForeignKey("ParentRoleId");
                 });
 
             modelBuilder.Entity("Guilded.Data.Models.Forums.Forum", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("ForumSectionId");
-
-                    b.Property<bool>("IsActive");
-
-                    b.Property<string>("SubTitle")
-                        .HasMaxLength(85);
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(35);
-
-                    b.Property<byte[]>("Version")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ForumSectionId");
-
-                    b.ToTable("Forums");
-                });
-
-            modelBuilder.Entity("Guilded.Data.Models.Forums.ForumSection", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("DisplayOrder");
-
-                    b.Property<bool>("IsActive");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(35);
-
-                    b.Property<byte[]>("Version")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ForumSections");
-                });
-
-            modelBuilder.Entity("Guilded.Data.Models.Home.GuildActivity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Content")
-                        .IsRequired();
-
-                    b.Property<DateTime>("Timestamp");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GuildActivities");
+                    b.HasOne("Guilded.Data.Models.Forums.ForumSection", "ForumSection")
+                        .WithMany("Forums")
+                        .HasForeignKey("ForumSectionId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
@@ -296,27 +294,6 @@ namespace Guilded.Migrations
                     b.HasOne("Guilded.Data.Models.Core.ApplicationUser")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Guilded.Data.Models.Core.RolePrivilege", b =>
-                {
-                    b.HasOne("Guilded.Data.Models.Core.ResourcePrivilege", "Privilege")
-                        .WithMany("RolePrivileges")
-                        .HasForeignKey("PrivilegeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Guilded.Data.Models.Core.ApplicationRole", "Role")
-                        .WithMany("RolePrivileges")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Guilded.Data.Models.Forums.Forum", b =>
-                {
-                    b.HasOne("Guilded.Data.Models.Forums.ForumSection", "ForumSection")
-                        .WithMany("Forums")
-                        .HasForeignKey("ForumSectionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
         }

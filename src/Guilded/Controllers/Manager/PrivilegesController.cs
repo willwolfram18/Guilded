@@ -1,14 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Guilded.Data.DAL.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Guilded.Data.DAL.Core;
-using Guilded.Extensions;
-
-using DataModel = Guilded.Data.Models.Core.ResourcePrivilege;
-using ViewModel = Guilded.Data.ViewModels.Core.Permission;
 
 namespace Guilded.Controllers.Manager
 {

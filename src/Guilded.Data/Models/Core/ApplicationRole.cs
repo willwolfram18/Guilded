@@ -18,18 +18,6 @@ namespace Guilded.Data.Models.Core
 
         [InverseProperty("ParentRole")]
         public virtual ICollection<ApplicationRole> ChildRoles { get; set; }
-
-        [InverseProperty("Role")]
-        public virtual ICollection<RolePrivilege> RolePrivileges { get; set; }
-
-        [NotMapped]
-        public IEnumerable<ResourcePrivilege> Privileges
-        {
-            get
-            {
-                return RolePrivileges.Select(r => r.Privilege);
-            }
-        }
         #endregion
         #endregion
     }

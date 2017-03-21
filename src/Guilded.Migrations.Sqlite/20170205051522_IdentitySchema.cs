@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Guilded.Migrations
+namespace Guilded.Migrations.Sqlite
 {
     public partial class IdentitySchema : Migration
     {

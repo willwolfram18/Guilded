@@ -1,24 +1,21 @@
+using Guilded.Controllers.Manager;
+using Guilded.Data;
+using Guilded.Data.DAL.Core;
+using Guilded.Data.Models.Core;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features.Authentication;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features.Authentication;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Guilded.Controllers.Manager;
-using Guilded.Data;
-using Guilded.Data.Models.Core;
-
-using ViewModel = Guilded.Data.ViewModels.Core.ApplicationRole;
-using DataModel = Guilded.Data.Models.Core.ApplicationRole;
-using Guilded.Extensions;
-using Microsoft.AspNetCore.Mvc;
 using Xunit;
-using Guilded.Data.ViewModels.Core;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Guilded.Data.DAL.Core;
+using DataModel = Guilded.Data.Models.Core.ApplicationRole;
+using ViewModel = Guilded.Data.ViewModels.Core.ApplicationRole;
 
 namespace Guilded.Tests.Controllers.Manager
 {
@@ -94,9 +91,7 @@ namespace Guilded.Tests.Controllers.Manager
                 {
                     Id = (i + 1).ToString(),
                     Name = "Role " + (i + 1).ToString(),
-                    RolePrivileges = new List<RolePrivilege>(),
                 };
-                int associatedPrivilegeId = (i % NUM_PRIVILEGES) + 1;
                 newRole.Claims.Add(new IdentityRoleClaim<string>
                 {
                     Id = identityRoleClaimCounter++,

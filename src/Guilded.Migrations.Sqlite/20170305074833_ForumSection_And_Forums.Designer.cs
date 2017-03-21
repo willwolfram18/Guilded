@@ -5,16 +5,39 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Guilded.Data;
 
-namespace Guilded.Migrations
+namespace Guilded.Migrations.Sqlite
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170311051849_CustomApplicationRole")]
-    partial class CustomApplicationRole
+    [Migration("20170305074833_ForumSection_And_Forums")]
+    partial class ForumSection_And_Forums
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
@@ -100,29 +123,6 @@ namespace Guilded.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Guilded.Data.Models.Core.ApplicationRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasName("RoleNameIndex");
-
-                    b.ToTable("AspNetRoles");
-                });
-
             modelBuilder.Entity("Guilded.Data.Models.Core.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -173,7 +173,7 @@ namespace Guilded.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Guilded.Data.Models.Core.ResourcePrivilege", b =>
+            modelBuilder.Entity("Guilded.Data.Models.Core.UserPrivilege", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -183,20 +183,7 @@ namespace Guilded.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AspNetPrivileges");
-                });
-
-            modelBuilder.Entity("Guilded.Data.Models.Core.RolePrivilege", b =>
-                {
-                    b.Property<string>("RoleId");
-
-                    b.Property<int>("PrivilegeId");
-
-                    b.HasKey("RoleId", "PrivilegeId");
-
-                    b.HasIndex("PrivilegeId");
-
-                    b.ToTable("AspNetRolePrivileges");
+                    b.ToTable("AspNetUserPrivileges");
                 });
 
             modelBuilder.Entity("Guilded.Data.Models.Forums.Forum", b =>
@@ -265,7 +252,7 @@ namespace Guilded.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Guilded.Data.Models.Core.ApplicationRole")
+                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
                         .WithMany("Claims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -289,7 +276,7 @@ namespace Guilded.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Guilded.Data.Models.Core.ApplicationRole")
+                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -297,19 +284,6 @@ namespace Guilded.Migrations
                     b.HasOne("Guilded.Data.Models.Core.ApplicationUser")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Guilded.Data.Models.Core.RolePrivilege", b =>
-                {
-                    b.HasOne("Guilded.Data.Models.Core.ResourcePrivilege", "Privilege")
-                        .WithMany("RolePrivileges")
-                        .HasForeignKey("PrivilegeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Guilded.Data.Models.Core.ApplicationRole", "Role")
-                        .WithMany("RolePrivileges")
-                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

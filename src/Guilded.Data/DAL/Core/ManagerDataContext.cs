@@ -1,9 +1,8 @@
+using Guilded.Data.DAL.Abstract;
+using Guilded.Data.ViewModels.Core;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity;
-using Guilded.Data.DAL.Abstract;
-using Guilded.Data.Models.Core;
-using Guilded.Data.ViewModels.Core;
 
 namespace Guilded.Data.DAL.Core
 {
@@ -34,7 +33,7 @@ namespace Guilded.Data.DAL.Core
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ResourcePrivilege> AddPermissionToRole(Models.Core.ApplicationRole role, Permission privilege)
+        public IEnumerable<Permission> AddPermissionToRole(Models.Core.ApplicationRole role, Permission privilege)
         {
             throw new NotImplementedException();
         }

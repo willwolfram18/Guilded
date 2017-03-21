@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Guilded.Data;
 
-namespace Guilded.Migrations.SqlServer.Migrations
+namespace Guilded.Migrations.SqlServer
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20170319014947_InitialSqlServer")]

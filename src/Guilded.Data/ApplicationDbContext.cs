@@ -1,24 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Guilded.Data.Models.Core;
-using Guilded.Data.Models.Home;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Guilded.Data.Models.Core;
 using Guilded.Data.Models.Forums;
+using Guilded.Data.Models.Home;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Guilded.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         public DbSet<GuildActivity> GuildActivity { get; set; }
-
-        #region Resource privileges
-        public DbSet<ResourcePrivilege> Privileges { get; set; }
-
-        public DbSet<RolePrivilege> RolePrivileges { get; set; }
-        #endregion
 
         #region Forums
         public DbSet<ForumSection> ForumSections { get; set; }
@@ -33,14 +23,9 @@ namespace Guilded.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<RolePrivilege>()
-                .HasKey("RoleId", "PrivilegeId");
             builder.Entity<ApplicationRole>()
-                .HasMany(r => r.RolePrivileges)
-                .WithOne(r => r.Role);
-            builder.Entity<ResourcePrivilege>()
-                .HasMany(r => r.RolePrivileges)
-                .WithOne(r => r.Privilege);
+                .HasIndex(r => r.Name)
+                .IsUnique();
             base.OnModelCreating(builder);
         }
     }
