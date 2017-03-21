@@ -1,11 +1,10 @@
+using Guilded.Extensions;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
-
-using DataModel = Guilded.Data.Models.Core.ApplicationRole;
-using Guilded.Extensions;
 using System.Linq;
-using System;
+using DataModel = Guilded.Data.Models.Core.ApplicationRole;
 
 namespace Guilded.Data.ViewModels.Core
 {
@@ -22,8 +21,8 @@ namespace Guilded.Data.ViewModels.Core
         [MinLength(5, ErrorMessage = "A role name must contain at least {0} characers")]
         public string Name { get; set; }
 
-        [JsonProperty("privileges")]
-        public IList<Permission> Privileges { get; set; }
+        [JsonProperty("permissions")]
+        public IList<Permission> Permissions { get; set; }
         #endregion
         #endregion
 
@@ -31,7 +30,7 @@ namespace Guilded.Data.ViewModels.Core
         {
             Id = null;
             Name = null;
-            Privileges = new List<Permission>();
+            Permissions = new List<Permission>();
         }
 
         public ApplicationRole(DataModel role) : this()
@@ -42,7 +41,7 @@ namespace Guilded.Data.ViewModels.Core
             }
             Id = role.Id;
             Name = role.Name;
-            Privileges = role.Claims.ToListOfDifferentType(p => new Permission(p))
+            Permissions = role.Claims.ToListOfDifferentType(p => new Permission(p))
                 .OrderBy(p => p.PermissionType)
                 .ToList();
         }

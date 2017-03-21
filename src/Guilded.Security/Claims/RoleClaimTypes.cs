@@ -11,28 +11,28 @@ namespace Guilded.Security.Claims
         #region Public properties
         public static readonly RoleClaim RoleManagement = new RoleClaim
         {
-            ClaimType = "Guilded:Role Management",
+            ClaimType = "Guilded:Admin:Roles",
             Description = "Gives permission to create, edit, and apply roles",
         };
 
         public static readonly RoleClaim ForumsPinning = new RoleClaim
         {
-            ClaimType = "Guilded:Forums Pinning",
+            ClaimType = "Guilded:Forums:Pin Posts",
             Description = "Gives permission to pin posts in the forums",
         };
         public static readonly RoleClaim ForumsLocking = new RoleClaim
         {
-            ClaimType = "Guilded:Forums Locking",
+            ClaimType = "Guilded:Forums:Lock Posts",
             Description = "Gives permission to lock posts in the forums",
         };
         public static readonly RoleClaim ForumsReader = new RoleClaim
         {
-            ClaimType = "Guilded:Forums Reader",
+            ClaimType = "Guilded:Forums:Read Posts",
             Description = "Gives permission to read posts in the forums",
         };
         public static readonly RoleClaim ForumsWriter = new RoleClaim
         {
-            ClaimType = "Guilded:Forums Writer",
+            ClaimType = "Guilded:Forums:Write Posts",
             Description = "Gives permission to create and reply to posts in the forums",
         };
 
