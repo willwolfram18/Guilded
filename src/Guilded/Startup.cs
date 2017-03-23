@@ -93,7 +93,7 @@ namespace Guilded
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}"
+                    template: "api/{controller=Home}/{action=Index}/{id?}"
                 );
             });
         }

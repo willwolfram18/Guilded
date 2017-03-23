@@ -33,10 +33,8 @@ namespace Guilded.Controllers.Admin
         [HttpGet]
         public JsonResult Get()
         {
-            return Json(
-                _db.RoleManager.Roles.ToListOfDifferentType(r => new ViewModel(r))
-                    .OrderBy(r => r.Name)
-            );
+            // TODO: Perform GET based on current user role
+            return Json(_db.RoleManager.Roles.ToListOfDifferentType(r => new ViewModel(r)));
         }
 
         [HttpGet("{id}")]

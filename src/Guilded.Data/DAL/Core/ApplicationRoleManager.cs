@@ -21,7 +21,6 @@ namespace Guilded.Data.DAL.Core
             get
             {
                 return base.Roles
-                        .Include(r => r.ParentRole)
                         .Include(r => r.Claims);
             }
         }
