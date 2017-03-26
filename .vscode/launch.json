@@ -6,9 +6,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}/src/Selama-SPA/bin/Debug/netcoreapp1.1/Selama-SPA.dll",
+            "program": "${workspaceRoot}/src/Guilded/bin/Debug/netcoreapp1.1/Guilded.dll",
             "args": [],
-            "cwd": "${workspaceRoot}/src/Selama-SPA",
+            "cwd": "${workspaceRoot}/src/Guilded",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
@@ -29,7 +29,7 @@
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "sourceFileMap": {
-                "/Views": "${workspaceRoot}/src/Selama/Views"
+                "/Views": "${workspaceRoot}/src/Guilded/Views"
             }
         },
         {

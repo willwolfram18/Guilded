@@ -13,7 +13,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="node_modules" />
     <None Update="wwwroot\dist\*.map">
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>

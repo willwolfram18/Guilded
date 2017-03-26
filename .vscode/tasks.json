@@ -8,7 +8,7 @@
         {
             "taskName": "build",
             "args": [
-                "${workspaceRoot}/src/Selama-SPA"
+                "${workspaceRoot}/src/Guilded"
             ],
             "isBuildCommand": true,
             "showOutput": "always",
@@ -18,7 +18,7 @@
             "taskName": "test",
             "args": [
                 "test",
-                "${workspaceRoot}/test/Selama.Tests"
+                "${workspaceRoot}/test/Guilded.Tests"
             ],
             "isTestCommand": true,
             "showOutput": "always",
