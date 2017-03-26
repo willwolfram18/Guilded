@@ -38,15 +38,15 @@ namespace Guilded.Controllers.Admin
         }
 
         [HttpGet("{id}")]
-        public async Task<JsonResult> Get(string id)
+        public Task<JsonResult> Get(string id)
         {
-            DataModel role = await _db.RoleManager.FindByIdAsync(id);
+            DataModel role = _db.RoleManager.Roles.FirstOrDefault(r => r.Id == id);
             if (role == null)
             {
-                return Json(null);
+                return Task.FromResult(Json(null));
             }
 
-            return Json(new ViewModel(role));
+            return Task.FromResult(Json(new ViewModel(role)));
         }
 
         [HttpPost]

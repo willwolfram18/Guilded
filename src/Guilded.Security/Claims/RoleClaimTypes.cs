@@ -9,32 +9,31 @@ namespace Guilded.Security.Claims
     {
         #region Properties
         #region Public properties
-        public static readonly RoleClaim RoleManagement = new RoleClaim
-        {
-            ClaimType = "Guilded:Admin:Roles",
-            Description = "Gives permission to create, edit, and apply roles",
-        };
+        public static readonly RoleClaim RoleManagement = new RoleClaim(
+            "Guilded:Admin:Roles",
+            "Permission to create, edit, and apply roles"
+        );
 
         public static readonly RoleClaim ForumsPinning = new RoleClaim
-        {
-            ClaimType = "Guilded:Forums:Pin Posts",
-            Description = "Gives permission to pin posts in the forums",
-        };
+        (
+            "Guilded:Forums:Pin Posts",
+            "Permission to pin posts in the forums"
+        );
         public static readonly RoleClaim ForumsLocking = new RoleClaim
-        {
-            ClaimType = "Guilded:Forums:Lock Posts",
-            Description = "Gives permission to lock posts in the forums",
-        };
+        (
+            "Guilded:Forums:Lock Posts",
+            "Permission to lock posts in the forums"
+        );
         public static readonly RoleClaim ForumsReader = new RoleClaim
-        {
-            ClaimType = "Guilded:Forums:Read Posts",
-            Description = "Gives permission to read posts in the forums",
-        };
+        (
+            "Guilded:Forums:Read Posts",
+            "Permission to read posts in the forums"
+        );
         public static readonly RoleClaim ForumsWriter = new RoleClaim
-        {
-            ClaimType = "Guilded:Forums:Write Posts",
-            Description = "Gives permission to create and reply to posts in the forums",
-        };
+        (
+            "Guilded:Forums:Write Posts",
+            "Permission to create and reply to posts in the forums"
+        );
 
         public static readonly IEnumerable<RoleClaim> RoleClaims = new List<RoleClaim>
         {
