@@ -1,7 +1,7 @@
 using Guilded.Controllers.Admin;
 using Guilded.Data;
 using Guilded.Data.DAL.Core;
-using Guilded.Data.Models.Core;
+using Guilded.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -14,12 +14,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-using DataModel = Guilded.Data.Models.Core.ApplicationRole;
+using DataModel = Guilded.Identity.ApplicationRole;
 using ViewModel = Guilded.Data.ViewModels.Core.ApplicationRole;
 
-namespace Guilded.Tests.Controllers.Manager
+namespace Guilded.Tests.Controllers.Admin
 {
-    public class RolesControllerUnitTest : ManagerAreaControllerUnitTestBase<RolesController>
+    public class RolesControllerUnitTest : AdminAreaControllerUnitTestBase<RolesController>
     {
         #region Properties
         #region Private Properties

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Guilded.Data.Models.Core;
+using Guilded.Identity;
 using Guilded.Data.ViewModels.Account;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;

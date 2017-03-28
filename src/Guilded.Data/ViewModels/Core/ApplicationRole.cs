@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using DataModel = Guilded.Data.Models.Core.ApplicationRole;
+using DataModel = Guilded.Identity.ApplicationRole;
 
 namespace Guilded.Data.ViewModels.Core
 {

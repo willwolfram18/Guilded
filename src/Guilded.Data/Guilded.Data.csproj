@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BattleNetApi\BattleNetApi.csproj" />
     <ProjectReference Include="..\Guilded.Extensions\Guilded.Extensions.csproj" />
+    <ProjectReference Include="..\Guilded.Identity\Guilded.Identity.csproj" />
     <ProjectReference Include="..\Guilded.Security\Guilded.Security.csproj" />
   </ItemGroup>
 

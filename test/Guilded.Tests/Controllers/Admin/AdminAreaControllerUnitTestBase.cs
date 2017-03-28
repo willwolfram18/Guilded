@@ -6,9 +6,9 @@ using Guilded.Security.Claims;
 using Moq;
 using System.Collections.Generic;
 
-namespace Guilded.Tests.Controllers.Manager
+namespace Guilded.Tests.Controllers.Admin
 {
-    public abstract class ManagerAreaControllerUnitTestBase<TController> : ApiControllerUnitTestBase<TController>
+    public abstract class AdminAreaControllerUnitTestBase<TController> : ApiControllerUnitTestBase<TController>
         where TController : AdminControllerBase
     {
         #region Properties

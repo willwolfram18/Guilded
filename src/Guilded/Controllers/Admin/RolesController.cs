@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Guilded.Data.DAL.Core;
 using Guilded.Data.ViewModels.Core;
 
-using DataModel = Guilded.Data.Models.Core.ApplicationRole;
+using DataModel = Guilded.Identity.ApplicationRole;
 using ViewModel = Guilded.Data.ViewModels.Core.ApplicationRole;
 using Guilded.Extensions;
 

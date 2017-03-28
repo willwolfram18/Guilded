@@ -10,30 +10,30 @@ namespace Guilded.Data.DAL.Core
     {
         #region Properties
         #region Public Properties
-        public RoleManager<Models.Core.ApplicationRole> RoleManager => _roleManager;
+        public RoleManager<Identity.ApplicationRole> RoleManager => _roleManager;
 
         public IPermissionsRepository Permissions => _privileges;
         #endregion
 
         #region Private Properties
-        private readonly RoleManager<Models.Core.ApplicationRole> _roleManager;
+        private readonly RoleManager<Identity.ApplicationRole> _roleManager;
         private readonly IPermissionsRepository _privileges;
         #endregion
         #endregion
         
 
-        public AdminDataContext(ApplicationDbContext context, RoleManager<Models.Core.ApplicationRole> roleManager) : base(context)
+        public AdminDataContext(ApplicationDbContext context, RoleManager<Identity.ApplicationRole> roleManager) : base(context)
         {
             _roleManager = roleManager;
             _privileges = new PermissionsRepository();
         }
 
-        public Models.Core.ApplicationRole CreateRole(string roleName)
+        public Identity.ApplicationRole CreateRole(string roleName)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Permission> AddPermissionToRole(Models.Core.ApplicationRole role, Permission privilege)
+        public IEnumerable<Permission> AddPermissionToRole(Identity.ApplicationRole role, Permission privilege)
         {
             throw new NotImplementedException();
         }

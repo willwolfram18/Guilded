@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guilded.Migrations.SqlServe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guilded.Security", "src\Guilded.Security\Guilded.Security.csproj", "{B54E5A42-246E-4FE5-B6DC-855889E4E485}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Guilded.Identity", "src\Guilded.Identity\Guilded.Identity.csproj", "{F27E4138-E260-4D29-9992-13C24AF8908C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,10 @@ Global
 		{B54E5A42-246E-4FE5-B6DC-855889E4E485}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B54E5A42-246E-4FE5-B6DC-855889E4E485}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B54E5A42-246E-4FE5-B6DC-855889E4E485}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F27E4138-E260-4D29-9992-13C24AF8908C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F27E4138-E260-4D29-9992-13C24AF8908C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F27E4138-E260-4D29-9992-13C24AF8908C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F27E4138-E260-4D29-9992-13C24AF8908C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,5 +93,6 @@ Global
 		{EC15A682-62F1-41A3-B2FB-4F0EFA011391} = {3EFE6692-0ED9-43B3-9C6D-DF3D4FBA0F56}
 		{F63B1E31-1203-4DE9-B2B5-F7E17A106B39} = {3EFE6692-0ED9-43B3-9C6D-DF3D4FBA0F56}
 		{B54E5A42-246E-4FE5-B6DC-855889E4E485} = {3EFE6692-0ED9-43B3-9C6D-DF3D4FBA0F56}
+		{F27E4138-E260-4D29-9992-13C24AF8908C} = {3EFE6692-0ED9-43B3-9C6D-DF3D4FBA0F56}
 	EndGlobalSection
 EndGlobal

@@ -22,6 +22,7 @@
     <ProjectReference Include="..\Guilded.Common\Guilded.Common.csproj" />
     <ProjectReference Include="..\Guilded.Data\Guilded.Data.csproj" />
     <ProjectReference Include="..\BattleNetApi\BattleNetApi.csproj" />
+    <ProjectReference Include="..\Guilded.Identity\Guilded.Identity.csproj" />
     <ProjectReference Include="..\Guilded.Migrations.Sqlite\Guilded.Migrations.Sqlite.csproj" />
     <ProjectReference Include="..\Guilded.Migrations.SqlServer\Guilded.Migrations.SqlServer.csproj" />
     <ProjectReference Include="..\Guilded.Security\Guilded.Security.csproj" />

@@ -1,5 +1,4 @@
 using Guilded.Data.DAL.Abstract;
-using Guilded.Data.Models.Core;
 using Guilded.Data.ViewModels.Core;
 using Guilded.Extensions;
 using Guilded.Security.Claims;

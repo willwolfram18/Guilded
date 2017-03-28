@@ -1,7 +1,7 @@
 using Guilded.Common.Options;
 using Guilded.Controllers;
 using Guilded.Data;
-using Guilded.Data.Models.Core;
+using Guilded.Identity;
 using Guilded.Data.ViewModels.Account;
 using Guilded.Extensions;
 using Guilded.Services;

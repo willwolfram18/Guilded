@@ -1,4 +1,3 @@
-using Guilded.Data.Models.Core;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
