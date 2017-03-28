@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DataModel = Guilded.Data.Models.Forums.ForumSection;
 
-namespace Guilded.Data.ViewModels.Forums
+namespace Guilded.ViewModels.Forums
 {
     public class EditForumSection
     {

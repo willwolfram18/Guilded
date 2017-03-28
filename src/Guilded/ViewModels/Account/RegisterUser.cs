@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Guilded.Data.ViewModels.Account
+namespace Guilded.ViewModels.Account
 {
     public class RegisterUser
     {

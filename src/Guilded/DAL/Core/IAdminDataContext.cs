@@ -1,4 +1,4 @@
-using Guilded.Data.ViewModels.Core;
+using Guilded.ViewModels.Core;
 using Guilded.Identity;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;

@@ -3,7 +3,7 @@ using System;
 using Guilded.Security.Claims;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace Guilded.Data.ViewModels.Core
+namespace Guilded.ViewModels.Core
 {
     public class Permission
     {

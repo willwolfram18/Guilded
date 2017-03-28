@@ -1,4 +1,4 @@
-﻿using Guilded.Data.ViewModels.Home;
+﻿using Guilded.ViewModels.Home;
 using System;
 using System.Collections.Generic;
 using System.Linq;

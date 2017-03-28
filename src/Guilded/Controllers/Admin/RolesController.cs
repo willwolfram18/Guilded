@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Guilded.Data.DAL.Core;
-using Guilded.Data.ViewModels.Core;
+using Guilded.ViewModels.Core;
 
 using DataModel = Guilded.Identity.ApplicationRole;
-using ViewModel = Guilded.Data.ViewModels.Core.ApplicationRole;
+using ViewModel = Guilded.ViewModels.Core.ApplicationRole;
 using Guilded.Extensions;
 
 namespace Guilded.Controllers.Admin

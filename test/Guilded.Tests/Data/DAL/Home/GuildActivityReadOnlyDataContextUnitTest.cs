@@ -1,7 +1,7 @@
 ﻿using BattleNetApi.Apis.Interfaces;
 using Moq;
 using Guilded.Data.DAL.Home;
-using Guilded.Data.ViewModels.Home;
+using Guilded.ViewModels.Home;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
@@ -62,7 +62,7 @@ namespace Guilded.Tests.Data.DAL.Home
             #endregion
 
             #region Act
-            List<Guilded.Data.ViewModels.Home.GuildActivity> result = null;
+            List<ViewModels.Home.GuildActivity> result = null;
             if (isMember)
             {
                 result = await _dataContext.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
@@ -74,7 +74,7 @@ namespace Guilded.Tests.Data.DAL.Home
             #endregion
 
             #region Assert
-            AssertResultMatchesExpected(result, new List<Guilded.Data.ViewModels.Home.GuildActivity>());
+            AssertResultMatchesExpected(result, new List<ViewModels.Home.GuildActivity>());
             #endregion
         }
 
@@ -90,11 +90,11 @@ namespace Guilded.Tests.Data.DAL.Home
             #endregion
 
             #region Act
-            List<Guilded.Data.ViewModels.Home.GuildActivity> result = await _dataContext.GetPublicGuildNewsAsync(pageNum, PAGE_SIZE);
+            List<ViewModels.Home.GuildActivity> result = await _dataContext.GetPublicGuildNewsAsync(pageNum, PAGE_SIZE);
             #endregion
 
             #region Assert
-            AssertResultMatchesExpected(result, new List<Guilded.Data.ViewModels.Home.GuildActivity>());
+            AssertResultMatchesExpected(result, new List<ViewModels.Home.GuildActivity>());
             #endregion
         }
 
@@ -105,8 +105,8 @@ namespace Guilded.Tests.Data.DAL.Home
         public async Task GetPublicGuildNewsAsync_PublicNewsWithPageInRangeGivesCorrectResult(int pageNum)
         {
             #region Arrange
-            List<Guilded.Data.ViewModels.Home.GuildActivity> expectedNews = _battleNetNews
-                .ToListOfDifferentType(Guilded.Data.ViewModels.Home.GuildActivity.CreateFromBattleNetNews);
+            List<ViewModels.Home.GuildActivity> expectedNews = _battleNetNews
+                .ToListOfDifferentType(ViewModels.Home.GuildActivity.CreateFromBattleNetNews);
             expectedNews.Sort();
             expectedNews = expectedNews
                 .Skip((pageNum - 1) * PAGE_SIZE)
@@ -115,7 +115,7 @@ namespace Guilded.Tests.Data.DAL.Home
             #endregion
 
             #region Act
-            List<Guilded.Data.ViewModels.Home.GuildActivity> result = await _dataContext.GetPublicGuildNewsAsync(pageNum, PAGE_SIZE);
+            List<ViewModels.Home.GuildActivity> result = await _dataContext.GetPublicGuildNewsAsync(pageNum, PAGE_SIZE);
             #endregion
 
             #region Assert
@@ -131,11 +131,11 @@ namespace Guilded.Tests.Data.DAL.Home
             #endregion
 
             #region Act
-            List<Guilded.Data.ViewModels.Home.GuildActivity> result = await _dataContext.GetPublicGuildNewsAsync(pageNum, PAGE_SIZE);
+            List<ViewModels.Home.GuildActivity> result = await _dataContext.GetPublicGuildNewsAsync(pageNum, PAGE_SIZE);
             #endregion
 
             #region Assert
-            AssertResultMatchesExpected(result, new List<Guilded.Data.ViewModels.Home.GuildActivity>());
+            AssertResultMatchesExpected(result, new List<ViewModels.Home.GuildActivity>());
             #endregion
         }
         #endregion
@@ -153,11 +153,11 @@ namespace Guilded.Tests.Data.DAL.Home
             #endregion
 
             #region Act
-            List<Guilded.Data.ViewModels.Home.GuildActivity> result = await _dataContext.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
+            List<ViewModels.Home.GuildActivity> result = await _dataContext.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
             #endregion
 
             #region Assert
-            AssertResultMatchesExpected(result, new List<Guilded.Data.ViewModels.Home.GuildActivity>());
+            AssertResultMatchesExpected(result, new List<ViewModels.Home.GuildActivity>());
             #endregion
         }
 
@@ -168,11 +168,11 @@ namespace Guilded.Tests.Data.DAL.Home
         public async Task GetMembersOnlyNewsAsync_MembersNewsWithPageInRangeGivesCorrectResult(int pageNum)
         {
             #region Arrange
-            List<Guilded.Data.ViewModels.Home.GuildActivity> expectedNews = _battleNetNews
-                .ToListOfDifferentType(Guilded.Data.ViewModels.Home.GuildActivity.CreateFromBattleNetNews)
+            List<ViewModels.Home.GuildActivity> expectedNews = _battleNetNews
+                .ToListOfDifferentType(ViewModels.Home.GuildActivity.CreateFromBattleNetNews)
                 .Concat(
                     _websiteNews.ToListOfDifferentType(n =>
-                        new Guilded.Data.ViewModels.Home.GuildActivity(n.Timestamp, n.Content)
+                        new ViewModels.Home.GuildActivity(n.Timestamp, n.Content)
                     )
                 )
                 .ToList();
@@ -183,7 +183,7 @@ namespace Guilded.Tests.Data.DAL.Home
             #endregion
 
             #region Act
-            List<Guilded.Data.ViewModels.Home.GuildActivity> result = await _dataContext.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
+            List<ViewModels.Home.GuildActivity> result = await _dataContext.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
             #endregion
 
             #region Assert
@@ -199,11 +199,11 @@ namespace Guilded.Tests.Data.DAL.Home
             #endregion
 
             #region Act
-            List<Guilded.Data.ViewModels.Home.GuildActivity> result = await _dataContext.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
+            List<ViewModels.Home.GuildActivity> result = await _dataContext.GetMembersOnlyNewsAsync(pageNum, PAGE_SIZE);
             #endregion
 
             #region Assert
-            AssertResultMatchesExpected(result, new List<Guilded.Data.ViewModels.Home.GuildActivity>());
+            AssertResultMatchesExpected(result, new List<ViewModels.Home.GuildActivity>());
             #endregion
         }
         #endregion
@@ -263,7 +263,7 @@ namespace Guilded.Tests.Data.DAL.Home
             }
         }
 
-        private void AssertResultMatchesExpected(List<Guilded.Data.ViewModels.Home.GuildActivity> result, List<Guilded.Data.ViewModels.Home.GuildActivity> expected)
+        private void AssertResultMatchesExpected(List<ViewModels.Home.GuildActivity> result, List<ViewModels.Home.GuildActivity> expected)
         {
             Assert.NotNull(result);
             Assert.Equal(result.Count, expected.Count);

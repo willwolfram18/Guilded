@@ -26,11 +26,11 @@
     <ProjectReference Include="..\Guilded.Migrations.Sqlite\Guilded.Migrations.Sqlite.csproj" />
     <ProjectReference Include="..\Guilded.Migrations.SqlServer\Guilded.Migrations.SqlServer.csproj" />
     <ProjectReference Include="..\Guilded.Security\Guilded.Security.csproj" />
-    <ProjectReference Include="..\Guilded.Services\Guilded.Services.csproj" />
     <ProjectReference Include="..\Guilded.Extensions\Guilded.Extensions.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.1.1" />
@@ -51,7 +51,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.1.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.1.3" />
   </ItemGroup>
 

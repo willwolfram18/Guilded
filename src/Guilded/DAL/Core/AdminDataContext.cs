@@ -1,5 +1,5 @@
 using Guilded.Data.DAL.Abstract;
-using Guilded.Data.ViewModels.Core;
+using Guilded.ViewModels.Core;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,6 @@
 using Guilded.Controllers.Admin;
 using Guilded.Data.DAL.Core;
-using Guilded.Data.ViewModels.Core;
+using Guilded.ViewModels.Core;
 using Guilded.Extensions;
 using Guilded.Security.Claims;
 using Moq;

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using DataModel = Guilded.Identity.ApplicationRole;
 
-namespace Guilded.Data.ViewModels.Core
+namespace Guilded.ViewModels.Core
 {
     public class ApplicationRole
     {

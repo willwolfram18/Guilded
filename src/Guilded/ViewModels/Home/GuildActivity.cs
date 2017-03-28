@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Html;
 using Newtonsoft.Json;
 using System;
 
-namespace Guilded.Data.ViewModels.Home
+namespace Guilded.ViewModels.Home
 {
     public class GuildActivity : IComparable<GuildActivity>
     {

@@ -6,7 +6,7 @@ using BattleNetApi.Apis.Interfaces;
 using BattleNetApi.Apis;
 using BattleNetApi.Objects.WoW;
 using Guilded.Data.Models.Home;
-using Guilded.Data.ViewModels.Home;
+using Guilded.ViewModels.Home;
 using Guilded.Extensions;
 
 namespace Guilded.Data.DAL.Home
