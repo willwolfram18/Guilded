@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using DataModel = Guilded.Identity.ApplicationRole;
+using AutoMapper;
 
 namespace Guilded.ViewModels.Core
 {
@@ -39,10 +40,9 @@ namespace Guilded.ViewModels.Core
             {
                 throw new ArgumentNullException("role");
             }
-            Id = role.Id;
-            Name = role.Name;
-            Permissions = role.Claims.ToListOfDifferentType(p => new Permission(p))
-                .OrderBy(p => p.PermissionType)
+
+            Mapper.Map(role, this);
+            Permissions = Permissions.OrderBy(p => p.PermissionType)
                 .ToList();
         }
     }

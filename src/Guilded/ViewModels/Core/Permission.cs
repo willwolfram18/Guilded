@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using System;
 using Guilded.Security.Claims;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using AutoMapper;
 
 namespace Guilded.ViewModels.Core
 {
@@ -22,27 +23,24 @@ namespace Guilded.ViewModels.Core
         {
         }
 
-        public Permission(RoleClaim roleClaim)
+        public Permission(RoleClaim roleClaim) : this()
         {
             if (roleClaim == null)
             {
                 throw new ArgumentNullException("roleClaim");
             }
 
-            PermissionType = roleClaim.ClaimType;
-            Description = roleClaim.Description;
+            Mapper.Map(roleClaim, this);
         }
 
-        public Permission(IdentityRoleClaim<string> roleClaim)
+        public Permission(IdentityRoleClaim<string> roleClaim) : this()
         {
             if (roleClaim == null)
             {
                 throw new ArgumentNullException("privilege");
             }
 
-            RoleClaim rc = RoleClaimTypes.LookUpRoleClaimByIdentityRoleClaim(roleClaim);
-            PermissionType = rc.ClaimType;
-            Description = rc.Description;
+            Mapper.Map(roleClaim, this);
         }
         #endregion
     }

@@ -68,7 +68,7 @@ namespace Guilded.Security.Claims
 
         #region Methods
         #region Public methods
-        public static RoleClaim LookUpRoleClaimByIdentityRoleClaim(IdentityRoleClaim<string> identityRoleClaim)
+        public static RoleClaim LookUpGuildedRoleClaim(IdentityRoleClaim<string> identityRoleClaim)
         {
             if (!TypesToRoleClaims.ContainsKey(identityRoleClaim.ClaimType))
             {
