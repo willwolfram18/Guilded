@@ -22,6 +22,10 @@ namespace Guilded.ViewModels.Core
         [MinLength(5, ErrorMessage = "A role name must contain at least {0} characers")]
         public string Name { get; set; }
 
+        [Required]
+        [JsonProperty("concurrencyTimestamp")]
+        public string ConcurrencyTimestamp { get; set; }
+
         [JsonProperty("permissions")]
         public IList<Permission> Permissions { get; set; }
         #endregion
