@@ -62,6 +62,7 @@ namespace Guilded.Services.Extensions
         {
             services.AddTransient<IReadOnlyRepository<GuildActivity>, GuildActivityRepo>();
             services.AddTransient<IGuildActivityReadOnlyDataContext, GuildActivityReadOnlyDataContext>();
+            services.AddTransient<IPermissionsRepository, PermissionsRepository>();
             services.AddTransient<IAdminDataContext, AdminDataContext>();
         }
 

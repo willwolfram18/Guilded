@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using Xunit;
 using DataModel = Guilded.Identity.ApplicationRole;
 using ViewModel = Guilded.ViewModels.Core.ApplicationRole;
+using Moq;
 
 namespace Guilded.Tests.Controllers.Admin
 {
@@ -36,7 +37,9 @@ namespace Guilded.Tests.Controllers.Admin
         protected override RolesController SetupController()
         {
             SetupInMemoryDbAndUserManager();
-            _mockPrivilegeDb.Setup(db => db.RoleManager).Returns(_roleManager);
+            _mockPrivilegeDb.Setup(db => db.GetRoles()).Returns(_roleManager.Roles);
+            _mockPrivilegeDb.Setup(db => db.GetRoleById(It.IsAny<string>()))
+                .Returns((Func<string, DataModel>)(id => _roleManager.Roles.FirstOrDefault(r => r.Id == id)));
             return new RolesController(_mockPrivilegeDb.Object);
         }
         // Code inspired by http://stackoverflow.com/a/34765902

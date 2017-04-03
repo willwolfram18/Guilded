@@ -10,6 +10,7 @@ using Guilded.ViewModels.Core;
 using DataModel = Guilded.Identity.ApplicationRole;
 using ViewModel = Guilded.ViewModels.Core.ApplicationRole;
 using Guilded.Extensions;
+using AutoMapper;
 
 namespace Guilded.Controllers.Admin
 {
@@ -34,13 +35,13 @@ namespace Guilded.Controllers.Admin
         public JsonResult Get()
         {
             // TODO: Perform GET based on current user role
-            return Json(_db.RoleManager.Roles.ToListOfDifferentType(r => new ViewModel(r)));
+            return Json(Mapper.Map<IQueryable<DataModel>, List<ViewModel>>(_db.GetRoles()));
         }
 
         [HttpGet("{id}")]
         public Task<JsonResult> Get(string id)
         {
-            DataModel role = _db.RoleManager.Roles.FirstOrDefault(r => r.Id == id);
+            DataModel role = _db.GetRoleById(id);
             if (role == null)
             {
                 return Task.FromResult(Json(null));
