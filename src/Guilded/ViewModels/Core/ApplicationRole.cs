@@ -23,8 +23,8 @@ namespace Guilded.ViewModels.Core
         public string Name { get; set; }
 
         [Required]
-        [JsonProperty("concurrencyTimestamp")]
-        public string ConcurrencyTimestamp { get; set; }
+        [JsonProperty("concurrencyStamp")]
+        public string ConcurrencyStamp { get; set; }
 
         [JsonProperty("permissions")]
         public IList<Permission> Permissions { get; set; }
