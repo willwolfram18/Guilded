@@ -14,8 +14,8 @@ namespace Guilded.Data.DAL.Core
 
         Identity.ApplicationRole GetRoleById(string id);
 
-        Identity.ApplicationRole CreateRole(string roleName);
-        
-        IEnumerable<Permission> AddPermissionToRole(Identity.ApplicationRole role, Permission privilege);
+        Identity.ApplicationRole CreateRole(string roleName, IEnumerable<Permission> permissions);
+
+        Identity.ApplicationRole UpdateRole(Identity.ApplicationRole roleToUpdate);
     }
 }
