@@ -48,7 +48,7 @@ namespace BattleNetApi.Common
 
         internal static DateTime BuildUnixTimestamp(long milliseconds, string timezoneName)
         {
-            Instant timestampInstant = Instant.FromMillisecondsSinceUnixEpoch(milliseconds);
+            Instant timestampInstant = Instant.FromUnixTimeMilliseconds(milliseconds);
             DateTimeZone timezone = DateTimeZoneProviders.Tzdb[timezoneName];
             return timestampInstant.InZone(timezone).ToDateTimeUnspecified();
         }

@@ -248,3 +248,4 @@ ModelManifest.xml
 
 wwwroot/app/
 **/App/**/*.js
+.idea/
