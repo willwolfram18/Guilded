@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ApplicationRole = Guilded.Identity.ApplicationRole;
 
 namespace Guilded.Data.DAL.Core
 {
@@ -39,12 +40,12 @@ namespace Guilded.Data.DAL.Core
             return _roleManager.Roles.FirstOrDefault(r => r.Id == id);
         }
 
-        public Identity.ApplicationRole CreateRole(string roleName)
+        public ApplicationRole CreateRole(string roleName, IEnumerable<Permission> permissions)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Permission> AddPermissionToRole(Identity.ApplicationRole role, Permission privilege)
+        public ApplicationRole UpdateRole(ApplicationRole roleToUpdate)
         {
             throw new NotImplementedException();
         }

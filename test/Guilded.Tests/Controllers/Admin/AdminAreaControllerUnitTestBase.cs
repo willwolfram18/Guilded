@@ -16,7 +16,7 @@ namespace Guilded.Tests.Controllers.Admin
         protected const int NUM_PRIVILEGES = 5;
 
         protected readonly List<Permission> _permissions = new List<Permission>();
-        protected readonly Mock<IAdminDataContext> _mockPrivilegeDb = new Mock<IAdminDataContext>(); 
+        protected readonly Mock<IAdminDataContext> _mockAdminContext = new Mock<IAdminDataContext>(); 
         #endregion
         #endregion
 
@@ -24,7 +24,7 @@ namespace Guilded.Tests.Controllers.Admin
         protected override void AdditionalSetup()
         {
             _permissions.AddRange(RoleClaimTypes.RoleClaims.ToListOfDifferentType(rc => new Permission(rc)));
-            _mockPrivilegeDb.Setup(db => db.Permissions.Get()).Returns(_permissions);
+            _mockAdminContext.Setup(db => db.Permissions.Get()).Returns(_permissions);
         }
         #endregion
     }

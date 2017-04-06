@@ -1,6 +1,7 @@
 using Guilded.Controllers.Admin;
 using Guilded.Data;
 using Guilded.Data.DAL.Core;
+using Guilded.ViewModels.Core;
 using Guilded.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features.Authentication;
@@ -9,14 +10,15 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Xunit;
 using DataModel = Guilded.Identity.ApplicationRole;
 using ViewModel = Guilded.ViewModels.Core.ApplicationRole;
-using Moq;
 
 namespace Guilded.Tests.Controllers.Admin
 {
@@ -37,10 +39,10 @@ namespace Guilded.Tests.Controllers.Admin
         protected override RolesController SetupController()
         {
             SetupInMemoryDbAndUserManager();
-            _mockPrivilegeDb.Setup(db => db.GetRoles()).Returns(_roleManager.Roles);
-            _mockPrivilegeDb.Setup(db => db.GetRoleById(It.IsAny<string>()))
+            _mockAdminContext.Setup(db => db.GetRoles()).Returns(_roleManager.Roles);
+            _mockAdminContext.Setup(db => db.GetRoleById(It.IsAny<string>()))
                 .Returns((Func<string, DataModel>)(id => _roleManager.Roles.FirstOrDefault(r => r.Id == id)));
-            return new RolesController(_mockPrivilegeDb.Object);
+            return new RolesController(_mockAdminContext.Object);
         }
         // Code inspired by http://stackoverflow.com/a/34765902
         private void SetupInMemoryDbAndUserManager()
@@ -90,10 +92,12 @@ namespace Guilded.Tests.Controllers.Admin
             int identityRoleClaimCounter = 1;
             for (int i = 0; i < NUM_ROLES; i++)
             {
+                string roleId = (i + 1).ToString();
                 var newRole = new DataModel
                 {
-                    Id = (i + 1).ToString(),
-                    Name = "Role " + (i + 1).ToString(),
+                    Id = roleId,
+                    Name = "Role " + roleId,
+                    ConcurrencyStamp = roleId,
                 };
                 newRole.Claims.Add(new IdentityRoleClaim<string>
                 {
@@ -124,7 +128,7 @@ namespace Guilded.Tests.Controllers.Admin
             #endregion
 
             #region Assert
-            List<ViewModel> roles = AssertResultIsListOfRoles(result);
+            List<ViewModel> roles = AssertResultIsListOfRoleViewModels(result);
             Assert.Equal(expectedRoles.Count, roles.Count);
             for (int i = 0; i < expectedRoles.Count; i++)
             {
@@ -151,7 +155,7 @@ namespace Guilded.Tests.Controllers.Admin
             #endregion
 
             #region Assert
-            ViewModel role = AssertResultIsRole(result);
+            ViewModel role = AssertResultIsRoleViewModel(result);
             AssertDataModelMatchesViewModel(expectedRole, role);
             #endregion
         }
@@ -174,10 +178,94 @@ namespace Guilded.Tests.Controllers.Admin
             #endregion
         }
         #endregion
+
+        #region RoleController.CreateOrUpdate(ViewModel)
+        [Fact]
+        public void CreateOrUpdate_InvalidIdCreatesNewRole() {
+            #region Arrange
+            string roleId = (NUM_ROLES + 1).ToString();
+            ViewModel roleToCreate = new ViewModel()
+            {
+                Id = roleId,
+                Name = "New Role",
+            };
+            #endregion
+        
+            #region Act
+            var result = Controller.CreateOrUpdate(roleToCreate);
+            #endregion
+        
+            #region Assert
+            var createdRole = AssertResultIsRoleViewModel(result);
+            _mockAdminContext.Verify(db => db.GetRoleById(It.Is<string>(id => id == roleId)), Times.Once());
+            _mockAdminContext.Verify(db => db.CreateRole(
+                It.Is<string>(name => name == roleToCreate.Name),
+                It.IsAny<IEnumerable<Permission>>()
+            ), Times.Once());
+            _mockAdminContext.Verify(db => db.UpdateRole(It.IsAny<DataModel>()), Times.Never());
+            #endregion
+        }
+
+        [Theory]
+        [InlineData("1")]
+        [InlineData("2")]
+        [InlineData("3")]
+        [InlineData("4")]
+        [InlineData("5")]
+        public void CreateOrUpdate_ValidIdAndMatchingConcurrencyStampUpdatesExistingRole(string roleId) {
+            #region Arrange
+            var roleToUpdate = new ViewModel
+            {
+                Id = roleId,
+                Name = "Updated Role Name",
+                ConcurrencyStamp = roleId,
+                Permissions = new List<Permission>(),
+            };
+            _mockAdminContext.Setup(db => db.UpdateRole(It.IsAny<DataModel>()))
+                .Returns(Mapper.Map<DataModel>(roleToUpdate));
+            #endregion
+
+            #region Act
+            var result = Controller.CreateOrUpdate(roleToUpdate);
+            #endregion
+
+            #region Assert
+            ViewModel updatedRole = AssertResultIsRoleViewModel(result);
+            Assert.NotNull(updatedRole);
+            _mockAdminContext.Verify(db => db.UpdateRole(It.Is<DataModel>(r => r.Id == roleId)), Times.Once());
+            _mockAdminContext.Verify(db => db.CreateRole(
+                It.IsAny<string>(),
+                It.IsAny<IEnumerable<Permission>>()
+            ), Times.Never());
+            AssertViewModelsMatch(roleToUpdate, updatedRole);
+            #endregion
+        }
+
+        [Theory]
+        [InlineData("1")]
+        [InlineData("2")]
+        [InlineData("3")]
+        [InlineData("4")]
+        [InlineData("5")]
+        public void CreateOrUpdate_ValidIdWithInvalidConcurrencyStampReturnsCurrentRole(string roleId)
+        {
+            #region Arrange
+
+            #endregion
+
+            #region Act
+
+            #endregion
+
+            #region Assert
+
+            #endregion
+        }
+        #endregion
         #endregion
 
         #region Private methods
-        private List<ViewModel> AssertResultIsListOfRoles(JsonResult result)
+        private List<ViewModel> AssertResultIsListOfRoleViewModels(JsonResult result)
         {
             Assert.NotNull(result);
             IEnumerable<ViewModel> roles = result.Value as IEnumerable<ViewModel>;
@@ -185,7 +273,7 @@ namespace Guilded.Tests.Controllers.Admin
             return roles.ToList();
         }
 
-        private ViewModel AssertResultIsRole(JsonResult result)
+        private ViewModel AssertResultIsRoleViewModel(JsonResult result)
         {
             Assert.NotNull(result);
             ViewModel role = result.Value as ViewModel;
@@ -202,6 +290,20 @@ namespace Guilded.Tests.Controllers.Admin
             {
                 Assert.Equal(expected.Id, actual.Id);
                 Assert.Equal(expected.Name, actual.Name);
+            }
+        }
+        private void AssertViewModelsMatch(ViewModel expected, ViewModel actual)
+        {
+            Assert.Equal(expected.Id, actual.Id);
+            Assert.Equal(expected.Name, actual.Name);
+            Assert.Equal(expected.ConcurrencyStamp, actual.ConcurrencyStamp);
+            Assert.Equal(expected.Permissions.Count, actual.Permissions.Count);
+
+            var expectedPermissions = expected.Permissions.OrderBy(p => p.PermissionType).ToList();
+            var actualPermissions = actual.Permissions.OrderBy(p => p.PermissionType).ToList();
+            for (int i = 0; i < expectedPermissions.Count; i++)
+            {
+                Assert.Equal(expectedPermissions[i].PermissionType, actualPermissions[i].PermissionType);
             }
         }
         #endregion
