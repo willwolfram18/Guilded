@@ -1,8 +1,7 @@
 using Guilded.ViewModels.Core;
-using Guilded.Identity;
-using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Guilded.Data.DAL.Core
 {
@@ -14,8 +13,8 @@ namespace Guilded.Data.DAL.Core
 
         Identity.ApplicationRole GetRoleById(string id);
 
-        Identity.ApplicationRole CreateRole(string roleName, IEnumerable<Permission> permissions);
+        Task<Identity.ApplicationRole> CreateRoleAsync(string roleName, IEnumerable<Permission> permissions);
 
-        Identity.ApplicationRole UpdateRole(Identity.ApplicationRole roleToUpdate);
+        Task<Identity.ApplicationRole> UpdateRoleAsync(Identity.ApplicationRole roleToUpdate);
     }
 }

@@ -198,11 +198,11 @@ namespace Guilded.Tests.Controllers.Admin
             #region Assert
             var createdRole = AssertResultIsRoleViewModel(result);
             _mockAdminContext.Verify(db => db.GetRoleById(It.Is<string>(id => id == roleId)), Times.Once());
-            _mockAdminContext.Verify(db => db.CreateRole(
+            _mockAdminContext.Verify(db => db.CreateRoleAsync(
                 It.Is<string>(name => name == roleToCreate.Name),
                 It.IsAny<IEnumerable<Permission>>()
             ), Times.Once());
-            _mockAdminContext.Verify(db => db.UpdateRole(It.IsAny<DataModel>()), Times.Never());
+            _mockAdminContext.Verify(db => db.UpdateRoleAsync(It.IsAny<DataModel>()), Times.Never());
             #endregion
         }
 
@@ -221,8 +221,8 @@ namespace Guilded.Tests.Controllers.Admin
                 ConcurrencyStamp = roleId,
                 Permissions = new List<Permission>(),
             };
-            _mockAdminContext.Setup(db => db.UpdateRole(It.IsAny<DataModel>()))
-                .Returns(Mapper.Map<DataModel>(roleToUpdate));
+            _mockAdminContext.Setup(db => db.UpdateRoleAsync(It.IsAny<DataModel>()))
+                .Returns(Task.FromResult(Mapper.Map<DataModel>(roleToUpdate)));
             #endregion
 
             #region Act
@@ -232,8 +232,8 @@ namespace Guilded.Tests.Controllers.Admin
             #region Assert
             ViewModel updatedRole = AssertResultIsRoleViewModel(result);
             Assert.NotNull(updatedRole);
-            _mockAdminContext.Verify(db => db.UpdateRole(It.Is<DataModel>(r => r.Id == roleId)), Times.Once());
-            _mockAdminContext.Verify(db => db.CreateRole(
+            _mockAdminContext.Verify(db => db.UpdateRoleAsync(It.Is<DataModel>(r => r.Id == roleId)), Times.Once());
+            _mockAdminContext.Verify(db => db.CreateRoleAsync(
                 It.IsAny<string>(),
                 It.IsAny<IEnumerable<Permission>>()
             ), Times.Never());
