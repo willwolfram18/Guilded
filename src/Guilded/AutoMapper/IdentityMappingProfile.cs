@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using AutoMapper;
-using Guilded.Identity;
 using Guilded.Security.Claims;
 using Guilded.ViewModels.Core;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -12,13 +11,18 @@ namespace Guilded.AutoMapper
         public IdentityMappingProfile()
         {
             CreateMap<IdentityRoleClaim<string>, RoleClaim>()
+                .ForSourceMember(src => src.Id, opt => opt.Ignore())
+                .ForSourceMember(src => src.RoleId, opt => opt.Ignore())
                 .ConvertUsing(claim => RoleClaimTypes.LookUpGuildedRoleClaim(claim));
             CreateMap<RoleClaim, IdentityRoleClaim<string>>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.RoleId, opt => opt.Ignore())
                 .ForMember(dest => dest.ClaimValue, opt => opt.UseValue("1"));
 
             CreateMap<RoleClaim, Permission>()
                 .ForMember(dest => dest.PermissionType, opt => opt.MapFrom(src => src.ClaimType));
             CreateMap<Permission, RoleClaim>()
+                .ForMember(dest => dest.ClaimType, opt => opt.Ignore())
                 .ConstructUsing(src => new RoleClaim(src.PermissionType, src.Description));
 
             CreateMap<IdentityRoleClaim<string>, Permission>()
@@ -41,7 +45,8 @@ namespace Guilded.AutoMapper
                         claim.RoleId = src.Id;
                     }
                     return claims;
-                }));
+                }))
+                .ForMember(dest => dest.NormalizedName, opt => opt.Ignore());
         }
     }
 }
