@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Guilded.Data.DAL.Abstract
@@ -9,7 +6,7 @@ namespace Guilded.Data.DAL.Abstract
     public abstract class ReadWriteDataContextBase : ReadOnlyDataContextBase, IReadWriteDataContext
     {
         #region Constructors
-        public ReadWriteDataContextBase(ApplicationDbContext context) : base(context)
+        protected ReadWriteDataContextBase(ApplicationDbContext context) : base(context)
         {
         }
         #endregion
@@ -30,7 +27,7 @@ namespace Guilded.Data.DAL.Abstract
         {
             try
             {
-                _context.SaveChanges();
+                Context.SaveChanges();
                 return true;
             }
             catch (DbUpdateConcurrencyException concurrencyException)
@@ -40,7 +37,7 @@ namespace Guilded.Data.DAL.Abstract
                     entity.Reload();
                 }
             }
-            catch (Exception e)
+            catch
             {
                 // TODO: What happens in case of other exception types?
             }
@@ -53,7 +50,7 @@ namespace Guilded.Data.DAL.Abstract
         {
             try
             {
-                await _context.SaveChangesAsync();
+                await Context.SaveChangesAsync();
                 return true;
             }
             catch (DbUpdateConcurrencyException concurrencyException)
@@ -63,7 +60,7 @@ namespace Guilded.Data.DAL.Abstract
                     await entity.ReloadAsync();
                 }
             }
-            catch (Exception e)
+            catch
             {
                 // TODO: What happens in case of other exception types?
             }

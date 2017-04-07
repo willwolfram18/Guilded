@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace Guilded.Data.DAL.Abstract
@@ -8,7 +7,7 @@ namespace Guilded.Data.DAL.Abstract
     {
         #region Properties
         #region Protected properties
-        protected readonly ApplicationDbContext _context;
+        protected readonly ApplicationDbContext Context;
         #endregion
 
         #region Pirvate properties
@@ -17,9 +16,9 @@ namespace Guilded.Data.DAL.Abstract
         #endregion
 
         #region Constructors
-        public ReadOnlyDataContextBase(ApplicationDbContext context)
+        protected ReadOnlyDataContextBase(ApplicationDbContext context)
         {
-            _context = context;
+            Context = context;
         }
         #endregion
 
@@ -33,12 +32,12 @@ namespace Guilded.Data.DAL.Abstract
 
         public void Reload(object entity)
         {
-            _context.Entry(entity).Reload();
+            Context.Entry(entity).Reload();
         }
 
         public async Task ReloadAsync(object entity)
         {
-            await _context.Entry(entity).ReloadAsync();
+            await Context.Entry(entity).ReloadAsync();
         }
         #endregion
 
@@ -47,9 +46,9 @@ namespace Guilded.Data.DAL.Abstract
         {
             if (!_isDisposed)
             {
-                if (disposing && _context != null)
+                if (disposing)
                 {
-                    _context.Dispose();
+                    Context?.Dispose();
                 }
             }
             _isDisposed = true;

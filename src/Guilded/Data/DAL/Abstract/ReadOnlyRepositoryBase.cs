@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -12,16 +11,16 @@ namespace Guilded.Data.DAL.Abstract
     {
         #region Properties
         #region Protected properties
-        protected readonly ApplicationDbContext _context;
-        protected readonly DbSet<TEntity> _source;
+        protected readonly ApplicationDbContext Context;
+        protected readonly DbSet<TEntity> Source;
         #endregion
         #endregion
 
         #region Constructor
-        public ReadOnlyRepositoryBase(ApplicationDbContext context)
+        protected ReadOnlyRepositoryBase(ApplicationDbContext context)
         {
-            _context = context;
-            _source = _context.Set<TEntity>();
+            Context = context;
+            Source = Context.Set<TEntity>();
         }
         #endregion
 
@@ -29,37 +28,37 @@ namespace Guilded.Data.DAL.Abstract
         #region Public methods
         public void Dispose()
         {
-            _context.Dispose();
+            Context.Dispose();
         }
 
-        public TEntity GetById(object id)
+        public virtual TEntity GetById(object id)
         {
-            return _source.Find(id);
+            return Source.Find(id);
         }
 
-        public Task<TEntity> GetByIdAsync(object id)
+        public virtual Task<TEntity> GetByIdAsync(object id)
         {
-            return _source.FindAsync(id);
+            return Source.FindAsync(id);
         }
 
-        public IQueryable<TEntity> Get()
+        public virtual IQueryable<TEntity> Get()
         {
             return Get(null, null);
         }
 
-        public IQueryable<TEntity> Get(Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy)
+        public virtual IQueryable<TEntity> Get(Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy)
         {
             return Get(null, orderBy);
         }
 
-        public IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> whereClause)
+        public virtual IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> whereClause)
         {
             return Get(whereClause, null);
         }
 
-        public IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> whereClause, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy)
+        public virtual IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> whereClause, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy)
         {
-            var result = _source.AsQueryable();
+            var result = Source.AsQueryable();
             if (whereClause != null)
             {
                 result = result.Where(whereClause);

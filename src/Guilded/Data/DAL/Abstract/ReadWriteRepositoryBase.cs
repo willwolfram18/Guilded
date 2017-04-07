@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Guilded.Data.DAL.Abstract
@@ -10,7 +8,7 @@ namespace Guilded.Data.DAL.Abstract
         where TEntity : class
     {
         #region Constructors
-        public ReadWriteRepositoryBase(ApplicationDbContext context) : base(context)
+        protected ReadWriteRepositoryBase(ApplicationDbContext context) : base(context)
         {
         }
         #endregion
@@ -19,36 +17,38 @@ namespace Guilded.Data.DAL.Abstract
         #region Public methods
         public void Add(TEntity entityToAdd)
         {
-            _source.Add(entityToAdd);
+            Source.Add(entityToAdd);
         }
 
         public void Remove(TEntity entityToRemove)
         {
-            if (entityToRemove != null)
+            if (entityToRemove == null)
             {
-                if (_context.Entry(entityToRemove).State == EntityState.Detached)
-                {
-                    _context.Attach(entityToRemove);
-                }
-                _source.Remove(entityToRemove);
+                throw new ArgumentNullException(nameof(entityToRemove));
             }
+
+            if (Context.Entry(entityToRemove).State == EntityState.Detached)
+            {
+                Context.Attach(entityToRemove);
+            }
+            Source.Remove(entityToRemove);
         }
 
         public void RemoveById(object id)
         {
-            TEntity entityToRemove = GetById(id);
+            var entityToRemove = GetById(id);
             Remove(entityToRemove);
         }
 
         public async Task RemoveByIdAsync(object id)
         {
-            TEntity entityToRemove = await GetByIdAsync(id);
+            var entityToRemove = await GetByIdAsync(id);
             Remove(entityToRemove);
         }
 
         public void Update(TEntity entityToUpdate)
         {
-            _source.Update(entityToUpdate);
+            Source.Update(entityToUpdate);
         }
         #endregion
         #endregion
