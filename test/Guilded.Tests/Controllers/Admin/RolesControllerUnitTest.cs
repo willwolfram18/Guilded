@@ -1,6 +1,5 @@
 using Guilded.Controllers.Admin;
 using Guilded.Data;
-using Guilded.Data.DAL.Core;
 using Guilded.ViewModels.Core;
 using Guilded.Identity;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +28,6 @@ namespace Guilded.Tests.Controllers.Admin
         private const int NUM_ROLES = 5;
 
         private IServiceProvider _serviceProvider;
-        private ApplicationDbContext _dbContext;
         private RoleManager<DataModel> _roleManager;
         private readonly List<DataModel> _roles = new List<DataModel>();
         #endregion
@@ -54,7 +52,6 @@ namespace Guilded.Tests.Controllers.Admin
             AddHttpContextAccessorService(services);
 
             _serviceProvider = services.BuildServiceProvider();
-            _dbContext = _serviceProvider.GetRequiredService<ApplicationDbContext>();
             _roleManager = _serviceProvider.GetRequiredService<RoleManager<DataModel>>();
         }
         private void AddInMemoryDbServices(ServiceCollection services)

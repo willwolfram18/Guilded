@@ -24,7 +24,7 @@ namespace Guilded.Tests.Controllers.Admin
         protected override void AdditionalSetup()
         {
             _permissions.AddRange(RoleClaimTypes.RoleClaims.ToListOfDifferentType(rc => new Permission(rc)));
-            _mockAdminContext.Setup(db => db.Permissions.Get()).Returns(_permissions);
+            _mockAdminContext.Setup(db => db.GetPermissions()).Returns(_permissions);
         }
         #endregion
     }

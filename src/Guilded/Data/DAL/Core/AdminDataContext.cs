@@ -12,16 +12,11 @@ namespace Guilded.Data.DAL.Core
     public class AdminDataContext : ReadWriteDataContextBase, IAdminDataContext
     {
         #region Properties
-        #region Public properties
-        public IPermissionsRepository Permissions => _permissions;
-        #endregion
-
         #region Private Properties
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IPermissionsRepository _permissions;
         #endregion
         #endregion
-        
 
         public AdminDataContext(ApplicationDbContext context,
             RoleManager<ApplicationRole> roleManager,
@@ -46,9 +41,14 @@ namespace Guilded.Data.DAL.Core
             throw new NotImplementedException();
         }
 
-        public async Task<ApplicationRole> UpdateRoleAsync(ApplicationRole roleToUpdate)
+        public Task<ApplicationRole> UpdateRoleAsync(ApplicationRole roleToUpdate)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<Permission> GetPermissions()
+        {
+            return _permissions.Get();
         }
     }
 }
