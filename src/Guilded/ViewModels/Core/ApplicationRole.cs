@@ -42,7 +42,7 @@ namespace Guilded.ViewModels.Core
         {
             if (role == null)
             {
-                throw new ArgumentNullException("role");
+                return;
             }
 
             Mapper.Map(role, this);

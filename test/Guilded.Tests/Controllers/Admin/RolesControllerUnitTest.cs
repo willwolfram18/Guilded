@@ -160,25 +160,28 @@ namespace Guilded.Tests.Controllers.Admin
         [Theory]
         [InlineData(0)]
         [InlineData(NUM_ROLES + 1)]
-        public async Task Get_InvalidIdIsNullRole(int roleIdAsNumber)
+        public async Task Get_InvalidIdIsEmptyRole(int roleIdAsNumber)
         {
             #region Arrange
             #endregion
 
             #region Act
-            JsonResult result = await Controller.Get(roleIdAsNumber.ToString());
+            var result = await Controller.Get(roleIdAsNumber.ToString());
             #endregion
 
             #region Assert
-            Assert.NotNull(result);
-            Assert.Null(result.Value);
+            var role = AssertResultIsRoleViewModel(result);
+            Assert.Null(role.Id);
+            Assert.Null(role.Name);
+            Assert.Null(role.ConcurrencyStamp);
+            Assert.Empty(role.Permissions);
             #endregion
         }
         #endregion
 
         #region RoleController.CreateOrUpdate(ViewModel)
         [Fact]
-        public void CreateOrUpdate_InvalidIdCreatesNewRole() {
+        public async Task CreateOrUpdate_InvalidIdCreatesNewRole() {
             #region Arrange
             string roleId = (NUM_ROLES + 1).ToString();
             ViewModel roleToCreate = new ViewModel()
@@ -189,7 +192,7 @@ namespace Guilded.Tests.Controllers.Admin
             #endregion
         
             #region Act
-            var result = Controller.CreateOrUpdate(roleToCreate);
+            var result = await Controller.CreateOrUpdate(roleToCreate);
             #endregion
         
             #region Assert
@@ -209,7 +212,7 @@ namespace Guilded.Tests.Controllers.Admin
         [InlineData("3")]
         [InlineData("4")]
         [InlineData("5")]
-        public void CreateOrUpdate_ValidIdAndMatchingConcurrencyStampUpdatesExistingRole(string roleId) {
+        public async Task CreateOrUpdate_ValidIdAndMatchingConcurrencyStampUpdatesExistingRole(string roleId) {
             #region Arrange
             var roleToUpdate = new ViewModel
             {
@@ -223,7 +226,7 @@ namespace Guilded.Tests.Controllers.Admin
             #endregion
 
             #region Act
-            var result = Controller.CreateOrUpdate(roleToUpdate);
+            var result = await Controller.CreateOrUpdate(roleToUpdate);
             #endregion
 
             #region Assert
@@ -244,18 +247,28 @@ namespace Guilded.Tests.Controllers.Admin
         [InlineData("3")]
         [InlineData("4")]
         [InlineData("5")]
-        public void CreateOrUpdate_ValidIdWithInvalidConcurrencyStampReturnsCurrentRole(string roleId)
+        public async Task CreateOrUpdate_ValidIdWithInvalidConcurrencyStampReturnsCurrentRole(string roleId)
         {
             #region Arrange
-
+            var originalRole = _roles.FirstOrDefault(r => r.Id == roleId);
+            var roleToUpdate = new ViewModel(originalRole);
+            roleToUpdate.Name = "Failed Name";
+            roleToUpdate.ConcurrencyStamp = "Wrong";
             #endregion
 
             #region Act
-
+            var result = await Controller.CreateOrUpdate(roleToUpdate);
             #endregion
 
             #region Assert
-
+            var role = AssertResultIsRoleViewModel(result);
+            Assert.Equal(originalRole.Name, role.Name);
+            Assert.Equal(originalRole.ConcurrencyStamp, role.ConcurrencyStamp);
+            _mockAdminContext.Verify(db => db.UpdateRoleAsync(It.IsAny<DataModel>()), Times.Never());
+            _mockAdminContext.Verify(db => db.CreateRoleAsync(
+                It.IsAny<string>(),
+                It.IsAny<IEnumerable<Permission>>()
+            ), Times.Never());
             #endregion
         }
         #endregion

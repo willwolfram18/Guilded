@@ -34,7 +34,6 @@ namespace Guilded.Controllers.Admin
         [HttpGet]
         public JsonResult Get()
         {
-            // TODO: Perform GET based on current user role
             return Json(Mapper.Map<IQueryable<DataModel>, List<ViewModel>>(_db.GetRoles()));
         }
 
@@ -42,16 +41,11 @@ namespace Guilded.Controllers.Admin
         public Task<JsonResult> Get(string id)
         {
             DataModel role = _db.GetRoleById(id);
-            if (role == null)
-            {
-                return Task.FromResult(Json(null));
-            }
-
             return Task.FromResult(Json(new ViewModel(role)));
         }
 
         [HttpPost]
-        public JsonResult CreateOrUpdate(ViewModel role)
+        public Task<JsonResult> CreateOrUpdate(ViewModel role)
         {
             throw new NotImplementedException();
         }
