@@ -173,7 +173,7 @@ namespace Guilded.Tests.Controllers.Admin
             var role = AssertResultIsRoleViewModel(result);
             Assert.Null(role.Id);
             Assert.Null(role.Name);
-            Assert.Null(role.ConcurrencyStamp);
+            Assert.NotNull(role.ConcurrencyStamp);
             Assert.Empty(role.Permissions);
             #endregion
         }

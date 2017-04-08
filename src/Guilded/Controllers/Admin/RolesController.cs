@@ -11,6 +11,7 @@ using DataModel = Guilded.Identity.ApplicationRole;
 using ViewModel = Guilded.ViewModels.Core.ApplicationRole;
 using Guilded.Extensions;
 using AutoMapper;
+using BattleNetApi.Objects.WoW.Enums;
 
 namespace Guilded.Controllers.Admin
 {
@@ -45,9 +46,28 @@ namespace Guilded.Controllers.Admin
         }
 
         [HttpPost]
-        public Task<JsonResult> CreateOrUpdate(ViewModel role)
+        public async Task<JsonResult> CreateOrUpdate(ViewModel role)
         {
-            throw new NotImplementedException();
+            if (!ModelState.IsValid)
+            {
+                return BadRequestJson(role);
+            }
+
+            DataModel dbRole = _db.GetRoleById(role.Id);
+            if (dbRole == null)
+            {
+                dbRole = await _db.CreateRoleAsync(role.Name, role.Permissions);
+            }
+            else if (dbRole.ConcurrencyStamp == role.ConcurrencyStamp)
+            {
+                dbRole = await _db.UpdateRoleAsync(Mapper.Map<DataModel>(role));
+            }
+            else
+            {
+                return BadRequestJson(new ViewModel(dbRole));
+            }
+
+            return Json(new ViewModel(dbRole));
         }
 
         [HttpDelete("{id}")]

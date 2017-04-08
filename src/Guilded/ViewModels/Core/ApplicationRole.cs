@@ -35,6 +35,7 @@ namespace Guilded.ViewModels.Core
         {
             Id = null;
             Name = null;
+            ConcurrencyStamp = Guid.NewGuid().ToString();
             Permissions = new List<Permission>();
         }
 
