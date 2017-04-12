@@ -15,8 +15,6 @@ using BattleNetApi.Objects.WoW.Enums;
 
 namespace Guilded.Controllers.Admin
 {
-    // TODO: Remove AllowAnonymous
-    [AllowAnonymous]
     public class RolesController : AdminControllerBase
     {
         #region Properties
