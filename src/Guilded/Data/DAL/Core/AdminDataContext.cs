@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Guilded.Data.DAL.Abstract;
 using Guilded.ViewModels.Core;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using ApplicationRole = Guilded.Identity.ApplicationRole;
 
 namespace Guilded.Data.DAL.Core
@@ -36,9 +37,28 @@ namespace Guilded.Data.DAL.Core
             return _roleManager.Roles.FirstOrDefault(r => r.Id == id);
         }
 
-        public Task<ApplicationRole> CreateRoleAsync(string roleName, IEnumerable<Permission> permissions)
+        public async Task<ApplicationRole> CreateRoleAsync(string roleName, IEnumerable<Permission> permissions)
         {
-            throw new NotImplementedException();
+            ApplicationRole newRole = new ApplicationRole
+            {
+                Name = roleName
+            };
+            foreach (var permission in permissions)
+            {
+                newRole.Claims.Add(new IdentityRoleClaim<string>
+                {
+                    ClaimType = permission.PermissionType,
+                    ClaimValue = "True",
+                    RoleId = newRole.Id
+                });
+            }
+
+            var result = await _roleManager.CreateAsync(newRole);
+            if (!result.Succeeded)
+            {
+                throw new Exception($"Failed to create role '{roleName}'");
+            }
+            return GetRoleById(newRole.Id);
         }
 
         public Task<ApplicationRole> UpdateRoleAsync(ApplicationRole roleToUpdate)

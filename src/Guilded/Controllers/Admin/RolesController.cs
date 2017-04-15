@@ -58,7 +58,8 @@ namespace Guilded.Controllers.Admin
             }
             else if (dbRole.ConcurrencyStamp == role.ConcurrencyStamp)
             {
-                dbRole = await _db.UpdateRoleAsync(Mapper.Map<DataModel>(role));
+                dbRole.UpdateFromViewModel(role);
+                dbRole = await _db.UpdateRoleAsync(dbRole);
             }
             else
             {
