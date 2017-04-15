@@ -44,11 +44,11 @@ namespace Guilded.Controllers.Admin
         }
 
         [HttpPost]
-        public async Task<JsonResult> CreateOrUpdate(ViewModel role)
+        public async Task<JsonResult> CreateOrUpdate([FromBody] ViewModel role)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequestJson(role);
+                return BadRequestJson(ModelErrorsAsJson());
             }
 
             DataModel dbRole = _db.GetRoleById(role.Id);

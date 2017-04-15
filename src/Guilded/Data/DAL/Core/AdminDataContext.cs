@@ -61,9 +61,14 @@ namespace Guilded.Data.DAL.Core
             return GetRoleById(newRole.Id);
         }
 
-        public Task<ApplicationRole> UpdateRoleAsync(ApplicationRole roleToUpdate)
+        public async Task<ApplicationRole> UpdateRoleAsync(ApplicationRole roleToUpdate)
         {
-            throw new NotImplementedException();
+            var result = await _roleManager.UpdateAsync(roleToUpdate);
+            if (!result.Succeeded)
+            {
+                throw new Exception($"Failed to update role '{roleToUpdate.Name}'");
+            }
+            return GetRoleById(roleToUpdate.Id);
         }
 
         public IEnumerable<Permission> GetPermissions()

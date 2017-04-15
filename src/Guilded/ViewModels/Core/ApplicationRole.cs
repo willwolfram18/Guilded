@@ -19,7 +19,7 @@ namespace Guilded.ViewModels.Core
 
         [Required]
         [JsonProperty("name")]
-        [MinLength(5, ErrorMessage = "A role name must contain at least {0} characers")]
+        [MinLength(5, ErrorMessage = "A role name must contain at least {1} characers")]
         public string Name { get; set; }
 
         [Required]

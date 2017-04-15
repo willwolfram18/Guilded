@@ -165,20 +165,6 @@ namespace Guilded.Controllers
             return encodedJwt;
         }
 
-        private Dictionary<string, List<string>> ModelErrorsAsJson()
-        {
-            Dictionary<string, List<string>> result = new Dictionary<string, List<string>>();
-            foreach (var modelError in ModelState)
-            {
-                result.Add(modelError.Key, new List<string>());
-                foreach (var error in modelError.Value.Errors)
-                {
-                    result[modelError.Key].Add(error.ErrorMessage);
-                }
-            }
-            return result;
-        }
-
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)

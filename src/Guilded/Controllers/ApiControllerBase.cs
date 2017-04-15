@@ -29,6 +29,20 @@ namespace Guilded.Controllers
             Response.StatusCode = BadRequestStatus;
             return Json(data);
         }
+
+        protected Dictionary<string, List<string>> ModelErrorsAsJson()
+        {
+            Dictionary<string, List<string>> result = new Dictionary<string, List<string>>();
+            foreach (var modelError in ModelState)
+            {
+                result.Add(modelError.Key, new List<string>());
+                foreach (var error in modelError.Value.Errors)
+                {
+                    result[modelError.Key].Add(error.ErrorMessage);
+                }
+            }
+            return result;
+        }
         #endregion
         #endregion
     }
