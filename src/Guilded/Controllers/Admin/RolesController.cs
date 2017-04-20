@@ -70,9 +70,21 @@ namespace Guilded.Controllers.Admin
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
-            throw new NotImplementedException();
+            var dbRole = _db.GetRoleById(id);
+            if (dbRole == null)
+            {
+                return NotFound();
+            }
+
+            var deleteResult = await _db.DeleteRole(dbRole);
+            if (!deleteResult.Succeeded)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
         #endregion
         #endregion

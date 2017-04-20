@@ -76,9 +76,9 @@ namespace Guilded.Data.DAL.Core
             return _permissions.Get();
         }
 
-        public void DeleteRole(string roleId)
+        public async Task<IdentityResult> DeleteRole(ApplicationRole roleToDelete)
         {
-            throw new NotImplementedException();
+            return await _roleManager.DeleteAsync(roleToDelete);
         }
     }
 }

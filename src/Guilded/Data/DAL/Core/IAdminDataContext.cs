@@ -2,6 +2,7 @@ using Guilded.ViewModels.Core;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace Guilded.Data.DAL.Core
 {
@@ -15,7 +16,7 @@ namespace Guilded.Data.DAL.Core
 
         Task<Identity.ApplicationRole> UpdateRoleAsync(Identity.ApplicationRole roleToUpdate);
 
-        void DeleteRole(string roleId);
+        Task<IdentityResult> DeleteRole(Identity.ApplicationRole roleToDelete);
 
         IEnumerable<Permission> GetPermissions();
     }
