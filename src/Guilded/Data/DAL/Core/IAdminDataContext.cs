@@ -15,6 +15,8 @@ namespace Guilded.Data.DAL.Core
 
         Task<Identity.ApplicationRole> UpdateRoleAsync(Identity.ApplicationRole roleToUpdate);
 
+        void DeleteRole(string roleId);
+
         IEnumerable<Permission> GetPermissions();
     }
 }

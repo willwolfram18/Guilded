@@ -70,7 +70,7 @@ namespace Guilded.Controllers.Admin
         }
 
         [HttpDelete("{id}")]
-        public ActionResult Delete(string id)
+        public IActionResult Delete(string id)
         {
             throw new NotImplementedException();
         }
