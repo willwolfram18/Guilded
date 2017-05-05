@@ -76,26 +76,21 @@ namespace Guilded
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+                app.UseBrowserLink();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseCors(CORS_POLICY_NAME);
+            app.UseStaticFiles();
             app.UseIdentity();
-            app.UseJwtBearerAuthentication(new JwtBearerOptions
-            {
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true,
-                TokenValidationParameters = CreateTokenValidationParameters(),
-            });
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "api/{controller=Home}/{action=Index}/{id?}"
+                    template: "{controller=Home}/{action=Index}/{id?}"
                 );
             });
         }

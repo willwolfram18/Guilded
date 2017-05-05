@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:56721/api/guild-activity",
+      "applicationUrl": "http://localhost:56721/",
       "sslPort": 0
     }
   },
