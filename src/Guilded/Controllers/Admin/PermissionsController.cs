@@ -22,7 +22,7 @@ namespace Guilded.Controllers.Admin
         [HttpGet]
         public JsonResult Get()
         {
-            return Json(_db.Permissions.Get());
+            return Json(_db.GetPermissions());
         }
     }
 }

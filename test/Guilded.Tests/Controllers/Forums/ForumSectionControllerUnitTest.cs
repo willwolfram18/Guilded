@@ -10,7 +10,7 @@ using Guilded.Data.Models.Forums;
 using Xunit;
 
 using DataModel = Guilded.Data.Models.Forums.ForumSection;
-using ViewModel = Guilded.Data.ViewModels.Forums.ForumSection;
+using ViewModel = Guilded.ViewModels.Forums.ForumSection;
 
 namespace Guilded.Tests.Controllers.Forums
 {

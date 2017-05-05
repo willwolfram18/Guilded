@@ -1,20 +1,20 @@
-using System;
-using System.Threading.Tasks;
+using Guilded.Attributes;
+using Guilded.Common;
+using Guilded.Common.Options;
+using Guilded.Extensions;
+using Guilded.Identity;
+using Guilded.Services;
+using Guilded.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Guilded.Identity;
-using Guilded.Data.ViewModels.Account;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
-using Guilded.Extensions;
+using System;
 using System.Collections.Generic;
-using Guilded.Common;
-using Guilded.Attributes;
-using Guilded.Common.Options;
-using Guilded.Services;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Guilded.Controllers
 {
@@ -163,20 +163,6 @@ namespace Guilded.Controllers
                         );
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
             return encodedJwt;
-        }
-
-        private Dictionary<string, List<string>> ModelErrorsAsJson()
-        {
-            Dictionary<string, List<string>> result = new Dictionary<string, List<string>>();
-            foreach (var modelError in ModelState)
-            {
-                result.Add(modelError.Key, new List<string>());
-                foreach (var error in modelError.Value.Errors)
-                {
-                    result[modelError.Key].Add(error.ErrorMessage);
-                }
-            }
-            return result;
         }
 
         private void AddErrors(IdentityResult result)

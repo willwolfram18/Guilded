@@ -19,9 +19,10 @@ namespace Guilded.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet()]
+        [HttpGet]
         public async Task<JsonResult> Get(int page = 1)
         {
+            string s = Url.Action("Get", "Roles", new {area = "Admin"});
             return Json(await _db.GetPublicGuildNewsAsync(page, PAGE_SIZE));
         }
 

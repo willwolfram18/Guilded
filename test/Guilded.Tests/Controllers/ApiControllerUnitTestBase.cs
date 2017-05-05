@@ -16,6 +16,7 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using Guilded.AutoMapper;
 using Xunit;
 
 namespace Guilded.Tests.Controllers
@@ -46,6 +47,7 @@ namespace Guilded.Tests.Controllers
         #region Constructors
         public ApiControllerUnitTestBase()
         {
+            Mappings.Initialize();
             InitializeHttpContext();
 
             InitializeControllerContext();

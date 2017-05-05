@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Guilded.Data.DAL.Core;
-using Guilded.Data.ViewModels.Core;
+using Guilded.ViewModels.Core;
 
 using DataModel = Guilded.Identity.ApplicationRole;
-using ViewModel = Guilded.Data.ViewModels.Core.ApplicationRole;
+using ViewModel = Guilded.ViewModels.Core.ApplicationRole;
 using Guilded.Extensions;
+using AutoMapper;
+using BattleNetApi.Objects.WoW.Enums;
 
 namespace Guilded.Controllers.Admin
 {
-    // TODO: Remove AllowAnonymous
-    [AllowAnonymous]
     public class RolesController : AdminControllerBase
     {
         #region Properties
@@ -33,32 +33,58 @@ namespace Guilded.Controllers.Admin
         [HttpGet]
         public JsonResult Get()
         {
-            // TODO: Perform GET based on current user role
-            return Json(_db.RoleManager.Roles.ToListOfDifferentType(r => new ViewModel(r)));
+            return Json(Mapper.Map<IQueryable<DataModel>, List<ViewModel>>(_db.GetRoles()));
         }
 
         [HttpGet("{id}")]
         public Task<JsonResult> Get(string id)
         {
-            DataModel role = _db.RoleManager.Roles.FirstOrDefault(r => r.Id == id);
-            if (role == null)
-            {
-                return Task.FromResult(Json(null));
-            }
-
+            DataModel role = _db.GetRoleById(id);
             return Task.FromResult(Json(new ViewModel(role)));
         }
 
         [HttpPost]
-        public JsonResult CreateOrUpdate(ViewModel role)
+        public async Task<JsonResult> CreateOrUpdate([FromBody] ViewModel role)
         {
-            throw new NotImplementedException();
+            if (!ModelState.IsValid)
+            {
+                return BadRequestJson(ModelErrorsAsJson());
+            }
+
+            DataModel dbRole = _db.GetRoleById(role.Id);
+            if (dbRole == null)
+            {
+                dbRole = await _db.CreateRoleAsync(role.Name, role.Permissions);
+            }
+            else if (dbRole.ConcurrencyStamp == role.ConcurrencyStamp)
+            {
+                dbRole.UpdateFromViewModel(role);
+                dbRole = await _db.UpdateRoleAsync(dbRole);
+            }
+            else
+            {
+                return BadRequestJson(new ViewModel(dbRole));
+            }
+
+            return Json(new ViewModel(dbRole));
         }
 
         [HttpDelete("{id}")]
-        public ActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
-            throw new NotImplementedException();
+            var dbRole = _db.GetRoleById(id);
+            if (dbRole == null)
+            {
+                return NotFound();
+            }
+
+            var deleteResult = await _db.DeleteRole(dbRole);
+            if (!deleteResult.Succeeded)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
         #endregion
         #endregion

@@ -1,6 +1,6 @@
 using Guilded.Attributes;
 using Guilded.Data.DAL.Forums;
-using Guilded.Data.ViewModels.Forums;
+using Guilded.ViewModels.Forums;
 using Guilded.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System;
