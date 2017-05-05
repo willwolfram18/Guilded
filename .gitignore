@@ -24,13 +24,7 @@ bld/
 
 # Visual Studio 2015 cache/options directory
 .vs/
-# Uncomment if you have tasks that create the project's static files in wwwroot
-src/**/wwwroot/dist/**
-src/**/ClientApp/dist/**
-
-# Workaround for https://github.com/aspnet/JavaScriptServices/issues/235
-!src/**/wwwroot/dist/_placeholder.txt
-!src/**/ClientApp/dist/_placeholder.txt
+src/**/wwwroot/lib/
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
