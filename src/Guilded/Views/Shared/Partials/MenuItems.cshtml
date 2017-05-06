@@ -1,8 +1,8 @@
-﻿<a class="item active" asp-area="" asp-controller="Home" asp-action="Index">
+﻿<a class="item" asp-area="" asp-controller="Home" asp-action="Index" guilded-route-active>
     <i class="fa fa-home"></i> Home
 </a>
 <a class="item">
-    <i class="fa fa-comment"></i> Forums
+    <i class="fa fa-comment" guilded-route-active></i> Forums
 </a>
 @if (User.Identity.IsAuthenticated)
 {
@@ -14,10 +14,10 @@
 }
 else
 {
-    <a class="item" asp-area="Account" asp-controller="Home" asp-action="SignIn">
+    <a class="item" asp-area="Account" asp-controller="Home" asp-action="SignIn" guilded-route-active>
         <i class="fa fa-sign-in"></i> Sign in
     </a>
-    <a class="item" asp-area="Account" asp-controller="Home" asp-action="Register">
+    <a class="item" asp-area="Account" asp-controller="Home" asp-action="Register" guilded-route-active>
         <i class="fa fa-pencil-square-o"></i> Register
     </a>
 }
