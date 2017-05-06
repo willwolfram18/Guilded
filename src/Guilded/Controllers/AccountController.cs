@@ -52,7 +52,7 @@ namespace Guilded.Controllers
         #region Action methods
         [AllowAnonymous]
         [HttpPost("sign-in")]
-        public async Task<JsonResult> SignIn([FromBody] SignInUser user)
+        public async Task<JsonResult> SignIn([FromBody] SignInUserViewModel user)
         {
             if (ModelState.IsValid)
             {
@@ -94,7 +94,7 @@ namespace Guilded.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<JsonResult> Register([FromBody] RegisterUser user)
+        public async Task<JsonResult> Register([FromBody] RegisterUserViewModel user)
         {
             if (ModelState.IsValid)
             {
@@ -106,7 +106,7 @@ namespace Guilded.Controllers
                 var result = await _userManager.CreateAsync(appUser, user.Password);
                 if (result.Succeeded)
                 {
-                    return await SignIn(new SignInUser
+                    return await SignIn(new SignInUserViewModel
                     {
                         Email = user.Email,
                         Password = user.Password,

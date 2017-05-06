@@ -1,9 +1,7 @@
 using Guilded.AutoMapper;
-using Guilded.Common;
 using Guilded.Services.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -41,7 +39,6 @@ namespace Guilded
             {
                 razorOpts.ViewLocationExpanders.Add(new PartialsFolderViewLocationExpander());
             });
-
 
             services.AddRouting(options => options.LowercaseUrls = true);
             

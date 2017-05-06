@@ -1,10 +1,12 @@
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Guilded.ViewModels.Account
 {
-    public class SignInUser
+    public class RegisterUserViewModel
     {
+        [Required]
+        public string Username { get; set; }
+
         [Required]
         [EmailAddress]
         public string Email { get; set; }
@@ -13,7 +15,9 @@ namespace Guilded.ViewModels.Account
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [DisplayName("Remember me?")]
-        public bool RememberMe { get; set; }
+        [Compare("Password")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm Password")]
+        public string ConfirmPassword { get; set; }
     }
 }

@@ -25,11 +25,12 @@
         <h4>
             Sign in using a local account
         </h4>
-        <form class="ui form error" method="post" asp-area="Account" asp-controller="Home" asp-action="SignInPost">
+        <form class="ui form error" method="post" asp-area="Account" asp-controller="Home" asp-action="SignIn">
+            <div class="ui raised segment" asp-validation-summary="All"></div>
             <div class="field">
                 <label asp-for="Email"></label>
                 <div class="ui input left icon">
-                    <input asp-for="Email" />
+                    <input asp-for="Email"/>
                     <i class="icon envelope"></i>
                 </div>
                 <span class="ui pointing warning label" asp-validation-for="Email"></span>
@@ -44,7 +45,7 @@
             </div>
             <div class="field">
                 <div class="ui checkbox">
-                    <input asp-for="RememberMe" /><label asp-for="RememberMe"></label>
+                    <input asp-for="RememberMe"/><label asp-for="RememberMe"></label>
                 </div>
             </div>
             <button type="submit" class="ui button primary">

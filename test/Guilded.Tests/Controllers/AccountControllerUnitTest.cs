@@ -115,7 +115,7 @@ namespace Guilded.Tests.Controllers
         public async Task SignIn_InvalidModelReturnsBadRequest()
         {
             #region Arrange
-            SignInUser user = new SignInUser();
+            SignInUserViewModel user = new SignInUserViewModel();
             Controller.ModelState.AddModelError("Email", "Username is required");
             Controller.ModelState.AddModelError("Password", "Password is required");
             #endregion
@@ -138,7 +138,7 @@ namespace Guilded.Tests.Controllers
             #region Arrange
             Tuple<ApplicationUser, string> userPassword = await CreateSampleUser();
 
-            SignInUser user = new SignInUser
+            SignInUserViewModel user = new SignInUserViewModel
             {
                 Email = "boop",
                 Password = userPassword.Item2
@@ -157,7 +157,7 @@ namespace Guilded.Tests.Controllers
             #region Arrange
             Tuple<ApplicationUser, string> userPassword = await CreateSampleUser();
 
-            SignInUser user = new SignInUser
+            SignInUserViewModel user = new SignInUserViewModel
             {
                 Email = userPassword.Item1.Email,
                 Password = "boop"
@@ -175,7 +175,7 @@ namespace Guilded.Tests.Controllers
         {
             #region Arrange
             Tuple<ApplicationUser, string> userPassword = await CreateSampleUser();
-            SignInUser user = new SignInUser
+            SignInUserViewModel user = new SignInUserViewModel
             {
                 Email = userPassword.Item1.Email,
                 Password = userPassword.Item2,
@@ -199,7 +199,7 @@ namespace Guilded.Tests.Controllers
         {
             #region Arrange
             Tuple<ApplicationUser, string> userPassword = await CreateSampleUser();
-            SignInUser user = new SignInUser
+            SignInUserViewModel user = new SignInUserViewModel
             {
                 Email = userPassword.Item1.Email,
                 Password = userPassword.Item2,
@@ -243,7 +243,7 @@ namespace Guilded.Tests.Controllers
         public async Task Register_InvalidModelReturnsBadRequest()
         {
             #region Arrange
-            RegisterUser user = new RegisterUser
+            RegisterUserViewModel user = new RegisterUserViewModel
             {
                 Email = "test@example.com",
                 Password = "1234@Abc",
@@ -272,7 +272,7 @@ namespace Guilded.Tests.Controllers
         {
             #region Arrange
             var sampleUser = await CreateSampleUser();
-            RegisterUser user = new RegisterUser
+            RegisterUserViewModel user = new RegisterUserViewModel
             {
                 Email = sampleUser.Item1.Email,
                 Username = "Boop",
@@ -298,7 +298,7 @@ namespace Guilded.Tests.Controllers
         public async Task Register_PasswordInvalid()
         {
             #region Arrange
-            RegisterUser user = new RegisterUser
+            RegisterUserViewModel user = new RegisterUserViewModel
             {
                 Email = "test@example.com",
                 Username = "Boop",
@@ -322,7 +322,7 @@ namespace Guilded.Tests.Controllers
         [Fact]
         public async Task Register_VerifyUserSignsIn() {
             #region Arrange
-            RegisterUser user = new RegisterUser
+            RegisterUserViewModel user = new RegisterUserViewModel
             {
                 Email = "test@example.com",
                 Password = "1234@Abc",
@@ -356,7 +356,7 @@ namespace Guilded.Tests.Controllers
             Tuple<ApplicationUser, string> userPassword = new Tuple<ApplicationUser, string>(sampleUser, samplePassword);
             return userPassword;
         }
-        private async Task AssertInvaludUsernameOrPassword(SignInUser user)
+        private async Task AssertInvaludUsernameOrPassword(SignInUserViewModel user)
         {
             #region Act
             JsonResult result = await Controller.SignIn(user);
