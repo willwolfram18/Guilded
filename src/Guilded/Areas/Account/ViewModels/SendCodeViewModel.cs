@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 
-namespace Guilded.ViewModels.Account
+namespace Guilded.Areas.Account.ViewModels
 {
     public class SendCodeViewModel
     {

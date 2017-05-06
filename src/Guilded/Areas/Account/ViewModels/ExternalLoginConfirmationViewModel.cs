@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Guilded.ViewModels.Account
+namespace Guilded.Areas.Account.ViewModels
 {
-    public class ForgotPasswordViewModel
+    public class ExternalSignInConfirmationViewModel
     {
         [Required]
         [EmailAddress]
