@@ -1,20 +1,32 @@
-﻿.form
+﻿@import "mixins.less";
+
+.form
 {
     .field
     {
         .ui.pointing.label
         {
+            &.raised
+            {
+                box-shadow: 0px 2px 4px 0px rgba(34, 36, 38, 0.12), 0px 2px 10px 0px rgba(34, 36, 38, 0.15);
+            }
+
             &.warning
             {
-                color: #9f3a38;
-                border: 1px solid #e0b4b4;
-                background-color: #fff6f6;
+                .warning();
 
                 &::before
                 {
                     top: -1px;
                 }
             }
+
+            .validation-field();
         }
+    }
+
+    .segment
+    {
+        .validation-summary();
     }
 }

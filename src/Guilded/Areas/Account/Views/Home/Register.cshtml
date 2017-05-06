@@ -1,8 +1,53 @@
-﻿<div class="ui divided stack two column grid">
+﻿@model RegisterUserViewModel
+
+@section scripts
+{
+    @{ await Html.ValidationScripts(); }
+}
+
+<div class="ui divided stack two column grid">
     <div class="column">
         <h4>
             Register a new account
         </h4>
+        <form class="ui form" method="post" asp-area="Account" asp-controller="Home" asp-action="Register">
+            <div class="ui raised segment" asp-validation-summary="All"></div>
+            <div class="field">
+                <label asp-for="Username"></label>
+                <div class="ui input left icon">
+                    <input asp-for="Username" />
+                    <i class="icon user"></i>
+                </div>
+                <span class="ui pointing warning raised label" asp-validation-for="Username"></span>
+            </div>
+            <div class="field">
+                <label asp-for="Email"></label>
+                <div class="ui input left icon">
+                    <input asp-for="Email" />
+                    <i class="icon envelope"></i>
+                </div>
+                <span class="ui pointing warning raised label" asp-validation-for="Email"></span>
+            </div>
+            <div class="field">
+                <label asp-for="Password"></label>
+                <div class="ui input left icon">
+                    <input asp-for="Password" />
+                    <i class="icon asterisk"></i>
+                </div>
+                <span class="ui pointing warning raised label" asp-validation-for="Password"></span>
+            </div>
+            <div class="field">
+                <label asp-for="ConfirmPassword"></label>
+                <div class="ui input left icon">
+                    <input asp-for="ConfirmPassword" />
+                    <i class="icon asterisk"></i>
+                </div>
+                <span class="ui pointing warning raised label" asp-validation-for="ConfirmPassword"></span>
+            </div>
+            <button type="submit" class="ui button primary">
+                Register
+            </button>
+        </form>
     </div>
     <div class="column">
         <h4>

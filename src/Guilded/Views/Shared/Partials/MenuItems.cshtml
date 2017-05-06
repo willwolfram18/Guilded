@@ -1,12 +1,23 @@
-﻿<a class="item active" asp-controller="Home" asp-action="Index">
+﻿<a class="item active" asp-area="" asp-controller="Home" asp-action="Index">
     <i class="fa fa-home"></i> Home
 </a>
 <a class="item">
     <i class="fa fa-comment"></i> Forums
 </a>
-<a class="item" asp-area="Account" asp-controller="Home" asp-action="SignIn">
-    <i class="fa fa-sign-in"></i> Sign in
-</a>
-<a class="item" asp-area="Account" asp-controller="Home" asp-action="Register">
-    <i class="fa fa-pencil-square-o"></i> Register
-</a>
+@if (User.Identity.IsAuthenticated)
+{
+    <form method="post" id="sign-out-form" asp-area="Account" asp-controller="Home" asp-action="SignOut">
+        <a href="javascript:document.getElementById('sign-out-form').submit()" class="item">
+            <i class="fa fa-sign-out"></i> Sign out
+        </a>
+    </form>
+}
+else
+{
+    <a class="item" asp-area="Account" asp-controller="Home" asp-action="SignIn">
+        <i class="fa fa-sign-in"></i> Sign in
+    </a>
+    <a class="item" asp-area="Account" asp-controller="Home" asp-action="Register">
+        <i class="fa fa-pencil-square-o"></i> Register
+    </a>
+}

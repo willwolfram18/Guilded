@@ -118,7 +118,7 @@ namespace Guilded.Areas.Account.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
-            return RedirectToAction(nameof(Guilded.Controllers.HomeController.Index), "Home");
+            return RedirectToAction(nameof(Guilded.Controllers.HomeController.Index), "Home", new { area = "" });
         }
 
         [AllowAnonymous]
@@ -417,10 +417,8 @@ namespace Guilded.Areas.Account.Controllers
             {
                 return Redirect(returnUrl);
             }
-            else
-            {
-                return RedirectToAction(nameof(Guilded.Controllers.HomeController.Index), "Home");
-            }
+
+            return RedirectToAction(nameof(Guilded.Controllers.HomeController.Index), "Home", new { area = "" });
         }
     }
 }

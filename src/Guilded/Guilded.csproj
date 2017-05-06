@@ -11,12 +11,14 @@
     <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="wwwroot\css\shared\colors.less" />
     <Content Include="wwwroot\css\shared\font-awesome.css" />
     <Content Include="wwwroot\css\shared\font-awesome.min.css" />
     <Content Include="wwwroot\css\shared\forms.less" />
     <Content Include="wwwroot\css\shared\menu.css" />
     <Content Include="wwwroot\css\shared\menu.less" />
     <Content Include="wwwroot\css\shared\menu.min.css" />
+    <Content Include="wwwroot\css\shared\mixins.less" />
     <Content Include="wwwroot\js\shared\menu.ts" />
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +70,7 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModels\Account\" />

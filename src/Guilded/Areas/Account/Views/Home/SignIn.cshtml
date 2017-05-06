@@ -1,23 +1,7 @@
-﻿@model SignInUser
+﻿@model SignInUserViewModel
 
 @section scripts {
-    <environment Names="Development">
-        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-        <script src="~/lib/jquery-validation/dist/additional-methods.js"></script>
-        <script src="lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-    </environment>
-    <environment Names="Staging, Production">
-        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"
-                asp-fallback-src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js">
-        </script>
-        <script src="~/lib/jquery-validation/dist/additional-methods.min.js"
-                asp-fallback-src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/additional-methods.min.js">
-        </script>
-        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
-                asp-fallback-src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js">
-        </script>
-    </environment>
-    
+    @{ await Html.ValidationScripts(); }
 }
 
 <div class="ui stackable divided two column grid">
@@ -33,7 +17,7 @@
                     <input asp-for="Email"/>
                     <i class="icon envelope"></i>
                 </div>
-                <span class="ui pointing warning label" asp-validation-for="Email"></span>
+                <span class="ui pointing warning raised label" asp-validation-for="Email"></span>
             </div>
             <div class="field">
                 <label asp-for="Password"></label>
@@ -41,7 +25,7 @@
                     <input asp-for="Password"/>
                     <i class="icon asterisk"></i>
                 </div>
-                <span class="ui pointing warning label" asp-validation-for="Password"></span>
+                <span class="ui pointing warning raised label" asp-validation-for="Password"></span>
             </div>
             <div class="field">
                 <div class="ui checkbox">
