@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
 using Guilded.AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Guilded
 {
@@ -47,6 +48,9 @@ namespace Guilded
             services.AddMvc(config =>
             {
                 config.Filters.Add(new AuthorizeFilter("Selama Ashalanore"));
+            }).AddRazorOptions(razorOpts =>
+            {
+                razorOpts.ViewLocationExpanders.Add(new PartialsFolderViewLocationExpander());
             });
             services.AddAuthorization(opts =>
             {
