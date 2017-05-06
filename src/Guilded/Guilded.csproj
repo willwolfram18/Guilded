@@ -14,6 +14,7 @@
     <Content Include="wwwroot\css\main.less" />
     <Content Include="wwwroot\css\shared\font-awesome.css" />
     <Content Include="wwwroot\css\shared\font-awesome.min.css" />
+    <Content Include="wwwroot\css\shared\forms.less" />
     <Content Include="wwwroot\css\shared\main.css" />
     <Content Include="wwwroot\css\shared\main.less" />
     <Content Include="wwwroot\css\shared\main.min.css" />

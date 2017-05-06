@@ -1,8 +1,56 @@
-﻿<div class="ui stackable divided two column grid">
+﻿@model SignInUser
+
+@section scripts {
+    <environment Names="Development">
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation/dist/additional-methods.js"></script>
+        <script src="lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    </environment>
+    <environment Names="Staging, Production">
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"
+                asp-fallback-src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js">
+        </script>
+        <script src="~/lib/jquery-validation/dist/additional-methods.min.js"
+                asp-fallback-src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/additional-methods.min.js">
+        </script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
+                asp-fallback-src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js">
+        </script>
+    </environment>
+    
+}
+
+<div class="ui stackable divided two column grid">
     <div class="column">
         <h4>
             Sign in using a local account
         </h4>
+        <form class="ui form error" method="post" asp-area="Account" asp-controller="Home" asp-action="SignInPost">
+            <div class="field">
+                <label asp-for="Email"></label>
+                <div class="ui input left icon">
+                    <input asp-for="Email" />
+                    <i class="icon envelope"></i>
+                </div>
+                <span class="ui pointing warning label" asp-validation-for="Email"></span>
+            </div>
+            <div class="field">
+                <label asp-for="Password"></label>
+                <div class="ui input left icon">
+                    <input asp-for="Password"/>
+                    <i class="icon asterisk"></i>
+                </div>
+                <span class="ui pointing warning label" asp-validation-for="Password"></span>
+            </div>
+            <div class="field">
+                <div class="ui checkbox">
+                    <input asp-for="RememberMe" /><label asp-for="RememberMe"></label>
+                </div>
+            </div>
+            <button type="submit" class="ui button primary">
+                Sign in
+            </button>
+        </form>
     </div>
     <div class="column">
         <h4>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Guilded.ViewModels.Account;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Guilded.Areas.Account.Controllers
@@ -8,10 +9,17 @@ namespace Guilded.Areas.Account.Controllers
     public class HomeController : Controller
     {
         [AllowAnonymous]
-        [Route("account/sign-in")]
+        [HttpGet("account/sign-in")]
         public ViewResult SignIn()
         {
             return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost("account/sign-in")]
+        public ViewResult SignIn(SignInUser user)
+        {
+            return View(user);
         }
 
         [AllowAnonymous]
