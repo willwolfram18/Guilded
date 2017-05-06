@@ -11,6 +11,9 @@
     <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="wwwroot\css\main.less" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="wwwroot\dist\*.map">
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
@@ -56,8 +59,5 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="wwwroot" />
   </ItemGroup>
 </Project>

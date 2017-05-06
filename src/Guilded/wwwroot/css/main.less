@@ -1,0 +1,60 @@
+﻿@small-monitor-breakpoint: 768px;
+@mobile-breakpoint: (@small-monitor-breakpoint - 1);
+
+html, body
+{
+    height: 100%;
+}
+
+@main-menu-width: 200px;
+
+.pusher-content-wrapper
+{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+
+    .full.height
+    {
+        display: flex;
+        min-height: 100%;
+
+        .main.menu
+        {
+            position: relative;
+            min-width: @main-menu-width;
+            max-width: @main-menu-width;
+            min-height: 100%;
+            border-radius: 0;
+            margin-bottom: 0;
+
+            @media(max-width: @mobile-breakpoint)
+            {
+                display: none;
+            }
+
+            .item
+            {
+                &.brand
+                {
+                    text-align: center;
+                    font-size: 20px;
+                    font-weight: bold;
+                }
+            }
+        }
+
+        .main-content
+        {
+            flex: 1 1 auto;
+            margin: 0 18px;
+            padding: 15px 10px;
+
+            @media(max-width: @mobile-breakpoint)
+            {
+                margin: 0 10px;
+                padding-top: 50px;
+            }
+        }
+    }
+}

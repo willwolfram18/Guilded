@@ -16,34 +16,33 @@ namespace Guilded.Services.Extensions
 {
     public static class IServiceCollectionExtensions
     {
-        public static void AddGuilded(this IServiceCollection services, IConfigurationRoot Configuration, SymmetricSecurityKey signingKey)
+        public static void AddGuilded(this IServiceCollection services, IConfigurationRoot configuration)
         {
-            services.AddGuildedDb(Configuration);
-            services.AddGuildedDAL(Configuration);
-            services.AddGuildedOptions(Configuration, signingKey);
+            services.AddGuildedDb(configuration);
+            services.AddGuildedDAL();
 
-            services.AddSingleton<IBattleNetApi>(implementationInstance:
-                new BattleNetApi.Apis.BattleNetApi(Configuration["OAuthProviders:BattleNetClientId"])
+            services.AddSingleton<IBattleNetApi>(
+                new BattleNetApi.Apis.BattleNetApi(configuration["OAuthProviders:BattleNetClientId"])
             );
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
-        private static void AddGuildedDb(this IServiceCollection services, IConfigurationRoot Configuration)
+        private static void AddGuildedDb(this IServiceCollection services, IConfigurationRoot configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 if (Globals.OSX)
                 {
                     options.UseSqlite(
-                        Configuration.GetConnectionString("DefaultConnection:OSX"),
+                        configuration.GetConnectionString("DefaultConnection:OSX"),
                         opts => opts.MigrationsAssembly("Guilded.Migrations.Sqlite")
                     );
                 }
                 else
                 {
                     options.UseSqlServer(
-                        Configuration.GetConnectionString("DefaultConnection:Windows"),
+                        configuration.GetConnectionString("DefaultConnection:Windows"),
                         opts => opts.MigrationsAssembly("Guilded.Migrations.SqlServer")
                     );
                 }
@@ -58,30 +57,12 @@ namespace Guilded.Services.Extensions
                 .AddDefaultTokenProviders();
         }
 
-        private static void AddGuildedDAL(this IServiceCollection services, IConfigurationRoot Configuration)
+        private static void AddGuildedDAL(this IServiceCollection services)
         {
             services.AddTransient<IReadOnlyRepository<GuildActivity>, GuildActivityRepo>();
             services.AddTransient<IGuildActivityReadOnlyDataContext, GuildActivityReadOnlyDataContext>();
             services.AddTransient<IPermissionsRepository, PermissionsRepository>();
             services.AddTransient<IAdminDataContext, AdminDataContext>();
-        }
-
-        private static void AddGuildedOptions(this IServiceCollection services, IConfigurationRoot Configuration, SymmetricSecurityKey signingKey)
-        {
-            services.Configure<JwtOptions>(options =>
-            {
-                var optionSettings = Configuration.GetSection("JwtOptions");
-                options.Issuer = optionSettings["Issuer"];
-                if (Globals.OSX)
-                {
-                    options.Audience = optionSettings["Audience:OSX"];
-                }
-                else
-                {
-                    options.Audience = optionSettings["Audience:Windows"];
-                }
-                options.SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
-            });
         }
     }
 }
