@@ -33,12 +33,12 @@
                     <a class="item sidebar-toggle">
                         <i class="fa fa-bars"></i>
                     </a>
-                    <a class="brand item" asp-controller="Home" asp-action="Index">
+                    <a class="brand item" asp-area="" asp-controller="Home" asp-action="Index">
                         Selama
                     </a>
                 </div>
                 <div class="ui vertical left inverted pointing main menu">
-                    <a class="brand item" asp-controller="Home" asp-action="Index">
+                    <a class="brand item" asp-area="" asp-controller="Home" asp-action="Index">
                         Selama
                     </a>
                     @{ await Html.RenderPartialAsync("MenuItems"); }

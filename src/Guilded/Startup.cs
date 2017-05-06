@@ -37,18 +37,11 @@ namespace Guilded
             // Add framework services.
             services.AddOptions();
             services.AddGuilded(Configuration);
-            services.AddMvc(config =>
-            {
-                config.Filters.Add(new AuthorizeFilter("Selama Ashalanore"));
-            }).AddRazorOptions(razorOpts =>
+            services.AddMvc().AddRazorOptions(razorOpts =>
             {
                 razorOpts.ViewLocationExpanders.Add(new PartialsFolderViewLocationExpander());
             });
 
-            services.AddAuthorization(opts =>
-            {
-                opts.AddPolicy("Selama Ashalanore", policy => policy.RequireClaim(Globals.JWT_CLAIM_TYPE, Globals.JWT_CLAIM_VALUE));
-            });
 
             services.AddRouting(options => options.LowercaseUrls = true);
             
