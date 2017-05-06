@@ -25,6 +25,8 @@ bld/
 # Visual Studio 2015 cache/options directory
 .vs/
 src/**/wwwroot/lib/
+src/**/wwwroot/js/**/*.js
+src/**/wwwroot/js/**/*.js.map
 
 # MSTest test Results
 [Tt]est[Rr]esult*/

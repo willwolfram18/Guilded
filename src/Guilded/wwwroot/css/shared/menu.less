@@ -19,18 +19,30 @@ html, body
         display: flex;
         min-height: 100%;
 
-        .main.menu
+        .menu
         {
-            position: relative;
-            min-width: @main-menu-width;
-            max-width: @main-menu-width;
-            min-height: 100%;
-            border-radius: 0;
-            margin-bottom: 0;
-
-            @media(max-width: @mobile-breakpoint)
+            &.main
             {
-                display: none;
+                position: relative;
+                min-width: @main-menu-width;
+                max-width: @main-menu-width;
+                min-height: 100%;
+                border-radius: 0;
+                margin-top: 0;
+                margin-bottom: 0;
+
+                @media(max-width: @mobile-breakpoint)
+                {
+                    display: none;
+                }
+            }
+
+            &.fixed.top.mobile
+            {
+                @media(min-width: @small-monitor-breakpoint)
+                {
+                    display: none;
+                }
             }
 
             .item
@@ -53,7 +65,7 @@ html, body
             @media(max-width: @mobile-breakpoint)
             {
                 margin: 0 10px;
-                padding-top: 50px;
+                padding-top: 72px;
             }
         }
     }

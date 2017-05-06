@@ -1,0 +1,9 @@
+{
+	"version": "1.0.0",
+	"name": "guilded",
+	"private": true,
+	"devDependencies": {
+        "@types/jquery": "2.0.43",
+        "@types/semantic-ui": "2.2.3"
+	}
+}

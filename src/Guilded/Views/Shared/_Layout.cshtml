@@ -8,28 +8,44 @@
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/semantic/dist/semantic.css" />
-        <link rel="stylesheet" href="css/main.css"
+        <link rel="stylesheet" href="~/css/shared/font-awesome.css" />
+        <link rel="stylesheet" href="~/css/shared/menu.css"
               asp-append-version="true" />
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="~/lib/semantic/dist/semantic.min.css"
               asp-fallback-href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css" />
-        <link rel="stylesheet" href="css/main.min.css"
+        <link rel="stylesheet" href="~/css/shared/font-awesome.min.css" />
+        <link rel="stylesheet" href="~/css/shared/menu.min.css"
               asp-append-version="true" />
     </environment>
     <link rel="icon" type="image/png" href="https://worldofwarcraft.com/static/components/Logo/Logo-wowIcon-01e2c44379.png">
     @RenderSection("styles", false)
 </head>
 <body class="pushable">
+    <div class="ui vertical left inverted sidebar menu main">
+        @{ await Html.RenderPartialAsync("MenuItems"); }
+    </div>
     <div class="pusher">
         <div class="pusher-content-wrapper">
             <div class="full height">
+                <div class="ui inverted top fixed large menu mobile">
+                    <a class="item sidebar-toggle">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                    <a class="brand item" asp-controller="Home" asp-action="Index">
+                        Selama
+                    </a>
+                </div>
                 <div class="ui vertical left inverted pointing main menu">
+                    <a class="brand item" asp-controller="Home" asp-action="Index">
+                        Selama
+                    </a>
                     @{ await Html.RenderPartialAsync("MenuItems"); }
                 </div>
                 <div class="main-content">
                     @RenderBody()
-                    <hr />
+                    <hr/>
                     <footer>
                         <p>&copy; @DateTime.Now.Year - Selama Ashal'anore!</p>
                     </footer>
@@ -42,6 +58,9 @@
         </script>
         <script src="~/lib/semantic/dist/semantic.js">
         </script>
+        <script src="~/js/shared/menu.js"
+                asp-append-version="true">
+        </script>
     </environment>
     <environment names="Staging,Production">
         <script src="~/lib/jquery/dist/jquery.min.js"
@@ -50,6 +69,9 @@
         </script>
         <script src="~/lib/semantic/dist/semantic.min.js"
                 asp-fallback-src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js">
+        </script>
+        <script src="~/js/shared/menu.min.js"
+                asp-append-version="true">
         </script>
     </environment>
     @RenderSection("scripts", false)

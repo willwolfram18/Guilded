@@ -12,6 +12,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="wwwroot\css\main.less" />
+    <Content Include="wwwroot\css\shared\font-awesome.css" />
+    <Content Include="wwwroot\css\shared\font-awesome.min.css" />
+    <Content Include="wwwroot\css\shared\main.css" />
+    <Content Include="wwwroot\css\shared\main.less" />
+    <Content Include="wwwroot\css\shared\main.min.css" />
+    <Content Include="wwwroot\css\shared\menu.css" />
+    <Content Include="wwwroot\css\shared\menu.less" />
+    <Content Include="wwwroot\css\shared\menu.min.css" />
+    <Content Include="wwwroot\css\shared\__dummy__" />
+    <Content Include="wwwroot\js\shared\menu.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Update="wwwroot\dist\*.map">
