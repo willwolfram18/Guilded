@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Guilded.Controllers;
 using Guilded.Identity;
 using Guilded.Services;
-using Guilded.Areas.Account.ViewModels;
+using Guilded.Areas.Account.ViewModels.Home;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

@@ -10,7 +10,7 @@
         <i class="dropdown icon"></i>
         Hello, @User.Identity.Name
         <div class="menu">
-            <a class="item">
+            <a class="item" asp-area="Account" asp-controller="Manage" asp-action="Index" guilded-route-active>
                 <i class="fa fa-cogs"></i> Manage Account
             </a>
             <form class="item" method="post" id="sign-out-form" asp-area="Account" asp-controller="Home" asp-action="SignOut">

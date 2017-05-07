@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Guilded.Areas.Account.ViewModels
+namespace Guilded.Areas.Account.ViewModels.Home
 {
     public class SignInUserViewModel
     {
