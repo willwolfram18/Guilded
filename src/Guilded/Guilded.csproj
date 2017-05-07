@@ -19,6 +19,7 @@
     <Content Include="wwwroot\css\shared\menu.less" />
     <Content Include="wwwroot\css\shared\menu.min.css" />
     <Content Include="wwwroot\css\shared\mixins.less" />
+    <Content Include="wwwroot\css\shared\shared.less" />
     <Content Include="wwwroot\js\shared\menu.ts" />
   </ItemGroup>
   <ItemGroup>

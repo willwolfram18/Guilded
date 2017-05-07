@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace Guilded.TagHelpers
 {
-    [HtmlTargetElement("a", Attributes = ItemSelectedAttribute)]
+    [HtmlTargetElement(Attributes = ItemSelectedAttribute)]
     public class MenuItemSelectedTagHelper : TagHelper
     {
         private const string ItemSelectedAttribute = "guilded-route-active";
+
+        [HtmlAttributeName(ItemSelectedAttribute)]
+        public string GuildRoute { get; set; }
 
         [ViewContext]
         public ViewContext ViewContext { get; set; }
@@ -20,9 +23,7 @@ namespace Guilded.TagHelpers
         {
             await base.ProcessAsync(context, output);
 
-            var href = output.Attributes["href"];
-
-            if (href?.Value.ToString() == Request.Path)
+            if (Request.Path.StartsWithSegments(new PathString(GuildRoute)))
             {
                 var cssClass = output.Attributes["class"] ?? new TagHelperAttribute("class");
 

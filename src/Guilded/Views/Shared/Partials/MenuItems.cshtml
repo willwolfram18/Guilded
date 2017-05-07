@@ -1,32 +1,30 @@
-﻿<a class="item" asp-area="" asp-controller="Home" asp-action="Index" guilded-route-active>
+﻿<a class="item" asp-area="" asp-controller="Home" asp-action="Index" guilded-route-active="@Url.Action("Index", "Home", new { area = "" })">
     <i class="fa fa-home"></i> Home
 </a>
 <a class="item">
-    <i class="fa fa-comment" guilded-route-active></i> Forums
+    <i class="fa fa-comment"></i> Forums
 </a>
 @if (User.Identity.IsAuthenticated)
 {
-    <div class="ui left pointing dropdown link item">
+    <form class="ui left pointing dropdown link item" method="post" id="sign-out-form" asp-area="Account" asp-controller="Home" asp-action="SignOut">
         <i class="dropdown icon"></i>
         Hello, @User.Identity.Name
         <div class="menu">
-            <a class="item" asp-area="Account" asp-controller="Manage" asp-action="Index" guilded-route-active>
+            <a class="item" asp-area="Account" asp-controller="Manage" asp-action="Index" guilded-route-active="@Url.Action("Index", "Manage", new { area = "Account" })">
                 <i class="fa fa-cogs"></i> Manage Account
             </a>
-            <form class="item" method="post" id="sign-out-form" asp-area="Account" asp-controller="Home" asp-action="SignOut">
-                <a href="javascript:document.getElementById('sign-out-form').submit()">
-                    <i class="fa fa-sign-out"></i> Sign out
-                </a>
-            </form>
+            <a class="item" href="javascript:document.getElementById('sign-out-form').submit()">
+                <i class="fa fa-sign-out"></i> Sign out
+            </a>
         </div>
-    </div>
+    </form>
 }
 else
 {
-    <a class="item" asp-area="Account" asp-controller="Home" asp-action="SignIn" guilded-route-active>
+    <a class="item" asp-area="Account" asp-controller="Home" asp-action="SignIn" guilded-route-active="@Url.Action("SignIn", "Home", new { area = "Account" })">
         <i class="fa fa-sign-in"></i> Sign in
     </a>
-    <a class="item" asp-area="Account" asp-controller="Home" asp-action="Register" guilded-route-active>
+    <a class="item" asp-area="Account" asp-controller="Home" asp-action="Register" guilded-route-active="@Url.Action("Register", "Home", new { area = "Account" })">
         <i class="fa fa-pencil-square-o"></i> Register
     </a>
 }

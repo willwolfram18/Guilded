@@ -5,9 +5,12 @@
 }
 
 <h2>@ViewData["Title"].</h2>
-<div class="ui raised success segment">
-    @ViewData["StatusMessage"]
-</div>
+@if (!string.IsNullOrWhiteSpace(ViewData["StatusMessage"].ToString()))
+{
+    <div class="ui raised success segment">
+        @ViewData["StatusMessage"]
+    </div>
+}
 
 <h4>Change your account settings</h4>
 <div>
