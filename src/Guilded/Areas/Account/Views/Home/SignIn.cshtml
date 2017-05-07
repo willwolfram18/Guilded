@@ -25,6 +25,9 @@
                     <input asp-for="Password"/>
                     <i class="icon asterisk"></i>
                 </div>
+                <a asp-area="Account" asp-controller="Home" asp-action="ForgotPassword">
+                    Forgot your password?
+                </a>
                 <span class="ui pointing warning raised label" asp-validation-for="Password"></span>
             </div>
             <div class="field">

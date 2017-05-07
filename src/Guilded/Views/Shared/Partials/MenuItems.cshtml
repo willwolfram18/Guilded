@@ -6,11 +6,20 @@
 </a>
 @if (User.Identity.IsAuthenticated)
 {
-    <form method="post" id="sign-out-form" asp-area="Account" asp-controller="Home" asp-action="SignOut">
-        <a href="javascript:document.getElementById('sign-out-form').submit()" class="item">
-            <i class="fa fa-sign-out"></i> Sign out
-        </a>
-    </form>
+    <div class="ui left pointing dropdown link item">
+        <i class="dropdown icon"></i>
+        Hello, @User.Identity.Name
+        <div class="menu">
+            <a class="item">
+                <i class="fa fa-cogs"></i> Manage Account
+            </a>
+            <form class="item" method="post" id="sign-out-form" asp-area="Account" asp-controller="Home" asp-action="SignOut">
+                <a href="javascript:document.getElementById('sign-out-form').submit()">
+                    <i class="fa fa-sign-out"></i> Sign out
+                </a>
+            </form>
+        </div>
+    </div>
 }
 else
 {

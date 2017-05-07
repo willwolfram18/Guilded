@@ -1,12 +1,62 @@
-﻿@small-monitor-breakpoint: 768px;
+﻿@import "mixins.less";
+
+@small-monitor-breakpoint: 768px;
 @mobile-breakpoint: (@small-monitor-breakpoint - 1);
+@main-menu-width: 200px;
 
 html, body
 {
     height: 100%;
 }
 
-@main-menu-width: 200px;
+.main.menu
+{
+    min-width: @main-menu-width;
+    max-width: @main-menu-width;
+    min-height: 100%;
+
+    .item
+    {
+        .fa
+        {
+            margin-right: 10px;
+        }
+
+        &.brand
+        {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        &.dropdown
+        {
+            .menu .item a
+            {
+                color: rgba(0, 0, 0, 0.87)!important;
+            }
+        }
+    }
+}
+
+.sidebar.main.menu
+{
+    z-index: 5;
+
+    
+
+    &.visible
+    {
+        overflow: visible !important;
+
+        &.left.ui ~ .pusher
+        {
+            /*.transform(translate3d(@main-menu-width, 0, 0));*/
+        }
+    }
+
+
+}
 
 .pusher-content-wrapper
 {
@@ -24,9 +74,7 @@ html, body
             &.main
             {
                 position: relative;
-                min-width: @main-menu-width;
-                max-width: @main-menu-width;
-                min-height: 100%;
+                
                 border-radius: 0;
                 margin-top: 0;
                 margin-bottom: 0;
@@ -42,21 +90,6 @@ html, body
                 @media(min-width: @small-monitor-breakpoint)
                 {
                     display: none;
-                }
-            }
-
-            .item
-            {
-                .fa
-                {
-                    margin-right: 10px;
-                }
-
-                &.brand
-                {
-                    text-align: center;
-                    font-size: 20px;
-                    font-weight: bold;
                 }
             }
         }

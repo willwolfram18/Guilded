@@ -1,4 +1,4 @@
-﻿@model ExternalLoginConfirmationViewModel
+﻿@model ExternalSignInConfirmationViewModel
 @{
     ViewData["Title"] = "Register";
 }
@@ -31,5 +31,5 @@
 </form>
 
 @section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    @{ await Html.ValidationScripts(); }
 }

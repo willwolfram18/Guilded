@@ -27,7 +27,7 @@
     @RenderSection("styles", false)
 </head>
 <body class="pushable">
-    <div class="ui vertical left inverted sidebar menu main">
+    <div class="ui vertical left inverted overlay sidebar main menu">
         @{ await Html.RenderPartialAsync("MenuItems"); }
     </div>
     <div class="pusher">
