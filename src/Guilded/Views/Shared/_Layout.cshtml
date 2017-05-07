@@ -9,6 +9,8 @@
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/semantic/dist/semantic.css" />
         <link rel="stylesheet" href="~/css/shared/font-awesome.css" />
+        <link rel="stylesheet" href="css/shared/shared.css"
+              asp-append-version="true" />
         <link rel="stylesheet" href="~/css/shared/menu.css"
               asp-append-version="true" />
         <link rel="stylesheet" href="~/css/shared/forms.css"
@@ -18,6 +20,8 @@
         <link rel="stylesheet" href="~/lib/semantic/dist/semantic.min.css"
               asp-fallback-href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css" />
         <link rel="stylesheet" href="~/css/shared/font-awesome.min.css" />
+        <link rel="stylesheet" href="css/shared/shared.min.css"
+              asp-append-version="true" />
         <link rel="stylesheet" href="~/css/shared/menu.min.css"
               asp-append-version="true" />
         <link rel="stylesheet" href="~/css/shared/forms.min.css"
@@ -48,11 +52,14 @@
                     @{ await Html.RenderPartialAsync("MenuItems"); }
                 </div>
                 <div class="main-content">
-                    @RenderBody()
-                    <hr/>
-                    <footer>
-                        <p>&copy; @DateTime.Now.Year - Selama Ashal'anore!</p>
-                    </footer>
+                    <div class="container">
+                        @RenderBody()
+                    </div>
+                    <div class="footer container">
+                        <footer>
+                            <p>&copy; @DateTime.Now.Year - Selama Ashal'anore!</p>
+                        </footer>
+                    </div>
                 </div>
             </div>
         </div>

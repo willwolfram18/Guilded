@@ -66,7 +66,7 @@ namespace Guilded.Areas.Account.Controllers
             return View(model);
         }
 
-        [HttpPost("[area]/[controller]/remove-login")]
+        [HttpDelete("[area]/[controller]/login")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveLogin(RemoveLoginViewModel account)
         {
@@ -84,7 +84,7 @@ namespace Guilded.Areas.Account.Controllers
             return RedirectToAction(nameof(ManageLogins), new { Message = message });
         }
 
-        [Route("[area]/[controller]/add-phone-number")]
+        [Route("[area]/[controller]/phone-number")]
         public ViewResult AddPhoneNumber()
         {
             return View();
@@ -109,8 +109,6 @@ namespace Guilded.Areas.Account.Controllers
             return RedirectToAction(nameof(VerifyPhoneNumber), new { PhoneNumber = model.PhoneNumber });
         }
 
-        //
-        // POST: /Manage/EnableTwoFactorAuthentication
         [HttpPost("[area]/[controller]/two-factor")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EnableTwoFactorAuthentication()
@@ -193,8 +191,14 @@ namespace Guilded.Areas.Account.Controllers
         }
 
         [HttpGet("[area]/[controller]/change-password")]
-        public ViewResult ChangePassword()
+        public async Task<IActionResult> ChangePassword()
         {
+            var user = await GetCurrentUserAsync();
+
+            if (!await _userManager.HasPasswordAsync(user))
+            {
+                return RedirectToAction(nameof(SetPassword));
+            }
             return View();
         }
 
@@ -223,8 +227,15 @@ namespace Guilded.Areas.Account.Controllers
         }
 
         [HttpGet("[area]/[controller]/set-password")]
-        public ViewResult SetPassword()
+        public async Task<IActionResult> SetPassword()
         {
+            var user = await GetCurrentUserAsync();
+
+            if (await _userManager.HasPasswordAsync(user))
+            {
+                return RedirectToAction(nameof(ChangePassword));
+            }
+
             return View();
         }
 

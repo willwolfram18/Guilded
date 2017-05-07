@@ -3,28 +3,22 @@
     ViewData["Title"] = "Verify Phone Number";
 }
 
-<h2>@ViewData["Title"].</h2>
-
-<form asp-controller="Manage" asp-action="VerifyPhoneNumber" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+<h4>Add a phone number.</h4>
+<form class="ui form" asp-area="Account" asp-controller="Manage" asp-action="VerifyPhoneNumber" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
     <input asp-for="PhoneNumber" type="hidden" />
-    <h4>Add a phone number.</h4>
     <h5>@ViewData["Status"]</h5>
-    <hr />
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="Code" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Code" class="form-control" />
-            <span asp-validation-for="Code" class="text-danger"></span>
+    <div asp-validation-summary="All" class="ui raised warning segment"></div>
+    <div class="field">
+        <label asp-for="Code"></label>
+        <div class="ui left icon input">
+            <input asp-for="Code" />
+            <i class="icon code"></i>
         </div>
+        <span asp-validation-for="Code" class="ui raised pointing warning label"></span>
     </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <button type="submit" class="btn btn-default">Submit</button>
-        </div>
-    </div>
+    <button type="submit" class="ui button primary">Submit</button>
 </form>
 
 @section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    @{ await Html.ValidationScripts(); }
 }

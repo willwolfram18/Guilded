@@ -6,5 +6,9 @@
   {
     "outputFile": "wwwroot/css/shared/forms.css",
     "inputFile": "wwwroot/css/shared/forms.less"
+  },
+  {
+    "outputFile": "wwwroot/css/shared/shared.css",
+    "inputFile": "wwwroot/css/shared/shared.less"
   }
 ]
