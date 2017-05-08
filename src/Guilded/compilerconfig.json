@@ -10,5 +10,9 @@
   {
     "outputFile": "wwwroot/css/shared/shared.css",
     "inputFile": "wwwroot/css/shared/shared.less"
+  },
+  {
+    "outputFile": "wwwroot/css/shared/pager.css",
+    "inputFile": "wwwroot/css/shared/pager.less"
   }
 ]

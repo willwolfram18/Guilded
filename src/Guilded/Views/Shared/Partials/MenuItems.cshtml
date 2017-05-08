@@ -6,12 +6,15 @@
 </a>
 @if (User.Identity.IsAuthenticated)
 {
+    <a class="item" asp-area="Admin" asp-controller="Home" asp-action="Index" guilded-route-active="@Url.Action("Index", "Home", new { area = "Admin" })">
+        <i class="fa fa-cogs"></i> Admin
+    </a>
     <form class="ui left pointing dropdown link item" method="post" id="sign-out-form" asp-area="Account" asp-controller="Home" asp-action="SignOut">
         <i class="dropdown icon"></i>
-        Hello, @User.Identity.Name
+        @User.Identity.Name
         <div class="menu">
             <a class="item" asp-area="Account" asp-controller="Manage" asp-action="Index" guilded-route-active="@Url.Action("Index", "Manage", new { area = "Account" })">
-                <i class="fa fa-cogs"></i> Manage Account
+                <i class="fa fa-user"></i> Manage Account
             </a>
             <a class="item" href="javascript:document.getElementById('sign-out-form').submit()">
                 <i class="fa fa-sign-out"></i> Sign out

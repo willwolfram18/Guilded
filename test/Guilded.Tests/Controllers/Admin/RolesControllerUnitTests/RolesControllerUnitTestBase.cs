@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
-using ViewModel = Guilded.ViewModels.Core.ApplicationRole;
+using ViewModel = Guilded.Areas.Admin.ViewModels.Roles.ApplicationRole;
 
 
 namespace Guilded.Tests.Controllers.Admin.RolesControllerUnitTests

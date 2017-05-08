@@ -7,7 +7,7 @@ using System.Linq;
 using DataModel = Guilded.Identity.ApplicationRole;
 using AutoMapper;
 
-namespace Guilded.ViewModels.Core
+namespace Guilded.Areas.Admin.ViewModels.Roles
 {
     public class ApplicationRole
     {

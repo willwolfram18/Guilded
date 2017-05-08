@@ -4,7 +4,7 @@ using AutoMapper;
 using Guilded.AutoMapper;
 using Guilded.Data.DAL.Core;
 using Guilded.Security.Claims;
-using Guilded.ViewModels.Core;
+using Guilded.Areas.Admin.ViewModels.Roles;
 using Xunit;
 
 namespace Guilded.Tests.Data.DAL.Core

@@ -4,7 +4,7 @@ using Guilded.Security.Claims;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using AutoMapper;
 
-namespace Guilded.ViewModels.Core
+namespace Guilded.Areas.Admin.ViewModels.Roles
 {
     public class Permission
     {

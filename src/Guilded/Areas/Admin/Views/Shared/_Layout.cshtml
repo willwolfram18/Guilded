@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = $"Admin - {ViewData["Title"]}";
+}
+
+@section styles
+{
+    @RenderSection("styles", false)
+}
+
+<h2>
+    Admin
+</h2>
+
+@RenderBody()
+
+@section scripts
+{
+    @RenderSection("scripts", false)
+}

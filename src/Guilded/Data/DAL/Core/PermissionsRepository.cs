@@ -1,5 +1,5 @@
 using Guilded.Data.DAL.Abstract;
-using Guilded.ViewModels.Core;
+using Guilded.Areas.Admin.ViewModels.Roles;
 using Guilded.Extensions;
 using Guilded.Security.Claims;
 using System.Collections;

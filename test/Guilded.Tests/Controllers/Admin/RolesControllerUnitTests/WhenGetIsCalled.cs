@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using DataModel = Guilded.Identity.ApplicationRole;
-using ViewModel = Guilded.ViewModels.Core.ApplicationRole;
+using ViewModel = Guilded.Areas.Admin.ViewModels.Roles.ApplicationRole;
 
 namespace Guilded.Tests.Controllers.Admin.RolesControllerUnitTests
 {

@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Guilded.Data.DAL.Core;
-using Guilded.ViewModels.Core;
+using Guilded.Areas.Admin.ViewModels.Roles;
 
 using DataModel = Guilded.Identity.ApplicationRole;
-using ViewModel = Guilded.ViewModels.Core.ApplicationRole;
+using ViewModel = Guilded.Areas.Admin.ViewModels.Roles.ApplicationRole;
 using Guilded.Extensions;
 using AutoMapper;
 using BattleNetApi.Objects.WoW.Enums;
@@ -30,11 +30,11 @@ namespace Guilded.Controllers.Admin
 
         #region Methods
         #region Action Methods
-        [HttpGet]
-        public JsonResult Get()
-        {
-            return Json(Mapper.Map<IQueryable<DataModel>, List<ViewModel>>(_db.GetRoles()));
-        }
+        //[HttpGet]
+        //public JsonResult Get()
+        //{
+        //    return Json(Mapper.Map<IQueryable<DataModel>, List<ViewModel>>(_db.GetRoles()));
+        //}
 
         [HttpGet("{id}")]
         public Task<JsonResult> Get(string id)

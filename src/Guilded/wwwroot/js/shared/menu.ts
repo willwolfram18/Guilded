@@ -5,6 +5,7 @@
 function documentReady() {
     $(".ui.dropdown").dropdown();
     $(".sidebar").sidebar();
+    $(".ui.accordion").accordion();
 
     $(".sidebar-toggle").on("click", showSidebar);
 }

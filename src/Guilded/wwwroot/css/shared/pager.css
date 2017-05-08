@@ -1,0 +1,7 @@
+﻿.pager {
+  display: flex;
+  margin-bottom: 10px;
+}
+.pager.right {
+  flex-direction: row-reverse;
+}

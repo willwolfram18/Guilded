@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using Guilded.ViewModels.Core;
+using Guilded.Areas.Admin.ViewModels.Roles;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using DataModel = Guilded.Identity.ApplicationRole;
-using ViewModel = Guilded.ViewModels.Core.ApplicationRole;
+using ViewModel = Guilded.Areas.Admin.ViewModels.Roles.ApplicationRole;
 
 namespace Guilded.Extensions
 {

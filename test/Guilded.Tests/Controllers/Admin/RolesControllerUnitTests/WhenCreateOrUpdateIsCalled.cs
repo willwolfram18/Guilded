@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Guilded.Identity;
-using Guilded.ViewModels.Core;
+using Guilded.Areas.Admin.ViewModels.Roles;
 using Moq;
 using Xunit;
 using DataModel = Guilded.Identity.ApplicationRole;
-using ViewModel = Guilded.ViewModels.Core.ApplicationRole;
+using ViewModel = Guilded.Areas.Admin.ViewModels.Roles.ApplicationRole;
 
 namespace Guilded.Tests.Controllers.Admin.RolesControllerUnitTests
 {

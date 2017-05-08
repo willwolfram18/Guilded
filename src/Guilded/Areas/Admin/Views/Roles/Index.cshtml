@@ -1,0 +1,47 @@
+﻿@model PaginatedRolesViewModel
+@{
+    ViewData["Title"] = "Roles";
+}
+
+<h3>
+    Roles
+</h3>
+
+<div class="pager">
+    <div class="ui buttons">
+        <a class="ui icon button" asp-area="Admin" asp-controller="Roles" asp-action="Index" asp-route-page="@(Model.CurrentPage - 1)">
+            <i class="left chevron icon"></i>
+            Previous
+        </a>
+        <a class="ui icon button" asp-area="Admin" asp-controller="Roles" asp-action="Index" asp-route-page="@(Model.CurrentPage + 1)">
+            Next
+            <i class="right chevron icon"></i>
+        </a>
+    </div>
+</div>
+<div class="ui extra large styled fluid accordion">
+    @foreach (var role in Model.Roles)
+    {
+        <div class="title">
+            <i class="dropdown icon"></i>
+            @role.Name
+        </div>
+        <div class="content">
+            <p class="transition hidden">
+                <div class="ui relaxed list">
+                    @foreach (var permission in role.Permissions)
+                    {
+                        <div class="item">
+                            <div class="header">
+                                @permission.PermissionType
+                            </div>
+                            <div class="description">
+                                @permission.Description
+                            </div>
+                        </div>
+                    }
+                </div>
+            </p>
+        </div>
+    }
+</div>

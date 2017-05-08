@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using AutoMapper;
 using Guilded.Security.Claims;
-using Guilded.ViewModels.Core;
+using Guilded.Areas.Admin.ViewModels.Roles;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Guilded.AutoMapper
@@ -34,9 +34,9 @@ namespace Guilded.AutoMapper
                     Mapper.Map<Permission, RoleClaim>(src)
                 ));
 
-            CreateMap<Identity.ApplicationRole, ViewModels.Core.ApplicationRole>()
+            CreateMap<Identity.ApplicationRole, Areas.Admin.ViewModels.Roles.ApplicationRole>()
                 .ForMember(dest => dest.Permissions, opt => opt.MapFrom(src => src.Claims));
-            CreateMap<ViewModels.Core.ApplicationRole, Identity.ApplicationRole>()
+            CreateMap<Areas.Admin.ViewModels.Roles.ApplicationRole, Identity.ApplicationRole>()
                 .ForMember(dest => dest.Claims, opt => opt.ResolveUsing(src =>
                 {
                     var claims = Mapper.Map<IEnumerable<IdentityRoleClaim<string>>>(src.Permissions);
