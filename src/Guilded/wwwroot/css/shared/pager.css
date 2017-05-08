@@ -1,6 +1,11 @@
 ﻿.pager {
   display: flex;
+}
+.pager.top {
   margin-bottom: 10px;
+}
+.pager.bottom {
+  margin-top: 10px;
 }
 .pager.right {
   flex-direction: row-reverse;

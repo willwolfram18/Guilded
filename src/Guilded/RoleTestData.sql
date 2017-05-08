@@ -6,6 +6,8 @@ INSERT INTO AspNetRoles(Id, ConcurrencyStamp, Name)
 VALUES ('3', '3', 'Officer');
 INSERT INTO AspNetRoles(Id, ConcurrencyStamp, Name)
 VALUES ('4', '4', 'Guest');
+INSERT INTO AspNetRoles(Id, ConcurrencyStamp, Name)
+VALUES ('5', '5', 'Forums Mod');
 
 INSERT INTO AspNetRoleClaims(ClaimType, ClaimValue, RoleId)
 VALUES ('Guilded:Admin:Roles', '1', '1');

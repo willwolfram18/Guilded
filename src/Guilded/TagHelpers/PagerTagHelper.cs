@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.TagHelpers;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Guilded.TagHelpers
@@ -17,9 +11,11 @@ namespace Guilded.TagHelpers
         private const string CurrentPageAttribute = "pager-page";
         private const string LastPageAttribute = "pager-last-page";
         private const string UrlAttribute = "pager-url";
+        private const string VerticalLocationAttribute = "pager-vertical-location";
         private const string RequiredAttributes = CurrentPageAttribute + "," +
             LastPageAttribute + "," +
-            UrlAttribute;
+            UrlAttribute + "," +
+            VerticalLocationAttribute;
 
         [HtmlAttributeName(CurrentPageAttribute)]
         public int CurrentPage { get; set; }
@@ -30,18 +26,23 @@ namespace Guilded.TagHelpers
         [HtmlAttributeName(UrlAttribute)]
         public string Url { get; set; }
 
+        [HtmlAttributeName(VerticalLocationAttribute)]
+        public PagerVerticalLocation VerticalLocation { get; set; }
+
         public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             var currentCss = output.Attributes["css"];
 
             output.TagName = OutputTag;
             output.TagMode = TagMode.StartTagAndEndTag;
-            output.Attributes.SetAttribute("class", $"ui buttons {currentCss?.Value}");
+            output.Attributes.SetAttribute("class", $"ui buttons pager {VerticalLocation.ToString().ToLower()} {currentCss?.Value}");
 
             var firstButton = CreateFirstButton();
+            var prevCurrentAndNextButtons = CreatePrevCurrentAndNextButtons();
             var lastButton = CreateLastButton();
 
             output.Content.AppendHtml(firstButton);
+            output.Content.AppendHtml(prevCurrentAndNextButtons);
             output.Content.AppendHtml(lastButton);
 
             return base.ProcessAsync(context, output);
@@ -84,6 +85,40 @@ namespace Guilded.TagHelpers
             return $@"<a class='ui icon button' href='{Url}?page={pageNumber}'>
     {textAndIcon}
 </a>";
+        }
+
+        private IHtmlContent CreatePrevCurrentAndNextButtons()
+        {
+            var builder = new HtmlContentBuilder();
+
+            if (CurrentPage - 2 >= 1)
+            {
+                builder.AppendHtml("<div class='ui button disabled'>...</div>");
+            }
+
+            if (CurrentPage != 1)
+            {
+                builder.AppendHtml(NeighborButton(CurrentPage - 1));
+            }
+
+            builder.AppendHtml($"<div class='ui button active'>{CurrentPage}</div>");
+
+            if (CurrentPage != LastPage)
+            {
+                builder.AppendHtml(NeighborButton(CurrentPage + 1));
+            }
+
+            if (CurrentPage + 2 <= LastPage)
+            {
+                builder.AppendHtml("<div class='ui button disabled'>...</div>");
+            }
+
+            return builder;
+        }
+
+        private string NeighborButton(int pageNumber)
+        {
+            return $@"<a class='ui button' href='{Url}?page={pageNumber}'>{pageNumber}</a>";
         }
     }
 }
