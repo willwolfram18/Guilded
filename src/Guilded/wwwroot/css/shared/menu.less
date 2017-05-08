@@ -46,14 +46,7 @@ html, body
     &.visible
     {
         overflow: visible !important;
-
-        &.left.ui ~ .pusher
-        {
-            /*.transform(translate3d(@main-menu-width, 0, 0));*/
-        }
     }
-
-
 }
 
 .pusher-content-wrapper
@@ -61,6 +54,7 @@ html, body
     position: absolute;
     height: 100%;
     width: 100%;
+    overflow-y: auto;
 
     .full.height
     {

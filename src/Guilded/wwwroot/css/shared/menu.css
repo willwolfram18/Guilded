@@ -24,13 +24,11 @@ body {
 .sidebar.main.menu.visible {
   overflow: visible !important;
 }
-.sidebar.main.menu.visible.left.ui ~ .pusher {
-  /*.transform(translate3d(@main-menu-width, 0, 0));*/
-}
 .pusher-content-wrapper {
   position: absolute;
   height: 100%;
   width: 100%;
+  overflow-y: auto;
 }
 .pusher-content-wrapper .full.height {
   display: flex;

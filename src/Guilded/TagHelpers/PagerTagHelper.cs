@@ -35,6 +35,13 @@ namespace Guilded.TagHelpers
 
             output.TagName = OutputTag;
             output.TagMode = TagMode.StartTagAndEndTag;
+
+            if (LastPage == 1)
+            {
+                output.Content.SetHtmlContent("");
+                return base.ProcessAsync(context, output);
+            }
+
             output.Attributes.SetAttribute("class", $"ui buttons pager {VerticalLocation.ToString().ToLower()} {currentCss?.Value}");
 
             var firstButton = CreateFirstButton();
