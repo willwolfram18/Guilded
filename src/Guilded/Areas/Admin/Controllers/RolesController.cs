@@ -42,10 +42,11 @@ namespace Guilded.Areas.Admin.Controllers
 
             var allRoles = _db.GetRoles();
             var rolesForPage = allRoles.Skip(PageSize * zeroIndexPage).Take(PageSize);
+
             return new PaginatedRolesViewModel
             {
                 CurrentPage = page,
-                LastPage = allRoles.Count() / PageSize,
+                LastPage = (int)Math.Ceiling(allRoles.Count() / (double)PageSize),
                 Roles = Mapper.Map<IQueryable<DataModel>, List<ViewModel>>(rolesForPage)
             };
         }
