@@ -14,7 +14,7 @@ namespace Guilded.Areas.Admin.Controllers
 
     public class RolesController : BaseController
     {
-        private const int PageSize = 20;
+        public const int PageSize = 20;
 
         private readonly IAdminDataContext _db;
         private readonly ILogger _log;
@@ -26,9 +26,19 @@ namespace Guilded.Areas.Admin.Controllers
             _log = loggerFactory.CreateLogger<RolesController>();
         }
 
-        public ViewResult Index(int page = 1)
+        public IActionResult Index(int page = 1)
         {
+            if (page <= 0)
+            {
+                return RedirectToAction(nameof(Index), new {page = 1});
+            }
+
             var viewModel = GetRoles(page);
+
+            if (viewModel.LastPage != 0 && page > viewModel.LastPage)
+            {
+                return RedirectToAction(nameof(Index), new {page = viewModel.LastPage});
+            }
 
             return View(viewModel);
         }
@@ -36,10 +46,6 @@ namespace Guilded.Areas.Admin.Controllers
         private PaginatedRolesViewModel GetRoles(int page)
         {
             int zeroIndexPage = page - 1;
-            if (zeroIndexPage < 0)
-            {
-                zeroIndexPage = 0;
-            }
 
             var allRoles = _db.GetRoles();
             var rolesForPage = allRoles.Skip(PageSize * zeroIndexPage).Take(PageSize);
