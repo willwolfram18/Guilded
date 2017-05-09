@@ -12,6 +12,6 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
 
         public int LastPage { get; set; }
 
-        public List<ApplicationRole> Roles { get; set; }
+        public List<ApplicationRoleViewModel> Roles { get; set; }
     }
 }

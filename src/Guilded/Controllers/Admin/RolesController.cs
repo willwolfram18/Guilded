@@ -8,7 +8,6 @@ using Guilded.Data.DAL.Core;
 using Guilded.Areas.Admin.ViewModels.Roles;
 
 using DataModel = Guilded.Identity.ApplicationRole;
-using ViewModel = Guilded.Areas.Admin.ViewModels.Roles.ApplicationRole;
 using Guilded.Extensions;
 using AutoMapper;
 using BattleNetApi.Objects.WoW.Enums;
@@ -40,33 +39,33 @@ namespace Guilded.Controllers.Admin
         public Task<JsonResult> Get(string id)
         {
             DataModel role = _db.GetRoleById(id);
-            return Task.FromResult(Json(new ViewModel(role)));
+            return Task.FromResult(Json(new ApplicationRoleViewModel(role)));
         }
 
         [HttpPost]
-        public async Task<JsonResult> CreateOrUpdate([FromBody] ViewModel role)
+        public async Task<JsonResult> CreateOrUpdate([FromBody] ApplicationRoleViewModel roleViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequestJson(ModelErrorsAsJson());
             }
 
-            DataModel dbRole = _db.GetRoleById(role.Id);
+            DataModel dbRole = _db.GetRoleById(roleViewModel.Id);
             if (dbRole == null)
             {
-                dbRole = await _db.CreateRoleAsync(role.Name, role.Permissions);
+                dbRole = await _db.CreateRoleAsync(roleViewModel.Name, roleViewModel.Permissions);
             }
-            else if (dbRole.ConcurrencyStamp == role.ConcurrencyStamp)
+            else if (dbRole.ConcurrencyStamp == roleViewModel.ConcurrencyStamp)
             {
-                dbRole.UpdateFromViewModel(role);
+                dbRole.UpdateFromViewModel(roleViewModel);
                 dbRole = await _db.UpdateRoleAsync(dbRole);
             }
             else
             {
-                return BadRequestJson(new ViewModel(dbRole));
+                return BadRequestJson(new ApplicationRoleViewModel(dbRole));
             }
 
-            return Json(new ViewModel(dbRole));
+            return Json(new ApplicationRoleViewModel(dbRole));
         }
 
         [HttpDelete("{id}")]

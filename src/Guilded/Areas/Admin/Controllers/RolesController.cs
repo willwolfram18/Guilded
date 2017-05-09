@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using Guilded.Areas.Admin.ViewModels.Roles;
 using Guilded.Data.DAL.Core;
+using Guilded.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Guilded.Areas.Admin.Controllers
 {
-    using DataModel = Identity.ApplicationRole;
-    using ViewModel = ApplicationRole;
 
     public class RolesController : BaseController
     {
@@ -43,6 +42,14 @@ namespace Guilded.Areas.Admin.Controllers
             return View(viewModel);
         }
 
+        [HttpGet("[area]/[controller]/edit/{roleId?}")]
+        public ViewResult EditOrCreate(string roleId = null)
+        {
+            var dbRole = _db.GetRoleById(roleId) ?? new ApplicationRole();
+
+            return View(new ApplicationRoleViewModel(dbRole));
+        }
+
         private PaginatedRolesViewModel GetRoles(int page)
         {
             int zeroIndexPage = page - 1;
@@ -54,7 +61,7 @@ namespace Guilded.Areas.Admin.Controllers
             {
                 CurrentPage = page,
                 LastPage = (int)Math.Ceiling(allRoles.Count() / (double)PageSize),
-                Roles = Mapper.Map<IQueryable<DataModel>, List<ViewModel>>(rolesForPage)
+                Roles = Mapper.Map<IQueryable<ApplicationRole>, List<ApplicationRoleViewModel>>(rolesForPage)
             };
         }
     }

@@ -10,10 +10,10 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
     {
         #region Properties
         #region Public Properties
-        [JsonProperty("permissionType")]
+        public string Id { get; set; }
+
         public string PermissionType { get; set; }
 
-        [JsonProperty("description")]
         public string Description { get; set; }
         #endregion
         #endregion
@@ -35,6 +35,7 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
 
         public Permission(IdentityRoleClaim<string> roleClaim) : this()
         {
+            
             if (roleClaim == null)
             {
                 throw new ArgumentNullException("privilege");

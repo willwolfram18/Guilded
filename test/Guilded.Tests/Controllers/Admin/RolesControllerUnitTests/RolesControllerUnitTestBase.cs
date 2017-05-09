@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Guilded.Areas.Admin.ViewModels.Roles;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
-using ViewModel = Guilded.Areas.Admin.ViewModels.Roles.ApplicationRole;
 
 
 namespace Guilded.Tests.Controllers.Admin.RolesControllerUnitTests
@@ -23,9 +23,9 @@ namespace Guilded.Tests.Controllers.Admin.RolesControllerUnitTests
             return new RolesController(_mockAdminContext.Object);
         }
 
-        protected ViewModel AssertResultIsRoleViewModel(JsonResult result)
+        protected ApplicationRoleViewModel AssertResultIsRoleViewModel(JsonResult result)
         {
-            var role = result.Value as ViewModel;
+            var role = result.Value as ApplicationRoleViewModel;
             Assert.NotNull(role);
             return role;
         }

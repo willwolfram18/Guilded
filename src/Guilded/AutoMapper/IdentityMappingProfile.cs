@@ -34,9 +34,9 @@ namespace Guilded.AutoMapper
                     Mapper.Map<Permission, RoleClaim>(src)
                 ));
 
-            CreateMap<Identity.ApplicationRole, Areas.Admin.ViewModels.Roles.ApplicationRole>()
+            CreateMap<Identity.ApplicationRole, Areas.Admin.ViewModels.Roles.ApplicationRoleViewModel>()
                 .ForMember(dest => dest.Permissions, opt => opt.MapFrom(src => src.Claims));
-            CreateMap<Areas.Admin.ViewModels.Roles.ApplicationRole, Identity.ApplicationRole>()
+            CreateMap<Areas.Admin.ViewModels.Roles.ApplicationRoleViewModel, Identity.ApplicationRole>()
                 .ForMember(dest => dest.Claims, opt => opt.ResolveUsing(src =>
                 {
                     var claims = Mapper.Map<IEnumerable<IdentityRoleClaim<string>>>(src.Permissions);

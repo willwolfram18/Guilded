@@ -1,37 +1,34 @@
-using Guilded.Extensions;
-using Newtonsoft.Json;
+using AutoMapper;
+using Guilded.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using DataModel = Guilded.Identity.ApplicationRole;
-using AutoMapper;
 
 namespace Guilded.Areas.Admin.ViewModels.Roles
 {
-    public class ApplicationRole
+    public class ApplicationRoleViewModel
     {
         #region Properties
         #region Public Properties
         [Required]
-        [JsonProperty("id")]
+        [HiddenInput]
         public string Id { get; set; }
 
         [Required]
-        [JsonProperty("name")]
         [MinLength(5, ErrorMessage = "A role name must contain at least {1} characers")]
         public string Name { get; set; }
 
         [Required]
-        [JsonProperty("concurrencyStamp")]
+        [HiddenInput]
         public string ConcurrencyStamp { get; set; }
 
-        [JsonProperty("permissions")]
         public IList<Permission> Permissions { get; set; }
         #endregion
         #endregion
 
-        public ApplicationRole()
+        public ApplicationRoleViewModel()
         {
             Id = null;
             Name = null;
@@ -39,7 +36,7 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
             Permissions = new List<Permission>();
         }
 
-        public ApplicationRole(DataModel role) : this()
+        public ApplicationRoleViewModel(ApplicationRole role) : this()
         {
             if (role == null)
             {

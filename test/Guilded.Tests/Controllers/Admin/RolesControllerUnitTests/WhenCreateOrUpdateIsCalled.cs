@@ -9,7 +9,6 @@ using Guilded.Areas.Admin.ViewModels.Roles;
 using Moq;
 using Xunit;
 using DataModel = Guilded.Identity.ApplicationRole;
-using ViewModel = Guilded.Areas.Admin.ViewModels.Roles.ApplicationRole;
 
 namespace Guilded.Tests.Controllers.Admin.RolesControllerUnitTests
 {
@@ -18,7 +17,7 @@ namespace Guilded.Tests.Controllers.Admin.RolesControllerUnitTests
         [Fact]
         public async Task IfRoleIdDoesntExistThenCreateNewRole()
         {
-            ViewModel roleToCreate = new ViewModel()
+            ApplicationRoleViewModel roleViewModelToCreate = new ApplicationRoleViewModel()
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = "New Role",
@@ -30,14 +29,14 @@ namespace Guilded.Tests.Controllers.Admin.RolesControllerUnitTests
             )).ReturnsAsync(new DataModel
             {
                 Id = Guid.NewGuid().ToString(),
-                Name = roleToCreate.Name
+                Name = roleViewModelToCreate.Name
             });
 
-            var result = await Controller.CreateOrUpdate(roleToCreate);
+            var result = await Controller.CreateOrUpdate(roleViewModelToCreate);
 
             var createdRole = AssertResultIsRoleViewModel(result);
             _mockAdminContext.Verify(db => db.CreateRoleAsync(
-                It.Is<string>(str => str == roleToCreate.Name),
+                It.Is<string>(str => str == roleViewModelToCreate.Name),
                 It.IsAny<IEnumerable<Permission>>()
             ));
             _mockAdminContext.Verify(db => db.UpdateRoleAsync(It.IsAny<DataModel>()), Times.Never());
@@ -56,19 +55,19 @@ namespace Guilded.Tests.Controllers.Admin.RolesControllerUnitTests
                 .Returns(dbRole);
             _mockAdminContext.Setup(db => db.UpdateRoleAsync(It.IsAny<DataModel>()))
                 .Returns((Func<DataModel, Task<DataModel>>)(role => Task.FromResult(role)));
-            ViewModel roleToUpdate = new ViewModel(dbRole);
-            roleToUpdate.Name = "Updated Role Name";
+            ApplicationRoleViewModel roleViewModelToUpdate = new ApplicationRoleViewModel(dbRole);
+            roleViewModelToUpdate.Name = "Updated Role Name";
 
-            var result = await Controller.CreateOrUpdate(roleToUpdate);
+            var result = await Controller.CreateOrUpdate(roleViewModelToUpdate);
 
             var updatedRole = AssertResultIsRoleViewModel(result);
-            Assert.Equal(roleToUpdate.Name, updatedRole.Name);
+            Assert.Equal(roleViewModelToUpdate.Name, updatedRole.Name);
             _mockAdminContext.Verify(db => db.CreateRoleAsync(
                 It.IsAny<string>(),
                 It.IsAny<IEnumerable<Permission>>()
             ), Times.Never());
             _mockAdminContext.Verify(db => db.UpdateRoleAsync(
-                It.Is<DataModel>(role => role.Id == roleToUpdate.Id)
+                It.Is<DataModel>(role => role.Id == roleViewModelToUpdate.Id)
             ));
         }
 
@@ -83,14 +82,14 @@ namespace Guilded.Tests.Controllers.Admin.RolesControllerUnitTests
             };
             _mockAdminContext.Setup(db => db.GetRoleById(It.IsAny<string>()))
                 .Returns(dbRole);
-            ViewModel roleToUpdate = new ViewModel
+            ApplicationRoleViewModel roleViewModelToUpdate = new ApplicationRoleViewModel
             {
                 Id = dbRole.Id,
                 Name = "Updated Role Name",
                 ConcurrencyStamp = Guid.Empty.ToString(),
             };
 
-            var result = await Controller.CreateOrUpdate(roleToUpdate);
+            var result = await Controller.CreateOrUpdate(roleViewModelToUpdate);
 
             var currentRole = AssertResultIsRoleViewModel(result);
             Assert.Equal(dbRole.Name, currentRole.Name);

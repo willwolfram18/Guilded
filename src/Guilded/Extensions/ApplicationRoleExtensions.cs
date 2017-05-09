@@ -7,13 +7,12 @@ using AutoMapper;
 using Guilded.Areas.Admin.ViewModels.Roles;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using DataModel = Guilded.Identity.ApplicationRole;
-using ViewModel = Guilded.Areas.Admin.ViewModels.Roles.ApplicationRole;
 
 namespace Guilded.Extensions
 {
     public static class ApplicationRoleExtensions
     {
-        public static void UpdateFromViewModel(this DataModel currentRole, ViewModel viewModel)
+        public static void UpdateFromViewModel(this DataModel currentRole, ApplicationRoleViewModel viewModel)
         {
             if (currentRole == null)
             {
