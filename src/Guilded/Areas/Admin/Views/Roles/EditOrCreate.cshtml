@@ -1,0 +1,26 @@
+﻿@model ApplicationRoleViewModel
+@{
+    ViewData["Title"] = "Edit Role";
+}
+
+<h3>
+    Edit Role
+</h3>
+<form class="ui form" method="post" asp-area="Admin" asp-controller="Roles" asp-action="EditOrCreatePost">
+    <div class="ui raised warning segment" asp-validation-summary="All"></div>
+    <input asp-for="Id" />
+    <input asp-for="ConcurrencyStamp" />
+    <div class="field">
+        <label asp-for="Name"></label>
+        <div class="ui input">
+            <input asp-for="Name" placeholder="Enter the role name"/>
+        </div>
+        <span class="ui raised warning pointing label" asp-validation-for="Name"></span>
+    </div>
+    <div class="field">
+        <strong>TODO:</strong> Place permission list here
+    </div>
+    <button type="submit" class="ui primary button">
+        Submit
+    </button>
+</form>

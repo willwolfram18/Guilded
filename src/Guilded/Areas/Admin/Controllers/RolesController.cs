@@ -50,6 +50,13 @@ namespace Guilded.Areas.Admin.Controllers
             return View(new ApplicationRoleViewModel(dbRole));
         }
 
+        [HttpPost("[area]/[controller]/edit/{roleId}")]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditOrCreatePost(string roleId)
+        {
+            throw new NotImplementedException();
+        }
+
         private PaginatedRolesViewModel GetRoles(int page)
         {
             int zeroIndexPage = page - 1;
