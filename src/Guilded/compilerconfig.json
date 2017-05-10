@@ -18,5 +18,9 @@
   {
     "outputFile": "wwwroot/css/account/external-logins.css",
     "inputFile": "wwwroot/css/account/external-logins.less"
+  },
+  {
+    "outputFile": "wwwroot/css/admin/roles.css",
+    "inputFile": "wwwroot/css/admin/roles.less"
   }
 ]

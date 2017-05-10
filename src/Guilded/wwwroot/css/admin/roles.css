@@ -1,0 +1,12 @@
+﻿.ui#roles-list .title {
+  display: flex;
+  cursor: default;
+}
+.ui#roles-list .title .name {
+  flex: 1;
+  margin-right: 15px;
+  cursor: pointer;
+}
+.ui#roles-list .title .options .button {
+  margin-left: 8px;
+}

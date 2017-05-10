@@ -4,9 +4,36 @@
     string pagerUrl = Url.Action("Index", "Roles", new {area = "Admin"});
 }
 
+@section scripts
+{
+    <environment names="Development">
+        <script src="js/admin/roles.js"
+                asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging, Production">
+        <script src="js/admin/roles.min.js"
+                asp-append-version="true"></script>
+    </environment>
+}
+
+@section styles
+{
+    <environment names="Development">
+        <link rel="stylesheet" href="css/admin/roles.css"
+              asp-append-version="true"/>
+    </environment>
+    <environment names="Staging, Production">
+        <link rel="stylesheet" href="css/admin/roles.min.css"
+              asp-append-version="true" />
+    </environment>
+}
+
 <h3>
     Roles
 </h3>
+<p>
+    Expand any role to view the list of permissions associated with it.
+</p>
 
 <a class="ui small green icon button" asp-area="Admin" asp-controller="Roles" asp-action="EditOrCreate">
     <i class="icon fa-plus-circle"></i> Create a new role
@@ -16,12 +43,23 @@
 
 <guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="@pagerUrl"
                pager-vertical-location="Top" />
-<div class="ui extra large styled fluid accordion">
+<div id="roles-list" class="ui extra large styled fluid accordion">
     @foreach (var role in Model.Roles)
     {
         <div class="title">
-            <i class="dropdown icon"></i>
-            @role.Name
+            <div class="name">
+                <i class="dropdown icon"></i>
+                @role.Name
+            </div>
+            <div class="options">
+                <a class="ui small circular icon button" asp-area="Admin"
+                   asp-controller="Roles" asp-action="EditOrCreate" asp-route-roleId="@role.Id">
+                    <i class="pencil icon"></i>
+                </a>
+                <div class="ui small red circular icon button">
+                    <i class="trash icon"></i>
+                </div>
+            </div>
         </div>
         <div class="content">
             <p class="transition hidden">
