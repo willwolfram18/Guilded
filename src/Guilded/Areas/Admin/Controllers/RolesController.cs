@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Guilded.Areas.Admin.ViewModels.Roles;
+﻿using Guilded.Areas.Admin.ViewModels.Roles;
 using Guilded.Data.DAL.Core;
 using Guilded.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -68,7 +67,7 @@ namespace Guilded.Areas.Admin.Controllers
             {
                 CurrentPage = page,
                 LastPage = (int)Math.Ceiling(allRoles.Count() / (double)PageSize),
-                Roles = Mapper.Map<IQueryable<ApplicationRole>, List<ApplicationRoleViewModel>>(rolesForPage)
+                Roles = rolesForPage.Select(r => new ApplicationRoleViewModel(r)).ToList(),
             };
         }
     }

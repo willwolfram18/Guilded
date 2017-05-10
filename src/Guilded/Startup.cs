@@ -1,4 +1,3 @@
-using Guilded.AutoMapper;
 using Guilded.Services.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -41,8 +40,6 @@ namespace Guilded
             });
 
             services.AddRouting(options => options.LowercaseUrls = true);
-            
-            Mappings.Initialize();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

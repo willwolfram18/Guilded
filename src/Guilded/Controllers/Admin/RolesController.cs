@@ -1,16 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Guilded.Data.DAL.Core;
 using Guilded.Areas.Admin.ViewModels.Roles;
-
-using DataModel = Guilded.Identity.ApplicationRole;
+using Guilded.Data.DAL.Core;
 using Guilded.Extensions;
-using AutoMapper;
-using BattleNetApi.Objects.WoW.Enums;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using DataModel = Guilded.Identity.ApplicationRole;
 
 namespace Guilded.Controllers.Admin
 {

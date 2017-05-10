@@ -1,5 +1,4 @@
-﻿using Guilded.AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Guilded.Tests.Controllers
 {
@@ -13,8 +12,6 @@ namespace Guilded.Tests.Controllers
         protected ControllerTestBase()
         {
             Controller = SetUpController();
-
-            Mappings.Initialize();
         }
     }
 }

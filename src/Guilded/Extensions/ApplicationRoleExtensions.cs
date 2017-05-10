@@ -1,11 +1,8 @@
-﻿using System;
+﻿using Guilded.Areas.Admin.ViewModels.Roles;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using Guilded.Areas.Admin.ViewModels.Roles;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using DataModel = Guilded.Identity.ApplicationRole;
 
 namespace Guilded.Extensions

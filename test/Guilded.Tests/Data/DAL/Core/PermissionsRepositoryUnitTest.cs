@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
-using Guilded.AutoMapper;
 using Guilded.Data.DAL.Core;
 using Guilded.Security.Claims;
 using Guilded.Areas.Admin.ViewModels.Roles;
@@ -17,7 +15,6 @@ namespace Guilded.Tests.Data.DAL.Core
 
         public PermissionsRepositoryUnitTest()
         {
-            Mappings.Initialize();
             _repo = new PermissionsRepository();
         }
 
@@ -26,7 +23,8 @@ namespace Guilded.Tests.Data.DAL.Core
         {
             var repoPermissions = _repo.Get().OrderBy(p => p.PermissionType)
                 .ToList();
-            var securityPermissions = Mapper.Map<IList<Permission>>(RoleClaimTypes.RoleClaims.OrderBy(p => p.ClaimType));
+            var securityPermissions = RoleClaimTypes.RoleClaims.OrderBy(p => p.ClaimType)
+                .Select(p => new Permission(p)).ToList();
 
             Assert.Equal(repoPermissions.Count, securityPermissions.Count);
             for (int i = 0; i < repoPermissions.Count; i++)

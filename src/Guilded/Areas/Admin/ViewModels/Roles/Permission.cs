@@ -1,8 +1,6 @@
-using Newtonsoft.Json;
-using System;
 using Guilded.Security.Claims;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using AutoMapper;
+using System;
 
 namespace Guilded.Areas.Admin.ViewModels.Roles
 {
@@ -10,7 +8,7 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
     {
         #region Properties
         #region Public Properties
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string PermissionType { get; set; }
 
@@ -30,7 +28,8 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
                 throw new ArgumentNullException("roleClaim");
             }
 
-            Mapper.Map(roleClaim, this);
+            PermissionType = roleClaim.ClaimType;
+            Description = roleClaim.Description;
         }
 
         public Permission(IdentityRoleClaim<string> roleClaim) : this()
@@ -41,7 +40,9 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
                 throw new ArgumentNullException("privilege");
             }
 
-            Mapper.Map(roleClaim, this);
+            Id = roleClaim.Id;
+            PermissionType = roleClaim.ClaimType;
+            Description = RoleClaimTypes.LookUpGuildedRoleClaim(roleClaim).Description;
         }
         #endregion
     }

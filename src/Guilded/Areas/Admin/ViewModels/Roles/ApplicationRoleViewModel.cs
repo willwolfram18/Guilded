@@ -1,4 +1,3 @@
-using AutoMapper;
 using Guilded.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -43,7 +42,9 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
                 return;
             }
 
-            Mapper.Map(role, this);
+            Id = role.Id;
+            Name = role.Name;
+            ConcurrencyStamp = role.ConcurrencyStamp;
             Permissions = Permissions.OrderBy(p => p.PermissionType)
                 .ToList();
         }
