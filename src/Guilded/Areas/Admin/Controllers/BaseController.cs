@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using Guilded.Constants;
+using Guilded.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,5 +10,24 @@ namespace Guilded.Areas.Admin.Controllers
     [Area("Admin")]
     public class BaseController : Controller
     {
+        protected readonly Stack<Breadcrumb> Breadcrumbs;
+
+        protected BaseController()
+        {
+            Breadcrumbs = new Stack<Breadcrumb>();
+        }
+
+        public override ViewResult View(string viewName, object model)
+        {
+            Breadcrumbs.Push(new Breadcrumb
+            {
+                Title = "Admin",
+                Url = Url.Action(nameof(HomeController.Index), "Home", new { area = "Admin" }),
+            });
+
+            ViewData[ViewDataKeys.BreadCrumbs] = Breadcrumbs;
+
+            return base.View(viewName, model);
+        }
     }
 }

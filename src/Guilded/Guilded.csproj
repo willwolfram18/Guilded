@@ -22,6 +22,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="wwwroot\css\account\external-logins.less" />
+    <Content Include="wwwroot\css\admin\roles.less" />
     <Content Include="wwwroot\css\shared\colors.less" />
     <Content Include="wwwroot\css\shared\font-awesome.css" />
     <Content Include="wwwroot\css\shared\font-awesome.min.css" />
@@ -32,6 +33,7 @@
     <Content Include="wwwroot\css\shared\mixins.less" />
     <Content Include="wwwroot\css\shared\pager.less" />
     <Content Include="wwwroot\css\shared\shared.less" />
+    <Content Include="wwwroot\js\admin\roles.ts" />
     <Content Include="wwwroot\js\shared\menu.ts" />
   </ItemGroup>
   <ItemGroup>

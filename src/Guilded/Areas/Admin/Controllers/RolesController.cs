@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Guilded.ViewModels;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace Guilded.Areas.Admin.Controllers
 {
@@ -48,6 +50,12 @@ namespace Guilded.Areas.Admin.Controllers
         {
             var dbRole = _db.GetRoleById(roleId) ?? new ApplicationRole();
 
+            Breadcrumbs.Push(new Breadcrumb
+            {
+                Title = "Role Editor",
+                Url = Request.Path
+            });
+
             return View(new EditOrCreateRoleViewModel(dbRole));
         }
 
@@ -56,6 +64,17 @@ namespace Guilded.Areas.Admin.Controllers
         public async Task<IActionResult> EditOrCreatePost(EditOrCreateRoleViewModel role)
         {
             throw new NotImplementedException();
+        }
+
+        public override ViewResult View(string viewName, object model)
+        {
+            Breadcrumbs.Push(new Breadcrumb
+            {
+                Url = Url.Action(nameof(Index), "Roles", new { area = "Admin" }),
+                Title = "Roles",
+            });
+
+            return base.View(viewName, model);
         }
 
         private PaginatedRolesViewModel GetRoles(int page)
