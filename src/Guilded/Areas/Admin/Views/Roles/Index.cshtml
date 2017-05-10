@@ -7,6 +7,13 @@
     Roles
 </h3>
 
+<a class="ui tiny green circular icon button" asp-area="Admin" asp-controller="Roles" asp-action="EditOrCreate"
+   data-tooltip="Create a new role" data-position="right center" data-variation="tiny">
+    <i class="icon plus"></i>
+</a>
+<br />
+<br />
+
 <guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="/admin/roles"
                pager-vertical-location="Top" />
 <div class="ui extra large styled fluid accordion">

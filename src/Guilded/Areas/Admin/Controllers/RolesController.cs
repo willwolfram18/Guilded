@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Guilded.Areas.Admin.Controllers
 {
@@ -41,7 +42,8 @@ namespace Guilded.Areas.Admin.Controllers
             return View(viewModel);
         }
 
-        [HttpGet("[area]/[controller]/edit/{roleId?}")]
+        [HttpGet("[area]/[controller]/edit/{roleId}", Order = 1)]
+        [HttpGet("[area]/[controller]/create", Order = 2)]
         public ViewResult EditOrCreate(string roleId = null)
         {
             var dbRole = _db.GetRoleById(roleId) ?? new ApplicationRole();
@@ -51,7 +53,7 @@ namespace Guilded.Areas.Admin.Controllers
 
         [HttpPost("[area]/[controller]/edit/{roleId}")]
         [ValidateAntiForgeryToken]
-        public IActionResult EditOrCreatePost(string roleId)
+        public async Task<IActionResult> EditOrCreatePost(EditOrCreateRoleViewModel role)
         {
             throw new NotImplementedException();
         }
