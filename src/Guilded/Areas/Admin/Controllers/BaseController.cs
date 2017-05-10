@@ -25,7 +25,7 @@ namespace Guilded.Areas.Admin.Controllers
                 Url = Url.Action(nameof(HomeController.Index), "Home", new { area = "Admin" }),
             });
 
-            ViewData[ViewDataKeys.BreadCrumbs] = Breadcrumbs;
+            ViewData[ViewDataKeys.Breadcrumbs] = Breadcrumbs;
 
             return base.View(viewName, model);
         }
