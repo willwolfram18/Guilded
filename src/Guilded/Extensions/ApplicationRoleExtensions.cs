@@ -17,7 +17,7 @@ namespace Guilded.Extensions
             }
 
             currentRole.Name = viewModel.Name;
-            currentRole.ConcurrencyStamp = viewModel.ConcurrencyStamp;
+            //currentRole.ConcurrencyStamp = viewModel.ConcurrencyStamp;
 
             var roleClaims = NewRoleClaims(viewModel.Permissions, currentRole.Claims);
             currentRole.Claims.Clear();

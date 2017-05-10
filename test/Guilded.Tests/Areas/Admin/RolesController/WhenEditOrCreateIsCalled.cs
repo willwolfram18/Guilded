@@ -1,39 +1,36 @@
 ﻿using Guilded.Areas.Admin.ViewModels.Roles;
 using Guilded.Identity;
 using Moq;
+using NUnit.Framework;
 using System;
-using Xunit;
 
 namespace Guilded.Tests.Areas.Admin.RolesController
 {
     public class WhenEditOrCreateIsCalled : RolesControllerTestBase
     {
-        [Theory]
-        [InlineData(null)]
-        [InlineData("Failed Id")]
-        public void IfRoleDoesntExistThenNewRoleReturned(string roleId)
+        [Test]
+        public void IfRoleDoesntExistThenNewRoleReturned([Values(null, "Failed id")] string roleId)
         {
             MockAdminDataContext.Setup(db => db.GetRoleById(It.IsAny<string>()))
-                .Returns((Identity.ApplicationRole)null);
+                .Returns((ApplicationRole)null);
 
             var result = Controller.EditOrCreate(roleId);
 
-            var viewModel = result.Model as ApplicationRoleViewModel;
+            var viewModel = result.Model as EditOrCreateRoleViewModel;
 
-            Assert.NotNull(viewModel);
-            Assert.NotEqual(viewModel.Id, roleId);
-            Assert.NotNull(viewModel.ConcurrencyStamp);
+            Assert.That(viewModel, Is.Not.Null);
+            Assert.That(viewModel.Id, Is.Not.EqualTo(roleId));
         }
 
-        [Fact]
+        [Test]
         public void ThenGetRoleByIdIsCalled()
         {
-            var result = Controller.EditOrCreate();
+            Controller.EditOrCreate();
 
             MockAdminDataContext.Verify(db => db.GetRoleById(It.IsAny<string>()));
         }
 
-        [Fact]
+        [Test]
         public void ThenViewModelMatchesDataModel()
         {
             var dbRole = new ApplicationRole
@@ -48,12 +45,11 @@ namespace Guilded.Tests.Areas.Admin.RolesController
 
             var result = Controller.EditOrCreate();
 
-            var viewModel = result.Model as ApplicationRoleViewModel;
+            var viewModel = result.Model as EditOrCreateRoleViewModel;
 
-            Assert.NotNull(viewModel);
-            Assert.Equal(dbRole.Id, viewModel.Id);
-            Assert.Equal(dbRole.ConcurrencyStamp, viewModel.ConcurrencyStamp);
-            Assert.Equal(dbRole.Name, viewModel.Name);
+            Assert.That(viewModel, Is.Not.Null);
+            Assert.That(viewModel.Id, Is.EqualTo(dbRole.Id));
+            Assert.That(viewModel.Name, Is.EqualTo(dbRole.Name));
         }
     }
 }

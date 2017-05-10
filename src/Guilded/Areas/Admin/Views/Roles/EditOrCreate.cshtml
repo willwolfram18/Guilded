@@ -1,12 +1,16 @@
-﻿@model ApplicationRoleViewModel
+﻿@model EditOrCreateRoleViewModel
 @{
     ViewData["Title"] = "Edit Role";
+}
+
+@section Scripts {
+    @{ await Html.ValidationScripts(); }
 }
 
 <h3>
     Edit Role
 </h3>
-<form class="ui form" method="post" asp-area="Admin" asp-controller="Roles" asp-action="EditOrCreatePost">
+<form class="ui form" method="post" asp-area="Admin" asp-controller="Roles" asp-action="EditOrCreatePost" asp-route-roleId="@Model.Id">
     <div class="ui raised warning segment" asp-validation-summary="All"></div>
     <input asp-for="Id" />
     <input asp-for="ConcurrencyStamp" />
@@ -18,7 +22,8 @@
         <span class="ui raised warning pointing label" asp-validation-for="Name"></span>
     </div>
     <div class="field">
-        <strong>TODO:</strong> Place permission list here
+        <label asp-for="Permissions"></label>
+        <select class="ui dropdown" multiple="" asp-for="Permissions" asp-items="@Model.AvailablePermissions"></select>
     </div>
     <button type="submit" class="ui primary button">
         Submit

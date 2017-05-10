@@ -1,12 +1,8 @@
-﻿using Guilded.Controllers.Admin;
+﻿using Guilded.Areas.Admin.ViewModels.Roles;
+using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Guilded.Identity;
-using Guilded.Areas.Admin.ViewModels.Roles;
-using Moq;
 using Xunit;
 using DataModel = Guilded.Identity.ApplicationRole;
 
@@ -86,7 +82,7 @@ namespace Guilded.Tests.Controllers.Admin.RolesControllerUnitTests
             {
                 Id = dbRole.Id,
                 Name = "Updated Role Name",
-                ConcurrencyStamp = Guid.Empty.ToString(),
+                //ConcurrencyStamp = Guid.Empty.ToString(),
             };
 
             var result = await Controller.CreateOrUpdate(roleViewModelToUpdate);

@@ -1,51 +1,49 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Guilded.Areas.Admin.ViewModels.Roles;
+﻿using Guilded.Areas.Admin.ViewModels.Roles;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Xunit;
+using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 using TController = Guilded.Areas.Admin.Controllers.RolesController;
 
 namespace Guilded.Tests.Areas.Admin.RolesController
 {
     public class WhenIndexIsCalled : RolesControllerTestBase
     {
-        [Theory]
-        [InlineData(-1)]
-        [InlineData(0)]
-        public void IfPageIsNotPositiveThenRedirectToPageOne(int page)
+        [Test]
+        public void IfPageIsNotPositiveThenRedirectToPageOne([Values(-1, 0)] int page)
         {
             var result = Controller.Index(page) as RedirectToActionResult;
 
-            Assert.NotNull(result);
-            Assert.Equal(nameof(Controller.Index), result.ActionName);
-            Assert.Equal(1, result.RouteValues["page"]);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.ActionName, Is.EqualTo(nameof(Controller.Index)));
+            Assert.That(result.RouteValues["page"], Is.EqualTo(1));
         }
 
-        [Theory]
-        [InlineData(-1)]
-        [InlineData(0)]
-        public void IfPageIsNotPositiveThenNoCallToDatabase(int page)
+        [Test]
+        public void IfPageIsNotPositiveThenNoCallToDatabase([Values(-1, 0)] int page)
         {
             Controller.Index(page);
 
             MockAdminDataContext.Verify(db => db.GetRoles(), Times.Never);
         }
 
-        [Fact]
+        [Test]
         public void IfNoRolesThenViewModelRolesIsEmpty()
         {
             var result = Controller.Index() as ViewResult;
 
-            Assert.NotNull(result);
+            Assert.That(result, Is.Not.Null);
+
             var viewModel = result.Model as PaginatedRolesViewModel;
-            Assert.NotNull(viewModel);
-            Assert.Empty(viewModel.Roles);
+
+            Assert.That(viewModel, Is.Not.Null);
+            Assert.That(viewModel.Roles, Is.Empty);
         }
 
-        [Theory]
-        [InlineData(1, 2, 1)]
-        [InlineData(TController.PageSize + 1, 3, 2)]
+        [Test]
+        [TestCase(1, 2, 1)]
+        [TestCase(TController.PageSize + 1, 3, 2)]
         public void IfPageIsGreaterThanLastPageThenRedirectToLastPage(int numRoles, int requestPage, int expectedRedirectPage)
         {
             MockAdminDataContext.Setup(db => db.GetRoles())
@@ -53,24 +51,26 @@ namespace Guilded.Tests.Areas.Admin.RolesController
 
             var result = Controller.Index(requestPage) as RedirectToActionResult;
 
-            Assert.NotNull(result);
-            Assert.Equal(nameof(Controller.Index), result.ActionName);
-            Assert.Equal(expectedRedirectPage, result.RouteValues["page"]);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.ActionName, Is.EqualTo(nameof(Controller.Index)));
+            Assert.That(result.RouteValues["page"], Is.EqualTo(expectedRedirectPage));
         }
 
-        [Fact]
+        [Test]
         public void ThenItemsSkippedForCurrentPage()
         {
-            int numRoles = TController.PageSize + 1;
+            var numRoles = TController.PageSize + 1;
             MockAdminDataContext.Setup(db => db.GetRoles())
                 .Returns(CreateRoles(numRoles));
 
             var result = Controller.Index(2) as ViewResult;
 
-            Assert.NotNull(result);
+            Assert.That(result, Is.Not.Null);
+
             var viewModel = result.Model as PaginatedRolesViewModel;
-            Assert.NotNull(viewModel);
-            Assert.Equal(1, viewModel.Roles.Count);
+
+            Assert.That(viewModel, Is.Not.Null);
+            Assert.That(viewModel.Roles.Count, Is.EqualTo(1));
         }
 
         private IQueryable<Identity.ApplicationRole> CreateRoles(int numRoles)

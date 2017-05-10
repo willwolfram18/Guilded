@@ -2,11 +2,11 @@
 using Guilded.Tests.Controllers;
 using Microsoft.Extensions.Logging;
 using Moq;
+using NUnit.Framework;
 using RoleControllerImpl = Guilded.Areas.Admin.Controllers.RolesController;
 
 namespace Guilded.Tests.Areas.Admin.RolesController
 {
-
     public class RolesControllerTestBase : ControllerTestBase<RoleControllerImpl>
     {
         protected Mock<IAdminDataContext> MockAdminDataContext;

@@ -8,6 +8,7 @@
     },
     "compileOnSave": true,
     "exclude": [
-        "wwwroot/lib"
+        "wwwroot/lib",
+        "node_modules/@types"
     ]
 }

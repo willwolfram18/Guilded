@@ -46,7 +46,7 @@ namespace Guilded.Areas.Admin.Controllers
         {
             var dbRole = _db.GetRoleById(roleId) ?? new ApplicationRole();
 
-            return View(new ApplicationRoleViewModel(dbRole));
+            return View(new EditOrCreateRoleViewModel(dbRole));
         }
 
         [HttpPost("[area]/[controller]/edit/{roleId}")]
@@ -67,7 +67,7 @@ namespace Guilded.Areas.Admin.Controllers
             {
                 CurrentPage = page,
                 LastPage = (int)Math.Ceiling(allRoles.Count() / (double)PageSize),
-                Roles = rolesForPage.Select(r => new ApplicationRoleViewModel(r)).ToList(),
+                Roles = rolesForPage.ToList().Select(r => new ApplicationRoleViewModel(r)).ToList(),
             };
         }
     }

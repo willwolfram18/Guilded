@@ -11,17 +11,9 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
     {
         #region Properties
         #region Public Properties
-        [Required]
-        [HiddenInput]
         public string Id { get; set; }
 
-        [Required]
-        [MinLength(5, ErrorMessage = "A role name must contain at least {1} characers")]
         public string Name { get; set; }
-
-        [Required]
-        [HiddenInput]
-        public string ConcurrencyStamp { get; set; }
 
         public IList<Permission> Permissions { get; set; }
         #endregion
@@ -31,7 +23,6 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
         {
             Id = null;
             Name = null;
-            ConcurrencyStamp = Guid.NewGuid().ToString();
             Permissions = new List<Permission>();
         }
 
@@ -44,8 +35,8 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
 
             Id = role.Id;
             Name = role.Name;
-            ConcurrencyStamp = role.ConcurrencyStamp;
-            Permissions = Permissions.OrderBy(p => p.PermissionType)
+            Permissions = role.Claims.OrderBy(c => c.ClaimType)
+                .Select(c => new Permission(c))
                 .ToList();
         }
     }
