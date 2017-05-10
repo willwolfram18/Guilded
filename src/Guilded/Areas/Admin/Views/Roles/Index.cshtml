@@ -1,20 +1,20 @@
 ﻿@model PaginatedRolesViewModel
 @{
     ViewData["Title"] = "Roles";
+    string pagerUrl = Url.Action("Index", "Roles", new {area = "Admin"});
 }
 
 <h3>
     Roles
 </h3>
 
-<a class="ui tiny green circular icon button" asp-area="Admin" asp-controller="Roles" asp-action="EditOrCreate"
-   data-tooltip="Create a new role" data-position="right center" data-variation="tiny">
-    <i class="icon plus"></i>
+<a class="ui small green icon button" asp-area="Admin" asp-controller="Roles" asp-action="EditOrCreate">
+    <i class="icon fa-plus-circle"></i> Create a new role
 </a>
 <br />
 <br />
 
-<guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="/admin/roles"
+<guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="@pagerUrl"
                pager-vertical-location="Top" />
 <div class="ui extra large styled fluid accordion">
     @foreach (var role in Model.Roles)
@@ -42,5 +42,5 @@
         </div>
     }
 </div>
-<guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="/admin/roles"
+<guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="@pagerUrl"
                pager-vertical-location="Bottom" />

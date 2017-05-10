@@ -1,0 +1,23 @@
+﻿.ui.button.battlenet {
+  background-color: #00aeff;
+  color: white;
+}
+.ui.button.battlenet:hover {
+  background-color: #009AE4;
+}
+.ui.button.battlenet .icon.battlenet {
+  font-family: "font-awesome-custom";
+}
+.ui.button.battlenet .icon.battlenet:before {
+  content: "\e900";
+}
+.ui.button.google {
+  background-color: #dd4b39;
+  color: white;
+}
+.ui.button.google:hover {
+  background-color: #e0321c;
+}
+.ui.button.social {
+  margin-bottom: 12px;
+}

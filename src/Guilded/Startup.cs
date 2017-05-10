@@ -1,3 +1,5 @@
+using System;
+using AspNet.Security.OAuth.BattleNet;
 using Guilded.Services.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -61,6 +63,30 @@ namespace Guilded
 
             app.UseStaticFiles();
             app.UseIdentity();
+
+            app.UseTwitterAuthentication(new TwitterOptions
+            {
+                ConsumerKey = "test",
+                ConsumerSecret = "test"
+            });
+            app.UseGoogleAuthentication(new GoogleOptions
+            {
+                ClientId = "test",
+                ClientSecret = "test",
+            });
+            app.UseFacebookAuthentication(new FacebookOptions
+            {
+                ClientId = "test",
+                ClientSecret = "test"
+            });
+            app.UseBattleNetAuthentication(new BattleNetAuthenticationOptions
+            {
+                ClientId = "test",
+                ClientSecret = "test",
+                DisplayName = "Battle.net",
+                Region = BattleNetAuthenticationRegion.America
+            });
+
 
             app.UseMvc(routes =>
             {

@@ -14,5 +14,9 @@
   {
     "outputFile": "wwwroot/css/shared/pager.css",
     "inputFile": "wwwroot/css/shared/pager.less"
+  },
+  {
+    "outputFile": "wwwroot/css/account/external-logins.css",
+    "inputFile": "wwwroot/css/account/external-logins.less"
   }
 ]
