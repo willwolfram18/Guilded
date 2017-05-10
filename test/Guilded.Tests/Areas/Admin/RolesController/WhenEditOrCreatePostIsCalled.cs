@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Guilded.Areas.Admin.ViewModels.Roles;
+﻿using Guilded.Areas.Admin.ViewModels.Roles;
 using Guilded.Identity;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Guilded.Tests.Areas.Admin.RolesController
 {

@@ -13,7 +13,7 @@ namespace Guilded.Tests.Areas.Admin.RolesController
     public class WhenEditOrCreateIsCalled : RolesControllerTestBase
     {
         [Test]
-        public void IfRoleDoesntExistThenNewRoleReturned([Values(null, "Failed id")] string roleId)
+        public void IfRoleDoesNotExistThenNewRoleReturned([Values(null, "Failed id")] string roleId)
         {
             MockAdminDataContext.Setup(db => db.GetRoleById(It.IsAny<string>()))
                 .Returns((ApplicationRole)null);
