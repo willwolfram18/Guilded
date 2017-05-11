@@ -5,3 +5,60 @@
 <h3>
     Hello world!
 </h3>
+<div class="container slideshow">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img class="ui fluid image" src="images/group.jpg" />
+            </div>
+            <div class="swiper-slide">
+                <img class="ui fluid image" src="images/zarkolax.jpg" />
+            </div>
+            <div class="swiper-slide">
+                <img class="ui fluid image" src="images/celebration.jpg" />
+            </div>
+            <div class="swiper-slide" >
+                <img class="ui fluid image" src="images/hillsbrad.jpg" />
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+</div>
+
+@section styles
+{
+    <link rel="stylesheet" href="lib/swiper/dist/css/swiper.css" />
+    <style>
+        .container.slideshow {
+            position: relative;
+            width: 100%;
+            height: 500px;
+        }
+
+            .container.slideshow .swiper-container
+            {
+                position: absolute;
+                height: 100%;
+                width: 100%;
+            }
+
+            .container.slideshow .swiper-container .swiper-wrapper .swiper-slide {
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                background: #fff;
+            }
+
+        .container.slideshow .swiper-container .swiper-wrapper .swiper-slide img {
+            align-self: center;
+        }
+    </style>
+}
+
+@section scripts
+{
+    <script src="lib/swiper/dist/js/swiper.js"></script>
+    <script src="js/home/slideshow.js"></script>
+}

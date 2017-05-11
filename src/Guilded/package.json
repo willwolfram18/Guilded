@@ -1,9 +1,10 @@
 {
-	"version": "1.0.0",
-	"name": "guilded",
-	"private": true,
-	"devDependencies": {
-        "@types/jquery": "2.0.43",
-        "@types/semantic-ui": "2.2.3"
-	}
+  "version": "1.0.0",
+  "name": "guilded",
+  "private": true,
+  "devDependencies": {
+    "@types/jquery": "2.0.43",
+    "@types/semantic-ui": "2.2.3",
+    "@types/swiper": "^3.4.2"
+  }
 }
