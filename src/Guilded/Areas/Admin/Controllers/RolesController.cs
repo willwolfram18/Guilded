@@ -61,7 +61,7 @@ namespace Guilded.Areas.Admin.Controllers
 
         [HttpPost("[area]/[controller]/edit/{roleId}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditOrCreatePost(EditOrCreateRoleViewModel role)
+        public async Task<ViewResult> EditOrCreatePost(EditOrCreateRoleViewModel role)
         {
             throw new NotImplementedException();
         }

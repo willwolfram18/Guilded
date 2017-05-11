@@ -4,6 +4,8 @@ using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Guilded.Security.Claims;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Guilded.Tests.Areas.Admin.RolesController
 {
@@ -42,7 +44,38 @@ namespace Guilded.Tests.Areas.Admin.RolesController
         [Test]
         public async Task IfConcurrencyStampIsInvalidThenReturnCurrentRole()
         {
-            var result = await Controller.EditOrCreatePost(null);
+            var dbModel = new ApplicationRole
+            {
+                Name = "Current Name",
+                ConcurrencyStamp = "Current Stamp",
+                Claims =
+                {
+                    new IdentityRoleClaim<string>
+                    {
+                        ClaimType = RoleClaimTypes.ForumsReader.ClaimType
+                    }
+                }
+            };
+            var modelToPost = new EditOrCreateRoleViewModel
+            {
+                Name = "Updated Name",
+                ConcurrencyStamp = "Old Stamp",
+                Permissions = new List<string>
+                {
+                    RoleClaimTypes.ForumsLocking.ClaimType
+                }
+            };
+
+            MockAdminDataContext.Setup(db => db.GetRoleById(It.IsAny<string>()))
+                .Returns(dbModel);
+
+            var result = await Controller.EditOrCreatePost(modelToPost);
+
+            var viewModel = result.Model as EditOrCreateRoleViewModel;
+            Assert.That(viewModel, Is.Not.Null);
+            Assert.That(viewModel.Name, Is.EqualTo(dbModel.Name));
+            Assert.That(viewModel.ConcurrencyStamp, Is.EqualTo(dbModel.ConcurrencyStamp));
+            // TODO: Verify permissions
         }
     }
 }
