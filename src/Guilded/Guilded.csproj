@@ -24,7 +24,6 @@
     <Content Include="wwwroot\css\account\external-logins.less" />
     <Content Include="wwwroot\css\admin\roles.less" />
     <Content Include="wwwroot\css\home\slideshow.less" />
-    <Content Include="wwwroot\css\shared\colors.less" />
     <Content Include="wwwroot\css\shared\_colors.less" />
     <Content Include="wwwroot\css\shared\font-awesome.css" />
     <Content Include="wwwroot\css\shared\font-awesome.min.css" />
@@ -36,6 +35,8 @@
     <Content Include="wwwroot\css\shared\pager.less" />
     <Content Include="wwwroot\css\shared\screen-sizes.less" />
     <Content Include="wwwroot\css\shared\shared.less" />
+    <Content Include="wwwroot\css\shared\_mixins.less" />
+    <Content Include="wwwroot\css\shared\_screen-sizes.less" />
     <Content Include="wwwroot\js\admin\roles.ts" />
     <Content Include="wwwroot\js\home\slideshow.ts" />
     <Content Include="wwwroot\js\shared\menu.ts" />
