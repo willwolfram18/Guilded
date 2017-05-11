@@ -22,5 +22,9 @@
   {
     "outputFile": "wwwroot/css/admin/roles.css",
     "inputFile": "wwwroot/css/admin/roles.less"
+  },
+  {
+    "outputFile": "wwwroot/css/home/slideshow.css",
+    "inputFile": "wwwroot/css/home/slideshow.less"
   }
 ]

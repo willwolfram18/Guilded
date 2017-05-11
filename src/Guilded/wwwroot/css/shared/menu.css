@@ -1,8 +1,4 @@
-﻿html,
-body {
-  height: 100%;
-}
-.main.menu {
+﻿.main.menu {
   min-width: 200px;
   max-width: 200px;
   min-height: 100%;

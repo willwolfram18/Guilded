@@ -1,0 +1,24 @@
+.slideshow {
+  position: relative;
+  width: 100%;
+  height: 500px;
+}
+@media (max-width: 767px) {
+  .slideshow {
+    height: 300px;
+  }
+}
+.slideshow .swiper-container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+.slideshow .swiper-container .swiper-wrapper .swiper-slide {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  background: #fff;
+}
+.slideshow .swiper-container .swiper-wrapper .swiper-slide img {
+  align-self: center;
+}
