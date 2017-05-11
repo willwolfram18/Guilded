@@ -5,6 +5,11 @@
   "devDependencies": {
     "@types/jquery": "2.0.43",
     "@types/semantic-ui": "2.2.3",
-    "@types/swiper": "^3.4.2"
+    "@types/swiper": "^3.4.2",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^3.2.0",
+    "gulp-less": "^3.3.0",
+    "gulp-rename": "^1.2.2",
+    "path": "^0.12.7"
   }
 }
