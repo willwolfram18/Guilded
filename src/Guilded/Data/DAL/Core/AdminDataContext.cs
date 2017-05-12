@@ -1,11 +1,12 @@
+using Guilded.Areas.Admin.ViewModels.Roles;
+using Guilded.Data.DAL.Abstract;
+using Guilded.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Guilded.Data.DAL.Abstract;
-using Guilded.Areas.Admin.ViewModels.Roles;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using ApplicationRole = Guilded.Identity.ApplicationRole;
 
 namespace Guilded.Data.DAL.Core
@@ -37,7 +38,7 @@ namespace Guilded.Data.DAL.Core
             return _roleManager.Roles.FirstOrDefault(r => r.Id == id);
         }
 
-        public async Task<ApplicationRole> CreateRoleAsync(string roleName, IEnumerable<Permission> permissions)
+        public async Task<ApplicationRole> CreateRoleAsync(string roleName, IEnumerable<RoleClaim> permissions)
         {
             ApplicationRole newRole = new ApplicationRole
             {
@@ -47,7 +48,7 @@ namespace Guilded.Data.DAL.Core
             {
                 newRole.Claims.Add(new IdentityRoleClaim<string>
                 {
-                    ClaimType = permission.PermissionType,
+                    ClaimType = permission.ClaimType,
                     ClaimValue = "True",
                     RoleId = newRole.Id
                 });

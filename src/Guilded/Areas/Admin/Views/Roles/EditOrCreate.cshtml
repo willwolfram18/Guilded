@@ -10,7 +10,7 @@
 <h3>
     Edit Role
 </h3>
-<form class="ui form" method="post" asp-area="Admin" asp-controller="Roles" asp-action="EditOrCreatePost" asp-route-roleId="@Model.Id">
+<form class="ui form" method="post" asp-area="Admin" asp-controller="Roles" asp-action="EditOrCreate" asp-route-roleId="@Model.Id">
     <div class="ui raised warning segment" asp-validation-summary="All"></div>
     <input asp-for="Id" />
     <input asp-for="ConcurrencyStamp" />

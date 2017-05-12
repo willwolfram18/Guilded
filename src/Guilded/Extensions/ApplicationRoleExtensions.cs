@@ -1,4 +1,5 @@
 ﻿using Guilded.Areas.Admin.ViewModels.Roles;
+using Guilded.Security.Claims;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,17 +10,17 @@ namespace Guilded.Extensions
 {
     public static class ApplicationRoleExtensions
     {
-        public static void UpdateFromViewModel(this DataModel currentRole, ApplicationRoleViewModel viewModel)
+        public static void UpdateFromViewModel(this DataModel currentRole, EditOrCreateRoleViewModel viewModel)
         {
             if (currentRole == null)
             {
-                throw new ArgumentNullException("currentRole");
+                throw new ArgumentNullException(nameof(currentRole));
             }
 
             currentRole.Name = viewModel.Name;
             //currentRole.ConcurrencyStamp = viewModel.ConcurrencyStamp;
 
-            var roleClaims = NewRoleClaims(viewModel.Permissions, currentRole.Claims);
+            var roleClaims = NewRoleClaims(viewModel.PermissionsAsRoleClaims, currentRole.Claims);
             currentRole.Claims.Clear();
 
             foreach (var identityRoleClaim in roleClaims)
@@ -29,21 +30,23 @@ namespace Guilded.Extensions
             }
         }
 
-        private static IEnumerable<IdentityRoleClaim<string>> NewRoleClaims(IEnumerable<Permission> newPermissions, IEnumerable<IdentityRoleClaim<string>> currentClaims)
+        private static IEnumerable<IdentityRoleClaim<string>> NewRoleClaims(IEnumerable<RoleClaim> newPermissions, IEnumerable<IdentityRoleClaim<string>> currentClaims)
         {
-            var newSetOfClaimTypes = newPermissions.Select(p => p.PermissionType);
-            var claimsToKeep = currentClaims.Where(c => newSetOfClaimTypes.Contains(c.ClaimType)).ToList();
-            var claimsToAdd = newSetOfClaimTypes.Where(p => !claimsToKeep.Select(c => c.ClaimType).Contains(p));
+            var permissionsForRole = newPermissions.Select(rc => rc.ClaimType);
+            var permissionsToKeep = currentClaims
+                .Where(c => permissionsForRole.Contains(c.ClaimType))
+                .ToList();
+            var newPermissionsForRole = permissionsForRole.Where(p => !permissionsToKeep.Select(c => c.ClaimType).Contains(p));
 
-            foreach (var claimType in claimsToAdd)
+            foreach (var claimType in newPermissionsForRole)
             {
-                claimsToKeep.Add(new IdentityRoleClaim<string>
+                permissionsToKeep.Add(new IdentityRoleClaim<string>
                 {
                     ClaimType = claimType,
                     ClaimValue = "True"
                 });
             }
-            return claimsToKeep;
+            return permissionsToKeep;
         }
     }
 }

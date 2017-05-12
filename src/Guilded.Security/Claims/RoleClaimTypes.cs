@@ -7,8 +7,6 @@ namespace Guilded.Security.Claims
 {
     public static class RoleClaimTypes
     {
-        #region Properties
-        #region Public properties
         public static readonly RoleClaim RoleManagement = new RoleClaim(
             "Guilded:Admin:Roles",
             "Permission to create, edit, and apply roles"
@@ -43,9 +41,8 @@ namespace Guilded.Security.Claims
             ForumsReader,
             ForumsWriter,
         };
-        #endregion
 
-        #region Private properties
+        private static Dictionary<string, RoleClaim> _typesToRolesClaims;
         private static Dictionary<string, RoleClaim> TypesToRoleClaims
         {
             get
@@ -62,21 +59,19 @@ namespace Guilded.Security.Claims
             }
         }
 
-        private static Dictionary<string, RoleClaim> _typesToRolesClaims;
-        #endregion
-        #endregion
-
-        #region Methods
-        #region Public methods
         public static RoleClaim LookUpGuildedRoleClaim(IdentityRoleClaim<string> identityRoleClaim)
         {
-            if (!TypesToRoleClaims.ContainsKey(identityRoleClaim.ClaimType))
-            {
-                throw new KeyNotFoundException($"Unable to fined role claim {identityRoleClaim.ClaimType}");
-            }
-            return TypesToRoleClaims[identityRoleClaim.ClaimType];
+            return LookUpGuildedRoleClaim(identityRoleClaim.ClaimType);
         }
-        #endregion
-        #endregion
+
+        public static RoleClaim LookUpGuildedRoleClaim(string claimType)
+        {
+            if (!TypesToRoleClaims.ContainsKey(claimType))
+            {
+                throw new KeyNotFoundException($"Unable to fund role claim {claimType}");
+            }
+
+            return TypesToRoleClaims[claimType];
+        }
     }
 }

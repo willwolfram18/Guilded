@@ -27,6 +27,27 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
 
         public List<string> Permissions { get; set; }
 
+        public List<RoleClaim> PermissionsAsRoleClaims
+        {
+            get
+            {
+                var claims = new List<RoleClaim>();
+
+                foreach (var permission in Permissions)
+                {
+                    try
+                    {
+                        claims.Add(RoleClaimTypes.LookUpGuildedRoleClaim(permission));
+                    }
+                    catch (KeyNotFoundException)
+                    {
+                    }
+                }
+
+                return claims;
+            }
+        }
+
         public SelectList AvailablePermissions { get; set; }
 
         public EditOrCreateRoleViewModel()

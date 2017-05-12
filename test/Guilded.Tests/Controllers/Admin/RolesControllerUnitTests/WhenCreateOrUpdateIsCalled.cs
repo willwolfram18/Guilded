@@ -3,6 +3,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Guilded.Security.Claims;
 using Xunit;
 using DataModel = Guilded.Identity.ApplicationRole;
 
@@ -21,7 +22,7 @@ namespace Guilded.Tests.Controllers.Admin.RolesControllerUnitTests
             _mockAdminContext.Setup(db => db.GetRoleById(It.IsAny<string>())).Returns((DataModel) null);
             _mockAdminContext.Setup(db => db.CreateRoleAsync(
                 It.IsAny<string>(),
-                It.IsAny<IEnumerable<Permission>>()
+                It.IsAny<IEnumerable<RoleClaim>>()
             )).ReturnsAsync(new DataModel
             {
                 Id = Guid.NewGuid().ToString(),
@@ -33,7 +34,7 @@ namespace Guilded.Tests.Controllers.Admin.RolesControllerUnitTests
             var createdRole = AssertResultIsRoleViewModel(result);
             _mockAdminContext.Verify(db => db.CreateRoleAsync(
                 It.Is<string>(str => str == roleViewModelToCreate.Name),
-                It.IsAny<IEnumerable<Permission>>()
+                It.IsAny<IEnumerable<RoleClaim>>()
             ));
             _mockAdminContext.Verify(db => db.UpdateRoleAsync(It.IsAny<DataModel>()), Times.Never());
         }
@@ -60,7 +61,7 @@ namespace Guilded.Tests.Controllers.Admin.RolesControllerUnitTests
             Assert.Equal(roleViewModelToUpdate.Name, updatedRole.Name);
             _mockAdminContext.Verify(db => db.CreateRoleAsync(
                 It.IsAny<string>(),
-                It.IsAny<IEnumerable<Permission>>()
+                It.IsAny<IEnumerable<RoleClaim>>()
             ), Times.Never());
             _mockAdminContext.Verify(db => db.UpdateRoleAsync(
                 It.Is<DataModel>(role => role.Id == roleViewModelToUpdate.Id)
@@ -91,7 +92,7 @@ namespace Guilded.Tests.Controllers.Admin.RolesControllerUnitTests
             Assert.Equal(dbRole.Name, currentRole.Name);
             _mockAdminContext.Verify(db => db.CreateRoleAsync(
                 It.IsAny<string>(),
-                It.IsAny<IEnumerable<Permission>>()
+                It.IsAny<IEnumerable<RoleClaim>>()
             ), Times.Never());
             _mockAdminContext.Verify(db => db.UpdateRoleAsync(It.IsAny<DataModel>()), Times.Never());
         }

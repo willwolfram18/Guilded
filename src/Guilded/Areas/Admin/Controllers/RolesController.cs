@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Guilded.Constants;
+using Guilded.Extensions;
 using Guilded.ViewModels;
 using Microsoft.AspNetCore.Http.Extensions;
 
@@ -61,9 +63,27 @@ namespace Guilded.Areas.Admin.Controllers
 
         [HttpPost("[area]/[controller]/edit/{roleId}")]
         [ValidateAntiForgeryToken]
-        public async Task<ViewResult> EditOrCreatePost(EditOrCreateRoleViewModel role)
+        public async Task<ViewResult> EditOrCreate(EditOrCreateRoleViewModel role)
         {
-            throw new NotImplementedException();
+            ApplicationRole dbRole = _db.GetRoleById(role.Id);
+
+            if (dbRole == null)
+            {
+                dbRole = await _db.CreateRoleAsync(role.Name, role.PermissionsAsRoleClaims);
+                ViewData[ViewDataKeys.SuccessMessages] = "Role successfully created";
+            }
+            else if (dbRole.ConcurrencyStamp == role.ConcurrencyStamp)
+            {
+                dbRole.UpdateFromViewModel(role);
+                dbRole = await _db.UpdateRoleAsync(dbRole);
+                ViewData[ViewDataKeys.SuccessMessages] = "Role successfully updated";
+            }
+            else
+            {
+                ViewData[ViewDataKeys.ErrorMessages] = "Failed to save role";
+            }
+
+            return View(new EditOrCreateRoleViewModel(dbRole));
         }
 
         public override ViewResult View(string viewName, object model)
