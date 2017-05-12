@@ -1,13 +1,13 @@
 ﻿using Guilded.Areas.Admin.ViewModels.Roles;
 using Guilded.Identity;
+using Guilded.Security.Claims;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Guilded.Security.Claims;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace Guilded.Tests.Areas.Admin.RolesController
+namespace Guilded.Tests.Areas.Admin.RolesControllerTests
 {
     public class WhenEditOrCreatePostIsCalled : RolesControllerTestBase
     {

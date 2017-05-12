@@ -12,7 +12,7 @@ namespace Guilded.Areas.Admin.Controllers
     {
         protected readonly Stack<Breadcrumb> Breadcrumbs;
 
-        protected BaseController()
+        public BaseController()
         {
             Breadcrumbs = new Stack<Breadcrumb>();
         }

@@ -1,12 +1,14 @@
-﻿using Guilded.Areas.Admin.ViewModels.Roles;
+﻿using Guilded.Areas.Admin.Controllers;
+using Guilded.Areas.Admin.ViewModels.Roles;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using TController = Guilded.Areas.Admin.Controllers.RolesController;
+using Guilded.Constants;
+using Guilded.ViewModels;
 
-namespace Guilded.Tests.Areas.Admin.RolesController
+namespace Guilded.Tests.Areas.Admin.RolesControllerTests
 {
     public class WhenIndexIsCalled : RolesControllerTestBase
     {
@@ -43,7 +45,7 @@ namespace Guilded.Tests.Areas.Admin.RolesController
 
         [Test]
         [TestCase(1, 2, 1)]
-        [TestCase(TController.PageSize + 1, 3, 2)]
+        [TestCase(RolesController.PageSize + 1, 3, 2)]
         public void IfPageIsGreaterThanLastPageThenRedirectToLastPage(int numRoles, int requestPage, int expectedRedirectPage)
         {
             MockAdminDataContext.Setup(db => db.GetRoles())
@@ -59,7 +61,7 @@ namespace Guilded.Tests.Areas.Admin.RolesController
         [Test]
         public void ThenItemsSkippedForCurrentPage()
         {
-            var numRoles = TController.PageSize + 1;
+            var numRoles = RolesController.PageSize + 1;
             MockAdminDataContext.Setup(db => db.GetRoles())
                 .Returns(CreateRoles(numRoles));
 
@@ -71,6 +73,19 @@ namespace Guilded.Tests.Areas.Admin.RolesController
 
             Assert.That(viewModel, Is.Not.Null);
             Assert.That(viewModel.Roles.Count, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void ThenBreadcrumbStackContainsTwoItems()
+        {
+            var result = Controller.Index() as ViewResult;
+
+            Assert.That(result, Is.Not.Null);
+
+            var breadcrumbs = result.ViewData[ViewDataKeys.Breadcrumbs] as Stack<Breadcrumb>;
+            
+            Assert.That(breadcrumbs, Is.Not.Null);
+            Assert.That(breadcrumbs.Count, Is.EqualTo(2));
         }
 
         private IQueryable<Identity.ApplicationRole> CreateRoles(int numRoles)

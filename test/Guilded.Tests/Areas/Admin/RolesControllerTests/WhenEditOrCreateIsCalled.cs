@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Guilded.Tests.Areas.Admin.RolesController
+namespace Guilded.Tests.Areas.Admin.RolesControllerTests
 {
     public class WhenEditOrCreateIsCalled : RolesControllerTestBase
     {
