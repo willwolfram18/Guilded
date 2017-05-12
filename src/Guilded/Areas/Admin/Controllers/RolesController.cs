@@ -38,6 +38,10 @@ namespace Guilded.Areas.Admin.Controllers
 
             var viewModel = GetRoles(page);
 
+            if (viewModel.LastPage == 0 && page != 1)
+            {
+                return RedirectToAction(nameof(Index));
+            }
             if (viewModel.LastPage != 0 && page > viewModel.LastPage)
             {
                 return RedirectToAction(nameof(Index), new {page = viewModel.LastPage});

@@ -7,6 +7,17 @@
     @{ await Html.ValidationScripts(); }
 }
 
+@section styles
+{
+    <environment names="Development">
+        <link rel="stylesheet" href="css/admin/roles.css" />
+    </environment>
+    <environment names="Staging, Production">
+        <link rel="stylesheet" href="css/admin/roles.min.css"
+              asp-append-version="true" />
+    </environment>
+}
+
 <h3>
     Edit Role
 </h3>
@@ -22,8 +33,14 @@
         <span class="ui raised warning pointing label" asp-validation-for="Name"></span>
     </div>
     <div class="field">
-        <label asp-for="Permissions"></label>
-        <select class="ui dropdown" multiple="" asp-for="Permissions" asp-items="@Model.AvailablePermissions"></select>
+        <div class="inline label">
+            <label asp-for="Permissions"></label>
+            <div class="ui mini circular icon help button">
+                <i class="icon question"></i>
+            </div>
+        </div>
+        <select class="ui dropdown" multiple="" asp-for="Permissions" asp-items="@Model.AvailablePermissions">
+        </select>
     </div>
     <button type="submit" class="ui primary button">
         Submit

@@ -73,7 +73,7 @@ namespace Guilded.TagHelpers
         {
             var lastButton = new HtmlContentBuilder();
 
-            if (CurrentPage == LastPage)
+            if (CurrentPage == LastPage || LastPage == 0)
             {
                 return lastButton;
             }
@@ -110,14 +110,18 @@ namespace Guilded.TagHelpers
 
             builder.AppendHtml($"<div class='ui button active'>{CurrentPage}</div>");
 
-            if (CurrentPage != LastPage)
+            // There are no pages beyond the current, no reason to add a "next" button.
+            if (LastPage != 0)
             {
-                builder.AppendHtml(NeighborButton(CurrentPage + 1));
-            }
+                if (CurrentPage != LastPage)
+                {
+                    builder.AppendHtml(NeighborButton(CurrentPage + 1));
+                }
 
-            if (CurrentPage + 2 <= LastPage)
-            {
-                builder.AppendHtml("<div class='ui button disabled'>...</div>");
+                if (CurrentPage + 2 <= LastPage)
+                {
+                    builder.AppendHtml("<div class='ui button disabled'>...</div>");
+                }
             }
 
             return builder;
