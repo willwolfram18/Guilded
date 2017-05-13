@@ -40,6 +40,7 @@
     <Content Include="wwwroot\js\admin\roles.ts" />
     <Content Include="wwwroot\js\home\slideshow.ts" />
     <Content Include="wwwroot\js\shared\menu.ts" />
+    <Content Include="wwwroot\js\shared\shared.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Update="wwwroot\dist\*.map">

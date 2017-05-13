@@ -1,4 +1,5 @@
-﻿@model EditOrCreateRoleViewModel
+﻿@using Guilded.Security.Claims
+@model EditOrCreateRoleViewModel
 @{
     ViewData["Title"] = "Edit Role";
 }
@@ -35,7 +36,7 @@
     <div class="field">
         <div class="inline label">
             <label asp-for="Permissions"></label>
-            <div class="ui mini circular icon help button">
+            <div class="ui mini circular icon help button" data-toggle="modal" data-target="#permissionsModal">
                 <i class="icon question"></i>
             </div>
         </div>
@@ -46,3 +47,29 @@
         Submit
     </button>
 </form>
+<div id="permissionsModal" class="ui modal ">
+    <i class="close icon"></i>
+    <div class="header">
+        Available Permissions
+    </div>
+    <div class="content">
+        <div class="ui relaxed divided list">
+            @foreach (var roleClaim in RoleClaimTypes.RoleClaims.OrderBy(r => r.ClaimType))
+            {
+                <div class="item">
+                    <div class="header">
+                        @roleClaim.ClaimType
+                    </div>
+                    <div class="description">
+                        @roleClaim.Description
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui inverted primary approve button">
+            Thanks!
+        </div>
+    </div>
+</div>

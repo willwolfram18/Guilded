@@ -36,7 +36,8 @@ namespace Guilded.TagHelpers
             output.TagName = OutputTag;
             output.TagMode = TagMode.StartTagAndEndTag;
 
-            if (LastPage == 1)
+            // Nothing to output, since there are is only one page.
+            if (LastPage == 0 || LastPage == 1)
             {
                 output.Content.SetHtmlContent("");
                 return base.ProcessAsync(context, output);
@@ -110,18 +111,14 @@ namespace Guilded.TagHelpers
 
             builder.AppendHtml($"<div class='ui button active'>{CurrentPage}</div>");
 
-            // There are no pages beyond the current, no reason to add a "next" button.
-            if (LastPage != 0)
+            if (CurrentPage != LastPage)
             {
-                if (CurrentPage != LastPage)
-                {
-                    builder.AppendHtml(NeighborButton(CurrentPage + 1));
-                }
+                builder.AppendHtml(NeighborButton(CurrentPage + 1));
+            }
 
-                if (CurrentPage + 2 <= LastPage)
-                {
-                    builder.AppendHtml("<div class='ui button disabled'>...</div>");
-                }
+            if (CurrentPage + 2 <= LastPage)
+            {
+                builder.AppendHtml("<div class='ui button disabled'>...</div>");
             }
 
             return builder;

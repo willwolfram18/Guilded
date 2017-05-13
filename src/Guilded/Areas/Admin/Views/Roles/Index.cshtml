@@ -39,44 +39,56 @@
 <br />
 <br />
 
-<guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="@pagerUrl"
-               pager-vertical-location="Top" />
-<div id="roles-list" class="ui extra large styled fluid accordion">
-    @foreach (var role in Model.Roles)
-    {
-        <div class="title">
-            <div class="name">
-                <i class="dropdown icon"></i>
-                @role.Name
-            </div>
-            <div class="options">
-                <a class="ui small circular icon button" asp-area="Admin"
-                   asp-controller="Roles" asp-action="EditOrCreate" asp-route-roleId="@role.Id">
-                    <i class="pencil icon"></i>
-                </a>
-                <div class="ui small red circular icon button">
-                    <i class="trash icon"></i>
+@if (!Model.Roles.Any())
+{
+    <div class="ui message">
+        <h3>
+            There are no roles to display!
+        </h3>
+    </div>
+}
+else
+{
+    <guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="@pagerUrl"
+                   pager-vertical-location="Top" />
+    <div id="roles-list" class="ui extra large styled fluid accordion">
+
+        @foreach (var role in Model.Roles)
+        {
+            <div class="title">
+                <div class="name">
+                    <i class="dropdown icon"></i>
+                    @role.Name
+                </div>
+                <div class="options">
+                    <a class="ui small circular icon button" asp-area="Admin"
+                       asp-controller="Roles" asp-action="EditOrCreate" asp-route-roleId="@role.Id">
+                        <i class="pencil icon"></i>
+                    </a>
+                    <div class="ui small red circular icon button">
+                        <i class="trash icon"></i>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="content">
-            <p class="transition hidden">
-                <div class="ui relaxed list">
-                    @foreach (var permission in role.Permissions)
-                    {
-                        <div class="item">
-                            <div class="header">
-                                @permission.PermissionType
+            <div class="content">
+                <p class="transition hidden">
+                    <div class="ui relaxed list">
+                        @foreach (var permission in role.Permissions)
+                        {
+                            <div class="item">
+                                <div class="header">
+                                    @permission.PermissionType
+                                </div>
+                                <div class="description">
+                                    @permission.Description
+                                </div>
                             </div>
-                            <div class="description">
-                                @permission.Description
-                            </div>
-                        </div>
-                    }
-                </div>
-            </p>
-        </div>
-    }
-</div>
-<guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="@pagerUrl"
+                        }
+                    </div>
+                </p>
+            </div>
+        }
+    </div>
+    <guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="@pagerUrl"
                pager-vertical-location="Bottom" />
+}
