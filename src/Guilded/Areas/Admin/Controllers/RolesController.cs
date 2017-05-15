@@ -56,13 +56,7 @@ namespace Guilded.Areas.Admin.Controllers
         {
             var dbRole = _db.GetRoleById(roleId) ?? new ApplicationRole();
 
-            Breadcrumbs.Push(new Breadcrumb
-            {
-                Title = "Role Editor",
-                Url = Request.Path
-            });
-
-            return View(new EditOrCreateRoleViewModel(dbRole));
+            return RoleEditorView(dbRole);
         }
 
         [HttpPost("[area]/[controller]/edit/{roleId}")]
@@ -74,20 +68,27 @@ namespace Guilded.Areas.Admin.Controllers
             if (dbRole == null)
             {
                 dbRole = await _db.CreateRoleAsync(role.Name, role.PermissionsAsRoleClaims);
-                ViewData[ViewDataKeys.SuccessMessages] = "Role successfully created";
+                ViewData[ViewDataKeys.SuccessMessages] = "Role successfully created!";
             }
             else if (dbRole.ConcurrencyStamp == role.ConcurrencyStamp)
             {
                 dbRole.UpdateFromViewModel(role);
                 dbRole = await _db.UpdateRoleAsync(dbRole);
-                ViewData[ViewDataKeys.SuccessMessages] = "Role successfully updated";
+                ViewData[ViewDataKeys.SuccessMessages] = "Role successfully updated!";
             }
             else
             {
-                ViewData[ViewDataKeys.ErrorMessages] = "Failed to save role";
+                ViewData[ViewDataKeys.ErrorMessages] = "It appears the role was updated before you saved. The latest version of the role is in the editor below.";
             }
 
-            return View(new EditOrCreateRoleViewModel(dbRole));
+            return RoleEditorView(dbRole);
+        }
+
+        [HttpDelete("[area]/[controller]/{roleId}")]
+        [ValidateAntiForgeryToken]
+        public Task<IActionResult> Remove(string roleId)
+        {
+            throw new NotImplementedException();
         }
 
         public override ViewResult View(string viewName, object model)
@@ -114,6 +115,17 @@ namespace Guilded.Areas.Admin.Controllers
                 LastPage = (int)Math.Ceiling(allRoles.Count() / (double)PageSize),
                 Roles = rolesForPage.ToList().Select(r => new ApplicationRoleViewModel(r)).ToList(),
             };
+        }
+
+        private ViewResult RoleEditorView(ApplicationRole dbRole)
+        {
+            Breadcrumbs.Push(new Breadcrumb
+            {
+                Title = "Role Editor",
+                Url = Request.Path
+            });
+
+            return View(new EditOrCreateRoleViewModel(dbRole));
         }
     }
 }

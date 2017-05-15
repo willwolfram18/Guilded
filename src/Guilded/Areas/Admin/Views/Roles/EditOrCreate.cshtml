@@ -1,11 +1,17 @@
 ﻿@using Guilded.Security.Claims
 @model EditOrCreateRoleViewModel
 @{
-    ViewData["Title"] = "Edit Role";
+    ViewData[ViewDataKeys.Title] = "Edit Role";
 }
 
 @section Scripts {
     @{ await Html.ValidationScripts(); }
+    <environment names="Development">
+        <script src="js/admin/roles.js"></script>
+    </environment>
+    <environment names="Staging, Production">
+        <script src="js/admin/roles.min.js" asp-append-version="true"></script>
+    </environment>
 }
 
 @section styles
@@ -22,6 +28,19 @@
 <h3>
     Edit Role
 </h3>
+@if (!string.IsNullOrWhiteSpace(ViewData[ViewDataKeys.SuccessMessages]?.ToString()))
+{
+    <div class="ui success message">
+        @ViewData[ViewDataKeys.SuccessMessages]
+    </div>
+}
+@if (!string.IsNullOrWhiteSpace(ViewData[ViewDataKeys.ErrorMessages]?.ToString()))
+{
+    <div class="ui error message">
+        @ViewData[ViewDataKeys.ErrorMessages]
+    </div>
+}
+
 <form class="ui form" method="post" asp-area="Admin" asp-controller="Roles" asp-action="EditOrCreate" asp-route-roleId="@Model.Id">
     <div class="ui raised warning segment" asp-validation-summary="All"></div>
     <input asp-for="Id" />
@@ -46,6 +65,9 @@
     <button type="submit" class="ui primary button">
         Submit
     </button>
+    <a class="ui cancel button" data-href="@Url.Action("Index", "Roles", new {area = "Admin"})">
+        Cancel
+    </a>
 </form>
 <div id="permissionsModal" class="ui modal ">
     <i class="close icon"></i>

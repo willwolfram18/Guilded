@@ -31,9 +31,7 @@
     <Content Include="wwwroot\css\shared\menu.css" />
     <Content Include="wwwroot\css\shared\menu.less" />
     <Content Include="wwwroot\css\shared\menu.min.css" />
-    <Content Include="wwwroot\css\shared\mixins.less" />
     <Content Include="wwwroot\css\shared\pager.less" />
-    <Content Include="wwwroot\css\shared\screen-sizes.less" />
     <Content Include="wwwroot\css\shared\shared.less" />
     <Content Include="wwwroot\css\shared\_mixins.less" />
     <Content Include="wwwroot\css\shared\_screen-sizes.less" />
