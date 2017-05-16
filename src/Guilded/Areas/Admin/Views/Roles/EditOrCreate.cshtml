@@ -28,18 +28,8 @@
 <h3>
     Edit Role
 </h3>
-@if (!string.IsNullOrWhiteSpace(ViewData[ViewDataKeys.SuccessMessages]?.ToString()))
-{
-    <div class="ui success message">
-        @ViewData[ViewDataKeys.SuccessMessages]
-    </div>
-}
-@if (!string.IsNullOrWhiteSpace(ViewData[ViewDataKeys.ErrorMessages]?.ToString()))
-{
-    <div class="ui error message">
-        @ViewData[ViewDataKeys.ErrorMessages]
-    </div>
-}
+
+@{ await Html.SuccessAndErrorMessages(); }
 
 <form class="ui form" method="post" asp-area="Admin" asp-controller="Roles" asp-action="EditOrCreate" asp-route-roleId="@Model.Id">
     <div class="ui raised warning segment" asp-validation-summary="All"></div>
@@ -84,6 +74,17 @@
                     </div>
                     <div class="description">
                         @roleClaim.Description
+                    </div>
+                </div>
+            }
+            @for (int i = 0; i < 30; i++)
+            {
+                <div class="item">
+                    <div class="header">
+                        Sample item @i
+                    </div>
+                    <div class="description">
+                        Sample description for item @i
                     </div>
                 </div>
             }

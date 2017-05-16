@@ -1,0 +1,12 @@
+﻿@if (!string.IsNullOrWhiteSpace(ViewData[ViewDataKeys.SuccessMessages]?.ToString()))
+{
+    <div class="ui success message">
+        @ViewData[ViewDataKeys.SuccessMessages]
+    </div>
+}
+@if (!string.IsNullOrWhiteSpace(ViewData[ViewDataKeys.ErrorMessages]?.ToString()))
+{
+    <div class="ui error message">
+        @ViewData[ViewDataKeys.ErrorMessages]
+    </div>
+}

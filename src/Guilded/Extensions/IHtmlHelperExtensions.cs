@@ -14,5 +14,10 @@ namespace Guilded.Extensions
         {
             return html.RenderPartialAsync("ValidationScripts");
         }
+
+        public static Task SuccessAndErrorMessages(this IHtmlHelper html)
+        {
+            return html.RenderPartialAsync("SuccessAndErrorMessages");
+        }
     }
 }

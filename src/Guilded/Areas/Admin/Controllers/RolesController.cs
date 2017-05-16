@@ -33,7 +33,7 @@ namespace Guilded.Areas.Admin.Controllers
         {
             if (page <= 0)
             {
-                return RedirectToAction(nameof(Index), new {page = 1});
+                return RedirectToAction(nameof(Index), new { page = 1 });
             }
 
             var viewModel = GetRoles(page);
@@ -44,7 +44,7 @@ namespace Guilded.Areas.Admin.Controllers
             }
             if (viewModel.LastPage != 0 && page > viewModel.LastPage)
             {
-                return RedirectToAction(nameof(Index), new {page = viewModel.LastPage});
+                return RedirectToAction(nameof(Index), new { page = viewModel.LastPage });
             }
 
             return View(viewModel);
@@ -84,11 +84,27 @@ namespace Guilded.Areas.Admin.Controllers
             return RoleEditorView(dbRole);
         }
 
-        [HttpDelete("[area]/[controller]/{roleId}")]
+        [HttpPost("[area]/[controller]/{roleId}/delete")]
         [ValidateAntiForgeryToken]
-        public Task<IActionResult> Remove(string roleId)
+        public async Task<IActionResult> Delete(string roleId, int page = 1)
         {
-            throw new NotImplementedException();
+            var role = _db.GetRoleById(roleId);
+
+            if (role == null)
+            {
+                TempData[ViewDataKeys.ErrorMessages] = $"No role with the identifier '{roleId}' was found.";
+                return RedirectToAction(nameof(Index), new { page = page });
+            }
+
+            var result = await _db.DeleteRole(role);
+            if (!result.Succeeded)
+            {
+                TempData[ViewDataKeys.ErrorMessages] = "Failed to delete role.";
+                return RedirectToAction(nameof(EditOrCreate), new {roleId = roleId});
+            }
+
+            TempData[ViewDataKeys.SuccessMessages] = $"Successfully deleted '{role.Name}'!";
+            return RedirectToAction(nameof(Index), new { page = page });
         }
 
         public override ViewResult View(string viewName, object model)
@@ -98,6 +114,9 @@ namespace Guilded.Areas.Admin.Controllers
                 Url = Url.Action(nameof(Index), "Roles", new { area = "Admin" }),
                 Title = "Roles",
             });
+
+            ViewData[ViewDataKeys.SuccessMessages] = TempData[ViewDataKeys.SuccessMessages];
+            ViewData[ViewDataKeys.ErrorMessages] = TempData[ViewDataKeys.ErrorMessages];
 
             return base.View(viewName, model);
         }
