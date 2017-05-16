@@ -1,9 +1,13 @@
 ﻿function cancelFormClick(e: JQueryEventObject) {
     const $elem = $(e.target);
 
-    if ($elem.data("href") && confirm("Are you sure? All unsaved changes will be lost.")) {
-        window.location.href = $elem.data("href");
+    if (!$elem.data("href")) {
+        return;
     }
+
+    confirmAction("Are you sure? All unsaved changes will be lost.", () => {
+        window.location.href = $elem.data("href");
+    }, null);
 }
 
 $(document).ready(function () {

@@ -59,6 +59,21 @@
                     <div class="container">
                         @RenderBody()
                     </div>
+                    <div id="confirmModal" class="ui modal">
+                        <div class="header">
+                            Confirm
+                        </div>
+                        <div class="content">
+                        </div>
+                        <div class="actions">
+                            <div class="ui primary approve button">
+                                Okay
+                            </div>
+                            <div class="ui cancel button">
+                                Cancel
+                            </div>
+                        </div>
+                    </div>
                     <div class="footer container">
                         <footer>
                             <p>&copy; @DateTime.Now.Year - Selama Ashal'anore!</p>
@@ -69,14 +84,11 @@
         </div>
     </div>
     <environment names="Development">
-        <script src="~/lib/jquery/dist/jquery.js">
-        </script>
-        <script src="~/lib/semantic/dist/semantic.js">
-        </script>
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/semantic/dist/semantic.js"></script>
         <script src="js/shared/shared.js"></script>
-        <script src="~/js/shared/menu.js"
-                asp-append-version="true">
-        </script>
+        <script src="~/js/shared/menu.js"></script>
+        <script src="js/shared/confirm-modal.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="~/lib/jquery/dist/jquery.min.js"
@@ -88,6 +100,8 @@
         <script src="~/js/shared/menu.min.js"
                 asp-append-version="true">
         </script>
+        <script src="js/shared/confirm-modal.js"
+                asp-append-version="true"></script>
     </environment>
     @RenderSection("scripts", false)
 </body>
