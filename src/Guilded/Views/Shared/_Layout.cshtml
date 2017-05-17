@@ -9,14 +9,13 @@
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/semantic/dist/semantic.css" />
         <link rel="stylesheet" href="~/css/shared/font-awesome.css" />
-        <link rel="stylesheet" href="css/shared/shared.css"
-              asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/shared/menu.css"
-              asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/shared/pager.css"
-              asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/shared/forms.css"
-              asp-append-version="true" />
+        <link rel="stylesheet" href="css/shared/shared.css" />
+        <link rel="stylesheet" href="~/css/shared/menu.css" />
+        <link rel="stylesheet" href="~/css/shared/pager.css" />
+        <link rel="stylesheet" href="~/css/shared/forms.css" />
+        
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/semantic/dist/semantic.js"></script>
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="~/lib/semantic/dist/semantic.min.css"
@@ -30,6 +29,13 @@
               asp-append-version="true" />
         <link rel="stylesheet" href="~/css/shared/forms.min.css"
               asp-append-version="true" />
+        
+        <script src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js">
+        </script>
+        <script src="~/lib/semantic/dist/semantic.min.js"
+                asp-fallback-src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js">
+        </script>
     </environment>
     <link rel="icon" type="image/png" href="https://worldofwarcraft.com/static/components/Logo/Logo-wowIcon-01e2c44379.png">
     @RenderSection("styles", false)
@@ -84,22 +90,14 @@
         </div>
     </div>
     <environment names="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/semantic/dist/semantic.js"></script>
-        <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+        <script src="~/js/shared/jquery.unobtrusive-ajax-custom.js"></script>
         <script src="js/shared/shared.js"></script>
         <script src="~/js/shared/menu.js"></script>
         <script src="js/shared/confirm-modal.js"></script>
     </environment>
     <environment names="Staging,Production">
-        <script src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js">
-        </script>
-        <script src="~/lib/semantic/dist/semantic.min.js"
-                asp-fallback-src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js">
-        </script>
-        <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"
-                asp-fallback-src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js">
+        <script src="~/js/shared/jquery.unobtrusive-ajax-custom.min.js"
+                asp-append-version="true">
         </script>
         <script src="~/js/shared/menu.min.js"
                 asp-append-version="true">

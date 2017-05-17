@@ -38,8 +38,10 @@
     <Content Include="wwwroot\js\admin\roles.ts" />
     <Content Include="wwwroot\js\home\slideshow.ts" />
     <Content Include="wwwroot\js\shared\confirm-modal.ts" />
+    <Content Include="wwwroot\js\shared\jquery.unobtrusive-ajax-custom.ts" />
     <Content Include="wwwroot\js\shared\menu.ts" />
     <Content Include="wwwroot\js\shared\shared.ts" />
+    <Content Include="wwwroot\js\typings\window.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Update="wwwroot\dist\*.map">

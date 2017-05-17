@@ -6,7 +6,6 @@
     "jquery-validation": "1.16.0",
     "jquery-validation-unobtrusive": "v3.2.6",
     "semantic": "Semantic-UI#2.2.10",
-    "swiper": "^3.4.2",
-    "jquery-ajax-unobtrusive": "^3.2.4"
+    "swiper": "^3.4.2"
   }
 }
