@@ -1,4 +1,13 @@
-﻿function cancelFormClick(e: JQueryEventObject) {
+﻿interface IHandleRoleDelete {
+    onRoleDeleteSuccess(response: any): void;
+}
+
+interface IRoleDeleteResponse {
+    message: string;
+    roleId: string;
+}
+
+function cancelFormClick(e: JQueryEventObject) {
     const $elem = $(e.target);
 
     if (!$elem.data("href")) {
@@ -9,6 +18,12 @@
         window.location.href = $elem.data("href");
     }, null);
 }
+
+const index: IHandleRoleDelete = {
+    onRoleDeleteSuccess: (response: IRoleDeleteResponse): void => {
+        $(`[data-role="${response.roleId}"]`).remove();
+    }
+};
 
 $(document).ready(function () {
     $("#roles-list").accordion({

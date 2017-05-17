@@ -70,15 +70,19 @@ namespace Guilded.Areas.Admin.Controllers
                 dbRole = await _db.CreateRoleAsync(role.Name, role.PermissionsAsRoleClaims);
                 ViewData[ViewDataKeys.SuccessMessages] = "Role successfully created!";
             }
-            else if (dbRole.ConcurrencyStamp == role.ConcurrencyStamp)
-            {
-                dbRole.UpdateFromViewModel(role);
-                dbRole = await _db.UpdateRoleAsync(dbRole);
-                ViewData[ViewDataKeys.SuccessMessages] = "Role successfully updated!";
-            }
             else
             {
-                ViewData[ViewDataKeys.ErrorMessages] = "It appears the role was updated before you saved. The latest version of the role is in the editor below.";
+                try
+                {
+                    dbRole.UpdateFromViewModel(role);
+                    dbRole = await _db.UpdateRoleAsync(dbRole);
+                    ViewData[ViewDataKeys.SuccessMessages] = "Role successfully updated!";
+                }
+                catch (Exception e)
+                {
+                    ViewData[ViewDataKeys.ErrorMessages] = "An error occurred while attempting to save the role.";
+                    _log.LogError(10, e.Message, e);
+                }
             }
 
             return RoleEditorView(dbRole);
@@ -101,7 +105,7 @@ namespace Guilded.Areas.Admin.Controllers
                 return StatusCode(500, "Failed to delete role.");
             }
 
-            return Ok($"Successfully deleted '{role.Name}'!");
+            return Ok(new { message = $"Successfully deleted '{role.Name}'!", roleId });
         }
 
         public override ViewResult View(string viewName, object model)

@@ -58,7 +58,7 @@ else
 
         @foreach (var role in Model.Roles)
         {
-            <div class="title">
+            <div class="title" data-role="@role.Id">
                 <div class="name">
                     <i class="dropdown icon"></i>
                     @role.Name
@@ -72,14 +72,16 @@ else
                     </div>
                     <form class="item" asp-area="Admin" asp-controller="Roles" asp-action="Delete"
                           asp-route-page="@Model.CurrentPage" asp-route-roleId="@role.Id"
-                          data-ajax="true" data-ajax-method="Delete">
+                          data-ajax="true" data-ajax-method="Delete"
+                          data-ajax-confirm="Are you sure you want to delete this role? This action cannot be undone."
+                          data-ajax-success="index.onRoleDeleteSuccess">
                         <button type="submit" class="ui small red circular icon button">
                             <i class="trash icon"></i>
                         </button>
                     </form>
                 </div>
             </div>
-            <div class="content">
+            <div class="content" data-role="@role.Id">
                 <p class="transition hidden">
                     <div class="ui relaxed list">
                         @foreach (var permission in role.Permissions)

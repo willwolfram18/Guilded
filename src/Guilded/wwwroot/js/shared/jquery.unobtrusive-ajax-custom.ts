@@ -75,12 +75,21 @@
     }
 
     function asyncRequest(element: Element, options: any) {
-        var confirm: string, loading: JQuery, method: string, duration: string | number;
-
+        let confirm: string;
+        
         confirm = element.getAttribute("data-ajax-confirm");
-        if (confirm && !window.confirm(confirm)) {
+        if (confirm) {
+            confirmAction(confirm, () => {
+                performAsyncRequest(element, options);
+            });
             return;
         }
+
+        performAsyncRequest(element,options);
+    }
+
+    function performAsyncRequest(element: Element, options: any) {
+        let loading: JQuery, method: string, duration: string | number;
 
         loading = $(element.getAttribute("data-ajax-loading"));
         duration = parseInt(element.getAttribute("data-ajax-loading-duration"), 10) || 0;
