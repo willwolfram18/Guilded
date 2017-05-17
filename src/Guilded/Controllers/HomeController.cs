@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Guilded.Controllers
 {
     [AllowAnonymous]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         // GET
         public ActionResult Index()

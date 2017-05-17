@@ -71,7 +71,8 @@ else
                         </a>
                     </div>
                     <form class="item" asp-area="Admin" asp-controller="Roles" asp-action="Delete"
-                          asp-route-page="@Model.CurrentPage" asp-route-roleId="@role.Id">
+                          asp-route-page="@Model.CurrentPage" asp-route-roleId="@role.Id"
+                          data-ajax="true" data-ajax-method="Delete">
                         <button type="submit" class="ui small red circular icon button">
                             <i class="trash icon"></i>
                         </button>

@@ -84,7 +84,7 @@ namespace Guilded.Areas.Admin.Controllers
             return RoleEditorView(dbRole);
         }
 
-        [HttpPost("[area]/[controller]/{roleId}/delete")]
+        [HttpDelete("[area]/[controller]/{roleId}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(string roleId, int page = 1)
         {
@@ -92,19 +92,16 @@ namespace Guilded.Areas.Admin.Controllers
 
             if (role == null)
             {
-                TempData[ViewDataKeys.ErrorMessages] = $"No role with the identifier '{roleId}' was found.";
-                return RedirectToAction(nameof(Index), new { page = page });
+                return NotFound("That role could not be found.");
             }
 
             var result = await _db.DeleteRole(role);
             if (!result.Succeeded)
             {
-                TempData[ViewDataKeys.ErrorMessages] = "Failed to delete role.";
-                return RedirectToAction(nameof(EditOrCreate), new {roleId = roleId});
+                return StatusCode(500, "Failed to delete role.");
             }
 
-            TempData[ViewDataKeys.SuccessMessages] = $"Successfully deleted '{role.Name}'!";
-            return RedirectToAction(nameof(Index), new { page = page });
+            return Ok($"Successfully deleted '{role.Name}'!");
         }
 
         public override ViewResult View(string viewName, object model)
@@ -114,9 +111,6 @@ namespace Guilded.Areas.Admin.Controllers
                 Url = Url.Action(nameof(Index), "Roles", new { area = "Admin" }),
                 Title = "Roles",
             });
-
-            ViewData[ViewDataKeys.SuccessMessages] = TempData[ViewDataKeys.SuccessMessages];
-            ViewData[ViewDataKeys.ErrorMessages] = TempData[ViewDataKeys.ErrorMessages];
 
             return base.View(viewName, model);
         }
@@ -140,7 +134,7 @@ namespace Guilded.Areas.Admin.Controllers
         {
             Breadcrumbs.Push(new Breadcrumb
             {
-                Title = "Role Editor",
+                Title = "Edit Role",
                 Url = Request.Path
             });
 

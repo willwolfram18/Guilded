@@ -8,7 +8,7 @@ namespace Guilded.Areas.Admin.Controllers
 {
     [Authorize]
     [Area("Admin")]
-    public class BaseController : Controller
+    public class BaseController : Guilded.Controllers.BaseController
     {
         protected readonly Stack<Breadcrumb> Breadcrumbs;
 
