@@ -34,7 +34,6 @@
 <form class="ui form" method="post" asp-area="Admin" asp-controller="Roles" asp-action="EditOrCreate" asp-route-roleId="@Model.Id">
     <div class="ui raised warning segment" asp-validation-summary="All"></div>
     <input asp-for="Id" />
-    <input asp-for="ConcurrencyStamp" />
     <div class="field">
         <label asp-for="Name"></label>
         <div class="ui input">
@@ -74,17 +73,6 @@
                     </div>
                     <div class="description">
                         @roleClaim.Description
-                    </div>
-                </div>
-            }
-            @for (int i = 0; i < 30; i++)
-            {
-                <div class="item">
-                    <div class="header">
-                        Sample item @i
-                    </div>
-                    <div class="description">
-                        Sample description for item @i
                     </div>
                 </div>
             }

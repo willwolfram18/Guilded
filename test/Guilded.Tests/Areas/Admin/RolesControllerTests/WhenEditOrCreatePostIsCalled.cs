@@ -18,17 +18,11 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
         {
             MockAdminDataContext.Setup(db => db.GetRoleById(It.IsAny<string>()))
                 .Returns((ApplicationRole) null);
-            MockAdminDataContext.Setup(db => db.CreateRoleAsync(
-                It.IsAny<string>(),
-                It.IsAny<IEnumerable<RoleClaim>>()
-            )).ReturnsAsync(new ApplicationRole());
+            MockAdminDataContext.Setup(db => db.CreateRoleAsync(It.IsAny<ApplicationRole>())).ReturnsAsync(new ApplicationRole());
 
             await Controller.EditOrCreate(new EditOrCreateRoleViewModel());
 
-            MockAdminDataContext.Verify(db => db.CreateRoleAsync(
-                It.IsAny<string>(),
-                It.IsAny<IEnumerable<RoleClaim>>()
-            ));
+            MockAdminDataContext.Verify(db => db.CreateRoleAsync(It.IsAny<ApplicationRole>()));
             MockAdminDataContext.Verify(db => db.UpdateRoleAsync(It.IsAny<ApplicationRole>()), Times.Never);
         }
 
@@ -47,10 +41,7 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
             });
 
             MockAdminDataContext.Verify(db => db.UpdateRoleAsync(It.IsAny<ApplicationRole>()));
-            MockAdminDataContext.Verify(db => db.CreateRoleAsync(
-                It.IsAny<string>(),
-                It.IsAny<IEnumerable<RoleClaim>>()
-            ), Times.Never);
+            MockAdminDataContext.Verify(db => db.CreateRoleAsync(It.IsAny<ApplicationRole>()), Times.Never);
         }
 
         [Test]
@@ -117,10 +108,7 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
 
             await Controller.EditOrCreate(modelToPost);
 
-            MockAdminDataContext.Verify(db => db.CreateRoleAsync(
-                It.IsAny<string>(),
-                It.IsAny<IEnumerable<RoleClaim>>()
-            ), Times.Never);
+            MockAdminDataContext.Verify(db => db.CreateRoleAsync(It.IsAny<ApplicationRole>()), Times.Never);
             MockAdminDataContext.Verify(db => db.UpdateRoleAsync(It.IsAny<ApplicationRole>()), Times.Never);
         }
 

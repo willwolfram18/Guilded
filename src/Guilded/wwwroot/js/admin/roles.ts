@@ -1,5 +1,7 @@
 ﻿interface IHandleRoleDelete {
-    onRoleDeleteSuccess(response: any): void;
+    onRoleDeleteSuccess(response: IRoleDeleteResponse): void;
+    onRoleDeleteError(response: IRoleDeleteResponse): void;
+    onRoleDeleteBegin(): void;
 }
 
 interface IRoleDeleteResponse {
@@ -21,7 +23,14 @@ function cancelFormClick(e: JQueryEventObject) {
 
 const index: IHandleRoleDelete = {
     onRoleDeleteSuccess: (response: IRoleDeleteResponse): void => {
+        $(".ui.success.message").html(response.message).removeClass("hidden");
         $(`[data-role="${response.roleId}"]`).remove();
+    },
+    onRoleDeleteError: (response: IRoleDeleteResponse): void => {
+        $(".ui.error.message").html(response.message).removeClass("hidden");
+    },
+    onRoleDeleteBegin: (): void => {
+        $(".ui.error.message, .ui.sucess.message").addClass("hidden");
     }
 };
 

@@ -63,11 +63,16 @@ namespace Guilded.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ViewResult> EditOrCreate(EditOrCreateRoleViewModel role)
         {
+            if (!ModelState.IsValid)
+            {
+                return RoleEditorView(role.ToApplicationRole());
+            }
+
             ApplicationRole dbRole = _db.GetRoleById(role.Id);
 
             if (dbRole == null)
             {
-                dbRole = await _db.CreateRoleAsync(role.Name, role.PermissionsAsRoleClaims);
+                dbRole = await _db.CreateRoleAsync(role.ToApplicationRole());
                 ViewData[ViewDataKeys.SuccessMessages] = "Role successfully created!";
             }
             else

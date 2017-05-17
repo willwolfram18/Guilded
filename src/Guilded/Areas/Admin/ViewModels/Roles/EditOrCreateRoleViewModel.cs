@@ -1,13 +1,11 @@
-﻿using System;
+﻿using Guilded.Identity;
+using Guilded.Security.Claims;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Guilded.Identity;
-using Guilded.Security.Claims;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Guilded.Areas.Admin.ViewModels.Roles
 {
@@ -20,10 +18,6 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
         [Required]
         [MinLength(5, ErrorMessage = "A role name must contain at least {1} characers")]
         public string Name { get; set; }
-
-        [Required]
-        [HiddenInput]
-        public string ConcurrencyStamp { get; set; }
 
         public List<string> Permissions { get; set; }
 
@@ -64,8 +58,28 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
         {
             Id = role.Id;
             Name = role.Name;
-            ConcurrencyStamp = role.ConcurrencyStamp;
             Permissions.AddRange(role.Claims.Select(c => c.ClaimType));
+        }
+
+        public ApplicationRole ToApplicationRole()
+        {
+            var role = new ApplicationRole
+            {
+                Id = Id,
+                Name = Name,
+            };
+
+            foreach (var permission in PermissionsAsRoleClaims)
+            {
+                role.Claims.Add(new IdentityRoleClaim<string>
+                {
+                    ClaimType = permission.ClaimType,
+                    ClaimValue = "True",
+                    RoleId = role.Id
+                });
+            }
+
+            return role;
         }
     }
 }
