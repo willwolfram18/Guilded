@@ -1,35 +1,39 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Guilded.Security.Claims
 {
     public static class RoleClaimTypes
     {
+        public const string RoleManagementClaim = "Guilded:Admin:Roles";
+        public const string ForumsPinningClaim = "Guilded:Forums:Pin Posts";
+        public const string ForumsLockingClaim = "Guilded:Forums:Lock Posts";
+        public const string ForumsReaderClaim = "Guilded:Forums:Read Posts";
+        public const string ForumsWriterClaim = "Guilded:Forums:Write Posts";
+
         public static readonly RoleClaim RoleManagement = new RoleClaim(
-            "Guilded:Admin:Roles",
+            RoleManagementClaim,
             "Permission to create, edit, and apply roles"
         );
 
         public static readonly RoleClaim ForumsPinning = new RoleClaim
         (
-            "Guilded:Forums:Pin Posts",
+            ForumsPinningClaim,
             "Permission to pin posts in the forums"
         );
         public static readonly RoleClaim ForumsLocking = new RoleClaim
         (
-            "Guilded:Forums:Lock Posts",
+            ForumsLockingClaim,
             "Permission to lock posts in the forums"
         );
         public static readonly RoleClaim ForumsReader = new RoleClaim
         (
-            "Guilded:Forums:Read Posts",
+            ForumsReaderClaim,
             "Permission to read posts in the forums"
         );
         public static readonly RoleClaim ForumsWriter = new RoleClaim
         (
-            "Guilded:Forums:Write Posts",
+            ForumsWriterClaim,
             "Permission to create and reply to posts in the forums"
         );
 

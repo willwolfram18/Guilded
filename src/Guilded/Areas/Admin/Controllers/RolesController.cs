@@ -1,20 +1,20 @@
 ﻿using Guilded.Areas.Admin.ViewModels.Roles;
+using Guilded.Constants;
 using Guilded.Data.DAL.Core;
+using Guilded.Extensions;
 using Guilded.Identity;
+using Guilded.Security.Claims;
+using Guilded.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Guilded.Constants;
-using Guilded.Extensions;
-using Guilded.ViewModels;
-using Microsoft.AspNetCore.Http.Extensions;
 
 namespace Guilded.Areas.Admin.Controllers
 {
-
+    [Authorize(Policy = RoleClaimTypes.RoleManagementClaim)]
     public class RolesController : BaseController
     {
         public const int PageSize = 20;
