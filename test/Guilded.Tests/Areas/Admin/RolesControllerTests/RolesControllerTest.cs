@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace Guilded.Tests.Areas.Admin.RolesControllerTests
 {
-    public class RolesControllerTestBase : ControllerTestBase<RolesController>
+    public class RolesControllerTest : ControllerTest<RolesController>
     {
         protected Mock<IAdminDataContext> MockAdminDataContext;
         protected Mock<ILoggerFactory> MockLoggerFactory;

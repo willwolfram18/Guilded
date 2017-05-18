@@ -10,7 +10,7 @@ using Guilded.ViewModels;
 
 namespace Guilded.Tests.Areas.Admin.RolesControllerTests
 {
-    public class WhenIndexIsCalled : RolesControllerTestBase
+    public class WhenIndexIsCalled : RolesControllerTest
     {
         [Test]
         public void IfPageIsNotPositiveThenRedirectToPageOne([Values(-1, 0)] int page)
@@ -88,15 +88,43 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
             Assert.That(breadcrumbs.Count, Is.EqualTo(2));
         }
 
+        [Test]
+        public void ThenRolesAreInNameSortedOrder()
+        {
+            const int numRoles = 5;
+            MockAdminDataContext.Setup(db => db.GetRoles())
+                .Returns(CreateRoles(numRoles));
+
+            var result = Controller.Index() as ViewResult;
+
+            Assert.That(result, Is.Not.Null);
+
+            var viewModel = result.Model as PaginatedRolesViewModel;
+
+            Assert.That(viewModel, Is.Not.Null);
+            Assert.That(viewModel.Roles.Count, Is.EqualTo(numRoles));
+
+            for (var i = 0; i < viewModel.Roles.Count; i++)
+            {
+                for (var j = i + 1; j < viewModel.Roles.Count; j++)
+                {
+                    Assert.That(viewModel.Roles[i].Name, Is.LessThan(viewModel.Roles[j].Name));
+                }
+            }
+        }
+
         private IQueryable<Identity.ApplicationRole> CreateRoles(int numRoles)
         {
             var roles = new List<Identity.ApplicationRole>();
 
-            for (int i = 0; i < numRoles; i++)
+            for (int i = numRoles; i > 0; i--)
             {
-                roles.Add(new Identity.ApplicationRole());
+                roles.Add(new Identity.ApplicationRole
+                {
+                    Name = $"Role {i}"
+                });
             }
-
+            
             return roles.AsQueryable();
         }
     }

@@ -11,7 +11,7 @@ using Guilded.Constants;
 
 namespace Guilded.Tests.Areas.Admin.RolesControllerTests
 {
-    public class WhenEditOrCreatePostIsCalled : RolesControllerTestBase
+    public class WhenEditOrCreatePostIsCalled : RolesControllerTest
     {
         [Test]
         public async Task IfRoleDoesNotExistThenCreateRoleIsCalled()

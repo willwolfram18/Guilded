@@ -135,7 +135,10 @@ namespace Guilded.Areas.Admin.Controllers
             {
                 CurrentPage = page,
                 LastPage = (int)Math.Ceiling(allRoles.Count() / (double)PageSize),
-                Roles = rolesForPage.ToList().Select(r => new ApplicationRoleViewModel(r)).ToList(),
+                Roles = rolesForPage.ToList()
+                    .Select(r => new ApplicationRoleViewModel(r))
+                    .OrderBy(r => r.Name)
+                    .ToList(),
             };
         }
 

@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Guilded.Tests.Areas.Admin.RolesControllerTests
 {
-    public class WhenEditOrCreateIsCalled : RolesControllerTestBase
+    public class WhenEditOrCreateIsCalled : RolesControllerTest
     {
         [Test]
         public void IfRoleDoesNotExistThenNewRoleReturned([Values(null, "Failed id")] string roleId)

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Guilded.Tests.Areas.Admin.BaseControllerTests
 {
-    public class WhenViewIsCalled : ControllerTestBase<BaseController>
+    public class WhenViewIsCalled : ControllerTest<BaseController>
     {
         protected override BaseController SetUpController()
         {

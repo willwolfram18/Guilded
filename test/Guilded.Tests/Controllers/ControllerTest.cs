@@ -5,16 +5,20 @@ using Microsoft.AspNetCore.Routing;
 using Moq;
 using NUnit.Framework;
 using System.Security.Claims;
+using Guilded.Controllers;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Guilded.Tests.Controllers
 {
     [TestFixture]
-    public abstract class ControllerTestBase<TController>
-        where TController : Controller
+    public abstract class ControllerTest<TController>
+        where TController : BaseController
     {
         protected TController Controller { get; private set; }
 
         protected Mock<IUrlHelper> MockUrlHelper { get; private set; }
+
+        protected Mock<ITempDataDictionary> MockTempData { get; private set; }
 
         protected Mock<ControllerContext> MockControllerContext { get; private set; }
 
@@ -42,10 +46,12 @@ namespace Guilded.Tests.Controllers
             InitializeControllerContext();
 
             MockUrlHelper = SetUpUrlHelper();
+            MockTempData = SetUpTempData();
 
             Controller = SetUpController();
             Controller.ControllerContext = MockControllerContext.Object;
             Controller.Url = MockUrlHelper.Object;
+            Controller.TempData = MockTempData.Object;
 
             AdditionalSetUp();
         }
@@ -112,6 +118,11 @@ namespace Guilded.Tests.Controllers
         protected virtual Mock<IUrlHelper> SetUpUrlHelper()
         {
             return new Mock<IUrlHelper>();
+        }
+
+        protected virtual Mock<ITempDataDictionary> SetUpTempData()
+        {
+            return new Mock<ITempDataDictionary>();
         }
 
         /// <summary>
