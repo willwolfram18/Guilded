@@ -3,6 +3,7 @@
 @section scripts
 {
     @{ await Html.ValidationScripts(); }
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 }
 
 <div class="ui divided stackable two column grid">
@@ -43,6 +44,9 @@
                     <i class="icon asterisk"></i>
                 </div>
                 <span class="ui pointing warning raised label" asp-validation-for="ConfirmPassword"></span>
+            </div>
+            <div class="field">
+                <div class="g-recaptcha" data-sitekey="6Le-tCcTAAAAAN-JM8rfT-LxDhcTvOhtMxp1QR-h"></div>
             </div>
             <button type="submit" class="ui button primary">
                 Register

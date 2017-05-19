@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace Guilded.Areas.Account.ViewModels.Home
@@ -19,5 +20,9 @@ namespace Guilded.Areas.Account.ViewModels.Home
         [DataType(DataType.Password)]
         [Display(Name = "Confirm Password")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [FromForm(Name = "g-recaptcha-response")]
+        public string Recaptcha { get; set; }
     }
 }
