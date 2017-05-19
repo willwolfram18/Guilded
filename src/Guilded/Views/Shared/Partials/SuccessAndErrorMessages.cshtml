@@ -1,0 +1,10 @@
+﻿@{
+    var successMessages = ViewData[ViewDataKeys.SuccessMessages]?.ToString();
+    var errorMessages = ViewData[ViewDataKeys.ErrorMessages]?.ToString();
+}
+<div class="ui success message @(string.IsNullOrWhiteSpace(successMessages) ? "hidden" : "")">
+    @successMessages
+</div>
+<div class="ui error message @(string.IsNullOrWhiteSpace(errorMessages) ? "hidden" : "")">
+    @errorMessages
+</div>

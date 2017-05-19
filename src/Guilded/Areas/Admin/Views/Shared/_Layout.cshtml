@@ -1,6 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = $"Admin - {ViewData["Title"]}";
+    ViewData[ViewDataKeys.Title] = $"Admin - {ViewData["Title"]}";
+    Stack<Breadcrumb> breadcrumbs = ViewData[ViewDataKeys.Breadcrumbs] as Stack<Breadcrumb>;
 }
 
 @section styles
@@ -11,6 +12,8 @@
 <h2>
     Admin
 </h2>
+
+<guilded-breadcumbs />
 
 @RenderBody()
 

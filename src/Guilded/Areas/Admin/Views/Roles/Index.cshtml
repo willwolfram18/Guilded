@@ -1,39 +1,105 @@
 ﻿@model PaginatedRolesViewModel
 @{
     ViewData["Title"] = "Roles";
+    string pagerUrl = Url.Action("Index", "Roles", new {area = "Admin"});
+}
+
+@section scripts
+{
+    @{ await Html.ValidationScripts(); }
+    <environment names="Development">
+        <script src="js/admin/roles.js"></script>
+    </environment>
+    <environment names="Staging, Production">
+        <script src="js/admin/roles.min.js"
+                asp-append-version="true"></script>
+    </environment>
+}
+
+@section styles
+{
+    <environment names="Development">
+        <link rel="stylesheet" href="css/admin/roles.css"/>
+    </environment>
+    <environment names="Staging, Production">
+        <link rel="stylesheet" href="css/admin/roles.min.css"
+              asp-append-version="true" />
+    </environment>
 }
 
 <h3>
     Roles
 </h3>
+<p>
+    Expand any role to view the list of permissions associated with it.
+</p>
 
-<guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="/admin/roles"
-               pager-vertical-location="Top" />
-<div class="ui extra large styled fluid accordion">
-    @foreach (var role in Model.Roles)
-    {
-        <div class="title">
-            <i class="dropdown icon"></i>
-            @role.Name
-        </div>
-        <div class="content">
-            <p class="transition hidden">
-                <div class="ui relaxed list">
-                    @foreach (var permission in role.Permissions)
-                    {
-                        <div class="item">
-                            <div class="header">
-                                @permission.PermissionType
-                            </div>
-                            <div class="description">
-                                @permission.Description
-                            </div>
-                        </div>
-                    }
+@{ await Html.SuccessAndErrorMessages(); }
+
+<a class="ui small green icon button" asp-area="Admin" asp-controller="Roles" asp-action="EditOrCreate">
+    <i class="icon fa-plus-circle"></i> Create a new role
+</a>
+<br />
+<br />
+
+@if (!Model.Roles.Any())
+{
+    <div class="ui message">
+        <h3>
+            There are no roles to display!
+        </h3>
+    </div>
+}
+else
+{
+    <guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="@pagerUrl"
+                   pager-vertical-location="Top" />
+    <div id="roles-list" class="ui extra large styled fluid accordion">
+
+        @foreach (var role in Model.Roles)
+        {
+            <div class="title" data-role="@role.Id">
+                <div class="name">
+                    <i class="dropdown icon"></i>
+                    @role.Name
                 </div>
-            </p>
-        </div>
-    }
-</div>
-<guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="/admin/roles"
+                <div class="options">
+                    <div class="item">
+                        <a class="ui small circular icon button" asp-area="Admin"
+                           asp-controller="Roles" asp-action="EditOrCreate" asp-route-roleId="@role.Id">
+                            <i class="pencil icon"></i>
+                        </a>
+                    </div>
+                    <form class="item" asp-area="Admin" asp-controller="Roles" asp-action="Delete"
+                          asp-route-page="@Model.CurrentPage" asp-route-roleId="@role.Id"
+                          data-ajax="true" data-ajax-method="Delete"
+                          data-ajax-confirm="Are you sure you want to delete this role? This action cannot be undone."
+                          data-ajax-success="index.onRoleDeleteSuccess">
+                        <button type="submit" class="ui small red circular icon button">
+                            <i class="trash icon"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="content" data-role="@role.Id">
+                <p class="transition hidden">
+                    <div class="ui relaxed list">
+                        @foreach (var permission in role.Permissions)
+                        {
+                            <div class="item">
+                                <div class="header">
+                                    @permission.PermissionType
+                                </div>
+                                <div class="description">
+                                    @permission.Description
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </p>
+            </div>
+        }
+    </div>
+    <guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="@pagerUrl"
                pager-vertical-location="Bottom" />
+}

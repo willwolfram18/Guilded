@@ -1,6 +1,12 @@
+using AspNet.Security.OAuth.BattleNet;
+using Guilded.Security.Authorization;
+using Guilded.Security.Claims;
 using Guilded.Services.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -39,7 +45,23 @@ namespace Guilded
                 razorOpts.ViewLocationExpanders.Add(new PartialsFolderViewLocationExpander());
             });
 
+            services.AddAuthorization(opts =>
+            {
+                foreach (var roleClaim in RoleClaimTypes.RoleClaims)
+                {
+                    opts.AddPolicy(roleClaim.ClaimType, policy => policy.Requirements.Add(new RoleClaimAuthorizationRequirement(roleClaim)));
+                }
+            });
+            
             services.AddRouting(options => options.LowercaseUrls = true);
+            services.Configure<IdentityOptions>(opts =>
+            {
+                opts.Cookies.ApplicationCookie.LoginPath = new PathString("/account/sign-in");
+                opts.Cookies.ApplicationCookie.AccessDeniedPath = new PathString("/access-denied");
+            });
+
+            services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
+            services.AddSingleton<IAuthorizationHandler, RoleClaimAuthorizationHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +83,30 @@ namespace Guilded
 
             app.UseStaticFiles();
             app.UseIdentity();
+
+            app.UseTwitterAuthentication(new TwitterOptions
+            {
+                ConsumerKey = "test",
+                ConsumerSecret = "test"
+            });
+            app.UseGoogleAuthentication(new GoogleOptions
+            {
+                ClientId = "test",
+                ClientSecret = "test",
+            });
+            app.UseFacebookAuthentication(new FacebookOptions
+            {
+                ClientId = "test",
+                ClientSecret = "test"
+            });
+            app.UseBattleNetAuthentication(new BattleNetAuthenticationOptions
+            {
+                ClientId = "test",
+                ClientSecret = "test",
+                DisplayName = "Battle.net",
+                Region = BattleNetAuthenticationRegion.America
+            });
+
 
             app.UseMvc(routes =>
             {

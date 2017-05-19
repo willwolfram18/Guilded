@@ -1,15 +1,15 @@
-﻿using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Guilded.Controllers;
+﻿using Guilded.Areas.Account.ViewModels.Home;
+using Guilded.Constants;
 using Guilded.Identity;
 using Guilded.Services;
-using Guilded.Areas.Account.ViewModels.Home;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Guilded.Areas.Account.Controllers
 {
@@ -38,7 +38,7 @@ namespace Guilded.Areas.Account.Controllers
         [HttpGet("[area]/sign-in")]
         public ViewResult SignIn(string returnUrl = null)
         {
-            ViewData["ReturnUrl"] = returnUrl;
+            ViewData[ViewDataKeys.ReturnUrl] = returnUrl;
             return View();
         }
 

@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts
+{
+    @RenderSection("scripts", false)
+}
+
+@section styles
+{
+    <environment names="Development">
+        <link rel="stylesheet" href="css/account/external-logins.css" asp-append-version="true" />
+    </environment>
+    <environment names="Staging, Production">
+        <link rel="stylesheet" href="css/account/external-logins.min.css" asp-append-version="true" />
+    </environment>
+    @RenderSection("styles", false)
+}
+
+@RenderBody()

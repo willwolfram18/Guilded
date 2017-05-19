@@ -2,6 +2,61 @@
     ViewData["Title"] = "Hello world!";
 }
 
+@section styles
+{
+    <environment names="Development">
+        <link rel="stylesheet" href="lib/swiper/dist/css/swiper.css" />
+        <link rel="stylesheet" href="css/home/slideshow.css"
+              asp-append-version="true" />
+    </environment>
+    <environment names="Staging, Production">
+        <link rel="stylesheet" href="lib/swiper/dist/css/swiper.min.css"
+              asp-fallback-href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css" />
+        <link rel="stylesheet" href="css/home/slideshow.min.css"
+              asp-append-version="true" />
+    </environment>
+}
+
 <h3>
     Hello world!
 </h3>
+<div class="container slideshow">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img class="ui fluid image" src="images/group.jpg" />
+            </div>
+            <div class="swiper-slide">
+                <img class="ui fluid image" src="images/zarkolax.jpg" />
+            </div>
+            <div class="swiper-slide">
+                <img class="ui fluid image" src="images/celebration.jpg" />
+            </div>
+            <div class="swiper-slide" >
+                <img class="ui fluid image" src="images/hillsbrad.jpg" />
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+</div>
+
+@section scripts
+{
+    <environment names="Development">
+        <script src="lib/swiper/dist/js/swiper.js">
+        </script>
+        <script src="js/home/slideshow.js"
+                asp-append-version="true">
+        </script>
+    </environment>
+    <environment names="Staging, Production">
+        <script src="lib/swiper/dist/js/swiper.min.js"
+                asp-fallback-src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.min.js">
+        </script>
+        <script src="js/home/slideshow.min.js"
+                asp-append-version="true">
+        </script>
+    </environment>
+}

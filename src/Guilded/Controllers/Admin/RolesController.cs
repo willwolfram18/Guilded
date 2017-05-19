@@ -44,19 +44,19 @@ namespace Guilded.Controllers.Admin
             }
 
             DataModel dbRole = _db.GetRoleById(roleViewModel.Id);
-            if (dbRole == null)
-            {
-                dbRole = await _db.CreateRoleAsync(roleViewModel.Name, roleViewModel.Permissions);
-            }
-            else if (dbRole.ConcurrencyStamp == roleViewModel.ConcurrencyStamp)
-            {
-                dbRole.UpdateFromViewModel(roleViewModel);
-                dbRole = await _db.UpdateRoleAsync(dbRole);
-            }
-            else
-            {
-                return BadRequestJson(new ApplicationRoleViewModel(dbRole));
-            }
+            //if (dbRole == null)
+            //{
+            //    dbRole = await _db.CreateRoleAsync(roleViewModel.Name, roleViewModel.Permissions);
+            //}
+            //else if (dbRole.ConcurrencyStamp == roleViewModel.ConcurrencyStamp)
+            //{
+            //    dbRole.UpdateFromViewModel(roleViewModel);
+            //    dbRole = await _db.UpdateRoleAsync(dbRole);
+            //}
+            //else
+            //{
+            //    return BadRequestJson(new ApplicationRoleViewModel(dbRole));
+            //}
 
             return Json(new ApplicationRoleViewModel(dbRole));
         }

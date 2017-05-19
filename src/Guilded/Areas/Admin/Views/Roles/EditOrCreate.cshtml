@@ -1,15 +1,39 @@
-﻿@model ApplicationRoleViewModel
+﻿@using Guilded.Security.Claims
+@model EditOrCreateRoleViewModel
 @{
-    ViewData["Title"] = "Edit Role";
+    ViewData[ViewDataKeys.Title] = "Edit Role";
+}
+
+@section Scripts {
+    @{ await Html.ValidationScripts(); }
+    <environment names="Development">
+        <script src="js/admin/roles.js"></script>
+    </environment>
+    <environment names="Staging, Production">
+        <script src="js/admin/roles.min.js" asp-append-version="true"></script>
+    </environment>
+}
+
+@section styles
+{
+    <environment names="Development">
+        <link rel="stylesheet" href="css/admin/roles.css" />
+    </environment>
+    <environment names="Staging, Production">
+        <link rel="stylesheet" href="css/admin/roles.min.css"
+              asp-append-version="true" />
+    </environment>
 }
 
 <h3>
     Edit Role
 </h3>
-<form class="ui form" method="post" asp-area="Admin" asp-controller="Roles" asp-action="EditOrCreatePost">
+
+@{ await Html.SuccessAndErrorMessages(); }
+
+<form class="ui form" method="post" asp-area="Admin" asp-controller="Roles" asp-action="EditOrCreate" asp-route-roleId="@Model.Id">
     <div class="ui raised warning segment" asp-validation-summary="All"></div>
     <input asp-for="Id" />
-    <input asp-for="ConcurrencyStamp" />
     <div class="field">
         <label asp-for="Name"></label>
         <div class="ui input">
@@ -18,9 +42,45 @@
         <span class="ui raised warning pointing label" asp-validation-for="Name"></span>
     </div>
     <div class="field">
-        <strong>TODO:</strong> Place permission list here
+        <div class="inline label">
+            <label asp-for="Permissions"></label>
+            <div class="ui mini circular icon help button" data-toggle="modal" data-target="#permissionsModal">
+                <i class="icon question"></i>
+            </div>
+        </div>
+        <select class="ui dropdown" multiple="" asp-for="Permissions" asp-items="@Model.AvailablePermissions">
+        </select>
     </div>
     <button type="submit" class="ui primary button">
         Submit
     </button>
+    <a class="ui cancel button" data-href="@Url.Action("Index", "Roles", new {area = "Admin"})">
+        Cancel
+    </a>
 </form>
+<div id="permissionsModal" class="ui modal ">
+    <i class="close icon"></i>
+    <div class="header">
+        Available Permissions
+    </div>
+    <div class="content">
+        <div class="ui relaxed divided list">
+            @foreach (var roleClaim in RoleClaimTypes.RoleClaims.OrderBy(r => r.ClaimType))
+            {
+                <div class="item">
+                    <div class="header">
+                        @roleClaim.ClaimType
+                    </div>
+                    <div class="description">
+                        @roleClaim.Description
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui primary approve button">
+            Thanks!
+        </div>
+    </div>
+</div>

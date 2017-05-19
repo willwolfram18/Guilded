@@ -1,6 +1,5 @@
 ﻿using BattleNetApi.Apis.Interfaces;
 using Guilded.Common;
-using Guilded.Common.Options;
 using Guilded.Data;
 using Guilded.Data.DAL;
 using Guilded.Data.DAL.Core;
@@ -10,7 +9,6 @@ using Guilded.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Guilded.Services.Extensions
 {

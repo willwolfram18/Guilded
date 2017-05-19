@@ -1,23 +1,23 @@
-﻿using Guilded.Data.DAL.Core;
+﻿using Guilded.Areas.Admin.Controllers;
+using Guilded.Data.DAL.Core;
 using Guilded.Tests.Controllers;
 using Microsoft.Extensions.Logging;
 using Moq;
-using RoleControllerImpl = Guilded.Areas.Admin.Controllers.RolesController;
+using NUnit.Framework;
 
-namespace Guilded.Tests.Areas.Admin.RolesController
+namespace Guilded.Tests.Areas.Admin.RolesControllerTests
 {
-
-    public class RolesControllerTestBase : ControllerTestBase<RoleControllerImpl>
+    public class RolesControllerTest : ControllerTest<RolesController>
     {
         protected Mock<IAdminDataContext> MockAdminDataContext;
         protected Mock<ILoggerFactory> MockLoggerFactory;
 
-        protected override RoleControllerImpl SetUpController()
+        protected override RolesController SetUpController()
         {
             MockAdminDataContext = new Mock<IAdminDataContext>();
             MockLoggerFactory = new Mock<ILoggerFactory>();
 
-            return new RoleControllerImpl(
+            return new RolesController(
                 MockAdminDataContext.Object,
                 MockLoggerFactory.Object
             );

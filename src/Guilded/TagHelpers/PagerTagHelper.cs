@@ -36,7 +36,8 @@ namespace Guilded.TagHelpers
             output.TagName = OutputTag;
             output.TagMode = TagMode.StartTagAndEndTag;
 
-            if (LastPage == 1)
+            // Nothing to output, since there are is only one page.
+            if (LastPage == 0 || LastPage == 1)
             {
                 output.Content.SetHtmlContent("");
                 return base.ProcessAsync(context, output);
@@ -73,7 +74,7 @@ namespace Guilded.TagHelpers
         {
             var lastButton = new HtmlContentBuilder();
 
-            if (CurrentPage == LastPage)
+            if (CurrentPage == LastPage || LastPage == 0)
             {
                 return lastButton;
             }

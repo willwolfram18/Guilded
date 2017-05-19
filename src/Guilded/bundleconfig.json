@@ -16,5 +16,17 @@
     "inputFiles": [
       "wwwroot/css/shared/font-awesome.css"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/admin/roles.min.js",
+    "inputFiles": [
+      "wwwroot/js/admin/roles.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/home/slideshow.min.js",
+    "inputFiles": [
+      "wwwroot/js/home/slideshow.js"
+    ]
   }
 ]

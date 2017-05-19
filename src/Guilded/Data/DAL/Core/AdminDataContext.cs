@@ -1,11 +1,12 @@
+using Guilded.Areas.Admin.ViewModels.Roles;
+using Guilded.Data.DAL.Abstract;
+using Guilded.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Guilded.Data.DAL.Abstract;
-using Guilded.Areas.Admin.ViewModels.Roles;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using ApplicationRole = Guilded.Identity.ApplicationRole;
 
 namespace Guilded.Data.DAL.Core
@@ -37,28 +38,14 @@ namespace Guilded.Data.DAL.Core
             return _roleManager.Roles.FirstOrDefault(r => r.Id == id);
         }
 
-        public async Task<ApplicationRole> CreateRoleAsync(string roleName, IEnumerable<Permission> permissions)
+        public async Task<ApplicationRole> CreateRoleAsync(ApplicationRole roleToCreate)
         {
-            ApplicationRole newRole = new ApplicationRole
-            {
-                Name = roleName
-            };
-            foreach (var permission in permissions)
-            {
-                newRole.Claims.Add(new IdentityRoleClaim<string>
-                {
-                    ClaimType = permission.PermissionType,
-                    ClaimValue = "True",
-                    RoleId = newRole.Id
-                });
-            }
-
-            var result = await _roleManager.CreateAsync(newRole);
+            var result = await _roleManager.CreateAsync(roleToCreate);
             if (!result.Succeeded)
             {
-                throw new Exception($"Failed to create role '{roleName}'");
+                throw new Exception($"Failed to create role '{roleToCreate.Name}'");
             }
-            return GetRoleById(newRole.Id);
+            return GetRoleById(roleToCreate.Id);
         }
 
         public async Task<ApplicationRole> UpdateRoleAsync(ApplicationRole roleToUpdate)
@@ -66,7 +53,7 @@ namespace Guilded.Data.DAL.Core
             var result = await _roleManager.UpdateAsync(roleToUpdate);
             if (!result.Succeeded)
             {
-                throw new Exception($"Failed to update role '{roleToUpdate.Name}'");
+                throw new Exception($"Failed to update role '{roleToUpdate.Name}': {result.Errors.First().Description}");
             }
             return GetRoleById(roleToUpdate.Id);
         }
