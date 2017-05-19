@@ -5,6 +5,7 @@ using Guilded.Services.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -53,6 +54,12 @@ namespace Guilded
             });
             
             services.AddRouting(options => options.LowercaseUrls = true);
+            services.Configure<IdentityOptions>(opts =>
+            {
+                opts.Cookies.ApplicationCookie.LoginPath = new PathString("/account/sign-in");
+                opts.Cookies.ApplicationCookie.AccessDeniedPath = new PathString("/access-denied");
+            });
+
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
             services.AddSingleton<IAuthorizationHandler, RoleClaimAuthorizationHandler>();
         }

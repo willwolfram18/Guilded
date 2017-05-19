@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Guilded.Security.Authorization
@@ -21,10 +22,28 @@ namespace Guilded.Security.Authorization
             _roleManager = roleManager;
         }
 
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, RoleClaimAuthorizationRequirement requirement)
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, RoleClaimAuthorizationRequirement requirement)
         {
-            context.Succeed(requirement);
-            return Task.CompletedTask;
+            if (!context.User.Identity.IsAuthenticated)
+            {
+                context.Fail();
+                return;
+            }
+
+            var currentUser = await _userManager.GetUserAsync(context.User);
+            var userRoleNames = await _userManager.GetRolesAsync(currentUser);
+
+            var userRoles = _roleManager.Roles.Where(r => userRoleNames.Contains(r.Name));
+            var roleClaims = userRoles.SelectMany(r => r.Claims.Select(c => c.ClaimType));
+
+            if (roleClaims.Contains(requirement.RequiredRoleClaim.ClaimType))
+            {
+                context.Succeed(requirement);
+            }
+            else
+            {
+                context.Fail();
+            }
         }
     }
 }

@@ -6,5 +6,6 @@
         public const string Breadcrumbs = "Breadcrumbs";
         public const string ErrorMessages = "ErrorMessages";
         public const string SuccessMessages = "SuccessMessages";
+        public const string ReturnUrl = "ReturnUrl";
     }
 }

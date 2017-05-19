@@ -11,5 +11,11 @@ namespace Guilded.Controllers
         {
             return View();
         }
+
+        [Route("access-denied")]
+        public ViewResult AccessDenied()
+        {
+            return View();
+        }
     }
 }
