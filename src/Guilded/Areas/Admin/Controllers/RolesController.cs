@@ -1,6 +1,6 @@
 ﻿using Guilded.Areas.Admin.ViewModels.Roles;
 using Guilded.Constants;
-using Guilded.Data.DAL.Core;
+using Guilded.Areas.Admin.Data.DAL;
 using Guilded.Extensions;
 using Guilded.Identity;
 using Guilded.Security.Claims;
@@ -19,10 +19,10 @@ namespace Guilded.Areas.Admin.Controllers
     {
         public const int PageSize = 20;
 
-        private readonly IAdminDataContext _db;
+        private readonly IRolesDataContext _db;
         private readonly ILogger _log;
 
-        public RolesController(IAdminDataContext db,
+        public RolesController(IRolesDataContext db,
             ILoggerFactory loggerFactory)
         {
             _db = db;

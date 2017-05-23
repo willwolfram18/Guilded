@@ -2,7 +2,7 @@
 using Guilded.Common;
 using Guilded.Data;
 using Guilded.Data.DAL;
-using Guilded.Data.DAL.Core;
+using Guilded.Areas.Admin.Data.DAL;
 using Guilded.Data.DAL.Home;
 using Guilded.Data.Models.Home;
 using Guilded.Identity;
@@ -59,8 +59,7 @@ namespace Guilded.Services.Extensions
         {
             services.AddTransient<IReadOnlyRepository<GuildActivity>, GuildActivityRepo>();
             services.AddTransient<IGuildActivityReadOnlyDataContext, GuildActivityReadOnlyDataContext>();
-            services.AddTransient<IPermissionsRepository, PermissionsRepository>();
-            services.AddTransient<IAdminDataContext, AdminDataContext>();
+            services.AddTransient<IRolesDataContext, RolesDataContext>();
         }
     }
 }

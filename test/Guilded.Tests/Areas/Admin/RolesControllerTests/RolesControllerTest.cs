@@ -1,5 +1,5 @@
 ﻿using Guilded.Areas.Admin.Controllers;
-using Guilded.Data.DAL.Core;
+using Guilded.Areas.Admin.Data.DAL;
 using Guilded.Tests.Controllers;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -9,12 +9,12 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
 {
     public class RolesControllerTest : ControllerTest<RolesController>
     {
-        protected Mock<IAdminDataContext> MockAdminDataContext;
+        protected Mock<IRolesDataContext> MockAdminDataContext;
         protected Mock<ILoggerFactory> MockLoggerFactory;
 
         protected override RolesController SetUpController()
         {
-            MockAdminDataContext = new Mock<IAdminDataContext>();
+            MockAdminDataContext = new Mock<IRolesDataContext>();
             MockLoggerFactory = new Mock<ILoggerFactory>();
 
             return new RolesController(

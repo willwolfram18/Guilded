@@ -1,14 +1,12 @@
-using Guilded.Areas.Admin.ViewModels.Roles;
-using Guilded.Security.Claims;
+using Guilded.Data.DAL;
+using Guilded.Identity;
 using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Guilded.Identity;
 
-namespace Guilded.Data.DAL.Core
+namespace Guilded.Areas.Admin.Data.DAL
 {
-    public interface IAdminDataContext : IReadWriteDataContext
+    public interface IRolesDataContext : IReadWriteDataContext
     {
         IQueryable<ApplicationRole> GetRoles();
 
@@ -19,7 +17,5 @@ namespace Guilded.Data.DAL.Core
         Task<ApplicationRole> UpdateRoleAsync(ApplicationRole roleToUpdate);
 
         Task<IdentityResult> DeleteRole(ApplicationRole roleToDelete);
-
-        IEnumerable<Permission> GetPermissions();
     }
 }

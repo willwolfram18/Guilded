@@ -1,31 +1,21 @@
-using Guilded.Areas.Admin.ViewModels.Roles;
+using Guilded.Data;
 using Guilded.Data.DAL.Abstract;
-using Guilded.Security.Claims;
+using Guilded.Identity;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ApplicationRole = Guilded.Identity.ApplicationRole;
 
-namespace Guilded.Data.DAL.Core
+namespace Guilded.Areas.Admin.Data.DAL
 {
-    public class AdminDataContext : ReadWriteDataContextBase, IAdminDataContext
+    public class RolesDataContext : ReadWriteDataContextBase, IRolesDataContext
     {
-        #region Properties
-        #region Private Properties
         private readonly RoleManager<ApplicationRole> _roleManager;
-        private readonly IPermissionsRepository _permissions;
-        #endregion
-        #endregion
 
-        public AdminDataContext(ApplicationDbContext context,
-            RoleManager<ApplicationRole> roleManager,
-            IPermissionsRepository permissions) : base(context)
+        public RolesDataContext(ApplicationDbContext context,
+            RoleManager<ApplicationRole> roleManager) : base(context)
         {
             _roleManager = roleManager;
-            _permissions = permissions;
         }
 
         public IQueryable<ApplicationRole> GetRoles()
@@ -56,11 +46,6 @@ namespace Guilded.Data.DAL.Core
                 throw new Exception($"Failed to update role '{roleToUpdate.Name}': {result.Errors.First().Description}");
             }
             return GetRoleById(roleToUpdate.Id);
-        }
-
-        public IEnumerable<Permission> GetPermissions()
-        {
-            return _permissions.Get();
         }
 
         public async Task<IdentityResult> DeleteRole(ApplicationRole roleToDelete)

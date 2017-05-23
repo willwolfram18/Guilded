@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Guilded.Areas.Admin.Data.DAL;
 using Guilded.Areas.Admin.ViewModels.Roles;
 using Guilded.Identity;
 using Guilded.ViewModels;
@@ -13,9 +14,9 @@ namespace Guilded.Areas.Admin.Controllers
 {
     public class UsersController : BaseController
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUsersDataContext _userManager;
 
-        public UsersController(UserManager<ApplicationUser> userManager)
+        public UsersController(IUsersDataContext userManager)
         {
             _userManager = userManager;
         }
@@ -29,5 +30,7 @@ namespace Guilded.Areas.Admin.Controllers
 
             return View();
         }
+
+
     }
 }
