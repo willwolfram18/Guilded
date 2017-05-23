@@ -74,6 +74,8 @@ namespace Guilded.Areas.Admin.Controllers
             {
                 dbRole = await _db.CreateRoleAsync(role.ToApplicationRole());
                 ViewData[ViewDataKeys.SuccessMessages] = "Role successfully created!";
+
+                _log.LogInformation(EventIdRangeStart + 1, $"{User.Identity.Name} created role {role.Name} ({role.Id}).");
             }
             else
             {
@@ -82,11 +84,14 @@ namespace Guilded.Areas.Admin.Controllers
                     dbRole.UpdateFromViewModel(role);
                     dbRole = await _db.UpdateRoleAsync(dbRole);
                     ViewData[ViewDataKeys.SuccessMessages] = "Role successfully updated!";
+
+                    _log.LogInformation(EventIdRangeStart + 2, $"{User.Identity.Name} updated role {role.Name} ({role.Id}).");
+
                 }
                 catch (Exception e)
                 {
                     ViewData[ViewDataKeys.ErrorMessages] = "An error occurred while attempting to save the role.";
-                    _log.LogError(10, e.Message, e);
+                    _log.LogError(EventIdRangeStart + 3, e.Message, e);
                 }
             }
 
@@ -107,9 +112,13 @@ namespace Guilded.Areas.Admin.Controllers
             var result = await _db.DeleteRole(role);
             if (!result.Succeeded)
             {
+                _log.LogError(EventIdRangeStart + 4, $"{User.Identity.Name} failed to delete role {role.Name}: " +
+                    $"{string.Join(",", result.Errors.Select(e => e.Description))}");
+
                 return StatusCode(500, "Failed to delete role.");
             }
 
+            _log.LogInformation(EventIdRangeStart + 5, $"{User.Identity.Name} deleted role {role.Name} ({role.Id}).");
             return Ok(new { message = $"Successfully deleted '{role.Name}'!", roleId });
         }
 
@@ -128,7 +137,7 @@ namespace Guilded.Areas.Admin.Controllers
         {
             int zeroIndexPage = page - 1;
 
-            var allRoles = _db.GetRoles();
+            var allRoles = _db.GetRoles().OrderBy(r => r.Name);
             var rolesForPage = allRoles.Skip(PageSize * zeroIndexPage).Take(PageSize);
 
             return new PaginatedViewModel<ApplicationRoleViewModel>
@@ -137,7 +146,6 @@ namespace Guilded.Areas.Admin.Controllers
                 LastPage = (int)Math.Ceiling(allRoles.Count() / (double)PageSize),
                 Models = rolesForPage.ToList()
                     .Select(r => new ApplicationRoleViewModel(r))
-                    .OrderBy(r => r.Name)
                     .ToList(),
             };
         }

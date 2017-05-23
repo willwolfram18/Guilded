@@ -1,6 +1,6 @@
 ﻿@model PaginatedViewModel<ApplicationRoleViewModel>
 @{
-    ViewData["Title"] = "Roles";
+    ViewData[ViewDataKeys.Title] = "Roles";
     string pagerUrl = Url.Action("Index", "Roles", new {area = "Admin"});
 }
 
