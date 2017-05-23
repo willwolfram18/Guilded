@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Guilded.Areas.Admin.Data.DAL;
 using Guilded.Areas.Admin.ViewModels.Roles;
 using Guilded.Areas.Admin.ViewModels.Users;
+using Guilded.Constants;
 using Guilded.Identity;
 using Guilded.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -17,21 +18,22 @@ namespace Guilded.Areas.Admin.Controllers
     {
         public const int PageSize = 20;
 
-        private readonly IUsersDataContext _db;
+        private readonly IUsersDataContext _usersDataContext;
 
-        public UsersController(IUsersDataContext db)
+        public UsersController(IUsersDataContext usersDataContext,
+            IRolesDataContext rolesDataContext)
         {
-            _db = db;
+            _usersDataContext = usersDataContext;
         }
 
-        public IActionResult Index(int page = 1)
+        public async Task<IActionResult> Index(int page = 1)
         {
             if (page <= 0)
             {
                 return RedirectToAction(nameof(Index));
             }
 
-            var viewModel = GetUsers(page);
+            var viewModel = await GetUsers(page);
 
             if (viewModel.LastPage == 0 && page != 1)
             {
@@ -45,6 +47,20 @@ namespace Guilded.Areas.Admin.Controllers
             return View(viewModel);
         }
 
+        [HttpGet("[area]/[controller]/edit/{userId}")]
+        public async Task<IActionResult> Edit(string userId)
+        {
+            var user = await _usersDataContext.GetUserByIdAsync(userId);
+
+            if (user == null)
+            {
+                TempData[ViewDataKeys.ErrorMessages] = "That user doesn't appear to exist.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View();
+        }
+
         public override ViewResult View(string viewName, object model)
         {
             Breadcrumbs.Push(new Breadcrumb
@@ -56,20 +72,26 @@ namespace Guilded.Areas.Admin.Controllers
             return base.View(viewName, model);
         }
 
-        private PaginatedViewModel<ApplicationUserViewModel> GetUsers(int page)
+        private async Task<PaginatedViewModel<ApplicationUserViewModel>> GetUsers(int page)
         {
             var zeroIndexPage = page - 1;
-            var allUsers = _db.GetUsers().OrderBy(u => u.UserName);
+            var allUsers = _usersDataContext.GetUsers().OrderBy(u => u.UserName);
             var usersForPage = allUsers.Skip(PageSize * zeroIndexPage).Take(PageSize);
-
-            return new PaginatedViewModel<ApplicationUserViewModel>
+            var viewModel = new PaginatedViewModel<ApplicationUserViewModel>
             {
                 CurrentPage = page,
                 LastPage = (int)Math.Ceiling(allUsers.Count() / (double)PageSize),
-                Models = usersForPage.ToList()
-                    .Select(u => new ApplicationUserViewModel(u))
-                    .ToList()
             };
+
+            foreach (var user in usersForPage)
+            {
+                viewModel.Models.Add(new ApplicationUserViewModel(
+                    user,
+                    await _usersDataContext.GetRoleForUserAsync(user)
+                ));
+            }
+
+            return viewModel;
         }
     }
 }

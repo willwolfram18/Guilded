@@ -22,21 +22,48 @@ else
 {
     <guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="@pagerUrl"
                    pager-vertical-location="Top" />
-    <table id="usersList" class="ui extra large striped table">
+    <table id="usersList" class="ui extra large striped celled table">
         <thead>
         <tr>
-            <th>@Html.LabelFor(m => m.Models.FirstOrDefault().UserName)</th>
-            <th>@Html.LabelFor(m => m.Models.FirstOrDefault().Email)</th>
+            <th>
+                @Html.LabelFor(m => m.Models.FirstOrDefault().UserName)
+            </th>
+            <th>
+                @Html.LabelFor(m => m.Models.FirstOrDefault().Email)
+            </th>
+            <th>
+                @Html.LabelFor(m => m.Models.FirstOrDefault().Role)
+            </th>
+            <th>
+                Actions
+            </th>
         </tr>
         </thead>
         <tbody>
         @foreach (var user in Model.Models)
         {
             <tr>
-                <td>@Html.DisplayFor(m => user.UserName)</td>
-                <td>@Html.DisplayFor(m => user.Email)</td>
+                <td>
+                    @Html.DisplayFor(m => user.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => user.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => user.Role)
+                </td>
+                <td class="options">
+                    <div class="item">
+                        <a class="ui small circular icon button" asp-area="Admin"
+                           asp-controller="Users" asp-action="Edit" asp-route-userId="@user.Id">
+                            <i class="pencil icon"></i>
+                        </a>
+                    </div>
+                </td>
             </tr>
         }
         </tbody>
     </table>
+    <guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="@pagerUrl"
+                   pager-vertical-location="Bottom" />
 }

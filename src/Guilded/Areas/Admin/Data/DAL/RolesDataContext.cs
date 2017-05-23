@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Guilded.Areas.Admin.Data.DAL
 {
@@ -26,6 +27,11 @@ namespace Guilded.Areas.Admin.Data.DAL
         public ApplicationRole GetRoleById(string id)
         {
             return _roleManager.Roles.FirstOrDefault(r => r.Id == id);
+        }
+
+        public Task<ApplicationRole> GetRoleByName(string roleName)
+        {
+            return _roleManager.Roles.FirstOrDefaultAsync(r => r.Name == roleName);
         }
 
         public async Task<ApplicationRole> CreateRoleAsync(ApplicationRole roleToCreate)

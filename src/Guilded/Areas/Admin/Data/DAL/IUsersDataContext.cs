@@ -9,6 +9,8 @@ namespace Guilded.Areas.Admin.Data.DAL
     {
         IQueryable<ApplicationUser> GetUsers();
 
-        Task<ApplicationUser> GetUserById(string id);
+        Task<ApplicationUser> GetUserByIdAsync(string id);
+
+        Task<string> GetRoleForUserAsync(ApplicationUser user);
     }
 }

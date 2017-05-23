@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Guilded.ViewModels
 {
@@ -13,5 +9,10 @@ namespace Guilded.ViewModels
         public int LastPage { get; set; }
 
         public List<TViewModel> Models { get; set; }
+
+        public PaginatedViewModel()
+        {
+            Models = new List<TViewModel>();
+        }
     }
 }

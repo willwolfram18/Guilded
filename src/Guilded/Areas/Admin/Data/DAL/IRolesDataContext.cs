@@ -12,6 +12,8 @@ namespace Guilded.Areas.Admin.Data.DAL
 
         ApplicationRole GetRoleById(string id);
 
+        Task<ApplicationRole> GetRoleByName(string name);
+
         Task<ApplicationRole> CreateRoleAsync(ApplicationRole roleToCreate);
 
         Task<ApplicationRole> UpdateRoleAsync(ApplicationRole roleToUpdate);
