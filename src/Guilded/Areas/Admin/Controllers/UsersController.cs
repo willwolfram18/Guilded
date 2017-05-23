@@ -58,7 +58,7 @@ namespace Guilded.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View();
+            return await UserEditorView(user);
         }
 
         public override ViewResult View(string viewName, object model)
@@ -70,6 +70,17 @@ namespace Guilded.Areas.Admin.Controllers
             });
 
             return base.View(viewName, model);
+        }
+
+        private async Task<ViewResult> UserEditorView(ApplicationUser user)
+        {
+            Breadcrumbs.Push(new Breadcrumb
+            {
+                Title = "Edit User",
+                Url = Url.Action(nameof(Edit), new { userId = user.Id})
+            });
+
+            return View("Edit", new ApplicationUserViewModel(user, await _usersDataContext.GetRoleForUserAsync(user)));
         }
 
         private async Task<PaginatedViewModel<ApplicationUserViewModel>> GetUsers(int page)
