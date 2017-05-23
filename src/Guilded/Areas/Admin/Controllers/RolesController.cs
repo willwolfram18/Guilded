@@ -124,18 +124,18 @@ namespace Guilded.Areas.Admin.Controllers
             return base.View(viewName, model);
         }
 
-        private PaginatedRolesViewModel GetRoles(int page)
+        private PaginatedViewModel<ApplicationRoleViewModel> GetRoles(int page)
         {
             int zeroIndexPage = page - 1;
 
             var allRoles = _db.GetRoles();
             var rolesForPage = allRoles.Skip(PageSize * zeroIndexPage).Take(PageSize);
 
-            return new PaginatedRolesViewModel
+            return new PaginatedViewModel<ApplicationRoleViewModel>
             {
                 CurrentPage = page,
                 LastPage = (int)Math.Ceiling(allRoles.Count() / (double)PageSize),
-                Roles = rolesForPage.ToList()
+                Models = rolesForPage.ToList()
                     .Select(r => new ApplicationRoleViewModel(r))
                     .OrderBy(r => r.Name)
                     .ToList(),

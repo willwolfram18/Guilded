@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Guilded.Areas.Admin.ViewModels.Roles
+namespace Guilded.ViewModels
 {
-    public class PaginatedRolesViewModel
+    public class PaginatedViewModel<TViewModel>
     {
         public int CurrentPage { get; set; }
 
         public int LastPage { get; set; }
 
-        public List<ApplicationRoleViewModel> Roles { get; set; }
+        public List<TViewModel> Models { get; set; }
     }
 }

@@ -1,15 +1,17 @@
 ﻿using Guilded.Areas.Admin.Controllers;
 using Guilded.Areas.Admin.ViewModels.Roles;
+using Guilded.Constants;
+using Guilded.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using Guilded.Constants;
-using Guilded.ViewModels;
 
 namespace Guilded.Tests.Areas.Admin.RolesControllerTests
 {
+    using ViewModel = PaginatedViewModel<ApplicationRoleViewModel>;
+
     public class WhenIndexIsCalled : RolesControllerTest
     {
         [Test]
@@ -37,10 +39,10 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
 
             Assert.That(result, Is.Not.Null);
 
-            var viewModel = result.Model as PaginatedRolesViewModel;
+            var viewModel = result.Model as ViewModel;
 
             Assert.That(viewModel, Is.Not.Null);
-            Assert.That(viewModel.Roles, Is.Empty);
+            Assert.That(viewModel.Models, Is.Empty);
         }
 
         [Test]
@@ -69,10 +71,10 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
 
             Assert.That(result, Is.Not.Null);
 
-            var viewModel = result.Model as PaginatedRolesViewModel;
+            var viewModel = result.Model as ViewModel;
 
             Assert.That(viewModel, Is.Not.Null);
-            Assert.That(viewModel.Roles.Count, Is.EqualTo(1));
+            Assert.That(viewModel.Models.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -99,16 +101,16 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
 
             Assert.That(result, Is.Not.Null);
 
-            var viewModel = result.Model as PaginatedRolesViewModel;
+            var viewModel = result.Model as ViewModel;
 
             Assert.That(viewModel, Is.Not.Null);
-            Assert.That(viewModel.Roles.Count, Is.EqualTo(numRoles));
+            Assert.That(viewModel.Models.Count, Is.EqualTo(numRoles));
 
-            for (var i = 0; i < viewModel.Roles.Count; i++)
+            for (var i = 0; i < viewModel.Models.Count; i++)
             {
-                for (var j = i + 1; j < viewModel.Roles.Count; j++)
+                for (var j = i + 1; j < viewModel.Models.Count; j++)
                 {
-                    Assert.That(viewModel.Roles[i].Name, Is.LessThan(viewModel.Roles[j].Name));
+                    Assert.That(viewModel.Models[i].Name, Is.LessThan(viewModel.Models[j].Name));
                 }
             }
         }
