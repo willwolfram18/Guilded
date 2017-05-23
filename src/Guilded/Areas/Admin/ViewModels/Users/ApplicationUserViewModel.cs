@@ -1,4 +1,5 @@
-﻿using Guilded.Identity;
+﻿using System.ComponentModel.DataAnnotations;
+using Guilded.Identity;
 
 namespace Guilded.Areas.Admin.ViewModels.Users
 {
@@ -6,21 +7,23 @@ namespace Guilded.Areas.Admin.ViewModels.Users
     {
         public string Id { get; set; }
 
-        public string Username { get; set; }
+        [Display(Name = "Username")]
+        public string UserName { get; set; }
 
+        [EmailAddress]
         public string Email { get; set; }
 
         public ApplicationUserViewModel()
         {
             Id = null;
-            Username = null;
+            UserName = null;
             Email = null;
         }
 
         public ApplicationUserViewModel(ApplicationUser user)
         {
             Id = user.Id;
-            Username = user.UserName;
+            UserName = user.UserName;
             Email = user.Email;
         }
     }

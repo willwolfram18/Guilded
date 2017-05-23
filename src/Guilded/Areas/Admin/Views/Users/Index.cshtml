@@ -1,1 +1,42 @@
-﻿
+﻿@model PaginatedViewModel<ApplicationUserViewModel>
+@{
+    ViewData[ViewDataKeys.Title] = "Users";
+    string pagerUrl = Url.Action("Index", "Users", new {area = "Admin"});
+}
+
+<h3>
+    Users
+</h3>
+
+@{ await Html.SuccessAndErrorMessages(); }
+
+@if (!Model.Models.Any())
+{
+    <div class="ui message">
+        <h3>
+            There are no users to display!
+        </h3>
+    </div>
+}
+else
+{
+    <guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="@pagerUrl"
+                   pager-vertical-location="Top" />
+    <table id="usersList" class="ui extra large striped table">
+        <thead>
+        <tr>
+            <th>@Html.LabelFor(m => m.Models.FirstOrDefault().UserName)</th>
+            <th>@Html.LabelFor(m => m.Models.FirstOrDefault().Email)</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var user in Model.Models)
+        {
+            <tr>
+                <td>@Html.DisplayFor(m => user.UserName)</td>
+                <td>@Html.DisplayFor(m => user.Email)</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

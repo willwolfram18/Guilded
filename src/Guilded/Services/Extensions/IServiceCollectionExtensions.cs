@@ -60,6 +60,7 @@ namespace Guilded.Services.Extensions
             services.AddTransient<IReadOnlyRepository<GuildActivity>, GuildActivityRepo>();
             services.AddTransient<IGuildActivityReadOnlyDataContext, GuildActivityReadOnlyDataContext>();
             services.AddTransient<IRolesDataContext, RolesDataContext>();
+            services.AddTransient<IUsersDataContext, UsersDataContext>();
         }
     }
 }
