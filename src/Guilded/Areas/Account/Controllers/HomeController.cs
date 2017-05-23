@@ -7,7 +7,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -15,6 +19,8 @@ namespace Guilded.Areas.Account.Controllers
 {
     public class HomeController : BaseController
     {
+        private const string GoogleRecaptchaBase = "https://www.google.com/";
+
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
@@ -89,9 +95,9 @@ namespace Guilded.Areas.Account.Controllers
         public async Task<IActionResult> Register(RegisterUserViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            if (ModelState.IsValid)
+            if (await RecaptchaIsValid(model.Recaptcha) && ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Username, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -419,6 +425,47 @@ namespace Guilded.Areas.Account.Controllers
             }
 
             return RedirectToAction(nameof(Guilded.Controllers.HomeController.Index), "Home", new { area = "" });
+        }
+
+        private async Task<bool> RecaptchaIsValid(string recaptchaValue)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(GoogleRecaptchaBase);
+
+                // TODO: Include Google Recaptcha
+                var response = await client.PostAsync($"recaptcha/api/siteverify?response={recaptchaValue}&secret=", new StringContent(string.Empty));
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return false;
+                }
+
+                var responseStr = await response.Content.ReadAsStringAsync();
+                var recaptchaResponse = JsonConvert.DeserializeObject<RecaptchaResponse>(responseStr);
+
+                foreach (var error in recaptchaResponse.ErrorCodes)
+                {
+                    ModelState.AddModelError("", error);
+                }
+
+                return recaptchaResponse.Success;
+            }
+        }
+
+        private class RecaptchaResponse
+        {
+            [JsonProperty("success")]
+            public bool Success { get; set; }
+
+            [JsonProperty("challenge_ts")]
+            public DateTime ChallengeTimeStamp { get; set; }
+
+            [JsonProperty("hostname")]
+            public string Hostname { get; set; }
+
+            [JsonProperty("error-codes")]
+            public List<string> ErrorCodes { get; set; } = new List<string>();
         }
     }
 }
