@@ -10,9 +10,9 @@ namespace Guilded.Areas.Admin.Data.DAL
     {
         IQueryable<ApplicationRole> GetRoles();
 
-        ApplicationRole GetRoleById(string id);
+        Task<ApplicationRole> GetRoleByIdAsync(string id);
 
-        Task<ApplicationRole> GetRoleByName(string name);
+        Task<ApplicationRole> GetRoleByNameAsync(string name);
 
         Task<ApplicationRole> CreateRoleAsync(ApplicationRole roleToCreate);
 

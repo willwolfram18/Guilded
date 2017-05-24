@@ -24,12 +24,12 @@ namespace Guilded.Areas.Admin.Data.DAL
             return _roleManager.Roles;
         }
 
-        public ApplicationRole GetRoleById(string id)
+        public Task<ApplicationRole> GetRoleByIdAsync(string id)
         {
-            return _roleManager.Roles.FirstOrDefault(r => r.Id == id);
+            return _roleManager.Roles.FirstOrDefaultAsync(r => r.Id == id);
         }
 
-        public Task<ApplicationRole> GetRoleByName(string roleName)
+        public Task<ApplicationRole> GetRoleByNameAsync(string roleName)
         {
             return _roleManager.Roles.FirstOrDefaultAsync(r => r.Name == roleName);
         }
@@ -41,7 +41,7 @@ namespace Guilded.Areas.Admin.Data.DAL
             {
                 throw new Exception($"Failed to create role '{roleToCreate.Name}'");
             }
-            return GetRoleById(roleToCreate.Id);
+            return await GetRoleByIdAsync(roleToCreate.Id);
         }
 
         public async Task<ApplicationRole> UpdateRoleAsync(ApplicationRole roleToUpdate)
@@ -51,7 +51,7 @@ namespace Guilded.Areas.Admin.Data.DAL
             {
                 throw new Exception($"Failed to update role '{roleToUpdate.Name}': {result.Errors.First().Description}");
             }
-            return GetRoleById(roleToUpdate.Id);
+            return await GetRoleByIdAsync(roleToUpdate.Id);
         }
 
         public async Task<IdentityResult> DeleteRole(ApplicationRole roleToDelete)
