@@ -23,6 +23,7 @@
   <ItemGroup>
     <Content Include="wwwroot\css\account\external-logins.less" />
     <Content Include="wwwroot\css\admin\roles.less" />
+    <Content Include="wwwroot\css\admin\users.less" />
     <Content Include="wwwroot\css\home\slideshow.less" />
     <Content Include="wwwroot\css\shared\_colors.less" />
     <Content Include="wwwroot\css\shared\font-awesome.css" />

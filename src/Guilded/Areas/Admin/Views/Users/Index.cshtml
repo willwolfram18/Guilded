@@ -4,6 +4,15 @@
     string pagerUrl = Url.Action("Index", "Users", new {area = "Admin"});
 }
 
+@section Styles {
+    <environment names="Development">
+        <link rel="stylesheet" href="css/admin/users.css" />
+    </environment>
+    <environment names="Staging, Production">
+        <link rel="stylesheet" href="css/admin/users.min.css" asp-append-version="true" />
+    </environment>
+}
+
 <h3>
     Users
 </h3>
@@ -42,7 +51,7 @@ else
         <tbody>
         @foreach (var user in Model.Models)
         {
-            <tr>
+            <tr class="@(!user.IsEnabled ? "disabled" : "") user">
                 <td>
                     @Html.DisplayFor(m => user.UserName)
                 </td>
@@ -58,6 +67,16 @@ else
                            asp-controller="Users" asp-action="Edit" asp-route-userId="@user.Id">
                             <i class="pencil icon"></i>
                         </a>
+                    </div>
+                    <div class="item">
+                        <div class="ui small circular @(user.IsEnabled ? "red" : "green") icon button">
+                            <i class="power icon"></i>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="ui small circular icon button">
+                            <i class="fa-ellipsis-h icon"></i>
+                        </div>
                     </div>
                 </td>
             </tr>

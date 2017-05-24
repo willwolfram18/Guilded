@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Guilded.Identity;
 
@@ -16,6 +17,10 @@ namespace Guilded.Areas.Admin.ViewModels.Users
 
         public string Role { get; set; }
 
+        public bool IsEnabled { get; set; }
+
+        public DateTime? EnabledAfter { get; set; }
+
         public ApplicationUserViewModel()
         {
             Id = null;
@@ -30,6 +35,8 @@ namespace Guilded.Areas.Admin.ViewModels.Users
             UserName = user.UserName;
             Email = user.Email;
             Role = userRole;
+            IsEnabled = user.IsEnabled;
+            EnabledAfter = user.EnabledAfter;
         }
     }
 }
