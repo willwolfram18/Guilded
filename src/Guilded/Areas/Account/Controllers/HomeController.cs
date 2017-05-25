@@ -14,6 +14,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Guilded.Areas.Account.Controllers
 {
@@ -60,7 +61,14 @@ namespace Guilded.Areas.Account.Controllers
 
             ViewData["ReturnUrl"] = returnUrl;
 
-            var result = await _signInManager.PasswordSignInAsync(user.Email, user.Password, user.RememberMe, false);
+            var appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+            if (!appUser.IsEnabled || appUser.IsTemporarilyDisabled)
+            {
+                ModelState.AddModelError(string.Empty, "Your account is currently disabled and cannot be logged in to.");
+                return View(user);
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(appUser?.UserName, user.Password, user.RememberMe, false);
 
             if (result.Succeeded)
             {
@@ -97,7 +105,12 @@ namespace Guilded.Areas.Account.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (await RecaptchaIsValid(model.Recaptcha) && ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Username, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Username,
+                    Email = model.Email,
+                    IsEnabled = true,
+                };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

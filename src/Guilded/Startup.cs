@@ -1,6 +1,7 @@
 using AspNet.Security.OAuth.BattleNet;
 using Guilded.Security.Authorization;
 using Guilded.Security.Claims;
+using Guilded.Security.Extensions;
 using Guilded.Services.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -47,6 +48,8 @@ namespace Guilded
 
             services.AddAuthorization(opts =>
             {
+                opts.AddPolicy(AuthorizeEnabledUserAttribute.PolicyName, policy => policy.Requirements.Add(new EnabledUserRequirement()));
+
                 foreach (var roleClaim in RoleClaimTypes.RoleClaims)
                 {
                     opts.AddPolicy(roleClaim.ClaimType, policy => policy.Requirements.Add(new RoleClaimAuthorizationRequirement(roleClaim)));
@@ -61,7 +64,7 @@ namespace Guilded
             });
 
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
-            services.AddSingleton<IAuthorizationHandler, RoleClaimAuthorizationHandler>();
+            services.AddRequirementHandlers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

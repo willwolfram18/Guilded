@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using Guilded.Constants;
+using Guilded.Security.Authorization;
 using Guilded.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Guilded.Areas.Admin.Controllers
 {
-    [Authorize]
+    [AuthorizeEnabledUser]
     [Area("Admin")]
     public class BaseController : Guilded.Controllers.BaseController
     {
