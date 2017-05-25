@@ -60,7 +60,7 @@ else
         <tbody>
         @foreach (var user in Model.Models)
         {
-            <tr class="@(!user.IsEnabled ? "disabled" : "") user">
+            <tr class="@(!user.IsEnabled ? "disabled" : "") user" data-id="@user.Id">
                 <td>
                     @Html.DisplayFor(m => user.UserName)
                 </td>
