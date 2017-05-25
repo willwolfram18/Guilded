@@ -1,3 +1,20 @@
 ﻿@{
     ViewData[ViewDataKeys.Title] = "Edit User";
 }
+
+<h3>
+    Edit User
+</h3>
+
+@section Scripts {
+    @{ await Html.ValidationScripts(); }
+}
+
+@{ await Html.SuccessAndErrorMessages(); }
+
+<form class="ui form" asp-area="Admin" asp-controller="Users" asp-action="Edit">
+    <div asp-validation-summary="All" class="ui raised segment"></div>
+    <div class="field">
+        
+    </div>
+</form>

@@ -8,6 +8,7 @@
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/semantic/dist/semantic.css" />
+        <link rel="stylesheet" href="lib/semantic-ui-calendar/dist/calendar.css" />
         <link rel="stylesheet" href="~/css/shared/font-awesome.css" />
         <link rel="stylesheet" href="css/shared/shared.css" />
         <link rel="stylesheet" href="~/css/shared/menu.css" />
@@ -20,6 +21,7 @@
     <environment names="Staging,Production">
         <link rel="stylesheet" href="~/lib/semantic/dist/semantic.min.css"
               asp-fallback-href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css" />
+        <link rel="stylesheet" href="lib/semantic-ui-calendar/dist/calendar.min.css" />
         <link rel="stylesheet" href="~/css/shared/font-awesome.min.css" />
         <link rel="stylesheet" href="css/shared/shared.min.css"
               asp-append-version="true" />
@@ -94,6 +96,7 @@
         <script src="js/shared/shared.js"></script>
         <script src="~/js/shared/menu.js"></script>
         <script src="js/shared/confirm-modal.js"></script>
+        <script src="lib/semantic-ui-calendar/dist/calendar.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="~/js/shared/jquery.unobtrusive-ajax-custom.min.js"
@@ -104,6 +107,7 @@
         </script>
         <script src="js/shared/confirm-modal.js"
                 asp-append-version="true"></script>
+        <script src="lib/semantic-ui-calendar/dist/calendar.min.js"></script>
     </environment>
     @RenderSection("scripts", false)
 </body>

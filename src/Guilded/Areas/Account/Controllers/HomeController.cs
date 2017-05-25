@@ -430,6 +430,7 @@ namespace Guilded.Areas.Account.Controllers
 
         private async Task<bool> RecaptchaIsValid(string recaptchaValue)
         {
+            return true;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(GoogleRecaptchaBase);

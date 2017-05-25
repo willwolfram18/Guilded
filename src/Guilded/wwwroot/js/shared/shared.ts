@@ -14,4 +14,5 @@
 
 $(document).ready(() => {
     $("[data-toggle='modal']").each(setUpModalToggles);
+    $(".ui.calendar").calendar();
 });

@@ -6,10 +6,19 @@
 
 @section Styles {
     <environment names="Development">
-        <link rel="stylesheet" href="css/admin/users.css" />
+        <link rel="stylesheet" href="css/admin/users.css"/>
     </environment>
     <environment names="Staging, Production">
-        <link rel="stylesheet" href="css/admin/users.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="css/admin/users.min.css" asp-append-version="true"/>
+    </environment>
+}
+
+@section Scripts {
+    <environment names="Development">
+        <script src="js/admin/users.js"></script>
+    </environment>
+    <environment names="Staging, Production">
+        <script src="js/admin/users.min.js"></script>
     </environment>
 }
 
@@ -69,7 +78,10 @@ else
                         </a>
                     </div>
                     <div class="item">
-                        <div class="ui small circular @(user.IsEnabled ? "red" : "green") icon button">
+                        <div class="ui small circular @(user.IsEnabled ? "hidden" : "") green icon button" data-enable-user>
+                            <i class="power icon"></i>
+                        </div>
+                        <div class="ui small circular @(user.IsEnabled ? "" : "hidden") red icon button" data-disable-user>
                             <i class="power icon"></i>
                         </div>
                     </div>
@@ -86,3 +98,11 @@ else
     <guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="@pagerUrl"
                    pager-vertical-location="Bottom" />
 }
+
+<div id="disableUserModal" class="ui modal">
+    <i class="close icon"></i>
+    <div class="header">
+        Disable user
+    </div>
+    @{ await Html.RenderPartialAsync("DisableUserForm", new DisableUserViewModel()); }
+</div>

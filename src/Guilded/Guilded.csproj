@@ -42,6 +42,7 @@
     <Content Include="wwwroot\js\shared\jquery.unobtrusive-ajax-custom.ts" />
     <Content Include="wwwroot\js\shared\menu.ts" />
     <Content Include="wwwroot\js\shared\shared.ts" />
+    <Content Include="wwwroot\js\typings\semantic-ui-calendar.d.ts" />
     <Content Include="wwwroot\js\typings\window.d.ts" />
   </ItemGroup>
   <ItemGroup>
