@@ -37,6 +37,7 @@
     <Content Include="wwwroot\css\shared\_mixins.less" />
     <Content Include="wwwroot\css\shared\_screen-sizes.less" />
     <Content Include="wwwroot\js\admin\roles.ts" />
+    <Content Include="wwwroot\js\admin\users.ts" />
     <Content Include="wwwroot\js\home\slideshow.ts" />
     <Content Include="wwwroot\js\shared\confirm-modal.ts" />
     <Content Include="wwwroot\js\shared\jquery.unobtrusive-ajax-custom.ts" />
