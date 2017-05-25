@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Guilded.Areas.Admin.Data.DAL;
-using Guilded.Areas.Admin.ViewModels.Roles;
+﻿using Guilded.Areas.Admin.Data.DAL;
 using Guilded.Areas.Admin.ViewModels.Users;
 using Guilded.Constants;
 using Guilded.Identity;
 using Guilded.ViewModels;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Guilded.Areas.Admin.Controllers
 {

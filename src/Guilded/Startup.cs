@@ -3,7 +3,6 @@ using Guilded.Security.Authorization;
 using Guilded.Security.Claims;
 using Guilded.Security.Extensions;
 using Guilded.Services.Extensions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
