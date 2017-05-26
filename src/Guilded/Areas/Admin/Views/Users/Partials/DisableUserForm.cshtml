@@ -1,5 +1,6 @@
 ﻿@model DisableUserViewModel
-<form class="ui form">
+<form class="ui form" data-ajax="true" data-ajax-method="delete" asp-antiforgery="true"
+      data-disable-url="@Url.Action("DisableUser", "Users", new { area = "Admin", userId = "userId" })">
     <div class="content">
         <input asp-for="Id" />
         <p>

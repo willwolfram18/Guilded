@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace Guilded.Areas.Admin.Controllers
 {
@@ -15,11 +16,12 @@ namespace Guilded.Areas.Admin.Controllers
         public const int PageSize = 20;
 
         private readonly IUsersDataContext _usersDataContext;
+        private readonly ILogger _logger;
 
-        public UsersController(IUsersDataContext usersDataContext,
-            IRolesDataContext rolesDataContext)
+        public UsersController(IUsersDataContext usersDataContext, ILoggerFactory loggerFactory)
         {
             _usersDataContext = usersDataContext;
+            _logger = loggerFactory.CreateLogger<UsersController>();
         }
 
         public async Task<IActionResult> Index(int page = 1)
@@ -56,6 +58,43 @@ namespace Guilded.Areas.Admin.Controllers
 
             return await UserEditorView(user);
         }
+
+        [HttpDelete("[area]/[controller]/{userId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DisableUser(DisableUserViewModel user)
+        {
+            var dbUser = await _usersDataContext.GetUserByIdAsync(user.Id);
+
+            if (dbUser == null)
+            {
+                return NotFound($"Unable to find user with Id '{user.Id}'");
+            }
+
+            dbUser.IsEnabled = false;
+            dbUser.EnabledAfter = user.EnableAfter;
+
+            try
+            {
+                
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(EventIdRangeStart + 10, e.Message, e);
+                return StatusCode(500, $"There was an error disabling {dbUser.UserName}.");
+            }
+
+            return Ok(new
+            {
+                userId = user.Id,
+                message = $"{dbUser.UserName} successfully disabled." +
+                          (
+                            user.EnableAfter.HasValue ?
+                            $" {dbUser.UserName} will regain access on {user.EnableAfter.Value.Date.AddDays(1):d}." :
+                            string.Empty
+                          )
+            });
+        }
+
 
         public override ViewResult View(string viewName, object model)
         {

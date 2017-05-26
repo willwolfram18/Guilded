@@ -1,7 +1,7 @@
 ﻿@model PaginatedViewModel<ApplicationUserViewModel>
 @{
     ViewData[ViewDataKeys.Title] = "Users";
-    string pagerUrl = Url.Action("Index", "Users", new {area = "Admin"});
+    var pagerUrl = Url.Action("Index", "Users", new {area = "Admin"});
 }
 
 @section Styles {
@@ -60,7 +60,8 @@ else
         <tbody>
         @foreach (var user in Model.Models)
         {
-            <tr class="@(!user.IsEnabled ? "disabled" : "") user" data-id="@user.Id">
+            <tr class="@(!user.IsEnabled ? "disabled" : "") user" data-id="@user.Id"
+                data-disable->
                 <td>
                     @Html.DisplayFor(m => user.UserName)
                 </td>
