@@ -1,4 +1,31 @@
-﻿const $disableUserModal = $("#disableUserModal");
+﻿interface IDisableUserResponse {
+    userId: string;
+    message: string;
+}
+
+const $disableUserModal = $("#disableUserModal");
+
+function onAjaxFormSubmitBegin() {
+    $(this).addClass("loading");
+    $(".ui.error.message, .ui.success.message").addClass("hidden")
+}
+
+function onAjaxFormSubmitComplete() {
+    $(this).removeClass("loading");
+}
+
+function onDisableUserSuccess(response: IDisableUserResponse) {
+    $(".ui.success.message").removeClass("hidden").html(response.message);
+
+    const $userRow = $(`#usersList tr[data-id='${response.userId}']`);
+    $userRow.addClass("disabled");
+    $userRow.find(".options .ui.icon.button[data-enable-user]").removeClass("hidden");
+    $userRow.find(".options .ui.icon.button[data-disable-user]").addClass("hidden");
+}
+
+function onDisableUserFailure(response: any) {
+    throw new Error("not implemented");
+}
 
 function displayDisableUserModal(e: JQueryEventObject): void {
     $disableUserModal.modal("show");

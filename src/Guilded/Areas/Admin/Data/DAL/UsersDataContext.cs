@@ -1,4 +1,5 @@
-﻿using Guilded.Data;
+﻿using System;
+using Guilded.Data;
 using Guilded.Data.DAL.Abstract;
 using Guilded.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -31,6 +32,19 @@ namespace Guilded.Areas.Admin.Data.DAL
         public async Task<string> GetRoleForUserAsync(ApplicationUser user)
         {
             return (await _userManager.GetRolesAsync(user)).Single();
+        }
+
+        public async Task<ApplicationUser> UpdateUserAsync(ApplicationUser user)
+        {
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception($"Failed to update user '{user.UserName}' ({user.Id}): " +
+                                    $"{string.Join(", ", result.Errors.Select(e => e.Description))}");
+            }
+
+            return await GetUserByIdAsync(user.Id);
         }
     }
 }

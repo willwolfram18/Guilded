@@ -4,10 +4,10 @@ using Guilded.Constants;
 using Guilded.Identity;
 using Guilded.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 
 namespace Guilded.Areas.Admin.Controllers
 {
@@ -61,21 +61,21 @@ namespace Guilded.Areas.Admin.Controllers
 
         [HttpDelete("[area]/[controller]/{userId}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DisableUser(DisableUserViewModel user)
+        public async Task<IActionResult> DisableUser(DisableUserViewModel userToDisable)
         {
-            var dbUser = await _usersDataContext.GetUserByIdAsync(user.Id);
+            var dbUser = await _usersDataContext.GetUserByIdAsync(userToDisable.Id);
 
             if (dbUser == null)
             {
-                return NotFound($"Unable to find user with Id '{user.Id}'");
+                return NotFound($"Unable to find user with Id '{userToDisable.Id}'");
             }
 
             dbUser.IsEnabled = false;
-            dbUser.EnabledAfter = user.EnableAfter;
+            dbUser.EnabledAfter = userToDisable.EnableAfter;
 
             try
             {
-                
+                _usersDataContext.UpdateUserAsync(dbUser);
             }
             catch (Exception e)
             {
@@ -85,16 +85,15 @@ namespace Guilded.Areas.Admin.Controllers
 
             return Ok(new
             {
-                userId = user.Id,
+                userId = userToDisable.Id,
                 message = $"{dbUser.UserName} successfully disabled." +
                           (
-                            user.EnableAfter.HasValue ?
-                            $" {dbUser.UserName} will regain access on {user.EnableAfter.Value.Date.AddDays(1):d}." :
+                            userToDisable.EnableAfter.HasValue ?
+                            $" {dbUser.UserName} will regain access on {userToDisable.EnableAfter.Value.Date.AddDays(1):d}." :
                             string.Empty
                           )
             });
         }
-
 
         public override ViewResult View(string viewName, object model)
         {

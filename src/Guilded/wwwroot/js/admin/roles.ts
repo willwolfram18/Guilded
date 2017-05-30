@@ -26,8 +26,9 @@ const index: IHandleRoleDelete = {
         $(".ui.success.message").html(response.message).removeClass("hidden");
         $(`[data-role="${response.roleId}"]`).remove();
     },
-    onRoleDeleteError: (response: IRoleDeleteResponse): void => {
-        $(".ui.error.message").html(response.message).removeClass("hidden");
+    onRoleDeleteError: (response: any): void => {
+        throw new Error("not implemented");
+        //$(".ui.error.message").html(response).removeClass("hidden");
     },
     onRoleDeleteBegin: (): void => {
         $(".ui.error.message, .ui.sucess.message").addClass("hidden");

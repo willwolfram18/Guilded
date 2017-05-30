@@ -49,7 +49,8 @@ namespace Guilded.Areas.Admin.Data.DAL
             var result = await _roleManager.UpdateAsync(roleToUpdate);
             if (!result.Succeeded)
             {
-                throw new Exception($"Failed to update role '{roleToUpdate.Name}': {result.Errors.First().Description}");
+                throw new Exception($"Failed to update role '{roleToUpdate.Name}': " +
+                                    $"{string.Join(", ", result.Errors.Select(e => e.Description))}");
             }
             return await GetRoleByIdAsync(roleToUpdate.Id);
         }
