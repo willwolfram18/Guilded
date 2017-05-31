@@ -40,7 +40,7 @@ else
 {
     <guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="@pagerUrl"
                    pager-vertical-location="Top" />
-    <table id="usersList" class="ui extra large striped celled table">
+    <table id="usersList" class="ui extra large striped celled table" data-enable-url="@Url.Action("EnableUser", "Users", new { area = "Admin", userId = "userId" })">
         <thead>
         <tr>
             <th>
@@ -60,8 +60,7 @@ else
         <tbody>
         @foreach (var user in Model.Models)
         {
-            <tr class="@(!user.IsEnabled ? "disabled" : "") user" data-id="@user.Id"
-                data-disable->
+            <tr class="@(!user.IsEnabled ? "disabled" : "") user" data-id="@user.Id">
                 <td>
                     @Html.DisplayFor(m => user.UserName)
                 </td>

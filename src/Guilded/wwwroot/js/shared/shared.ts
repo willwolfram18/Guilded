@@ -12,6 +12,10 @@
         });
 }
 
+function hideErrorAndSuccessMessages() {
+    $(".ui.error.message, .ui.success.message").addClass("hidden");
+}
+
 $(document).ready(() => {
     $("[data-toggle='modal']").each(setUpModalToggles);
     $(".ui.calendar").calendar();

@@ -59,6 +59,13 @@ namespace Guilded.Areas.Admin.Controllers
             return await UserEditorView(user);
         }
 
+        [HttpPost("[area]/[controller]/{userId}")]
+        [ValidateAntiForgeryToken]
+        public Task<IActionResult> EnableUser(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
         [HttpDelete("[area]/[controller]/{userId}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DisableUser(DisableUserViewModel userToDisable)
@@ -67,7 +74,11 @@ namespace Guilded.Areas.Admin.Controllers
 
             if (dbUser == null)
             {
-                return NotFound($"Unable to find user with Id '{userToDisable.Id}'");
+                return NotFound(new
+                {
+                    message = $"Unable to find user with Id '{userToDisable.Id}'",
+                    userId = userToDisable.Id
+                });
             }
 
             dbUser.IsEnabled = false;
@@ -75,12 +86,16 @@ namespace Guilded.Areas.Admin.Controllers
 
             try
             {
-                _usersDataContext.UpdateUserAsync(dbUser);
+                await _usersDataContext.UpdateUserAsync(dbUser);
             }
             catch (Exception e)
             {
                 _logger.LogError(EventIdRangeStart + 10, e.Message, e);
-                return StatusCode(500, $"There was an error disabling {dbUser.UserName}.");
+                return StatusCode(500, new
+                {
+                    message = $"There was an error disabling {dbUser.UserName}.",
+                    userId = userToDisable.Id
+                });
             }
 
             return Ok(new

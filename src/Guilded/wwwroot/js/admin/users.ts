@@ -1,4 +1,4 @@
-﻿interface IDisableUserResponse {
+﻿interface IUserEnabledStateChangeResponse {
     userId: string;
     message: string;
 }
@@ -7,14 +7,14 @@ const $disableUserModal = $("#disableUserModal");
 
 function onAjaxFormSubmitBegin() {
     $(this).addClass("loading");
-    $(".ui.error.message, .ui.success.message").addClass("hidden")
+    hideErrorAndSuccessMessages();
 }
 
 function onAjaxFormSubmitComplete() {
     $(this).removeClass("loading");
 }
 
-function onDisableUserSuccess(response: IDisableUserResponse) {
+function onDisableUserSuccess(response: IUserEnabledStateChangeResponse) {
     $(".ui.success.message").removeClass("hidden").html(response.message);
 
     const $userRow = $(`#usersList tr[data-id='${response.userId}']`);
@@ -23,8 +23,10 @@ function onDisableUserSuccess(response: IDisableUserResponse) {
     $userRow.find(".options .ui.icon.button[data-disable-user]").addClass("hidden");
 }
 
-function onDisableUserFailure(response: any) {
-    throw new Error("not implemented");
+function onUserEnabledStateChangeFailure(jqxhr: JQueryXHR) {
+    const response = jqxhr.response as IUserEnabledStateChangeResponse;
+
+    $(".ui.error.message").removeClass("hidden").html(response.message);
 }
 
 function displayDisableUserModal(e: JQueryEventObject): void {
@@ -47,6 +49,34 @@ function displayDisableUserModal(e: JQueryEventObject): void {
             position: "bottom left"
         }
     });
+}
+
+function onEnableUserSuccess(response: IUserEnabledStateChangeResponse): void {
+    $(".ui.success.message").removeClass("hidden").html(response.message);
+
+    const $userRow = $(`#usersList tr[data-id='${response.userId}']`);
+    $userRow.removeClass("disabled");
+    $userRow.find(".options .ui.icon.button[data-enable-user]").addClass("hidden");
+    $userRow.find(".options .ui.icon.button[data-disable-user]").removeClass("hidden");
+}
+
+function enableUserClick(e: JQueryEventObject): void {
+    const $userRow = $(e.target).closest("tr[data-id]");
+
+    confirmAction("Are you sure you want to enable this user?",
+        () => {
+            let enableUserUrl: string = $userRow.closest("#usersList").data("enable-url");
+            enableUserUrl = enableUserUrl.replace(/userId/ig, $userRow.data("id"));
+
+            $.ajax({
+                method: "POST",
+                url: enableUserUrl,
+                beforeSend: hideErrorAndSuccessMessages,
+                success: onEnableUserSuccess,
+                error: onUserEnabledStateChangeFailure
+            });
+        }
+    );
 }
 
 $(document).ready(() => {
