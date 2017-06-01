@@ -60,7 +60,8 @@ else
         <tbody>
         @foreach (var user in Model.Models)
         {
-            <tr class="@(!user.IsEnabled ? "disabled" : "") user" data-id="@user.Id">
+            <tr class="@(!user.IsEnabled ? "disabled" : "") user" data-id="@user.Id"
+                data-role-id="@user.RoleId">
                 <td>
                     @Html.DisplayFor(m => user.UserName)
                 </td>
@@ -96,9 +97,14 @@ else
 }
 
 <div id="disableUserModal" class="ui modal">
-    <i class="close icon"></i>
     <div class="header">
         Disable user
     </div>
     @{ await Html.RenderPartialAsync("DisableUserForm", new DisableUserViewModel()); }
+</div>
+<div id="changeRoleModal" class="ui modal">
+    <div class="header">
+        Change role
+    </div>
+    @{ await Html.RenderPartialAsync("ChangeRoleForm", new ChangeRoleViewModel()); }
 </div>

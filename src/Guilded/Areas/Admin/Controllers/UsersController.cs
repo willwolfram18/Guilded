@@ -63,6 +63,11 @@ namespace Guilded.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EnableUser(string userId)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var user = await _usersDataContext.GetUserByIdAsync(userId);
 
             if (user == null)
@@ -102,6 +107,11 @@ namespace Guilded.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DisableUser(DisableUserViewModel userToDisable)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var dbUser = await _usersDataContext.GetUserByIdAsync(userToDisable.Id);
 
             if (dbUser == null)

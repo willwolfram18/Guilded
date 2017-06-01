@@ -15,10 +15,13 @@ namespace Guilded.Areas.Admin.ViewModels.Users
         [EmailAddress]
         public string Email { get; set; }
 
+        public string RoleId { get; set; }
+
         public string Role { get; set; }
 
         public bool IsEnabled { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime? EnabledAfter { get; set; }
 
         public ApplicationUserViewModel()
@@ -29,12 +32,13 @@ namespace Guilded.Areas.Admin.ViewModels.Users
             Role = null;
         }
 
-        public ApplicationUserViewModel(ApplicationUser user, string userRole)
+        public ApplicationUserViewModel(ApplicationUser user, ApplicationRole userRole)
         {
             Id = user.Id;
             UserName = user.UserName;
             Email = user.Email;
-            Role = userRole;
+            RoleId = userRole.Id;
+            Role = userRole.Name;
             IsEnabled = user.IsEnabled;
             EnabledAfter = user.EnabledAfter;
         }

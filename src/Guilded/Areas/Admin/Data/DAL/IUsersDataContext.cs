@@ -11,7 +11,7 @@ namespace Guilded.Areas.Admin.Data.DAL
 
         Task<ApplicationUser> GetUserByIdAsync(string id);
 
-        Task<string> GetRoleForUserAsync(ApplicationUser user);
+        Task<ApplicationRole> GetRoleForUserAsync(ApplicationUser user);
 
         Task<ApplicationUser> UpdateUserAsync(ApplicationUser user);
     }
