@@ -71,23 +71,19 @@ else
                     @Html.DisplayFor(m => user.Role)
                 </td>
                 <td class="options">
-                    <div class="item">
-                        <a class="ui small circular icon button" asp-area="Admin"
-                           asp-controller="Users" asp-action="Edit" asp-route-userId="@user.Id">
-                            <i class="pencil icon"></i>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <div class="ui small circular @(user.IsEnabled ? "hidden" : "") green icon button" data-enable-user>
-                            <i class="power icon"></i>
-                        </div>
-                        <div class="ui small circular @(user.IsEnabled ? "" : "hidden") red icon button" data-disable-user>
-                            <i class="power icon"></i>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="ui small circular icon button">
-                            <i class="fa-ellipsis-h icon"></i>
+                    <div class="ui small circular top left pointing dropdown icon button">
+                        <i class="fa-ellipsis-h icon"></i>
+                        <div class="menu">
+                            <a class="item" asp-area="Admin"
+                               asp-controller="Users" asp-action="Edit" asp-route-userId="@user.Id">
+                                <i class="pencil icon"></i> Edit
+                            </a>
+                            <div class="item @(user.IsEnabled ? "hidden" : "")" data-enable-user>
+                                <i class="green power icon"></i> Enable user
+                            </div>
+                            <div class="item @(user.IsEnabled ? "" : "hidden")" data-disable-user>
+                                <i class="red power icon"></i> Disable user
+                            </div>
                         </div>
                     </div>
                 </td>

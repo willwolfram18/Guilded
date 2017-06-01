@@ -20,8 +20,8 @@ function onDisableUserSuccess(response: IUserEnabledStateChangeResponse) {
 
     const $userRow = $(`#usersList tr[data-id='${response.userId}']`);
     $userRow.addClass("disabled");
-    $userRow.find(".options .ui.icon.button[data-enable-user]").removeClass("hidden");
-    $userRow.find(".options .ui.icon.button[data-disable-user]").addClass("hidden");
+    $userRow.find(".options [data-enable-user]").removeClass("hidden");
+    $userRow.find(".options [data-disable-user]").addClass("hidden");
 }
 
 function onUserEnabledStateChangeFailure(jqxhr: JQueryXHR) {
@@ -61,8 +61,8 @@ function onEnableUserSuccess(response: IUserEnabledStateChangeResponse): void {
 
     const $userRow = $(`#usersList tr[data-id='${response.userId}']`);
     $userRow.removeClass("disabled");
-    $userRow.find(".options .ui.icon.button[data-enable-user]").addClass("hidden");
-    $userRow.find(".options .ui.icon.button[data-disable-user]").removeClass("hidden");
+    $userRow.find(".options [data-enable-user]").addClass("hidden");
+    $userRow.find(".options [data-disable-user]").removeClass("hidden");
 }
 
 function enableUserClick(e: JQueryEventObject): void {
@@ -88,6 +88,6 @@ function enableUserClick(e: JQueryEventObject): void {
 }
 
 $(document).ready(() => {
-    $(".ui.button[data-disable-user]").on("click", displayDisableUserModal);
-    $(".ui.button[data-enable-user]").on("click", enableUserClick);
+    $("[data-disable-user]").on("click", displayDisableUserModal);
+    $("[data-enable-user]").on("click", enableUserClick);
 });
