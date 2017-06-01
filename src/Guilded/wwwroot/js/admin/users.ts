@@ -12,6 +12,7 @@ function onAjaxFormSubmitBegin() {
 
 function onAjaxFormSubmitComplete() {
     $(this).removeClass("loading");
+    $disableUserModal.modal("hide");
 }
 
 function onDisableUserSuccess(response: IUserEnabledStateChangeResponse) {
@@ -24,9 +25,14 @@ function onDisableUserSuccess(response: IUserEnabledStateChangeResponse) {
 }
 
 function onUserEnabledStateChangeFailure(jqxhr: JQueryXHR) {
-    const response = jqxhr.response as IUserEnabledStateChangeResponse;
+    const response = jqxhr.responseJSON as IUserEnabledStateChangeResponse;
 
-    $(".ui.error.message").removeClass("hidden").html(response.message);
+    if (!response) {
+        $(".ui.error.message").removeClass("hidden")
+            .html("An error occurred while trying to enable the user. Please try again.");
+    } else {
+        $(".ui.error.message").removeClass("hidden").html(response.message);
+    }
 }
 
 function displayDisableUserModal(e: JQueryEventObject): void {
@@ -34,10 +40,9 @@ function displayDisableUserModal(e: JQueryEventObject): void {
 
     const $userRow = $(e.target).closest("tr.user");
     const userId: string = $userRow.data("id");
-    const userDisableUrl: string = $userRow.data("disable-url");
     const $form = $disableUserModal.find("form");
 
-    let disableUrl = $form.data("disable-url");
+    let disableUrl: string = $form.data("disable-url");
     disableUrl = disableUrl.replace(/userId/gi, userId);
 
     $form.attr("action", disableUrl);
@@ -71,6 +76,9 @@ function enableUserClick(e: JQueryEventObject): void {
             $.ajax({
                 method: "POST",
                 url: enableUserUrl,
+                data: {
+                    __RequestVerificationToken: $("input[type='hidden'][name='__RequestVerificationToken']").val(),
+                },
                 beforeSend: hideErrorAndSuccessMessages,
                 success: onEnableUserSuccess,
                 error: onUserEnabledStateChangeFailure
@@ -81,4 +89,5 @@ function enableUserClick(e: JQueryEventObject): void {
 
 $(document).ready(() => {
     $(".ui.button[data-disable-user]").on("click", displayDisableUserModal);
+    $(".ui.button[data-enable-user]").on("click", enableUserClick);
 });

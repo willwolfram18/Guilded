@@ -61,9 +61,41 @@ namespace Guilded.Areas.Admin.Controllers
 
         [HttpPost("[area]/[controller]/{userId}")]
         [ValidateAntiForgeryToken]
-        public Task<IActionResult> EnableUser(string userId)
+        public async Task<IActionResult> EnableUser(string userId)
         {
-            throw new NotImplementedException();
+            var user = await _usersDataContext.GetUserByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound(new
+                {
+                    message = $"Unable to find user with Id '{userId}'.",
+                    userId
+                });
+            }
+
+            user.IsEnabled = true;
+            user.EnabledAfter = null;
+
+            try
+            {
+                await _usersDataContext.UpdateUserAsync(user);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(EventIdRangeStart + 11, e.Message, e);
+                return StatusCode(500, new
+                {
+                    message = $"There was en error enabling {user.UserName}.",
+                    userId
+                });
+            }
+
+            return Ok(new
+            {
+                message = $"{user.UserName} successfully enabled.",
+                userId
+            });
         }
 
         [HttpDelete("[area]/[controller]/{userId}")]
@@ -76,7 +108,7 @@ namespace Guilded.Areas.Admin.Controllers
             {
                 return NotFound(new
                 {
-                    message = $"Unable to find user with Id '{userToDisable.Id}'",
+                    message = $"Unable to find user with Id '{userToDisable.Id}'.",
                     userId = userToDisable.Id
                 });
             }
