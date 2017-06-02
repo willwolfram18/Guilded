@@ -7,5 +7,6 @@
         public const string ErrorMessages = "ErrorMessages";
         public const string SuccessMessages = "SuccessMessages";
         public const string ReturnUrl = "ReturnUrl";
+        public const string UserRolesSelectList = "UserRolesSelectList";
     }
 }

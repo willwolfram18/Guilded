@@ -61,7 +61,7 @@ else
         @foreach (var user in Model.Models)
         {
             <tr class="@(!user.IsEnabled ? "disabled" : "") user" data-id="@user.Id"
-                data-role-id="@user.RoleId">
+                data-role-id="@user.RoleId" data-role-name="@user.Role">
                 <td>
                     @Html.DisplayFor(m => user.UserName)
                 </td>
@@ -79,6 +79,9 @@ else
                                asp-controller="Users" asp-action="Edit" asp-route-userId="@user.Id">
                                 <i class="pencil icon"></i> Edit
                             </a>
+                            <div class="item" data-change-role>
+                                <i class="users icon"></i> Change role
+                            </div>
                             <div class="item @(user.IsEnabled ? "hidden" : "")" data-enable-user>
                                 <i class="green power icon"></i> Enable user
                             </div>

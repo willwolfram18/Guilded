@@ -4,6 +4,7 @@
 }
 
 const $disableUserModal = $("#disableUserModal");
+const $changeRoleModal = $("#changeRoleModal");
 
 function onAjaxFormSubmitBegin() {
     $(this).addClass("loading");
@@ -87,7 +88,27 @@ function enableUserClick(e: JQueryEventObject): void {
     );
 }
 
+function onRoleChangeClick(e: JQueryEventObject): void {
+    const $userRow = $(e.target).closest("tr");
+    const userId: string = $userRow.data("id");
+    const userRoleId: string = $userRow.data("role-id");
+    const userRoleName: string = $userRow.data("role-name");
+
+    const $changeRoleForm = $changeRoleModal.find("form");
+    $changeRoleForm.find("input[type='hidden'][name='UserId']").val(userId).trigger("change");
+    $changeRoleForm.find("input[type='hidden'][name='OldRoleId']").val(userRoleId).trigger("change");
+    $changeRoleForm.find("select[name='NewRoleId']").val(userRoleId).trigger("change");
+    $changeRoleForm.find("#oldRoleName").text(userRoleName);
+
+    $changeRoleModal.modal("show");
+}
+
 $(document).ready(() => {
+    $(".options .ui.dropdown.button").dropdown({
+        action: "nothing"
+    });
+
     $("[data-disable-user]").on("click", displayDisableUserModal);
     $("[data-enable-user]").on("click", enableUserClick);
+    $("[data-change-role]").on("click", onRoleChangeClick);
 });

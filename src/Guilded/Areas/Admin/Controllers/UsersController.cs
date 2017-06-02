@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Guilded.Areas.Admin.Controllers
 {
@@ -16,11 +17,15 @@ namespace Guilded.Areas.Admin.Controllers
         public const int PageSize = 20;
 
         private readonly IUsersDataContext _usersDataContext;
+        private readonly IRolesDataContext _rolesDataContext;
         private readonly ILogger _logger;
 
-        public UsersController(IUsersDataContext usersDataContext, ILoggerFactory loggerFactory)
+        public UsersController(IUsersDataContext usersDataContext,
+            IRolesDataContext rolesDataContext,
+            ILoggerFactory loggerFactory)
         {
             _usersDataContext = usersDataContext;
+            _rolesDataContext = rolesDataContext;
             _logger = loggerFactory.CreateLogger<UsersController>();
         }
 
@@ -41,6 +46,13 @@ namespace Guilded.Areas.Admin.Controllers
             {
                 return RedirectToAction(nameof(Index), new { page = viewModel.LastPage });
             }
+
+            ViewData[ViewDataKeys.UserRolesSelectList] = _rolesDataContext.GetRoles()
+                .Select(r => new SelectListItem
+                {
+                    Text = r.Name,
+                    Value = r.Id,
+                });
 
             return View(viewModel);
         }
