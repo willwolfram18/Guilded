@@ -106,11 +106,11 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
             Assert.That(viewModel, Is.Not.Null);
             Assert.That(viewModel.Models.Count, Is.EqualTo(numRoles));
 
-            for (var i = 0; i < viewModel.Models.Count; i++)
+            for (var i = 0; i < viewModel.Models.Count(); i++)
             {
-                for (var j = i + 1; j < viewModel.Models.Count; j++)
+                for (var j = i + 1; j < viewModel.Models.Count(); j++)
                 {
-                    Assert.That(viewModel.Models[i].Name, Is.LessThan(viewModel.Models[j].Name));
+                    Assert.That(viewModel.Models.ToList()[i].Name, Is.LessThan(viewModel.Models.ToList()[j].Name));
                 }
             }
         }
