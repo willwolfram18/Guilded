@@ -1,4 +1,4 @@
-﻿@model PaginatedViewModel<ApplicationRoleViewModel>
+﻿@model IPaginatedViewModel<ApplicationRoleViewModel>
 @{
     ViewData[ViewDataKeys.Title] = "Roles";
     string pagerUrl = Url.Action("Index", "Roles", new {area = "Admin"});
@@ -52,8 +52,7 @@
 }
 else
 {
-    <guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="@pagerUrl"
-                   pager-vertical-location="Top" />
+    <pager pager-vertical-location="Top" />
     <div id="roles-list" class="ui extra large styled fluid accordion">
 
         @foreach (var role in Model.Models)
@@ -100,6 +99,5 @@ else
             </div>
         }
     </div>
-    <guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="@pagerUrl"
-               pager-vertical-location="Bottom" />
+    <pager pager-vertical-location="Bottom" />
 }

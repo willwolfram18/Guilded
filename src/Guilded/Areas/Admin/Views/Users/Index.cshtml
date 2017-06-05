@@ -1,4 +1,4 @@
-﻿@model PaginatedViewModel<ApplicationUserViewModel>
+﻿@model IPaginatedViewModel<ApplicationUserViewModel>
 @{
     ViewData[ViewDataKeys.Title] = "Users";
     var pagerUrl = Url.Action("Index", "Users", new {area = "Admin"});
@@ -38,8 +38,7 @@
 }
 else
 {
-    <guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="@pagerUrl"
-                   pager-vertical-location="Top" />
+    <pager pager-vertical-location="Top" />
     <table id="usersList" class="ui extra large striped celled table" data-enable-url="@Url.Action("EnableUser", "Users", new { area = "Admin", userId = "userId" })">
         <thead>
         <tr>
@@ -95,8 +94,7 @@ else
         }
         </tbody>
     </table>
-    <guilded-pager pager-page="@Model.CurrentPage" pager-last-page="@Model.LastPage" pager-url="@pagerUrl"
-                   pager-vertical-location="Bottom" />
+    <pager pager-vertical-location="Bottom" />
 }
 
 <div id="disableUserModal" class="ui modal">

@@ -17,7 +17,7 @@ namespace Guilded.Areas.Admin.Controllers
     [Authorize(Policy = RoleClaimTypes.RoleManagementClaim)]
     public class RolesController : BaseController
     {
-        public const int PageSize = 20;
+        public const int PageSize = 1;
 
         private readonly IRolesDataContext _db;
         private readonly ILogger _log;
@@ -147,6 +147,7 @@ namespace Guilded.Areas.Admin.Controllers
                 Models = rolesForPage.ToList()
                     .Select(r => new ApplicationRoleViewModel(r))
                     .ToList(),
+                PagerUrl = Url.Action(nameof(Index))
             };
         }
 

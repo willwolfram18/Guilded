@@ -2,13 +2,15 @@
 
 namespace Guilded.ViewModels
 {
-    public class PaginatedViewModel<TViewModel>
+    public class PaginatedViewModel<TViewModel> : IPaginatedViewModel<TViewModel>
     {
         public int CurrentPage { get; set; }
 
         public int LastPage { get; set; }
 
-        public List<TViewModel> Models { get; set; }
+        public string PagerUrl { get; set; }
+
+        public IEnumerable<TViewModel> Models { get; set; }
 
         public PaginatedViewModel()
         {

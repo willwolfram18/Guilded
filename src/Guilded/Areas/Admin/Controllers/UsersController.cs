@@ -6,6 +6,7 @@ using Guilded.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -191,21 +192,23 @@ namespace Guilded.Areas.Admin.Controllers
             var zeroIndexPage = page - 1;
             var allUsers = _usersDataContext.GetUsers().OrderBy(u => u.UserName);
             var usersForPage = allUsers.Skip(PageSize * zeroIndexPage).Take(PageSize);
-            var viewModel = new PaginatedViewModel<ApplicationUserViewModel>
-            {
-                CurrentPage = page,
-                LastPage = (int)Math.Ceiling(allUsers.Count() / (double)PageSize),
-            };
+            var viewModelItems = new List<ApplicationUserViewModel>();
 
             foreach (var user in usersForPage)
             {
-                viewModel.Models.Add(new ApplicationUserViewModel(
+                viewModelItems.Add(new ApplicationUserViewModel(
                     user,
                     await _usersDataContext.GetRoleForUserAsync(user)
                 ));
             }
 
-            return viewModel;
+            return new PaginatedViewModel<ApplicationUserViewModel>
+            {
+                CurrentPage = page,
+                LastPage = (int)Math.Ceiling(allUsers.Count() / (double)PageSize),
+                Models = viewModelItems,
+                PagerUrl = Url.Action(nameof(Index))
+            };
         }
     }
 }
