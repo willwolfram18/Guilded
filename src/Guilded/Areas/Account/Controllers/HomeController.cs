@@ -1,11 +1,12 @@
 ﻿using Guilded.Areas.Account.ViewModels.Home;
 using Guilded.Constants;
-using Guilded.Identity;
+using Guilded.Data.Identity;
 using Guilded.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -14,7 +15,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace Guilded.Areas.Account.Controllers
 {

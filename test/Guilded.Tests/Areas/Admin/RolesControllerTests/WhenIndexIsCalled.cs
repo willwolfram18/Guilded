@@ -115,13 +115,13 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
             }
         }
 
-        private IQueryable<Identity.ApplicationRole> CreateRoles(int numRoles)
+        private IQueryable<Guilded.Data.Identity.ApplicationRole> CreateRoles(int numRoles)
         {
-            var roles = new List<Identity.ApplicationRole>();
+            var roles = new List<Guilded.Data.Identity.ApplicationRole>();
 
             for (int i = numRoles; i > 0; i--)
             {
-                roles.Add(new Identity.ApplicationRole
+                roles.Add(new Guilded.Data.Identity.ApplicationRole
                 {
                     Name = $"Role {i}"
                 });

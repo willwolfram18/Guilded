@@ -1,9 +1,9 @@
-﻿using System;
-using Guilded.Data;
+﻿using Guilded.Data;
 using Guilded.Data.DAL.Abstract;
-using Guilded.Identity;
+using Guilded.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 

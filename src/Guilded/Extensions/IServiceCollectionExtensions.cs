@@ -1,19 +1,28 @@
 ﻿using BattleNetApi.Apis.Interfaces;
+using Guilded.Areas.Admin.Data.DAL;
 using Guilded.Common;
 using Guilded.Data;
 using Guilded.Data.DAL;
-using Guilded.Areas.Admin.Data.DAL;
 using Guilded.Data.DAL.Home;
+using Guilded.Data.Identity;
 using Guilded.Data.Models.Home;
-using Guilded.Identity;
+using Guilded.Security.Authorization;
+using Guilded.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Guilded.Services.Extensions
+namespace Guilded.Extensions
 {
     public static class IServiceCollectionExtensions
     {
+        public static void AddRequirementHandlers(this IServiceCollection services)
+        {
+            services.AddTransient<IAuthorizationHandler, RoleClaimAuthorizationHandler>();
+            services.AddTransient<IAuthorizationHandler, EnabledUserHandler>();
+        }
+
         public static void AddGuilded(this IServiceCollection services, IConfigurationRoot configuration)
         {
             services.AddGuildedDb(configuration);

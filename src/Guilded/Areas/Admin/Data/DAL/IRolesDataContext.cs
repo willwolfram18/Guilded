@@ -1,5 +1,5 @@
 using Guilded.Data.DAL;
-using Guilded.Identity;
+using Guilded.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,8 +11,6 @@ namespace Guilded.Areas.Admin.Data.DAL
         IQueryable<ApplicationRole> GetRoles();
 
         Task<ApplicationRole> GetRoleByIdAsync(string id);
-
-        Task<ApplicationRole> GetRoleByNameAsync(string name);
 
         Task<ApplicationRole> CreateRoleAsync(ApplicationRole roleToCreate);
 

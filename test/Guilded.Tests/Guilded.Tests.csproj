@@ -12,12 +12,8 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\BattleNetApi\BattleNetApi.csproj" />
-    <ProjectReference Include="..\..\src\Guilded.Identity\Guilded.Identity.csproj" />
-    <ProjectReference Include="..\..\src\Guilded.Security\Guilded.Security.csproj" />
     <ProjectReference Include="..\..\src\Guilded\Guilded.csproj" />
-    <ProjectReference Include="..\..\src\Guilded.Common\Guilded.Common.csproj" />
     <ProjectReference Include="..\..\src\Guilded.Data\Guilded.Data.csproj" />
-    <ProjectReference Include="..\..\src\Guilded.Extensions\Guilded.Extensions.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.2" />

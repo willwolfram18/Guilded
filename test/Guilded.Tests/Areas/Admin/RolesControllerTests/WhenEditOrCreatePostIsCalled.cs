@@ -1,5 +1,5 @@
 ﻿using Guilded.Areas.Admin.ViewModels.Roles;
-using Guilded.Identity;
+using Guilded.Data.Identity;
 using Moq;
 using NUnit.Framework;
 using System.Threading.Tasks;

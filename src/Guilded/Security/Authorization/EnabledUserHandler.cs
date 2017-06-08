@@ -1,4 +1,4 @@
-﻿using Guilded.Identity;
+﻿using Guilded.Data.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;

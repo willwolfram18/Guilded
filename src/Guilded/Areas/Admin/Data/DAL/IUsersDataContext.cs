@@ -1,5 +1,5 @@
 ﻿using Guilded.Data.DAL;
-using Guilded.Identity;
+using Guilded.Data.Identity;
 using System.Linq;
 using System.Threading.Tasks;
 

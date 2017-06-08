@@ -1,13 +1,11 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
 
-namespace Guilded.Identity
+namespace Guilded.Data.Identity
 {
     public class ApplicationRoleManager : RoleManager<ApplicationRole>
     {

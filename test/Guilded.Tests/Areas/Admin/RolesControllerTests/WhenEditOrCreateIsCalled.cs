@@ -1,5 +1,5 @@
 ﻿using Guilded.Areas.Admin.ViewModels.Roles;
-using Guilded.Identity;
+using Guilded.Data.Identity;
 using Guilded.Security.Claims;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Moq;

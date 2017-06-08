@@ -1,8 +1,8 @@
-﻿using Guilded.Areas.Admin.ViewModels.Roles;
+﻿using Guilded.Areas.Admin.Data.DAL;
+using Guilded.Areas.Admin.ViewModels.Roles;
 using Guilded.Constants;
-using Guilded.Areas.Admin.Data.DAL;
+using Guilded.Data.Identity;
 using Guilded.Extensions;
-using Guilded.Identity;
 using Guilded.Security.Claims;
 using Guilded.ViewModels;
 using Microsoft.AspNetCore.Authorization;

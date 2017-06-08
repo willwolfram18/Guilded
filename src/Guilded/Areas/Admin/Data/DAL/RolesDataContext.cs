@@ -1,11 +1,11 @@
 using Guilded.Data;
 using Guilded.Data.DAL.Abstract;
-using Guilded.Identity;
+using Guilded.Data.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace Guilded.Areas.Admin.Data.DAL
 {
@@ -27,11 +27,6 @@ namespace Guilded.Areas.Admin.Data.DAL
         public Task<ApplicationRole> GetRoleByIdAsync(string id)
         {
             return _roleManager.Roles.FirstOrDefaultAsync(r => r.Id == id);
-        }
-
-        public Task<ApplicationRole> GetRoleByNameAsync(string roleName)
-        {
-            return _roleManager.Roles.FirstOrDefaultAsync(r => r.Name == roleName);
         }
 
         public async Task<ApplicationRole> CreateRoleAsync(ApplicationRole roleToCreate)

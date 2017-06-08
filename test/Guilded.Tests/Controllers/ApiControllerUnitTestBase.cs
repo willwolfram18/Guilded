@@ -99,7 +99,7 @@ namespace Guilded.Tests.Controllers
         }
         protected static List<string> GetPropertyErrors(JObject resultJson, string propertyName)
         {
-            Assert.True(resultJson.ContainsKey(""));
+            Assert.True((resultJson as IDictionary<string, JToken>).ContainsKey(""));
             List<string> modelErrors = resultJson.GetValue(propertyName).ToObject<List<string>>();
             Assert.NotNull(modelErrors);
             return modelErrors;

@@ -1,23 +1,16 @@
-using Guilded.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System;
+using Guilded.Data.Identity;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Guilded.Areas.Admin.ViewModels.Roles
 {
     public class ApplicationRoleViewModel
     {
-        #region Properties
-        #region Public Properties
         public string Id { get; set; }
 
         public string Name { get; set; }
 
         public IList<Permission> Permissions { get; set; }
-        #endregion
-        #endregion
 
         public ApplicationRoleViewModel()
         {

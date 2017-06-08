@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Guilded.Data.Identity;
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using Guilded.Identity;
 
 namespace Guilded.Areas.Admin.ViewModels.Users
 {
