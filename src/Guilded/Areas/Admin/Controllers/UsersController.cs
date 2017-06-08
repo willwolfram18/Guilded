@@ -58,7 +58,7 @@ namespace Guilded.Areas.Admin.Controllers
             return View(viewModel);
         }
 
-        [HttpGet("[area]/[controller]/edit/{userId}")]
+        [HttpGet("{userId}")]
         public async Task<IActionResult> Edit(string userId)
         {
             var user = await _usersDataContext.GetUserByIdAsync(userId);
@@ -72,7 +72,7 @@ namespace Guilded.Areas.Admin.Controllers
             return await UserEditorView(user);
         }
 
-        [HttpPost("[area]/[controller]/{userId}")]
+        [HttpPost("{userId}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EnableUser(string userId)
         {
@@ -116,7 +116,7 @@ namespace Guilded.Areas.Admin.Controllers
             });
         }
 
-        [HttpDelete("[area]/[controller]/{userId}")]
+        [HttpDelete("{userId}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DisableUser(DisableUserViewModel userToDisable)
         {

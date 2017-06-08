@@ -50,8 +50,8 @@ namespace Guilded.Areas.Admin.Controllers
             return View(viewModel);
         }
 
-        [HttpGet("[area]/[controller]/edit/{roleId}", Order = 1)]
-        [HttpGet("[area]/[controller]/create", Order = 2)]
+        [HttpGet("{roleId}", Order = 1)]
+        [HttpGet("create", Order = 2)]
         public async Task<ViewResult> EditOrCreate(string roleId = null)
         {
             var dbRole = await _db.GetRoleByIdAsync(roleId) ?? new ApplicationRole();
@@ -59,7 +59,7 @@ namespace Guilded.Areas.Admin.Controllers
             return RoleEditorView(dbRole);
         }
 
-        [HttpPost("[area]/[controller]/edit/{roleId}")]
+        [HttpPost("{roleId}")]
         [ValidateAntiForgeryToken]
         public async Task<ViewResult> EditOrCreate(EditOrCreateRoleViewModel role)
         {
@@ -98,7 +98,7 @@ namespace Guilded.Areas.Admin.Controllers
             return RoleEditorView(dbRole);
         }
 
-        [HttpDelete("[area]/[controller]/{roleId}")]
+        [HttpDelete("{roleId}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(string roleId, int page = 1)
         {

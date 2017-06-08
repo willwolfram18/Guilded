@@ -1,14 +1,14 @@
-using System.Collections.Generic;
 using Guilded.Constants;
 using Guilded.Security.Authorization;
 using Guilded.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Guilded.Areas.Admin.Controllers
 {
     [AuthorizeEnabledUser]
     [Area("Admin")]
+    [Route("[area]/[controller]")]
     public class BaseController : Guilded.Controllers.BaseController
     {
         protected readonly Stack<Breadcrumb> Breadcrumbs;

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Guilded.Areas.Account.Controllers
 {
+    [Route("~/[area]/[controller]")]
     public class ManageController : BaseController
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -63,7 +64,7 @@ namespace Guilded.Areas.Account.Controllers
             return View(model);
         }
 
-        [HttpDelete("[area]/[controller]/login")]
+        [HttpDelete("login")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveLogin(RemoveLoginViewModel account)
         {
@@ -81,13 +82,13 @@ namespace Guilded.Areas.Account.Controllers
             return RedirectToAction(nameof(ManageLogins), new { Message = message });
         }
 
-        [Route("[area]/[controller]/phone-number")]
+        [Route("phone-number")]
         public ViewResult AddPhoneNumber()
         {
             return View();
         }
 
-        [HttpPost("[area]/[controller]/phone-number")]
+        [HttpPost("phone-number")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
         {
@@ -106,7 +107,7 @@ namespace Guilded.Areas.Account.Controllers
             return RedirectToAction(nameof(VerifyPhoneNumber), new { PhoneNumber = model.PhoneNumber });
         }
 
-        [HttpPost("[area]/[controller]/two-factor")]
+        [HttpPost("two-factor")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EnableTwoFactorAuthentication()
         {
@@ -120,7 +121,7 @@ namespace Guilded.Areas.Account.Controllers
             return RedirectToAction(nameof(Index), "Manage");
         }
 
-        [HttpDelete("[area]/[controller]/two-factor")]
+        [HttpDelete("two-factor")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DisableTwoFactorAuthentication()
         {
@@ -134,7 +135,7 @@ namespace Guilded.Areas.Account.Controllers
             return RedirectToAction(nameof(Index), "Manage");
         }
 
-        [HttpGet("[area]/[controller]/verify-phone-number")]
+        [HttpGet("verify-phone-number")]
         public async Task<IActionResult> VerifyPhoneNumber(string phoneNumber)
         {
             var user = await GetCurrentUserAsync();
@@ -147,7 +148,7 @@ namespace Guilded.Areas.Account.Controllers
             return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
 
-        [HttpPost("[area]/[controller]/verify-phone-number")]
+        [HttpPost("verify-phone-number")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> VerifyPhoneNumber(VerifyPhoneNumberViewModel model)
         {
@@ -170,7 +171,7 @@ namespace Guilded.Areas.Account.Controllers
             return View(model);
         }
 
-        [HttpDelete("[area]/[controller]/phone-number")]
+        [HttpDelete("phone-number")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemovePhoneNumber()
         {
@@ -187,7 +188,7 @@ namespace Guilded.Areas.Account.Controllers
             return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
         }
 
-        [HttpGet("[area]/[controller]/change-password")]
+        [HttpGet("change-password")]
         public async Task<IActionResult> ChangePassword()
         {
             var user = await GetCurrentUserAsync();
@@ -199,7 +200,7 @@ namespace Guilded.Areas.Account.Controllers
             return View();
         }
 
-        [HttpPost("[area]/[controller]/change-password")]
+        [HttpPost("change-password")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
@@ -223,7 +224,7 @@ namespace Guilded.Areas.Account.Controllers
             return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
         }
 
-        [HttpGet("[area]/[controller]/set-password")]
+        [HttpGet("set-password")]
         public async Task<IActionResult> SetPassword()
         {
             var user = await GetCurrentUserAsync();
@@ -236,7 +237,7 @@ namespace Guilded.Areas.Account.Controllers
             return View();
         }
 
-        [HttpPost("[area]/[controller]/set-password")]
+        [HttpPost("set-password")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SetPassword(SetPasswordViewModel model)
         {
@@ -260,7 +261,7 @@ namespace Guilded.Areas.Account.Controllers
             return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
         }
 
-        [HttpGet("[area]/[controller]/manage-logins")]
+        [HttpGet("manage-logins")]
         public async Task<IActionResult> ManageLogins(ManageMessageId? message = null)
         {
             ViewData["StatusMessage"] =
@@ -283,7 +284,7 @@ namespace Guilded.Areas.Account.Controllers
             });
         }
 
-        [HttpPost("[area]/[controller]/link-login")]
+        [HttpPost("link-login")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LinkLogin(string provider)
         {
@@ -298,7 +299,7 @@ namespace Guilded.Areas.Account.Controllers
 
         //
         // GET: /Manage/LinkLoginCallback
-        [HttpGet("[area]/[controller]/link-login-callback")]
+        [HttpGet("link-login-callback")]
         public async Task<ActionResult> LinkLoginCallback()
         {
             var user = await GetCurrentUserAsync();
