@@ -64,8 +64,8 @@ else
                 <td>
                     @Html.DisplayFor(m => user.UserName)
                 </td>
-                <td>
-                    @Html.DisplayFor(m => user.Email)
+                <td class="user-email">
+                    @Html.DisplayFor(m => user.Email) &nbsp; <i title="Email @(user.EmailConfirmed ? "confirmed" : "unconfirmed")" class="@(user.EmailConfirmed ? "green check" : "red x") icon"></i>
                 </td>
                 <td class="user-role">
                     @Html.DisplayFor(m => user.Role)
@@ -74,10 +74,12 @@ else
                     <div class="ui small circular top left pointing dropdown icon button">
                         <i class="fa-ellipsis-h icon"></i>
                         <div class="menu">
-                            <a class="item" asp-area="Admin"
-                               asp-controller="Users" asp-action="Edit" asp-route-userId="@user.Id">
-                                <i class="pencil icon"></i> Edit
-                            </a>
+                            @if (!user.EmailConfirmed)
+                            {
+                                <div class="item" data-change-email>
+                                    <i class="envelope icon"></i> Change email address
+                                </div>
+                            }
                             <div class="item" data-change-role>
                                 <i class="users icon"></i> Change role
                             </div>
@@ -108,4 +110,10 @@ else
         Change role
     </div>
     @{ await Html.RenderPartialAsync("ChangeRoleForm", new ChangeRoleViewModel()); }
+</div>
+<div id="changeEmailModal" class="ui modal">
+    <div class="header">
+        Change email address
+    </div>
+    @{ await Html.RenderPartialAsync("ChangeEmailForm", new ChangeEmailViewModel()); }
 </div>

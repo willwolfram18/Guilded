@@ -13,8 +13,13 @@ interface IUserRoleChangeResponse extends IUserAjaxResponse {
     }
 }
 
+interface IUserEmailUpdateResponse extends IUserAjaxResponse {
+    email: string;
+}
+
 const $disableUserModal = $("#disableUserModal");
 const $changeRoleModal = $("#changeRoleModal");
+const $changeEmailModal = $("#changeEmailModal");
 
 function getUserRow(userId: string): JQuery {
     return $(`#usersList tr[data-id='${userId}']`);
@@ -29,6 +34,7 @@ function onAjaxFormSubmitComplete() {
     $(this).removeClass("loading");
     $disableUserModal.modal("hide");
     $changeRoleModal.modal("hide");
+    $changeEmailModal.modal("hide");
 }
 
 function onUserEnabledStateChangeFailure(jqxhr: JQueryXHR) {
@@ -130,12 +136,35 @@ function onChangeUserRoleSuccess(response: IUserRoleChangeResponse): void {
         .find("td.user-role").text(response.roleInfo.roleName);
 }
 
+
+function displayEmailChangeModal(e: JQueryEventObject): void {
+    const $userRow = $(e.target).closest("tr");
+    const userId: string = $userRow.data("id");
+    const userEmail: string = $userRow.find("td.user-email a").text().trim();
+
+    const $changeEmailForm = $changeEmailModal.find("form");
+    const targetUrl: string = $changeEmailForm.data("action").replace(/userId/gi, userId);
+    $changeEmailForm.find("input[type='hidden'][name='UserId']").val(userId).trigger("change");
+    $changeEmailForm.find("input[type='email']").val(userEmail).trigger("change");
+    $changeEmailForm.attr("action", targetUrl);
+
+    $changeEmailModal.modal("show");
+}
+
+function onChangeUserEmailSuccess(response: IUserEmailUpdateResponse): void {
+    const $userRow = getUserRow(response.userId);
+
+    $userRow.find("td.user-email a").text(response.email).attr("href", `mailto:${response.email}`);
+    showSuccessMessage(response.message);
+}
+
 $(document).ready(() => {
     $(".options .ui.dropdown.button").dropdown({
         action: "nothing"
     });
 
-    $("[data-disable-user]").on("click", displayDisableUserModal);
-    $("[data-enable-user]").on("click", enableUserClick);
-    $("[data-change-role]").on("click", displayRoleChangeModal);
+    $("#usersList .options .menu").on("click", "[data-disable-user]", displayDisableUserModal)
+        .on("click", "[data-enable-user]", enableUserClick)
+        .on("click", "[data-change-role]", displayRoleChangeModal)
+        .on("click", "[data-change-email]", displayEmailChangeModal);
 });

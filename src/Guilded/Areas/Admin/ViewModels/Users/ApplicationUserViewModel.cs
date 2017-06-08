@@ -20,6 +20,8 @@ namespace Guilded.Areas.Admin.ViewModels.Users
 
         public bool IsEnabled { get; set; }
 
+        public bool EmailConfirmed { get; set; }
+
         [DataType(DataType.Date)]
         public DateTime? EnabledAfter { get; set; }
 
@@ -40,6 +42,7 @@ namespace Guilded.Areas.Admin.ViewModels.Users
             Role = userRole.Name;
             IsEnabled = user.IsEnabled;
             EnabledAfter = user.EnabledAfter;
+            EmailConfirmed = user.EmailConfirmed;
         }
     }
 }

@@ -58,20 +58,6 @@ namespace Guilded.Areas.Admin.Controllers
             return View(viewModel);
         }
 
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> Edit(string userId)
-        {
-            var user = await _usersDataContext.GetUserByIdAsync(userId);
-
-            if (user == null)
-            {
-                TempData[ViewDataKeys.ErrorMessages] = "That user doesn't appear to exist.";
-                return RedirectToAction(nameof(Index));
-            }
-
-            return await UserEditorView(user);
-        }
-
         [HttpPost("{userId}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EnableUser(string userId)
@@ -102,11 +88,7 @@ namespace Guilded.Areas.Admin.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e.Message, e);
-                return StatusCode(500, new
-                {
-                    message = $"There was en error enabling {user.UserName}.",
-                    userId
-                });
+                return ServerError(user);
             }
 
             return Ok(new
@@ -146,11 +128,7 @@ namespace Guilded.Areas.Admin.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e.Message, e);
-                return StatusCode(500, new
-                {
-                    message = $"There was an error disabling {dbUser.UserName}.",
-                    userId = userToDisable.Id
-                });
+                return ServerError(dbUser);
             }
 
             return Ok(new
@@ -207,11 +185,7 @@ namespace Guilded.Areas.Admin.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e.Message, e);
-                return StatusCode(500, new
-                {
-                    userId = userToChangeRole.UserId,
-                    message = $"There was an error changing the role of user '{dbUser.UserName}'"
-                });
+                return ServerError(dbUser);
             }
 
             return Ok(new
@@ -226,6 +200,54 @@ namespace Guilded.Areas.Admin.Controllers
             });
         }
 
+        [HttpPost("{userId}/email")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangeEmail(ChangeEmailViewModel userToChangeEmail)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var dbUser = await _usersDataContext.GetUserByIdAsync(userToChangeEmail.UserId);
+            if (dbUser == null)
+            {
+                return NotFound(new
+                {
+                    userId = userToChangeEmail.UserId,
+                    message = $"Unable to find user with Id '{userToChangeEmail.UserId}'"
+                });
+            }
+
+            if (dbUser.EmailConfirmed)
+            {
+                return BadRequest(new
+                {
+                    userId = dbUser.Id,
+                    message = $"{dbUser.UserName}'s email has already been confirmed; you cannot update it."
+                });
+            }
+
+            dbUser.Email = userToChangeEmail.NewEmailAddress;
+
+            try
+            {
+                dbUser = await _usersDataContext.UpdateUserAsync(dbUser);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return ServerError(dbUser);
+            }
+
+            return Ok(new
+            {
+                userId = dbUser.Id,
+                message = $"Successfully updated {dbUser.UserName}'s email to {dbUser.Email}.",
+                email = dbUser.Email
+            });
+        }
+
         public override ViewResult View(string viewName, object model)
         {
             Breadcrumbs.Push(new Breadcrumb
@@ -235,17 +257,6 @@ namespace Guilded.Areas.Admin.Controllers
             });
 
             return base.View(viewName, model);
-        }
-
-        private async Task<ViewResult> UserEditorView(ApplicationUser user)
-        {
-            Breadcrumbs.Push(new Breadcrumb
-            {
-                Title = "Edit User",
-                Url = Url.Action(nameof(Edit), new { userId = user.Id})
-            });
-
-            return View("Edit", new ApplicationUserViewModel(user, await _usersDataContext.GetRoleForUserAsync(user)));
         }
 
         private async Task<PaginatedViewModel<ApplicationUserViewModel>> GetUsers(int page)
@@ -270,6 +281,15 @@ namespace Guilded.Areas.Admin.Controllers
                 Models = viewModelItems,
                 PagerUrl = Url.Action(nameof(Index))
             };
+        }
+
+        private ObjectResult ServerError(ApplicationUser dbUser)
+        {
+            return StatusCode(500, new
+            {
+                message = $"There was an error performing the update on {dbUser.UserName}.",
+                userId = dbUser.Id
+            });
         }
     }
 }
