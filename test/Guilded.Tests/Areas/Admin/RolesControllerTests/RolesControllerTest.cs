@@ -11,11 +11,14 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
     {
         protected Mock<IRolesDataContext> MockAdminDataContext;
         protected Mock<ILoggerFactory> MockLoggerFactory;
+        protected Mock<ILogger> MockLogger;
 
         protected override RolesController SetUpController()
         {
             MockAdminDataContext = new Mock<IRolesDataContext>();
             MockLoggerFactory = new Mock<ILoggerFactory>();
+            MockLogger = new Mock<ILogger>();
+            MockLoggerFactory.Setup(f => f.CreateLogger(It.IsAny<string>())).Returns(MockLogger.Object);
 
             return new RolesController(
                 MockAdminDataContext.Object,

@@ -1,4 +1,6 @@
-﻿using Guilded.Areas.Admin.ViewModels.Roles;
+﻿using System.Security.Claims;
+using System.Security.Principal;
+using Guilded.Areas.Admin.ViewModels.Roles;
 using Guilded.Data.Identity;
 using Moq;
 using NUnit.Framework;
@@ -8,6 +10,13 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
 {
     public class WhenEditOrCreatePostIsCalled : RolesControllerTest
     {
+        protected override Mock<ClaimsPrincipal> SetUpUser()
+        {
+            var mockClaimsPrincipal = new Mock<ClaimsPrincipal>();
+            mockClaimsPrincipal.Setup(c => c.Identity).Returns(new Mock<IIdentity>().Object);
+            return mockClaimsPrincipal;
+        }
+
         [Test]
         public async Task IfRoleDoesNotExistThenCreateRoleIsCalled()
         {

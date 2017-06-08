@@ -17,7 +17,7 @@ namespace Guilded.Areas.Admin.Controllers
     [Authorize(Policy = RoleClaimTypes.RoleManagementClaim)]
     public class RolesController : BaseController
     {
-        public const int PageSize = 1;
+        public const int PageSize = 20;
 
         private readonly IRolesDataContext _db;
         private readonly ILogger _log;
@@ -75,7 +75,7 @@ namespace Guilded.Areas.Admin.Controllers
                 dbRole = await _db.CreateRoleAsync(role.ToApplicationRole());
                 ViewData[ViewDataKeys.SuccessMessages] = "Role successfully created!";
 
-                _log.LogInformation(EventIdRangeStart + 1, $"{User.Identity.Name} created role {role.Name} ({role.Id}).");
+                _log.LogInformation($"{User.Identity.Name} created role {role.Name} ({role.Id}).");
             }
             else
             {
@@ -85,13 +85,13 @@ namespace Guilded.Areas.Admin.Controllers
                     dbRole = await _db.UpdateRoleAsync(dbRole);
                     ViewData[ViewDataKeys.SuccessMessages] = "Role successfully updated!";
 
-                    _log.LogInformation(EventIdRangeStart + 2, $"{User.Identity.Name} updated role {role.Name} ({role.Id}).");
+                    _log.LogInformation($"{User.Identity.Name} updated role {role.Name} ({role.Id}).");
 
                 }
                 catch (Exception e)
                 {
                     ViewData[ViewDataKeys.ErrorMessages] = "An error occurred while attempting to save the role.";
-                    _log.LogError(EventIdRangeStart + 3, e.Message, e);
+                    _log.LogError(e.Message, e);
                 }
             }
 
@@ -112,13 +112,13 @@ namespace Guilded.Areas.Admin.Controllers
             var result = await _db.DeleteRole(role);
             if (!result.Succeeded)
             {
-                _log.LogError(EventIdRangeStart + 4, $"{User.Identity.Name} failed to delete role {role.Name}: " +
+                _log.LogError($"{User.Identity.Name} failed to delete role {role.Name}: " +
                     $"{string.Join(",", result.Errors.Select(e => e.Description))}");
 
                 return StatusCode(500, "Failed to delete role.");
             }
 
-            _log.LogInformation(EventIdRangeStart + 5, $"{User.Identity.Name} deleted role {role.Name} ({role.Id}).");
+            _log.LogInformation($"{User.Identity.Name} deleted role {role.Name} ({role.Id}).");
             return Ok(new { message = $"Successfully deleted '{role.Name}'!", roleId });
         }
 

@@ -101,7 +101,7 @@ namespace Guilded.Areas.Admin.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(EventIdRangeStart + 11, e.Message, e);
+                _logger.LogError(e.Message, e);
                 return StatusCode(500, new
                 {
                     message = $"There was en error enabling {user.UserName}.",
@@ -145,7 +145,7 @@ namespace Guilded.Areas.Admin.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(EventIdRangeStart + 10, e.Message, e);
+                _logger.LogError(e.Message, e);
                 return StatusCode(500, new
                 {
                     message = $"There was an error disabling {dbUser.UserName}.",

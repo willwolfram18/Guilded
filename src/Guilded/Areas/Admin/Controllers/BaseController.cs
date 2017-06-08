@@ -11,8 +11,6 @@ namespace Guilded.Areas.Admin.Controllers
     [Area("Admin")]
     public class BaseController : Guilded.Controllers.BaseController
     {
-        protected const int EventIdRangeStart = 200;
-
         protected readonly Stack<Breadcrumb> Breadcrumbs;
 
         public BaseController()
