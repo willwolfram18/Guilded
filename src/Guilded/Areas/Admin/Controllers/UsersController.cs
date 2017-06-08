@@ -165,6 +165,67 @@ namespace Guilded.Areas.Admin.Controllers
             });
         }
 
+        [HttpPost("{userId}/role")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangeRole(ChangeRoleViewModel userToChangeRole)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var dbUser = await _usersDataContext.GetUserByIdAsync(userToChangeRole.UserId);
+
+            if (dbUser == null)
+            {
+                return NotFound(new
+                {
+                    userId = userToChangeRole.UserId,
+                    message = $"Unable to find user with Id '{userToChangeRole.UserId}'."
+                });
+            }
+
+            var newRole = await _rolesDataContext.GetRoleByIdAsync(userToChangeRole.NewRoleId);
+
+            if (newRole == null)
+            {
+                return NotFound(new
+                {
+                    userId = userToChangeRole.UserId,
+                    message = $"Unable to find role with Id '{userToChangeRole.NewRoleId}'.",
+                    roleInfo = new
+                    {
+                        roleId = userToChangeRole.NewRoleId
+                    }
+                });
+            }
+
+            try
+            {
+                dbUser = await _usersDataContext.ChangeUserRoleAsync(dbUser, newRole);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, new
+                {
+                    userId = userToChangeRole.UserId,
+                    message = $"There was an error changing the role of user '{dbUser.UserName}'"
+                });
+            }
+
+            return Ok(new
+            {
+                userId = userToChangeRole.UserId,
+                message = $"Successfully changed user '{dbUser.UserName}' to role '{newRole.Name}'.",
+                roleInfo = new
+                {
+                    roleId = newRole.Id,
+                    roleName = newRole.Name
+                }
+            });
+        }
+
         public override ViewResult View(string viewName, object model)
         {
             Breadcrumbs.Push(new Breadcrumb

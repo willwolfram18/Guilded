@@ -4,11 +4,16 @@
                     new List<SelectListItem>();
 }
 
-<form class="ui form" asp-antiforgery="true">
+<form class="ui form" asp-antiforgery="true" data-ajax="true" data-ajax-begin="onAjaxFormSubmitBegin"
+      data-ajax-complete="onAjaxFormSubmitComplete" data-ajax-method="Post" data-ajax-success="onChangeUserRoleSuccess"
+      data-ajax-failure="onUserEnabledStateChangeFailure"
+      data-action="@Url.Action("ChangeRole", "Users", new { area = "Admin", userId = "userId" })">
     <div class="content">
         <input asp-for="UserId"/>
         <div class="field">
-            <label asp-for="OldRoleId"></label>
+            <label>
+                Current Role
+            </label>
             <div id="oldRoleName"></div>
         </div>
         <div class="field">

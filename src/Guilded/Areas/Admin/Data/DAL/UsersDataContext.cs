@@ -48,5 +48,26 @@ namespace Guilded.Areas.Admin.Data.DAL
 
             return await GetUserByIdAsync(user.Id);
         }
+
+        public async Task<ApplicationUser> ChangeUserRoleAsync(ApplicationUser user, ApplicationRole role)
+        {
+            var currentRole = await GetRoleForUserAsync(user);
+
+            var result = await _userManager.RemoveFromRoleAsync(user, currentRole.Name);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception($"Failed to remove user '{user.UserName}' from current role '{currentRole.Name}'");
+            }
+
+            result = await _userManager.AddToRoleAsync(user, role.Name);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception($"Failed to add user '{user.UserName}' to role '{role.Name}'");
+            }
+
+            return await GetUserByIdAsync(user.Id);
+        }
     }
 }

@@ -60,14 +60,14 @@ else
         @foreach (var user in Model.Models)
         {
             <tr class="@(!user.IsEnabled ? "disabled" : "") user" data-id="@user.Id"
-                data-role-id="@user.RoleId" data-role-name="@user.Role">
+                data-role-id="@user.RoleId">
                 <td>
                     @Html.DisplayFor(m => user.UserName)
                 </td>
                 <td>
                     @Html.DisplayFor(m => user.Email)
                 </td>
-                <td>
+                <td class="user-role">
                     @Html.DisplayFor(m => user.Role)
                 </td>
                 <td class="options">
