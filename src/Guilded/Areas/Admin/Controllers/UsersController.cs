@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Guilded.Services;
 
 namespace Guilded.Areas.Admin.Controllers
 {
@@ -19,14 +20,17 @@ namespace Guilded.Areas.Admin.Controllers
 
         private readonly IUsersDataContext _usersDataContext;
         private readonly IRolesDataContext _rolesDataContext;
+        private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
 
         public UsersController(IUsersDataContext usersDataContext,
             IRolesDataContext rolesDataContext,
+            IEmailSender emailSender,
             ILoggerFactory loggerFactory)
         {
             _usersDataContext = usersDataContext;
             _rolesDataContext = rolesDataContext;
+            _emailSender = emailSender;
             _logger = loggerFactory.CreateLogger<UsersController>();
         }
 
@@ -71,11 +75,7 @@ namespace Guilded.Areas.Admin.Controllers
 
             if (user == null)
             {
-                return NotFound(new
-                {
-                    message = $"Unable to find user with Id '{userId}'.",
-                    userId
-                });
+                return UserNotFound(userId);
             }
 
             user.IsEnabled = true;
@@ -111,11 +111,7 @@ namespace Guilded.Areas.Admin.Controllers
 
             if (dbUser == null)
             {
-                return NotFound(new
-                {
-                    message = $"Unable to find user with Id '{userToDisable.Id}'.",
-                    userId = userToDisable.Id
-                });
+                return UserNotFound(userToDisable.Id);
             }
 
             dbUser.IsEnabled = false;
@@ -156,11 +152,7 @@ namespace Guilded.Areas.Admin.Controllers
 
             if (dbUser == null)
             {
-                return NotFound(new
-                {
-                    userId = userToChangeRole.UserId,
-                    message = $"Unable to find user with Id '{userToChangeRole.UserId}'."
-                });
+                return UserNotFound(userToChangeRole.UserId);
             }
 
             var newRole = await _rolesDataContext.GetRoleByIdAsync(userToChangeRole.NewRoleId);
@@ -212,11 +204,7 @@ namespace Guilded.Areas.Admin.Controllers
             var dbUser = await _usersDataContext.GetUserByIdAsync(userToChangeEmail.UserId);
             if (dbUser == null)
             {
-                return NotFound(new
-                {
-                    userId = userToChangeEmail.UserId,
-                    message = $"Unable to find user with Id '{userToChangeEmail.UserId}'"
-                });
+                return UserNotFound(userToChangeEmail.UserId)
             }
 
             if (dbUser.EmailConfirmed)
@@ -248,6 +236,38 @@ namespace Guilded.Areas.Admin.Controllers
             });
         }
 
+        [HttpPost("{userId}/confirmation-email")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SendEmail(string userId)
+        {
+            var dbUser = await _usersDataContext.GetUserByIdAsync(userId);
+
+            if (dbUser == null)
+            {
+                return UserNotFound(userId);
+            }
+
+            if (dbUser.EmailConfirmed)
+            {
+                return BadRequest(new
+                {
+                    message = $"{dbUser.UserName}'s email has already been confirmed."
+                });
+            }
+
+            var code = await _usersDataContext.GenerateEmailConfirmationTokenAsync(dbUser);
+            var callbackUrl = Url.Action(
+                nameof(Account.Controllers.HomeController.ConfirmEmail),
+                "Home",
+                new { area = "Account", userId, code },
+                protocol: HttpContext.Request.Scheme
+            );
+            await _emailSender.SendEmailAsync(dbUser.Email, "Confirm your account",
+                $"Please confirm your account by clicking <a href='{callbackUrl}'>this link</a>.");
+
+            return Ok();
+        }
+
         public override ViewResult View(string viewName, object model)
         {
             Breadcrumbs.Push(new Breadcrumb
@@ -257,6 +277,15 @@ namespace Guilded.Areas.Admin.Controllers
             });
 
             return base.View(viewName, model);
+        }
+
+        private NotFoundObjectResult UserNotFound(string userId)
+        {
+            return NotFound(new
+            {
+                userId,
+                message = $"Unable to find user with Id '{userId}'."
+            });
         }
 
         private async Task<PaginatedViewModel<ApplicationUserViewModel>> GetUsers(int page)

@@ -158,6 +158,29 @@ function onChangeUserEmailSuccess(response: IUserEmailUpdateResponse): void {
     showSuccessMessage(response.message);
 }
 
+
+function onSendConfirmationEmailClick(e: JQueryEventObject): void {
+    const $userRow = $(e.target).closest("tr");
+    const userId: string = $userRow.data("id");
+    const targetUrl: string = $userRow.closest("#usersList").data("confirmation-email-url").replace(/userId/ig, userId);
+    const userEmail = $userRow.find("td.user-email a").text().trim();
+
+    confirmAction(`A new confirmation email will be sent to ${userEmail}. Is this correct?`,
+        () => {
+            $.ajax({
+                method: "POST",
+                url: targetUrl,
+                data: {
+                    __RequestVerificationToken: $("input[type='hidden'][name='__RequestVerificationToken']").val(),
+                },
+                beforeSend: hideErrorAndSuccessMessages,
+                success: () => showSuccessMessage("Email sent!"),
+                error: onUserEnabledStateChangeFailure
+            })
+        }
+    );
+}
+
 $(document).ready(() => {
     $(".options .ui.dropdown.button").dropdown({
         action: "nothing"
@@ -166,5 +189,6 @@ $(document).ready(() => {
     $("#usersList .options .menu").on("click", "[data-disable-user]", displayDisableUserModal)
         .on("click", "[data-enable-user]", enableUserClick)
         .on("click", "[data-change-role]", displayRoleChangeModal)
-        .on("click", "[data-change-email]", displayEmailChangeModal);
+        .on("click", "[data-change-email]", displayEmailChangeModal)
+        .on("click", "[data-send-confirmation]", onSendConfirmationEmailClick);
 });

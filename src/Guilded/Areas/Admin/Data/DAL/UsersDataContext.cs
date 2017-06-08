@@ -69,5 +69,10 @@ namespace Guilded.Areas.Admin.Data.DAL
 
             return await GetUserByIdAsync(user.Id);
         }
+
+        public Task<string> GenerateEmailConfirmationTokenAsync(ApplicationUser user)
+        {
+            return _userManager.GenerateEmailConfirmationTokenAsync(user);
+        }
     }
 }

@@ -16,5 +16,7 @@ namespace Guilded.Areas.Admin.Data.DAL
         Task<ApplicationUser> UpdateUserAsync(ApplicationUser user);
 
         Task<ApplicationUser> ChangeUserRoleAsync(ApplicationUser user, ApplicationRole newRole);
+
+        Task<string> GenerateEmailConfirmationTokenAsync(ApplicationUser user);
     }
 }

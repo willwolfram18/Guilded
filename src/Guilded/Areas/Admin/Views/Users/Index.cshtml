@@ -39,7 +39,8 @@
 else
 {
     <pager pager-vertical-location="Top" />
-    <table id="usersList" class="ui extra large striped celled table" data-enable-url="@Url.Action("EnableUser", "Users", new { area = "Admin", userId = "userId" })">
+    <table id="usersList" class="ui extra large striped celled table" data-enable-url="@Url.Action("EnableUser", "Users", new { area = "Admin", userId = "userId" })"
+           data-confirmation-email-url="@Url.Action("SendEmail", "Users", new {area = "Admin", userId = "userId"})">
         <thead>
         <tr>
             <th>
@@ -78,6 +79,9 @@ else
                             {
                                 <div class="item" data-change-email>
                                     <i class="envelope icon"></i> Change email address
+                                </div>
+                                <div class="item" data-send-confirmation>
+                                    <i class="send icon"></i> Send confirmation email
                                 </div>
                             }
                             <div class="item" data-change-role>
