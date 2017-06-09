@@ -10,6 +10,11 @@ namespace Guilded.Extensions
 {
     public static class ApplicationRoleExtensions
     {
+        public static bool HasRoleClaim(this ApplicationRole role, RoleClaim roleClaim)
+        {
+            return role.Claims.FirstOrDefault(c => c.ClaimType == roleClaim.ClaimType) != null;
+        }
+
         public static void UpdateFromViewModel(this ApplicationRole currentRole, EditOrCreateRoleViewModel viewModel)
         {
             if (currentRole == null)

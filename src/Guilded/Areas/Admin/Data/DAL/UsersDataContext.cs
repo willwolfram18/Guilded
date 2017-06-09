@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Guilded.Areas.Admin.Data.DAL
@@ -27,6 +28,11 @@ namespace Guilded.Areas.Admin.Data.DAL
         public Task<ApplicationUser> GetUserByIdAsync(string id)
         {
             return _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+        public Task<ApplicationUser> GetUserFromClaimsPrincipalAsync(ClaimsPrincipal user)
+        {
+            return _userManager.GetUserAsync(user);
         }
 
         public async Task<ApplicationRole> GetRoleForUserAsync(ApplicationUser user)

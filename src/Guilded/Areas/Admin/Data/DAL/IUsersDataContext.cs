@@ -1,6 +1,7 @@
 ﻿using Guilded.Data.DAL;
 using Guilded.Data.Identity;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Guilded.Areas.Admin.Data.DAL
@@ -10,6 +11,8 @@ namespace Guilded.Areas.Admin.Data.DAL
         IQueryable<ApplicationUser> GetUsers();
 
         Task<ApplicationUser> GetUserByIdAsync(string id);
+
+        Task<ApplicationUser> GetUserFromClaimsPrincipalAsync(ClaimsPrincipal user);
 
         Task<ApplicationRole> GetRoleForUserAsync(ApplicationUser user);
 
