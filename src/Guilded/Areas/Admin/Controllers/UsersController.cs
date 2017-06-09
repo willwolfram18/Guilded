@@ -2,7 +2,10 @@
 using Guilded.Areas.Admin.ViewModels.Users;
 using Guilded.Constants;
 using Guilded.Data.Identity;
+using Guilded.Security.Claims;
+using Guilded.Services;
 using Guilded.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
@@ -10,10 +13,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Guilded.Services;
 
 namespace Guilded.Areas.Admin.Controllers
 {
+    [Authorize(RoleClaimTypes.UserManagementClaim)]
     public class UsersController : BaseController
     {
         public const int PageSize = 20;
@@ -204,7 +207,7 @@ namespace Guilded.Areas.Admin.Controllers
             var dbUser = await _usersDataContext.GetUserByIdAsync(userToChangeEmail.UserId);
             if (dbUser == null)
             {
-                return UserNotFound(userToChangeEmail.UserId)
+                return UserNotFound(userToChangeEmail.UserId);
             }
 
             if (dbUser.EmailConfirmed)

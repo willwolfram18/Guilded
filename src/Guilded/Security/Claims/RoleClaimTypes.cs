@@ -6,6 +6,7 @@ namespace Guilded.Security.Claims
     public static class RoleClaimTypes
     {
         public const string RoleManagementClaim = "Guilded:Admin:Roles";
+        public const string UserManagementClaim = "Guilded:Admin:Users";
         public const string ForumsPinningClaim = "Guilded:Forums:Pin Posts";
         public const string ForumsLockingClaim = "Guilded:Forums:Lock Posts";
         public const string ForumsReaderClaim = "Guilded:Forums:Read Posts";
@@ -14,6 +15,10 @@ namespace Guilded.Security.Claims
         public static readonly RoleClaim RoleManagement = new RoleClaim(
             RoleManagementClaim,
             "Permission to create, edit, and apply roles"
+        );
+        public static readonly RoleClaim UserManagement = new RoleClaim(
+            UserManagementClaim,
+            "Permission to enable or disable users, and manage their website role"
         );
 
         public static readonly RoleClaim ForumsPinning = new RoleClaim
@@ -40,6 +45,7 @@ namespace Guilded.Security.Claims
         public static readonly IEnumerable<RoleClaim> RoleClaims = new List<RoleClaim>
         {
             RoleManagement,
+            UserManagement,
             ForumsPinning,
             ForumsLocking,
             ForumsReader,
