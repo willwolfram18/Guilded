@@ -11,13 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BattleNetApi\BattleNetApi.csproj" />
-    <ProjectReference Include="..\Guilded.Extensions\Guilded.Extensions.csproj" />
-    <ProjectReference Include="..\Guilded.Identity\Guilded.Identity.csproj" />
-    <ProjectReference Include="..\Guilded.Security\Guilded.Security.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="1.1.1" />

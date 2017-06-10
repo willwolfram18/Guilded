@@ -1,16 +1,21 @@
 ﻿using Guilded.Areas.Admin.ViewModels.Roles;
+using Guilded.Data.Identity;
 using Guilded.Security.Claims;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DataModel = Guilded.Identity.ApplicationRole;
 
 namespace Guilded.Extensions
 {
     public static class ApplicationRoleExtensions
     {
-        public static void UpdateFromViewModel(this DataModel currentRole, EditOrCreateRoleViewModel viewModel)
+        public static bool HasRoleClaim(this ApplicationRole role, RoleClaim roleClaim)
+        {
+            return role.Claims.Any(c => c.ClaimType == roleClaim.ClaimType);
+        }
+
+        public static void UpdateFromViewModel(this ApplicationRole currentRole, EditOrCreateRoleViewModel viewModel)
         {
             if (currentRole == null)
             {

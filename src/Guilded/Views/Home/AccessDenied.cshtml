@@ -5,7 +5,17 @@
 <h3>
     Access Denied
 </h3>
-<p>
-    It appears you do not have the necessary permissions to access that page or resource. If you believe
-    that is an error please contact an officer or administrator.
-</p>
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        It appears you do not have the necessary permissions to access that page or resource. If you believe
+        there is an error please contact an officer or administrator.
+    </p>
+}
+else
+{
+    <p>
+        It appears you either do not have the necessary permissions to access that page or resource, or
+        If you believe there is an error please contact an officer or administrator.
+    </p>
+}

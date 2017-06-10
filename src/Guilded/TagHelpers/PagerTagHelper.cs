@@ -1,33 +1,44 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Guilded.ViewModels;
 using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Guilded.TagHelpers
 {
-    [HtmlTargetElement("guilded-pager", TagStructure = TagStructure.WithoutEndTag, Attributes = RequiredAttributes)]
+    [HtmlTargetElement("pager", TagStructure = TagStructure.WithoutEndTag, Attributes = RequiredAttributes)]
     public class PagerTagHelper : TagHelper
     {
         private const string OutputTag = "div";
-        private const string CurrentPageAttribute = "pager-page";
-        private const string LastPageAttribute = "pager-last-page";
-        private const string UrlAttribute = "pager-url";
+        private const string DefaultCssClass = "ui buttons pager";
+        private const string ModelAttribute = "model";
         private const string VerticalLocationAttribute = "pager-vertical-location";
-        private const string RequiredAttributes = CurrentPageAttribute + "," +
-            LastPageAttribute + "," +
-            UrlAttribute + "," +
-            VerticalLocationAttribute;
+        private const string RequiredAttributes = VerticalLocationAttribute;
 
-        [HtmlAttributeName(CurrentPageAttribute)]
-        public int CurrentPage { get; set; }
+        private IPaginatedViewModel _model;
 
-        [HtmlAttributeName(LastPageAttribute)]
-        public int LastPage { get; set; }
+        [HtmlAttributeName(ModelAttribute)]
+        public IPaginatedViewModel Model {
+            get
+            {
+                _model = _model ?? ViewContext.ViewData.Model as IPaginatedViewModel;
+                if (_model == null)
+                {
+                    throw new ArgumentException($"The model for the pager does not implement {nameof(IPaginatedViewModel)}");
+                }
 
-        [HtmlAttributeName(UrlAttribute)]
-        public string Url { get; set; }
+                return _model;
+            }
+            set => _model = value;
+        }
 
         [HtmlAttributeName(VerticalLocationAttribute)]
         public PagerVerticalLocation VerticalLocation { get; set; }
+
+        [ViewContext]
+        public ViewContext ViewContext { get; set; }
 
         public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
@@ -37,21 +48,17 @@ namespace Guilded.TagHelpers
             output.TagMode = TagMode.StartTagAndEndTag;
 
             // Nothing to output, since there are is only one page.
-            if (LastPage == 0 || LastPage == 1)
+            if (Model.LastPage == 0 || Model.LastPage == 1)
             {
                 output.Content.SetHtmlContent("");
                 return base.ProcessAsync(context, output);
             }
 
-            output.Attributes.SetAttribute("class", $"ui buttons pager {VerticalLocation.ToString().ToLower()} {currentCss?.Value}");
+            output.Attributes.SetAttribute("class", $"{DefaultCssClass} {VerticalLocation.ToString().ToLower()} {currentCss?.Value}");
 
-            var firstButton = CreateFirstButton();
-            var prevCurrentAndNextButtons = CreatePrevCurrentAndNextButtons();
-            var lastButton = CreateLastButton();
-
-            output.Content.AppendHtml(firstButton);
-            output.Content.AppendHtml(prevCurrentAndNextButtons);
-            output.Content.AppendHtml(lastButton);
+            output.Content.AppendHtml(CreateFirstButton());
+            output.Content.AppendHtml(CreatePrevCurrentAndNextButtons());
+            output.Content.AppendHtml(CreateLastButton());
 
             return base.ProcessAsync(context, output);
         }
@@ -60,12 +67,10 @@ namespace Guilded.TagHelpers
         {
             var firstButton = new HtmlContentBuilder();
 
-            if (CurrentPage == 1)
+            if (Model.CurrentPage != 1)
             {
-                return firstButton;
+                firstButton.SetHtmlContent(FirstOrLastPageButtonHtml(1));
             }
-
-            firstButton.AppendHtml(FirstOrLastPageButtonHtml(1));
 
             return firstButton;
         }
@@ -74,23 +79,21 @@ namespace Guilded.TagHelpers
         {
             var lastButton = new HtmlContentBuilder();
 
-            if (CurrentPage == LastPage || LastPage == 0)
+            if (Model.CurrentPage != Model.LastPage && Model.LastPage != 0)
             {
-                return lastButton;
+                lastButton.SetHtmlContent(FirstOrLastPageButtonHtml(Model.LastPage));
             }
-
-            lastButton.AppendHtml(FirstOrLastPageButtonHtml(LastPage));
 
             return lastButton;
         }
 
         private string FirstOrLastPageButtonHtml(int pageNumber)
         {
-            string textAndIcon = pageNumber == 1 ? 
+            var textAndIcon = pageNumber == 1 ? 
                 "<i class='chevron left icon'></i> First" :
                 "Last <i class='chevron right icon'></i>";
 
-            return $@"<a class='ui icon button' href='{Url}?page={pageNumber}'>
+            return $@"<a class='ui icon button' href='{Model.PagerUrl}?page={pageNumber}'>
     {textAndIcon}
 </a>";
         }
@@ -99,24 +102,24 @@ namespace Guilded.TagHelpers
         {
             var builder = new HtmlContentBuilder();
 
-            if (CurrentPage - 2 >= 1)
+            if (Model.CurrentPage - 2 >= 1)
             {
                 builder.AppendHtml("<div class='ui button disabled'>...</div>");
             }
 
-            if (CurrentPage != 1)
+            if (Model.CurrentPage != 1)
             {
-                builder.AppendHtml(NeighborButton(CurrentPage - 1));
+                builder.AppendHtml(NeighborButton(Model.CurrentPage - 1));
             }
 
-            builder.AppendHtml($"<div class='ui button active'>{CurrentPage}</div>");
+            builder.AppendHtml($"<div class='ui button active'>{Model.CurrentPage}</div>");
 
-            if (CurrentPage != LastPage)
+            if (Model.CurrentPage != Model.LastPage)
             {
-                builder.AppendHtml(NeighborButton(CurrentPage + 1));
+                builder.AppendHtml(NeighborButton(Model.CurrentPage + 1));
             }
 
-            if (CurrentPage + 2 <= LastPage)
+            if (Model.CurrentPage + 2 <= Model.LastPage)
             {
                 builder.AppendHtml("<div class='ui button disabled'>...</div>");
             }
@@ -126,7 +129,7 @@ namespace Guilded.TagHelpers
 
         private string NeighborButton(int pageNumber)
         {
-            return $@"<a class='ui button' href='{Url}?page={pageNumber}'>{pageNumber}</a>";
+            return $@"<a class='ui button' href='{Model.PagerUrl}?page={pageNumber}'>{pageNumber}</a>";
         }
     }
 }

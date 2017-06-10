@@ -1,14 +1,24 @@
 ﻿@{
-    ViewData["Title"] = "Home";
+    ViewData[ViewDataKeys.Title] = "Home";
 }
 
 <div class="ui extra large animated relaxed divided list">
-    <a class="item" asp-area="Admin" asp-controller="Roles" asp-action="Index">
+    <a class="item" asp-area="Admin" asp-controller="Roles" asp-action="Index"
+       required-claim="@RoleClaimTypes.RoleManagement">
         <div class="header">
             Role Management
         </div>
         <div class="description">
             Create new roles, and edit existing ones
+        </div>
+    </a>
+    <a class="item" asp-area="Admin" asp-controller="Users" asp-action="Index"
+       required-claim="@RoleClaimTypes.UserManagement">
+        <div class="header">
+            User Management
+        </div>
+        <div class="description">
+            Manage users
         </div>
     </a>
     <div class="item">

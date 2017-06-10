@@ -1,6 +1,6 @@
-﻿using Guilded.Data.Models.Forums;
+﻿using Guilded.Data.Identity;
+using Guilded.Data.Models.Forums;
 using Guilded.Data.Models.Home;
-using Guilded.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

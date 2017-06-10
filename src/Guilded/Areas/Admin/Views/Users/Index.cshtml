@@ -1,0 +1,123 @@
+﻿@model IPaginatedViewModel<ApplicationUserViewModel>
+@{
+    ViewData[ViewDataKeys.Title] = "Users";
+    var pagerUrl = Url.Action("Index", "Users", new {area = "Admin"});
+}
+
+@section Styles {
+    <environment names="Development">
+        <link rel="stylesheet" href="css/admin/users.css"/>
+    </environment>
+    <environment names="Staging, Production">
+        <link rel="stylesheet" href="css/admin/users.min.css" asp-append-version="true"/>
+    </environment>
+}
+
+@section Scripts {
+    <environment names="Development">
+        <script src="js/admin/users.js"></script>
+    </environment>
+    <environment names="Staging, Production">
+        <script src="js/admin/users.min.js"></script>
+    </environment>
+}
+
+<h3>
+    Users
+</h3>
+
+@{ await Html.SuccessAndErrorMessages(); }
+
+@if (!Model.Models.Any())
+{
+    <div class="ui message">
+        <h3>
+            There are no users to display!
+        </h3>
+    </div>
+}
+else
+{
+    <pager pager-vertical-location="Top" />
+    <table id="usersList" class="ui extra large striped celled table" data-enable-url="@Url.Action("EnableUser", "Users", new { area = "Admin", userId = "userId" })"
+           data-confirmation-email-url="@Url.Action("SendEmail", "Users", new {area = "Admin", userId = "userId"})">
+        <thead>
+        <tr>
+            <th>
+                @Html.LabelFor(m => m.Models.FirstOrDefault().UserName)
+            </th>
+            <th>
+                @Html.LabelFor(m => m.Models.FirstOrDefault().Email)
+            </th>
+            <th>
+                @Html.LabelFor(m => m.Models.FirstOrDefault().Role)
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var user in Model.Models)
+        {
+            <tr class="@(!user.IsEnabled ? "disabled" : "") user" data-id="@user.Id"
+                data-role-id="@user.RoleId">
+                <td>
+                    @Html.DisplayFor(m => user.UserName)
+                </td>
+                <td class="user-email">
+                    @Html.DisplayFor(m => user.Email) &nbsp; <i title="Email @(user.EmailConfirmed ? "confirmed" : "unconfirmed")" class="@(user.EmailConfirmed ? "green check" : "red x") icon"></i>
+                </td>
+                <td class="user-role">
+                    @Html.DisplayFor(m => user.Role)
+                </td>
+                <td class="options">
+                    <div class="ui small circular top left pointing dropdown icon button">
+                        <i class="fa-ellipsis-h icon"></i>
+                        <div class="menu">
+                            @if (!user.EmailConfirmed)
+                            {
+                                <div class="item" data-change-email>
+                                    <i class="envelope icon"></i> Change email address
+                                </div>
+                                <div class="item" data-send-confirmation>
+                                    <i class="send icon"></i> Send confirmation email
+                                </div>
+                            }
+                            <div class="item" data-change-role>
+                                <i class="users icon"></i> Change role
+                            </div>
+                            <div class="item @(user.IsEnabled ? "hidden" : "")" data-enable-user>
+                                <i class="green power icon"></i> Enable user
+                            </div>
+                            <div class="item @(user.IsEnabled ? "" : "hidden")" data-disable-user>
+                                <i class="red power icon"></i> Disable user
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <pager pager-vertical-location="Bottom" />
+}
+
+<div id="disableUserModal" class="ui modal">
+    <div class="header">
+        Disable user
+    </div>
+    @{ await Html.RenderPartialAsync("DisableUserForm", new DisableUserViewModel()); }
+</div>
+<div id="changeRoleModal" class="ui modal">
+    <div class="header">
+        Change role
+    </div>
+    @{ await Html.RenderPartialAsync("ChangeRoleForm", new ChangeRoleViewModel()); }
+</div>
+<div id="changeEmailModal" class="ui modal">
+    <div class="header">
+        Change email address
+    </div>
+    @{ await Html.RenderPartialAsync("ChangeEmailForm", new ChangeEmailViewModel()); }
+</div>

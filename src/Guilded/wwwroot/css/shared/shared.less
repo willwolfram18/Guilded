@@ -5,6 +5,11 @@ html, body
     height: 100%;
 }
 
+.hidden
+{
+    display: none!important;
+}
+
 .segment
 {
     &.warning
@@ -27,5 +32,29 @@ html, body
     &.footer
     {
         margin-top: 15px;
+    }
+}
+
+.ui.modal
+{
+    > form
+    {
+        > .content
+        {
+            display: block;
+            width: 100%;
+            font-size: 1em;
+            line-height: 1.4;
+            padding: 1.5rem;
+            background: #FFFFFF;
+        }
+
+        > .actions
+        {
+            background: #F9FAFB;
+            padding: 1rem 1rem;
+            border-top: 1px solid rgba(34, 36, 38, 0.15);
+            text-align: right;
+        }
     }
 }

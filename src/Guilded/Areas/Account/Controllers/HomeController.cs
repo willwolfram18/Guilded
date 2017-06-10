@@ -1,11 +1,12 @@
 ﻿using Guilded.Areas.Account.ViewModels.Home;
 using Guilded.Constants;
-using Guilded.Identity;
+using Guilded.Data.Identity;
 using Guilded.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -41,7 +42,7 @@ namespace Guilded.Areas.Account.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("[area]/sign-in")]
+        [HttpGet("sign-in")]
         public ViewResult SignIn(string returnUrl = null)
         {
             ViewData[ViewDataKeys.ReturnUrl] = returnUrl;
@@ -49,7 +50,7 @@ namespace Guilded.Areas.Account.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("[area]/sign-in")]
+        [HttpPost("sign-in")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignIn(SignInUserViewModel user, string returnUrl = null)
         {
@@ -60,21 +61,33 @@ namespace Guilded.Areas.Account.Controllers
 
             ViewData["ReturnUrl"] = returnUrl;
 
-            var result = await _signInManager.PasswordSignInAsync(user.Email, user.Password, user.RememberMe, false);
+            var appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
 
-            if (result.Succeeded)
+            if (appUser != null)
             {
-                _logger.LogInformation(1, "User logged in.");
-                return RedirectToLocal(returnUrl);
-            }
-            if (result.RequiresTwoFactor)
-            {
-                return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, RememberMe = user.RememberMe });
-            }
-            if (result.IsLockedOut)
-            {
-                _logger.LogWarning(2, "User account locked out.");
-                return View("Lockout");
+                if (!appUser.IsEnabled || appUser.IsTemporarilyDisabled)
+                {
+                    ModelState.AddModelError(string.Empty,
+                        "Your account is currently disabled and cannot be logged in to.");
+                    return View(user);
+                }
+
+                var result = await _signInManager.PasswordSignInAsync(appUser.UserName, user.Password, user.RememberMe, false);
+
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation(1, "User logged in.");
+                    return RedirectToLocal(returnUrl);
+                }
+                if (result.RequiresTwoFactor)
+                {
+                    return RedirectToAction(nameof(SendCode), new {ReturnUrl = returnUrl, user.RememberMe});
+                }
+                if (result.IsLockedOut)
+                {
+                    _logger.LogWarning(2, "User account locked out.");
+                    return View("Lockout");
+                }
             }
 
             ModelState.AddModelError(string.Empty, "Invalid login attempt.");
@@ -82,7 +95,7 @@ namespace Guilded.Areas.Account.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("[area]/register")]
+        [HttpGet("register")]
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
@@ -90,23 +103,35 @@ namespace Guilded.Areas.Account.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("[area]/register")]
+        [HttpPost("register")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterUserViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (await RecaptchaIsValid(model.Recaptcha) && ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Username, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Username,
+                    Email = model.Email,
+                    IsEnabled = true,
+                };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, "Guest");
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
                     // Send an email with this link
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    //await _emailSender.SendEmailAsync(user.Email, "Confirm your account",
-                    //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbackUrl = Url.Action(
+                        nameof(ConfirmEmail),
+                        "Home",
+                        new { area = "Account", userId = user.Id, code },
+                        protocol: HttpContext.Request.Scheme
+                    );
+                    await _emailSender.SendEmailAsync(user.Email, "Confirm your account",
+                        $"Please confirm your account by clicking <a href='{callbackUrl}'>this link</a>.");
+
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
                     return RedirectToLocal(returnUrl);
@@ -118,7 +143,7 @@ namespace Guilded.Areas.Account.Controllers
             return View(model);
         }
 
-        [HttpPost("[area]/sign-out")]
+        [HttpPost("sign-out")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignOut()
         {
@@ -128,7 +153,7 @@ namespace Guilded.Areas.Account.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("[area]/external-sign-in")]
+        [HttpPost("external-sign-in")]
         [ValidateAntiForgeryToken]
         public IActionResult ExternalSignIn(string provider, string returnUrl = null)
         {
@@ -144,7 +169,7 @@ namespace Guilded.Areas.Account.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("[area]/external-sign-in-callback")]
+        [HttpGet("external-sign-in-callback")]
         public async Task<IActionResult> ExternalSignInCallback(string returnUrl = null, string remoteError = null)
         {
             if (remoteError != null)
@@ -184,7 +209,7 @@ namespace Guilded.Areas.Account.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("[area]/external-sign-in-confirmation")]
+        [HttpPost("external-sign-in-confirmation")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ExternalSignInConfirmation(ExternalSignInConfirmationViewModel model, string returnUrl = null)
         {
@@ -216,7 +241,7 @@ namespace Guilded.Areas.Account.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("[area]/confirm-email")]
+        [HttpGet("confirm-email")]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
             if (userId == null || code == null)
@@ -233,14 +258,14 @@ namespace Guilded.Areas.Account.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("[area]/forgot-password")]
+        [HttpGet("forgot-password")]
         public IActionResult ForgotPassword()
         {
             return View();
         }
 
         [AllowAnonymous]
-        [HttpPost("[area]/forgot-password")]
+        [HttpPost("forgot-password")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
@@ -267,21 +292,21 @@ namespace Guilded.Areas.Account.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("[area]/forgot-password-confirmation")]
+        [HttpGet("forgot-password-confirmation")]
         public IActionResult ForgotPasswordConfirmation()
         {
             return View();
         }
 
         [AllowAnonymous]
-        [HttpGet("[area]/reset-password")]
+        [HttpGet("reset-password")]
         public IActionResult ResetPassword(string code = null)
         {
             return code == null ? View("Error") : View();
         }
 
         [AllowAnonymous]
-        [HttpPost("[area]/reset-password")]
+        [HttpPost("reset-password")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
@@ -305,14 +330,14 @@ namespace Guilded.Areas.Account.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("[area]/reset-password-confirmation")]
+        [HttpGet("reset-password-confirmation")]
         public IActionResult ResetPasswordConfirmation()
         {
             return View();
         }
 
         [AllowAnonymous]
-        [HttpGet("[area]/send-code")]
+        [HttpGet("send-code")]
         public async Task<ActionResult> SendCode(string returnUrl = null, bool rememberMe = false)
         {
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
@@ -326,7 +351,7 @@ namespace Guilded.Areas.Account.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("[area]/send-code")]
+        [HttpPost("send-code")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SendCode(SendCodeViewModel model)
         {
@@ -362,7 +387,7 @@ namespace Guilded.Areas.Account.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("[area]/verify-code")]
+        [HttpGet("verify-code")]
         public async Task<IActionResult> VerifyCode(string provider, bool rememberMe, string returnUrl = null)
         {
             // Require that the user has already logged in via username/password or external login
@@ -375,7 +400,7 @@ namespace Guilded.Areas.Account.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("[area]/verify-code")]
+        [HttpPost("verify-code")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> VerifyCode(VerifyCodeViewModel model)
         {
@@ -429,6 +454,7 @@ namespace Guilded.Areas.Account.Controllers
 
         private async Task<bool> RecaptchaIsValid(string recaptchaValue)
         {
+            return true;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(GoogleRecaptchaBase);

@@ -1,8 +1,8 @@
-﻿using Guilded.Areas.Admin.ViewModels.Roles;
+﻿using Guilded.Areas.Admin.Data.DAL;
+using Guilded.Areas.Admin.ViewModels.Roles;
 using Guilded.Constants;
-using Guilded.Data.DAL.Core;
+using Guilded.Data.Identity;
 using Guilded.Extensions;
-using Guilded.Identity;
 using Guilded.Security.Claims;
 using Guilded.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -19,10 +19,10 @@ namespace Guilded.Areas.Admin.Controllers
     {
         public const int PageSize = 20;
 
-        private readonly IAdminDataContext _db;
+        private readonly IRolesDataContext _db;
         private readonly ILogger _log;
 
-        public RolesController(IAdminDataContext db,
+        public RolesController(IRolesDataContext db,
             ILoggerFactory loggerFactory)
         {
             _db = db;
@@ -50,16 +50,16 @@ namespace Guilded.Areas.Admin.Controllers
             return View(viewModel);
         }
 
-        [HttpGet("[area]/[controller]/edit/{roleId}", Order = 1)]
-        [HttpGet("[area]/[controller]/create", Order = 2)]
-        public ViewResult EditOrCreate(string roleId = null)
+        [HttpGet("{roleId}", Order = 1)]
+        [HttpGet("create", Order = 2)]
+        public async Task<ViewResult> EditOrCreate(string roleId = null)
         {
-            var dbRole = _db.GetRoleById(roleId) ?? new ApplicationRole();
+            var dbRole = await _db.GetRoleByIdAsync(roleId) ?? new ApplicationRole();
 
             return RoleEditorView(dbRole);
         }
 
-        [HttpPost("[area]/[controller]/edit/{roleId}")]
+        [HttpPost("{roleId}")]
         [ValidateAntiForgeryToken]
         public async Task<ViewResult> EditOrCreate(EditOrCreateRoleViewModel role)
         {
@@ -68,12 +68,14 @@ namespace Guilded.Areas.Admin.Controllers
                 return RoleEditorView(role.ToApplicationRole());
             }
 
-            ApplicationRole dbRole = _db.GetRoleById(role.Id);
+            ApplicationRole dbRole = await _db.GetRoleByIdAsync(role.Id);
 
             if (dbRole == null)
             {
                 dbRole = await _db.CreateRoleAsync(role.ToApplicationRole());
                 ViewData[ViewDataKeys.SuccessMessages] = "Role successfully created!";
+
+                _log.LogInformation($"{User.Identity.Name} created role {role.Name} ({role.Id}).");
             }
             else
             {
@@ -82,22 +84,25 @@ namespace Guilded.Areas.Admin.Controllers
                     dbRole.UpdateFromViewModel(role);
                     dbRole = await _db.UpdateRoleAsync(dbRole);
                     ViewData[ViewDataKeys.SuccessMessages] = "Role successfully updated!";
+
+                    _log.LogInformation($"{User.Identity.Name} updated role {role.Name} ({role.Id}).");
+
                 }
                 catch (Exception e)
                 {
                     ViewData[ViewDataKeys.ErrorMessages] = "An error occurred while attempting to save the role.";
-                    _log.LogError(10, e.Message, e);
+                    _log.LogError(e.Message, e);
                 }
             }
 
             return RoleEditorView(dbRole);
         }
 
-        [HttpDelete("[area]/[controller]/{roleId}")]
+        [HttpDelete("{roleId}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(string roleId, int page = 1)
         {
-            var role = _db.GetRoleById(roleId);
+            var role = await _db.GetRoleByIdAsync(roleId);
 
             if (role == null)
             {
@@ -107,9 +112,13 @@ namespace Guilded.Areas.Admin.Controllers
             var result = await _db.DeleteRole(role);
             if (!result.Succeeded)
             {
+                _log.LogError($"{User.Identity.Name} failed to delete role {role.Name}: " +
+                    $"{string.Join(",", result.Errors.Select(e => e.Description))}");
+
                 return StatusCode(500, "Failed to delete role.");
             }
 
+            _log.LogInformation($"{User.Identity.Name} deleted role {role.Name} ({role.Id}).");
             return Ok(new { message = $"Successfully deleted '{role.Name}'!", roleId });
         }
 
@@ -124,21 +133,21 @@ namespace Guilded.Areas.Admin.Controllers
             return base.View(viewName, model);
         }
 
-        private PaginatedRolesViewModel GetRoles(int page)
+        private PaginatedViewModel<ApplicationRoleViewModel> GetRoles(int page)
         {
             int zeroIndexPage = page - 1;
 
-            var allRoles = _db.GetRoles();
+            var allRoles = _db.GetRoles().OrderBy(r => r.Name);
             var rolesForPage = allRoles.Skip(PageSize * zeroIndexPage).Take(PageSize);
 
-            return new PaginatedRolesViewModel
+            return new PaginatedViewModel<ApplicationRoleViewModel>
             {
                 CurrentPage = page,
                 LastPage = (int)Math.Ceiling(allRoles.Count() / (double)PageSize),
-                Roles = rolesForPage.ToList()
+                Models = rolesForPage.ToList()
                     .Select(r => new ApplicationRoleViewModel(r))
-                    .OrderBy(r => r.Name)
                     .ToList(),
+                PagerUrl = Url.Action(nameof(Index))
             };
         }
 

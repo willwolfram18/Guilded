@@ -1,0 +1,31 @@
+﻿@model DisableUserViewModel
+<form class="ui form" data-ajax="true" data-ajax-method="delete" asp-antiforgery="true"
+      data-ajax-begin="onAjaxFormSubmitBegin" data-ajax-complete="onAjaxFormSubmitComplete"
+      data-ajax-success="onDisableUserSuccess" data-ajax-failure="onUserEnabledStateChangeFailure"
+      data-action="@Url.Action("DisableUser", "Users", new { area = "Admin", userId = "userId" })">
+    <div class="content">
+        <input asp-for="Id" />
+        <p>
+            Completing this action will disable the user, preventing them from logging in
+            and using the application. You may also select a date after which the user
+            will be re-enabled and allowed to use the application again.
+        </p>
+        <div class="field">
+            <label asp-for="EnableAfter"></label>
+            <div class="ui calendar">
+                <div class="ui input left icon">
+                    <i class="calendar icon"></i>
+                    <input asp-for="EnableAfter"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <button type="submit" class="ui primary button">
+            Submit
+        </button>
+        <div class="ui red cancel button">
+            Cancel
+        </div>
+    </div>
+</form>

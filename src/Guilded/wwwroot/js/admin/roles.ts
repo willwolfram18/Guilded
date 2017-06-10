@@ -1,6 +1,6 @@
 ﻿interface IHandleRoleDelete {
     onRoleDeleteSuccess(response: IRoleDeleteResponse): void;
-    onRoleDeleteError(response: IRoleDeleteResponse): void;
+    onRoleDeleteError(response: JQueryXHR): void;
     onRoleDeleteBegin(): void;
 }
 
@@ -26,8 +26,15 @@ const index: IHandleRoleDelete = {
         $(".ui.success.message").html(response.message).removeClass("hidden");
         $(`[data-role="${response.roleId}"]`).remove();
     },
-    onRoleDeleteError: (response: IRoleDeleteResponse): void => {
-        $(".ui.error.message").html(response.message).removeClass("hidden");
+    onRoleDeleteError: (jqxhr: JQueryXHR): void => {
+        const response = jqxhr.responseJSON as IUserEnabledStateChangeResponse;
+
+        if (response === null) {
+            $(".ui.error.message").removeClass("hidden")
+                .html("An error occurred while trying to enable the user. Please try again.");
+        } else {
+            $(".ui.error.message").removeClass("hidden").html(response.message);
+        }
     },
     onRoleDeleteBegin: (): void => {
         $(".ui.error.message, .ui.sucess.message").addClass("hidden");

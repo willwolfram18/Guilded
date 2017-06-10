@@ -23,6 +23,7 @@
   <ItemGroup>
     <Content Include="wwwroot\css\account\external-logins.less" />
     <Content Include="wwwroot\css\admin\roles.less" />
+    <Content Include="wwwroot\css\admin\users.less" />
     <Content Include="wwwroot\css\home\slideshow.less" />
     <Content Include="wwwroot\css\shared\_colors.less" />
     <Content Include="wwwroot\css\shared\font-awesome.css" />
@@ -36,11 +37,13 @@
     <Content Include="wwwroot\css\shared\_mixins.less" />
     <Content Include="wwwroot\css\shared\_screen-sizes.less" />
     <Content Include="wwwroot\js\admin\roles.ts" />
+    <Content Include="wwwroot\js\admin\users.ts" />
     <Content Include="wwwroot\js\home\slideshow.ts" />
     <Content Include="wwwroot\js\shared\confirm-modal.ts" />
     <Content Include="wwwroot\js\shared\jquery.unobtrusive-ajax-custom.ts" />
     <Content Include="wwwroot\js\shared\menu.ts" />
     <Content Include="wwwroot\js\shared\shared.ts" />
+    <Content Include="wwwroot\js\typings\semantic-ui-calendar.d.ts" />
     <Content Include="wwwroot\js\typings\window.d.ts" />
   </ItemGroup>
   <ItemGroup>
@@ -49,14 +52,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Guilded.Common\Guilded.Common.csproj" />
     <ProjectReference Include="..\Guilded.Data\Guilded.Data.csproj" />
     <ProjectReference Include="..\BattleNetApi\BattleNetApi.csproj" />
-    <ProjectReference Include="..\Guilded.Identity\Guilded.Identity.csproj" />
     <ProjectReference Include="..\Guilded.Migrations.Sqlite\Guilded.Migrations.Sqlite.csproj" />
     <ProjectReference Include="..\Guilded.Migrations.SqlServer\Guilded.Migrations.SqlServer.csproj" />
-    <ProjectReference Include="..\Guilded.Security\Guilded.Security.csproj" />
-    <ProjectReference Include="..\Guilded.Extensions\Guilded.Extensions.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OAuth.BattleNet" Version="1.0.0-rc1-final" />
@@ -101,5 +100,6 @@
   <ItemGroup>
     <Folder Include="Areas\Account\ViewModels\Manage\" />
     <Folder Include="Areas\Account\Views\Manage\" />
+    <Folder Include="Data\DAL\Core\" />
   </ItemGroup>
 </Project>

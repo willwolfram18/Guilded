@@ -1,0 +1,24 @@
+﻿@model ChangeEmailViewModel
+
+<form class="ui form" asp-antiforgery="true" data-action="@Url.Action("ChangeEmail", "Users", new { area = "Admin", userId = "userId" })"
+      data-ajax="true" data-ajax-method="post" data-ajax-begin="onAjaxFormSubmitBegin" data-ajax-complete="onAjaxFormSubmitComplete"
+      data-ajax-success="onChangeUserEmailSuccess" data-ajax-failure="onUserEnabledStateChangeFailure">
+    <div class="content">
+        <input asp-for="UserId" />
+        <div class="field">
+            <label asp-for="NewEmailAddress"></label>
+            <div class="ui left icon input">
+                <i class="envelope icon"></i>
+                <input asp-for="NewEmailAddress" />
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <button type="submit" class="ui primary button">
+            Submit
+        </button>
+        <div class="ui red cancel button">
+            Cancel
+        </div>
+    </div>
+</form>

@@ -1,0 +1,42 @@
+﻿#usersList
+{
+    .user
+    {
+        > .options
+        {
+            > .item
+            {
+                display: inline-block;
+                margin-left: 8px;
+
+                &:first-child
+                {
+                    margin-left: 0;
+                }
+            }
+        }
+
+        &.disabled
+        {
+            @disabled-opacity: 0.55;
+
+            color: rgba(40,40,40, @disabled-opacity);
+
+            a
+            {
+                opacity: @disabled-opacity;
+            }
+
+            > .options
+            {
+                opacity: 1;
+                pointer-events: all;
+
+                a
+                {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}

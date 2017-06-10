@@ -1,5 +1,5 @@
 ﻿using Guilded.Areas.Admin.ViewModels.Roles;
-using Guilded.Identity;
+using Guilded.Data.Identity;
 using Guilded.Security.Claims;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Moq;
@@ -7,18 +7,19 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Guilded.Tests.Areas.Admin.RolesControllerTests
 {
     public class WhenEditOrCreateIsCalled : RolesControllerTest
     {
         [Test]
-        public void IfRoleDoesNotExistThenNewRoleReturned([Values(null, "Failed id")] string roleId)
+        public async Task IfRoleDoesNotExistThenNewRoleReturned([Values(null, "Failed id")] string roleId)
         {
-            MockAdminDataContext.Setup(db => db.GetRoleById(It.IsAny<string>()))
-                .Returns((ApplicationRole)null);
+            MockAdminDataContext.Setup(db => db.GetRoleByIdAsync(It.IsAny<string>()))
+                .ReturnsAsync((ApplicationRole)null);
 
-            var result = Controller.EditOrCreate(roleId);
+            var result = await Controller.EditOrCreate(roleId);
 
             var viewModel = result.Model as EditOrCreateRoleViewModel;
 
@@ -27,15 +28,15 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
         }
 
         [Test]
-        public void ThenGetRoleByIdIsCalled()
+        public async Task ThenGetRoleByIdIsCalled()
         {
-            Controller.EditOrCreate();
+            await Controller.EditOrCreate();
 
-            MockAdminDataContext.Verify(db => db.GetRoleById(It.IsAny<string>()));
+            MockAdminDataContext.Verify(db => db.GetRoleByIdAsync(It.IsAny<string>()));
         }
 
         [Test]
-        public void ThenViewModelMatchesDataModel()
+        public async Task ThenViewModelMatchesDataModel()
         {
             var claims = new List<IdentityRoleClaim<string>>
             {
@@ -55,10 +56,10 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
                 dbRole.Claims.Add(claim);
             }
 
-            MockAdminDataContext.Setup(db => db.GetRoleById(It.IsAny<string>()))
-                .Returns(dbRole);
+            MockAdminDataContext.Setup(db => db.GetRoleByIdAsync(It.IsAny<string>()))
+                .ReturnsAsync(dbRole);
 
-            var result = Controller.EditOrCreate();
+            var result = await Controller.EditOrCreate();
 
             var viewModel = result.Model as EditOrCreateRoleViewModel;
 
@@ -74,9 +75,9 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
         }
 
         [Test]
-        public void ThenAvailablePermissionsInNameSortedOrder()
+        public async Task ThenAvailablePermissionsInNameSortedOrder()
         {
-            var result = Controller.EditOrCreate();
+            var result = await Controller.EditOrCreate();
 
             var viewModel = result.Model as EditOrCreateRoleViewModel;
 

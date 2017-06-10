@@ -12,6 +12,19 @@
         });
 }
 
+function hideErrorAndSuccessMessages() {
+    $(".ui.error.message, .ui.success.message").addClass("hidden");
+}
+
+function showSuccessMessage(message: string): void {
+    $(".ui.success.message").removeClass("hidden").html(message);
+}
+
+function showErrorMessage(message: string): void {
+    $(".ui.error.message").removeClass("hidden").html(message);
+}
+
 $(document).ready(() => {
     $("[data-toggle='modal']").each(setUpModalToggles);
+    $(".ui.calendar").calendar();
 });
