@@ -12,7 +12,7 @@ namespace Guilded.Extensions
     {
         public static bool HasRoleClaim(this ApplicationRole role, RoleClaim roleClaim)
         {
-            return role.Claims.FirstOrDefault(c => c.ClaimType == roleClaim.ClaimType) != null;
+            return role.Claims.Any(c => c.ClaimType == roleClaim.ClaimType);
         }
 
         public static void UpdateFromViewModel(this ApplicationRole currentRole, EditOrCreateRoleViewModel viewModel)

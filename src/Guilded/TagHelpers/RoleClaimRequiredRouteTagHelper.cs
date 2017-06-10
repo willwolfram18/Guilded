@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Guilded.Areas.Admin.Data.DAL;
+using Guilded.Data.Identity;
 using Guilded.Extensions;
 using Guilded.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,12 +14,14 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Guilded.TagHelpers
 {
-    [HtmlTargetElement("a", Attributes = RequiredClaimAttribute)]
+    [HtmlTargetElement("a")]
     public class RoleClaimRequiredRouteTagHelper : TagHelper
     {
         private const string RequiredClaimAttribute = "required-claim";
 
         public RoleClaim RequiredClaim { get; set; }
+
+        public RoleClaim[] PossibleClaims { get; set; }
 
         [ViewContext]
         public ViewContext ViewContext { get; set; }
@@ -34,6 +37,12 @@ namespace Guilded.TagHelpers
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
+            if (RequiredClaim == null && (PossibleClaims == null || PossibleClaims.Length == 0))
+            {
+                await base.ProcessAsync(context, output);
+                return;
+            }
+
             if (!User.Identity.IsAuthenticated)
             {
                 output.SuppressOutput();
@@ -43,13 +52,23 @@ namespace Guilded.TagHelpers
             var appUser = await _usersDataContext.GetUserFromClaimsPrincipalAsync(User);
             var currentRole = await _usersDataContext.GetRoleForUserAsync(appUser);
 
-            if (!currentRole.HasRoleClaim(RequiredClaim))
+            if (!MeetsClaimRequirements(currentRole))
             {
                 output.SuppressOutput();
                 return;
             }
 
             await base.ProcessAsync(context, output);
+        }
+
+        private bool MeetsClaimRequirements(ApplicationRole role)
+        {
+            if (RequiredClaim != null)
+            {
+                return role.HasRoleClaim(RequiredClaim);
+            }
+
+            return PossibleClaims.Any(role.HasRoleClaim);
         }
     }
 }

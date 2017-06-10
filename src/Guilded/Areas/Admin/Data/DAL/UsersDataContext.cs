@@ -39,7 +39,7 @@ namespace Guilded.Areas.Admin.Data.DAL
         {
             var userRoleName = (await _userManager.GetRolesAsync(user)).Single();
             
-            return await Context.Roles.SingleAsync(r => r.Name == userRoleName);
+            return await Context.Roles.Include(r => r.Claims).SingleAsync(r => r.Name == userRoleName);
         }
 
         public async Task<ApplicationUser> UpdateUserAsync(ApplicationUser user)
