@@ -8,5 +8,6 @@
         public const string SuccessMessages = "SuccessMessages";
         public const string ReturnUrl = "ReturnUrl";
         public const string UserRolesSelectList = "UserRolesSelectList";
+        public const string MarkdownAction = "MarkdownAction";
     }
 }

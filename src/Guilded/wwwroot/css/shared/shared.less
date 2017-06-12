@@ -69,14 +69,17 @@ html, body
             {
                 font-style: italic;
             }
+
             &.bold
             {
                 font-weight: 800;
             }
+
             &.underline
             {
                 text-decoration: underline;
             }
+
             &.strike-through
             {
                 text-decoration: line-through;
@@ -94,8 +97,21 @@ html, body
         textarea
         {
             resize: none;
-            max-height: none!important;
-            height: 300px!important;
+            max-height: none !important;
+            height: 300px !important;
+        }
+
+        &.attached.segment
+        {
+            &[data-tab='preview']
+            {
+                .container .segment
+                {
+                    min-height: 78px;
+                    border: none;
+                    box-shadow: none;
+                }
+            }
         }
     }
 }

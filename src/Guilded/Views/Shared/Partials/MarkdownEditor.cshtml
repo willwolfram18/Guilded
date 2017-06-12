@@ -1,6 +1,6 @@
 ﻿@model IMarkdownContent
 
-<div class="markdown-editor">
+<div class="markdown-editor" data-markdown-action="@ViewData[ViewDataKeys.MarkdownAction]">
     <div class="ui top attached tabular menu">
         <div class="item active" data-tab="editor">
             Editor
@@ -32,7 +32,15 @@
         </div>
     </div>
     <div class="ui bottom attached tab segment" data-tab="preview">
-        <div class="ui fluid loading container">
+        <div class="ui fluid container">
+            <div class="ui segment">
+                <div class="ui active inverted dimmer">
+                    <div class="ui text loader">
+                        Loading ...
+                    </div>
+                </div>
+                <div class="content"></div>
+            </div>
         </div>
     </div>
 </div>

@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Threading.Tasks;
+using Guilded.Constants;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Guilded.TagHelpers
 {
@@ -30,6 +33,9 @@ namespace Guilded.TagHelpers
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
+            var url = new UrlHelper(Context);
+            Context.ViewData[ViewDataKeys.MarkdownAction] = url.Action("Index", "Markdown", new {area = ""});
+
             (_htmlHelper as IViewContextAware).Contextualize(Context);
 
             output.TagMode = TagMode.StartTagAndEndTag;
