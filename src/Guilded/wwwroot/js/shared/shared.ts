@@ -27,4 +27,5 @@ function showErrorMessage(message: string): void {
 $(document).ready(() => {
     $("[data-toggle='modal']").each(setUpModalToggles);
     $(".ui.calendar").calendar();
+    $(".ui.tabular.menu .item").tab();
 });

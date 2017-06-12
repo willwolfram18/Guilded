@@ -24,6 +24,7 @@ namespace Guilded.TagHelpers
         public RoleClaim[] PossibleClaims { get; set; }
 
         [ViewContext]
+        [HtmlAttributeNotBound]
         public ViewContext ViewContext { get; set; }
 
         private ClaimsPrincipal User => ViewContext.HttpContext.User;

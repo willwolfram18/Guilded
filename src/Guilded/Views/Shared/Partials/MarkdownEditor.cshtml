@@ -1,0 +1,38 @@
+﻿@model IMarkdownContent
+
+<div class="markdown-editor">
+    <div class="ui top attached tabular menu">
+        <div class="item active" data-tab="editor">
+            Editor
+        </div>
+        <div class="item" data-tab="preview">
+            Preview
+        </div>
+    </div>
+    <div class="ui bottom attached tab active segment" data-tab="editor">
+        <div class="ui fluid container">
+            <div class="ui fluid container">
+                <div class="ui tiny buttons">
+                    <div class="ui bold button" title="Bold">
+                        B
+                    </div>
+                    <div class="ui italic button" title="Italics">
+                        I
+                    </div>
+                    <div class="ui underline button" title="Underline">
+                        U
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui input">
+                    <textarea asp-for="Content"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="preview">
+        <div class="ui fluid loading container">
+        </div>
+    </div>
+</div>

@@ -58,3 +58,44 @@ html, body
         }
     }
 }
+
+.markdown-editor
+{
+    .ui
+    {
+        &.button
+        {
+            &.italic
+            {
+                font-style: italic;
+            }
+            &.bold
+            {
+                font-weight: 800;
+            }
+            &.underline
+            {
+                text-decoration: underline;
+            }
+            &.strike-through
+            {
+                text-decoration: line-through;
+            }
+        }
+
+        &.tabular.menu
+        {
+            > .item
+            {
+                cursor: pointer;
+            }
+        }
+
+        textarea
+        {
+            resize: none;
+            max-height: none!important;
+            height: 300px!important;
+        }
+    }
+}

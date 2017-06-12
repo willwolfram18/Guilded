@@ -38,6 +38,7 @@ namespace Guilded.TagHelpers
         public PagerVerticalLocation VerticalLocation { get; set; }
 
         [ViewContext]
+        [HtmlAttributeNotBound]
         public ViewContext ViewContext { get; set; }
 
         public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)

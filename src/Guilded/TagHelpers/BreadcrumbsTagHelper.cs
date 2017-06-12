@@ -13,6 +13,7 @@ namespace Guilded.TagHelpers
     public class BreadcrumbsTagHelper : TagHelper
     {
         [ViewContext]
+        [HtmlAttributeNotBound]
         public ViewContext ViewContext { get; set; }
 
         public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
