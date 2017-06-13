@@ -11,21 +11,48 @@
     </div>
     <div class="ui bottom attached tab active segment" data-tab="editor">
         <div class="ui fluid container">
-            <div class="ui fluid container">
-                <div class="ui tiny buttons">
-                    <div class="ui bold button" title="Bold">
-                        B
-                    </div>
-                    <div class="ui italic button" title="Italics">
-                        I
-                    </div>
-                    <div class="ui underline button" title="Underline">
-                        U
+            <div class="ui small compact buttons">
+                <div class="ui icon button" title="Bold">
+                    <i class="bold icon"></i>
+                </div>
+                <div class="ui icon button" title="Italics">
+                    <i class="italic icon"></i>
+                </div>
+                <div class="ui icon button" title="Underline">
+                    <i class="underline icon"></i>
+                </div>
+                <div class="ui icon button">
+                    <i class="strikethrough icon"></i>
+                </div>
+                <div class="ui headers dropdown button">
+                    <span class="text">Headers</span>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        @for (var i = 1; i <= 6; i++)
+                        {
+                            <div class="item">
+                                @Html.Raw($"<h{i}>Header {i}</h{i}>")
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
+            <div class="ui small compact icon buttons">
+                <div class="ui button" title="Insert list" data-action="unordered list">
+                    <i class="unordered list icon"></i>
+                </div>
+                <div class="ui button" title="Insert ordered list">
+                    <i class="ordered list icon"></i>
+                </div>
+                <div class="ui button" title="Insert link">
+                    <i class="linkify icon"></i>
+                </div>
+                <div class="ui button" title="Insert image">
+                    <i class="image icon"></i>
+                </div>
+            </div>
             <div class="field">
-                <div class="ui input">
+                <div class="ui attached input">
                     <textarea asp-for="Content"></textarea>
                 </div>
             </div>
@@ -44,3 +71,10 @@
         </div>
     </div>
 </div>
+<environment names="Development">
+    <script src="~/js/shared/markdown-editor.js"></script>
+</environment>
+<environment names="Staging,Production">
+    <script src="~/js/shared/markdown-editor.min.js"
+            asp-append-version="true"></script>
+</environment>

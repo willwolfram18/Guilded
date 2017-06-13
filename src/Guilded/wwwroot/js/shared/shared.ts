@@ -51,6 +51,10 @@ function convertMarkdown(e: JQueryEventObject) {
 $(document).ready(() => {
     $("[data-toggle='modal']").each(setUpModalToggles);
     $(".ui.calendar").calendar();
+    $(".ui.dropdown").dropdown();
     $(".ui.tabular.menu .item").tab();
     $(".ui.tabular.menu").on("click", ".item[data-tab='preview']", convertMarkdown);
+    $(".markdown-editor .ui.headers.dropdown").dropdown({
+        action: "nothing"
+    });
 });
