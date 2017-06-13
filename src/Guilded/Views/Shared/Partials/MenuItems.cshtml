@@ -1,7 +1,8 @@
 ﻿<a class="item" route-active="true" asp-area="" asp-controller="Home" asp-action="Index">
     <i class="fa fa-home"></i> Home
 </a>
-<a class="item">
+<a class="item" route-active="true" asp-area="Forums" asp-controller="Home" asp-action="Index"
+   route-active-area="Forums" route-active-controller="Home" route-active-action="Index">
     <i class="fa fa-comment"></i> Forums
 </a>
 @if (User.Identity.IsAuthenticated)
