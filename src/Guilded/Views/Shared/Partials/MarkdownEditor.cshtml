@@ -1,80 +1,24 @@
 ﻿@model IMarkdownContent
 
-<div class="markdown-editor" data-markdown-action="@ViewData[ViewDataKeys.MarkdownAction]">
-    <div class="ui top attached tabular menu">
-        <div class="item active" data-tab="editor">
-            Editor
-        </div>
-        <div class="item" data-tab="preview">
-            Preview
-        </div>
-    </div>
-    <div class="ui bottom attached tab active segment" data-tab="editor">
-        <div class="ui fluid container">
-            <div class="ui small compact buttons">
-                <div class="ui icon button" title="Bold" data-action="bold">
-                    <i class="bold icon"></i>
-                </div>
-                <div class="ui icon button" title="Italics">
-                    <i class="italic icon"></i>
-                </div>
-                <div class="ui icon button" title="Underline">
-                    <i class="underline icon"></i>
-                </div>
-                <div class="ui icon button">
-                    <i class="strikethrough icon"></i>
-                </div>
-                <div class="ui headers dropdown button">
-                    <span class="text">Headers</span>
-                    <i class="dropdown icon"></i>
-                    <div class="menu">
-                        @for (var i = 1; i <= 6; i++)
-                        {
-                            <div class="item">
-                                @Html.Raw($"<h{i}>Header {i}</h{i}>")
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
-            <div class="ui small compact icon buttons">
-                <div class="ui button" title="Insert list" data-action="unordered list">
-                    <i class="unordered list icon"></i>
-                </div>
-                <div class="ui button" title="Insert ordered list">
-                    <i class="ordered list icon"></i>
-                </div>
-                <div class="ui button" title="Insert link">
-                    <i class="linkify icon"></i>
-                </div>
-                <div class="ui button" title="Insert image">
-                    <i class="image icon"></i>
-                </div>
-            </div>
-            <div class="field">
-                <div class="ui attached input">
-                    <textarea asp-for="Content"></textarea>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="ui bottom attached tab segment" data-tab="preview">
-        <div class="ui fluid container">
-            <div class="ui segment">
-                <div class="ui active inverted dimmer">
-                    <div class="ui text loader">
-                        Loading ...
-                    </div>
-                </div>
-                <div class="content"></div>
-            </div>
-        </div>
-    </div>
-</div>
 <environment names="Development">
+    <link rel="stylesheet" href="lib/simplemde/debug/simplemde.css" />
+</environment>
+<environment names="Staging, Production">
+    <link rel="stylesheet" href="lib/simplemde/dist/simplemde.min.css"
+          asp-fallback-href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css" />
+</environment>
+
+<div class="markdown-editor" data-markdown-action="@ViewData[ViewDataKeys.MarkdownAction]">
+    <textarea asp-for="Content" placeholder="Content..."></textarea>
+</div>
+
+<environment names="Development">
+    <script src="~/lib/simplemde/debug/simplemde.js"></script>
     <script src="~/js/shared/markdown-editor.js"></script>
 </environment>
 <environment names="Staging,Production">
     <script src="~/js/shared/markdown-editor.min.js"
             asp-append-version="true"></script>
+    <script src="~/lib/simplemde/dist/simplemde.min.js"
+            asp-fallback-src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 </environment>
