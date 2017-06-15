@@ -62,66 +62,21 @@ html, body
 
 .markdown-editor
 {
-    max-width: 95%;
+    width: 95%;
     margin: 0 auto;
+}
 
-    .ui
-    {
-        &.tabular.menu
-        {
-            width: 100%;
+.ui.dimmer.modals
+{
+    max-height: 100%;
+}
 
-            > .item
-            {
-                cursor: pointer;
-            }
-        }
+#markdown-help
+{
+    height: 95%;
 
-        textarea
-        {
-            resize: none;
-            max-height: none !important;
-            height: 300px !important;
-        }
-
-        &.attached.segment
-        {
-            &[data-tab='preview']
-            {
-                .container .segment
-                {
-                    min-height: 78px;
-                    border: none;
-                    box-shadow: none;
-                }
-            }
-        }
-
-        &.ui.buttons
-        {
-            :first-child,
-            :last-child
-            {
-                @media(min-width: @mobile-breakpoint)
-                {
-                    border-bottom-right-radius: 0;
-                    border-bottom-left-radius: 0;
-                }
-            }
-
-            &:not(:first-child)
-            {
-                @media(min-width: @mobile-breakpoint)
-                {
-                    margin-left: 8px;
-                }
-            }
-
-            &.attached.input textarea
-            {
-                border-top-left-radius: 0;
-                border-top-right-radius: 0;
-            }
-        }
+    .content {
+        height: 100%;
+        overflow-y: auto;
     }
 }

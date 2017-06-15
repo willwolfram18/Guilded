@@ -1,5 +1,12 @@
 ﻿@{
     ViewData[ViewDataKeys.Title] = "Forums";
+    var content = @"### Hello, world!
+
+**
+block bold
+
+yup
+**";
 }
 
 <h2>
@@ -9,5 +16,5 @@
 <guilded-breadcumbs />
 
 <form class="ui form">
-    <markdown-editor content="### Hello, world!" />
+    <markdown-editor content="@content" />
 </form>

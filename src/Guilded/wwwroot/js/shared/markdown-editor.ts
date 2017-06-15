@@ -21,9 +21,12 @@ function convertMarkdown(content: string, previewElement?: HTMLElement): string 
 }
 
 $(document).ready(() => {
-
     simpleMde = new SimpleMDE({
         autoDownloadFontAwesome: false,
+        blockStyles: {
+            bold: "__",
+            italic: "_"
+        },
         element: $(".markdown-editor #Content")[0],
         indentWithTabs: false,
         parsingConfig: {
@@ -47,7 +50,30 @@ $(document).ready(() => {
             "|",
             "preview",
             "|",
-            "guide"
+            {
+                name: "guide",
+                action: () => $("#markdown-help").modal("toggle"),
+                className: "fa fa-question-circle",
+                title: "View markdown guide"
+            }
         ]
     });
+
+    let x = [
+        "bold",
+        "italic",
+        "heading",
+        "|",
+        "quote",
+        "unordered-list",
+        "ordered-list",
+        "horizontal-rule",
+        "|",
+        "link",
+        "image",
+        "|",
+        "preview",
+        "|",
+        "guide"
+    ]
 });
