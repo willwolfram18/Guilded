@@ -26,6 +26,7 @@ namespace Guilded.TagHelpers
         public string ActionName { get; set; } = "Index";
 
         [ViewContext]
+        [HtmlAttributeNotBound]
         public ViewContext ViewContext { get; set; }
 
         private HttpRequest Request => ViewContext.HttpContext.Request;

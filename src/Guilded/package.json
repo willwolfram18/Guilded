@@ -5,6 +5,7 @@
   "devDependencies": {
     "@types/jquery": "2.0.43",
     "@types/semantic-ui": "2.2.3",
+    "@types/simplemde": "^1.11.6",
     "@types/swiper": "^3.4.2",
     "gulp": "^3.9.1",
     "gulp-clean-css": "^3.2.0",

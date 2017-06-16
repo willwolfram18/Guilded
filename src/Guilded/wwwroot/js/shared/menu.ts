@@ -3,7 +3,9 @@
 }
 
 function documentReady() {
-    $(".ui.dropdown").dropdown();
+    $(".main.menu .ui.dropdown").dropdown({
+        action: "nothing"
+    });
     $(".sidebar").sidebar();
     $(".ui.accordion").accordion();
 

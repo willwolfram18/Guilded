@@ -2,6 +2,8 @@ using AspNet.Security.OAuth.BattleNet;
 using Guilded.Extensions;
 using Guilded.Security.Authorization;
 using Guilded.Security.Claims;
+using Guilded.Services;
+using Guilded.ViewModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -62,6 +64,7 @@ namespace Guilded
             });
 
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
+            services.AddTransient<IMarkdownConverter, MarkdownConverter>();
             services.AddRequirementHandlers();
         }
 
