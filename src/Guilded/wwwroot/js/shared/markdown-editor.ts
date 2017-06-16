@@ -58,22 +58,4 @@ $(document).ready(() => {
             }
         ]
     });
-
-    let x = [
-        "bold",
-        "italic",
-        "heading",
-        "|",
-        "quote",
-        "unordered-list",
-        "ordered-list",
-        "horizontal-rule",
-        "|",
-        "link",
-        "image",
-        "|",
-        "preview",
-        "|",
-        "guide"
-    ]
 });
