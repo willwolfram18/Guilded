@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Guilded.Data.Models.Forums;
 using Guilded.ViewModels.Forums;
 
-using DataModel = Guilded.Data.Models.Forums.ForumSection;
+using DataModel = Guilded.Data.Forums.ForumSection;
 
 namespace Guilded.Data.DAL.Forums
 {

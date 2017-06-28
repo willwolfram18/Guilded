@@ -1,13 +1,9 @@
-﻿using System;
+﻿using BattleNetApi.Apis.Interfaces;
+using BattleNetApi.Objects.WoW;
+using Guilded.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BattleNetApi.Apis.Interfaces;
-using BattleNetApi.Apis;
-using BattleNetApi.Objects.WoW;
-using Guilded.Data.Models.Home;
-using Guilded.ViewModels.Home;
-using Guilded.Extensions;
 
 namespace Guilded.Data.DAL.Home
 {
@@ -16,13 +12,13 @@ namespace Guilded.Data.DAL.Home
         #region Properties
         #region Private properties
         private readonly IBattleNetApi _battleNetClient;
-        private readonly IReadOnlyRepository<Models.Home.GuildActivity> _websiteNews;
+        private readonly IReadOnlyRepository<Data.Home.GuildActivity> _websiteNews;
         #endregion
         #endregion
 
         #region Constructor
         public GuildActivityReadOnlyDataContext(IBattleNetApi bnetClient,
-            IReadOnlyRepository<Models.Home.GuildActivity> websiteNews)
+            IReadOnlyRepository<Data.Home.GuildActivity> websiteNews)
         {
             _battleNetClient = bnetClient;
             _websiteNews = websiteNews;
@@ -70,7 +66,7 @@ namespace Guilded.Data.DAL.Home
 
         private List<ViewModels.Home.GuildActivity> GetWebsiteNews()
         {
-            IQueryable<Models.Home.GuildActivity> websiteNews = _websiteNews.Get(orderBy: n => n.OrderByDescending(i => i.Timestamp));
+            IQueryable<Data.Home.GuildActivity> websiteNews = _websiteNews.Get(orderBy: n => n.OrderByDescending(i => i.Timestamp));
             return websiteNews.ToListOfDifferentType(n =>
                 new ViewModels.Home.GuildActivity(n.Timestamp, n.Content)
             );

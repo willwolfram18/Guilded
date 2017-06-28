@@ -1,17 +1,15 @@
 ﻿using BattleNetApi.Apis.Interfaces;
-using Moq;
-using Guilded.Data.DAL.Home;
-using Guilded.ViewModels.Home;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Xunit;
 using BattleNetApi.Objects.WoW;
 using BattleNetApi.Objects.WoW.Enums;
-using System;
-using System.Linq;
-using Guilded.Extensions;
-using Guilded.Data.Models.Home;
 using Guilded.Data.DAL;
+using Guilded.Data.DAL.Home;
+using Guilded.Extensions;
+using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace Guilded.Tests.Data.DAL.Home
 {
@@ -26,9 +24,9 @@ namespace Guilded.Tests.Data.DAL.Home
         private readonly GuildActivityReadOnlyDataContext _dataContext;
         private readonly Mock<IBattleNetApi> _mockBattleNetNews = new Mock<IBattleNetApi>();
         private readonly Mock<IWowCommunityApiMethods> _mockWowCommunityApi = new Mock<IWowCommunityApiMethods>();
-        private readonly Mock<IReadOnlyRepository<Guilded.Data.Models.Home.GuildActivity>> _mockGuildNewsRepo = new Mock<IReadOnlyRepository<Guilded.Data.Models.Home.GuildActivity>>();
+        private readonly Mock<IReadOnlyRepository<Guilded.Data.Home.GuildActivity>> _mockGuildNewsRepo = new Mock<IReadOnlyRepository<Guilded.Data.Home.GuildActivity>>();
         private readonly List<GuildNews> _battleNetNews = new List<GuildNews>();
-        private readonly List<Guilded.Data.Models.Home.GuildActivity> _websiteNews = new List<Guilded.Data.Models.Home.GuildActivity>();
+        private readonly List<Guilded.Data.Home.GuildActivity> _websiteNews = new List<Guilded.Data.Home.GuildActivity>();
         #endregion
         #endregion
 
@@ -243,7 +241,7 @@ namespace Guilded.Tests.Data.DAL.Home
 
             _mockGuildNewsRepo.Setup(r =>
                 r.Get(
-                    It.IsAny<Func<IQueryable<Guilded.Data.Models.Home.GuildActivity>, IOrderedQueryable<Guilded.Data.Models.Home.GuildActivity>>>()
+                    It.IsAny<Func<IQueryable<Guilded.Data.Home.GuildActivity>, IOrderedQueryable<Guilded.Data.Home.GuildActivity>>>()
                 )
             ).Returns(
                 _websiteNews.OrderByDescending(t => t.Timestamp).AsQueryable()
@@ -254,7 +252,7 @@ namespace Guilded.Tests.Data.DAL.Home
             for (int i = NUM_WEBSITE_NEWS_ENTRIES - 1; i >= 0; i--)
             {
                 int adjustedIndex = NUM_WEBSITE_NEWS_ENTRIES - i;
-                _websiteNews.Add(new Guilded.Data.Models.Home.GuildActivity
+                _websiteNews.Add(new Guilded.Data.Home.GuildActivity
                 {
                     Id = adjustedIndex + 1,
                     Content = "Sample string for news entry " + i.ToString(),

@@ -1,4 +1,4 @@
-using DataModel = Guilded.Data.Models.Forums.ForumSection;
+using DataModel = Guilded.Data.Forums.ForumSection;
 
 namespace Guilded.ViewModels.Forums
 {

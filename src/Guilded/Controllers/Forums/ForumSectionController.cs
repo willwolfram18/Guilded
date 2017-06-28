@@ -1,13 +1,11 @@
 using Guilded.Attributes;
 using Guilded.Data.DAL.Forums;
-using Guilded.ViewModels.Forums;
 using Guilded.Extensions;
+using Guilded.ViewModels.Forums;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using DataModel = Guilded.Data.Models.Forums.ForumSection;
+using DataModel = Guilded.Data.Forums.ForumSection;
 
 namespace Guilded.Controllers.Forums
 {

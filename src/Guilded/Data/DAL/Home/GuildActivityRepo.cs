@@ -1,5 +1,5 @@
 using Guilded.Data.DAL.Abstract;
-using Guilded.Data.Models.Home;
+using Guilded.Data.Home;
 
 namespace Guilded.Data.DAL.Home
 {

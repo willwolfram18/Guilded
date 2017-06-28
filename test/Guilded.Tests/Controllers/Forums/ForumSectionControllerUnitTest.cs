@@ -1,15 +1,14 @@
+using Guilded.Controllers.Forums;
+using Guilded.Data.DAL.Forums;
+using Guilded.Data.Forums;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
-using Guilded.Controllers.Forums;
-using Guilded.Data.DAL.Forums;
-using Guilded.Data.Models.Forums;
 using Xunit;
-
-using DataModel = Guilded.Data.Models.Forums.ForumSection;
+using DataModel = Guilded.Data.Forums.ForumSection;
 using ViewModel = Guilded.ViewModels.Forums.ForumSection;
 
 namespace Guilded.Tests.Controllers.Forums

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Guilded.Data.Models.Forums
+namespace Guilded.Data.Forums
 {
     [Table("Forums")]
     public class Forum
