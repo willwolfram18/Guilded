@@ -1,24 +1,26 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Guilded.Data.Forums
 {
+    /// <summary>
+    /// Serves as a way to group different <see cref="Forum"/>s together
+    /// </summary>
     [Table("ForumSections")]
     public class ForumSection
     {
-        #region Properties
-        #region Database properties
-        public const int TITLE_MAX_LENGTH = 35;
-        public const int TITLE_MIN_LENGTH = 4;
-        public const string REQUIRED_ERROR_MSG = "The title cannot be blank";
-        public const string LENGTH_ERROR_MSG = "The title must be between {0} and {1} characters in length";
+        public const int TitleMaxLength = 35;
+        public const int TitleMinLength = 4;
+        public const string TitleRequiredErrorMessage = "The {0} cannot be blank";
+        public const string TitleLengthErrorMessage = "The {0} must be between {2} and {1} characters in length";
 
         [Key]
         public int Id { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = REQUIRED_ERROR_MSG)]
-        [StringLength(TITLE_MAX_LENGTH, MinimumLength = TITLE_MIN_LENGTH, ErrorMessage = LENGTH_ERROR_MSG)]
+        [Required(AllowEmptyStrings = false, ErrorMessage = TitleRequiredErrorMessage)]
+        [StringLength(TitleMaxLength, MinimumLength = TitleMinLength, ErrorMessage = TitleLengthErrorMessage)]
         public string Title { get; set; }
 
         [Required]
@@ -27,13 +29,9 @@ namespace Guilded.Data.Forums
         [Required]
         public bool IsActive { get; set; }
 
-        [Timestamp]
-        public byte[] Version { get; set; }
-        #endregion
+        [ConcurrencyCheck]
+        public Guid Version { get; set; }
 
-        #region Navigation properties
         public virtual ICollection<Forum> Forums { get; set; }
-        #endregion
-        #endregion
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,17 +7,28 @@ namespace Guilded.Data.Forums
     [Table("Forums")]
     public class Forum
     {
-        #region Properties
-        #region Database Properties
+        public const int MinTitleLength = 4;
+        public const int MaxTitleLength = 35;
+        public const int MaxSubtitleLength = 85;
+        public const int MaxSlugLength = MaxTitleLength * 2;
+
+        public const string TitleRequiredErrorMessage = ForumSection.TitleRequiredErrorMessage;
+        public const string TitleLengthErrorMessage = ForumSection.TitleLengthErrorMessage;
+        public const string SubtitleLengthErrorMessage = "The {0}'s length cannot exceed {1} characters";
+
         [Key]
         public int Id { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "The title cannot be blank")]
-        [StringLength(35, MinimumLength = 4, ErrorMessage = "The title must be between {0} and {1} characters in length")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = TitleRequiredErrorMessage)]
+        [StringLength(MaxTitleLength, MinimumLength = MinTitleLength, ErrorMessage = TitleLengthErrorMessage)]
         public string Title { get; set; }
 
-        [StringLength(85, ErrorMessage = "The subtitle's length cannot exceed {0} characters")]
-        public string SubTitle { get; set; }
+        [StringLength(MaxSubtitleLength, ErrorMessage = SubtitleLengthErrorMessage)]
+        public string Subtitle { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = TitleRequiredErrorMessage)]
+        [StringLength(MaxTitleLength, MinimumLength = MinTitleLength, ErrorMessage = TitleLengthErrorMessage)]
+        public string Slug { get; set; }
 
         [Required]
         public bool IsActive { get; set; }
@@ -25,13 +37,9 @@ namespace Guilded.Data.Forums
         [ForeignKey("ForumSection")]
         public int ForumSectionId { get; set; }
 
-        [Timestamp]
-        public byte[] Version { get; set; }
-        #endregion
+        [ConcurrencyCheck]
+        public Guid Version { get; set; } = Guid.NewGuid();
 
-        #region Navigation Properties
         public virtual ForumSection ForumSection { get; set; }
-        #endregion
-        #endregion
     }
 }
