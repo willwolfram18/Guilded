@@ -7,6 +7,9 @@
 </a>
 @if (User.Identity.IsAuthenticated)
 {
+	<a class="item" href="#">
+		<i class="fa fa-discord"></i> Discord
+	</a>
     <a class="item" route-active="true" asp-area="Admin" asp-controller="Home" asp-action="Index" route-active-area="Admin"
        possible-claims="@new [] { RoleClaimTypes.RoleManagement, RoleClaimTypes.UserManagement }">
         <i class="fa fa-cogs"></i> Admin

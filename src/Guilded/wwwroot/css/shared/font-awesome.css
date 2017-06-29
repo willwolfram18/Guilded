@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'font-awesome-custom';
-  src:  url('../../fonts/fontawesome-webfont.eot?kcn173');
-  src:  url('../../fonts/fontawesome-webfont.eot?kcn173#iefix') format('embedded-opentype'),
-    url('../../fonts/fontawesome-webfont.ttf?kcn173') format('truetype'),
-    url('../../fonts/fontawesome-webfont.woff?kcn173') format('woff'),
-    url('../../fonts/fontawesome-webfont.svg?kcn173#font-awesome') format('svg');
+  src:  url('../../fonts/fontawesome-webfont.eot?33c8nv');
+  src:  url('../../fonts/fontawesome-webfont.eot?33c8nv#iefix') format('embedded-opentype'),
+    url('../../fonts/fontawesome-webfont.ttf?33c8nv') format('truetype'),
+    url('../../fonts/fontawesome-webfont.woff?33c8nv') format('woff'),
+    url('../../fonts/fontawesome-webfont.svg?33c8nv#fontawesome-webfont') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -26,6 +26,9 @@
 
 .fa-battlenet:before {
   content: "\e900";
+}
+.fa-discord:before {
+  content: "\e901";
 }
 .fa-asterisk:before {
   content: "\f069";
@@ -2385,4 +2388,3 @@
 .fa-meetup:before {
   content: "\f2e0";
 }
-
