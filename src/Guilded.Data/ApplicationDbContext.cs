@@ -10,11 +10,10 @@ namespace Guilded.Data
     {
         public DbSet<GuildActivity> GuildActivity { get; set; }
 
-        #region Forums
         public DbSet<ForumSection> ForumSections { get; set; }
-
         public DbSet<Forum> Forums { get; set; }
-        #endregion
+        public DbSet<Thread> Threads { get; set; }
+        public DbSet<Reply> Replies { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -23,9 +22,16 @@ namespace Guilded.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            // Enforce unique role names.
             builder.Entity<ApplicationRole>()
                 .HasIndex(r => r.Name)
                 .IsUnique();
+
+            // Define the many-to-one relationship for Thread to Replies.
+            builder.Entity<Thread>()
+                .HasMany(t => t.Replies)
+                .WithOne(r => r.Thread);
+
             base.OnModelCreating(builder);
         }
     }
