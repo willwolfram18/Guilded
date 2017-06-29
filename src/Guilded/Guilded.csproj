@@ -102,6 +102,5 @@
   <ItemGroup>
     <Folder Include="Areas\Account\ViewModels\Manage\" />
     <Folder Include="Areas\Account\Views\Manage\" />
-    <Folder Include="Data\DAL\Core\" />
   </ItemGroup>
 </Project>
