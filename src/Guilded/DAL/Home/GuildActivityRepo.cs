@@ -1,7 +1,8 @@
-using Guilded.Data.DAL.Abstract;
+using Guilded.DAL.Abstract;
+using Guilded.Data;
 using Guilded.Data.Home;
 
-namespace Guilded.Data.DAL.Home
+namespace Guilded.DAL.Home
 {
     public class GuildActivityRepo : ReadOnlyRepositoryBase<GuildActivity>
     {

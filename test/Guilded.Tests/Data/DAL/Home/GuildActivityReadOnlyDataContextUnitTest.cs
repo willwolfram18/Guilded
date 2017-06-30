@@ -1,8 +1,8 @@
 ﻿using BattleNetApi.Apis.Interfaces;
 using BattleNetApi.Objects.WoW;
 using BattleNetApi.Objects.WoW.Enums;
-using Guilded.Data.DAL;
-using Guilded.Data.DAL.Home;
+using Guilded.DAL;
+using Guilded.DAL.Home;
 using Guilded.Extensions;
 using Moq;
 using System;

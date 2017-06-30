@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Guilded.Data;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
-namespace Guilded.Data.DAL.Abstract
+namespace Guilded.DAL.Abstract
 {
     public abstract class ReadWriteDataContextBase : ReadOnlyDataContextBase, IReadWriteDataContext
     {

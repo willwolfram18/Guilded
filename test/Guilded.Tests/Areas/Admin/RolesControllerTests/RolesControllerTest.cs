@@ -1,9 +1,8 @@
 ﻿using Guilded.Areas.Admin.Controllers;
-using Guilded.Areas.Admin.Data.DAL;
+using Guilded.Areas.Admin.DAL;
 using Guilded.Tests.Controllers;
 using Microsoft.Extensions.Logging;
 using Moq;
-using NUnit.Framework;
 
 namespace Guilded.Tests.Areas.Admin.RolesControllerTests
 {

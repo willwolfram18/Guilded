@@ -1,10 +1,10 @@
-﻿using Guilded.Data.DAL;
+﻿using Guilded.DAL;
 using Guilded.Data.Identity;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Guilded.Areas.Admin.Data.DAL
+namespace Guilded.Areas.Admin.DAL
 {
     public interface IUsersDataContext : IReadWriteDataContext
     {

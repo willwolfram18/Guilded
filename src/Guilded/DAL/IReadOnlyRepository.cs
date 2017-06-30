@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Guilded.Data.DAL
+namespace Guilded.DAL
 {
     public interface IReadOnlyRepository<TEntity> : IDisposable
         where TEntity : class

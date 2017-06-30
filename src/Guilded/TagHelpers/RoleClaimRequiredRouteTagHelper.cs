@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using Guilded.Areas.Admin.Data.DAL;
+﻿using Guilded.Areas.Admin.DAL;
 using Guilded.Data.Identity;
 using Guilded.Extensions;
 using Guilded.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Guilded.TagHelpers
 {

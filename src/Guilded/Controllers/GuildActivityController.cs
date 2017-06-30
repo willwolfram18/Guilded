@@ -1,5 +1,5 @@
 using Guilded.Attributes;
-using Guilded.Data.DAL.Home;
+using Guilded.DAL.Home;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;

@@ -1,5 +1,5 @@
-﻿using Guilded.Data;
-using Guilded.Data.DAL.Abstract;
+﻿using Guilded.DAL.Abstract;
+using Guilded.Data;
 using Guilded.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Guilded.Areas.Admin.Data.DAL
+namespace Guilded.Areas.Admin.DAL
 {
     public class UsersDataContext : ReadWriteDataContextBase, IUsersDataContext
     {

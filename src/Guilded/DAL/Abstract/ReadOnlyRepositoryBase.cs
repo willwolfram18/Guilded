@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Guilded.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Guilded.Data.DAL.Abstract
+namespace Guilded.DAL.Abstract
 {
     public abstract class ReadOnlyRepositoryBase<TEntity> : IReadOnlyRepository<TEntity>
         where TEntity : class

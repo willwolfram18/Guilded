@@ -1,9 +1,9 @@
 ﻿using BattleNetApi.Apis.Interfaces;
-using Guilded.Areas.Admin.Data.DAL;
+using Guilded.Areas.Admin.DAL;
 using Guilded.Common;
+using Guilded.DAL;
+using Guilded.DAL.Home;
 using Guilded.Data;
-using Guilded.Data.DAL;
-using Guilded.Data.DAL.Home;
 using Guilded.Data.Home;
 using Guilded.Data.Identity;
 using Guilded.Security.Authorization;

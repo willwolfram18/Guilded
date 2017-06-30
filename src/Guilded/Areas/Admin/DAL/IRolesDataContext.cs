@@ -1,10 +1,10 @@
-using Guilded.Data.DAL;
+using Guilded.DAL;
 using Guilded.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Guilded.Areas.Admin.Data.DAL
+namespace Guilded.Areas.Admin.DAL
 {
     public interface IRolesDataContext : IReadWriteDataContext
     {

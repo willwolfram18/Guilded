@@ -1,4 +1,4 @@
-﻿using Guilded.Areas.Admin.Data.DAL;
+﻿using Guilded.Areas.Admin.DAL;
 using Guilded.Areas.Admin.ViewModels.Users;
 using Guilded.Constants;
 using Guilded.Data.Identity;

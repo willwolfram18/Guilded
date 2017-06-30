@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Guilded.Data.DAL
+namespace Guilded.DAL
 {
     public interface IReadOnlyDataContext : IDisposable
     {

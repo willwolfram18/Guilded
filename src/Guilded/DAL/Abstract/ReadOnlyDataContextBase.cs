@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Guilded.Data;
+using System;
 using System.Threading.Tasks;
 
-namespace Guilded.Data.DAL.Abstract
+namespace Guilded.DAL.Abstract
 {
     public abstract class ReadOnlyDataContextBase : IReadOnlyDataContext
     {

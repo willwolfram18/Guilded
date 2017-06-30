@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace Guilded.Data.DAL
+namespace Guilded.DAL
 {
     public interface IReadWriteRepository<TEntity> : IReadOnlyRepository<TEntity>
         where TEntity : class

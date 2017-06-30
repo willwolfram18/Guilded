@@ -1,11 +1,9 @@
 ﻿using Guilded.ViewModels.Home;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Guilded.Data.DAL.Home
+namespace Guilded.DAL.Home
 {
     public interface IGuildActivityReadOnlyDataContext : IDisposable
     {

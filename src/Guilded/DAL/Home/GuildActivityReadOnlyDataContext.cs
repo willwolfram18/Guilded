@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Guilded.Data.DAL.Home
+namespace Guilded.DAL.Home
 {
     public class GuildActivityReadOnlyDataContext : IGuildActivityReadOnlyDataContext
     {
