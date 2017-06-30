@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -41,5 +42,7 @@ namespace Guilded.Data.Forums
         public Guid Version { get; set; } = Guid.NewGuid();
 
         public virtual ForumSection ForumSection { get; set; }
+
+        public virtual ICollection<Thread> Threads { get; set; }
     }
 }

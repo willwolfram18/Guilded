@@ -40,7 +40,13 @@ namespace Guilded.Data.Forums
         [Required]
         public DateTime CreatedAt { get; set; }
 
+        [Required]
+        [ForeignKey("Forum")]
+        public int ForumId { get; set; }
+
         public virtual ApplicationUser Author { get; set; }
+
+        public virtual Forum Forum { get; set; }
 
         public virtual ICollection<Reply> Replies { get; set; }
     }

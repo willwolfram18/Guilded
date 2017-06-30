@@ -27,7 +27,12 @@ namespace Guilded.Data
                 .HasIndex(r => r.Name)
                 .IsUnique();
 
-            // Define the many-to-one relationship for Thread to Replies.
+            // Define the many-to-one relationship for Threads to Forum.
+            builder.Entity<Forum>()
+                .HasMany(f => f.Threads)
+                .WithOne(t => t.Forum);
+
+            // Define the many-to-one relationship for Replies to Thread.
             builder.Entity<Thread>()
                 .HasMany(t => t.Replies)
                 .WithOne(r => r.Thread);

@@ -8,9 +8,10 @@ using Guilded.Data;
 namespace Guilded.Migrations.SqlServer
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170630221340_Added_Thread_To_Forum_Relation")]
+    partial class Added_Thread_To_Forum_Relation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

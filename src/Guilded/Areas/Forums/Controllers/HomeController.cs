@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Guilded.Areas.Forums.DAL;
 using Guilded.Constants;
 using Guilded.Controllers;
 using Guilded.ViewModels;
@@ -14,10 +15,12 @@ namespace Guilded.Areas.Forums.Controllers
     [Route("[area]")]
     public class HomeController : BaseController
     {
-        protected readonly Stack<Breadcrumb> Breadcrumbs;
+        private readonly Stack<Breadcrumb> Breadcrumbs;
+        private readonly IForumsDataContext _dataContext;
 
-        public HomeController()
+        public HomeController(IForumsDataContext dataContext)
         {
+            _dataContext = dataContext;
             Breadcrumbs = new Stack<Breadcrumb>();
         }
 
