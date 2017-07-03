@@ -19,10 +19,19 @@
         <h4>
             Pinned threads
         </h4>
-        <div class="ui divided animated selection list">
+        <div class="ui divided feed">
             @foreach (var pinnedThread in Model.PinnedThreads)
             {
-                <a class="item" asp-area="Forums" asp-controller="Threads" asp-action="ThreadBySlug" asp-route-slug="@pinnedThread.Slug">
+                <a class="event" asp-area="Forums" asp-controller="Threads" asp-action="ThreadBySlug" asp-route-slug="@pinnedThread.Slug">
+                    
+                    <div class="content">
+                        <div class="summary">
+                            @pinnedThread.Title
+                            <div class="date">
+                                @pinnedThread.CreatedAt.ToRelativeTimeStamp();
+                            </div>
+                        </div>
+                    </div>
                 </a>
             }
         </div>

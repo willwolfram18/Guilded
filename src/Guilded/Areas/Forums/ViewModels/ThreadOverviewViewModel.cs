@@ -17,6 +17,8 @@ namespace Guilded.Areas.Forums.ViewModels
 
         public string Author { get; set; }
 
+        public DateTime CreatedAt { get; set; }
+
         public ThreadOverviewViewModel()
         {
         }
@@ -27,6 +29,7 @@ namespace Guilded.Areas.Forums.ViewModels
             Title = thread.Title;
             Slug = thread.Slug;
             Author = thread.Author.UserName;
+            CreatedAt = thread.CreatedAt;
         }
     }
 }
