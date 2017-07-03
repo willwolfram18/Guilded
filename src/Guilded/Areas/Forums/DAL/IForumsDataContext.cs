@@ -6,7 +6,7 @@ namespace Guilded.Areas.Forums.DAL
 {
     public interface IForumsDataContext
     {
-        IQueryable<ForumSection> GetForumSections();
+        IQueryable<ForumSection> GetActiveForumSections();
         Task<Forum> GetForumByIdAsync(int id);
         Task<Forum> GetForumBySlugAsync(string slug);
     }

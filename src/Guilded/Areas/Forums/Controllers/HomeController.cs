@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Guilded.Areas.Forums.DAL;
+using Guilded.Areas.Forums.ViewModels;
 using Guilded.Constants;
 using Guilded.Controllers;
 using Guilded.ViewModels;
@@ -26,7 +27,9 @@ namespace Guilded.Areas.Forums.Controllers
 
         public ViewResult Index()
         {
-            return View();
+            var forumSections = _dataContext.GetActiveForumSections();
+
+            return View(forumSections.ToList().Select(f => new ForumSectionViewModel(f)));
         }
 
         public override ViewResult View(string viewName, object model)

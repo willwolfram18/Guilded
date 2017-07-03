@@ -16,7 +16,7 @@ namespace Guilded.Areas.Forums.DAL
         {
         }
 
-        public IQueryable<ForumSection> GetForumSections()
+        public IQueryable<ForumSection> GetActiveForumSections()
         {
             return Context.ForumSections.Include(f => f.Forums)
                 .Where(f => f.IsActive);
