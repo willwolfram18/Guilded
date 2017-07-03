@@ -1,0 +1,39 @@
+﻿@model ForumViewModel
+@{
+    ViewData[ViewDataKeys.Title] = $"Forums - {Model.Title}";
+}
+
+<guilded-breadcumbs />
+
+<h2>
+    @Model.Title
+</h2>
+<h4>
+    @Model.Subtitle
+</h4>
+
+<pager pager-vertical-location="Top" />
+@if (Model.PinnedThreads.Any())
+{
+    <div class="ui segment">
+        <h4>
+            Pinned threads
+        </h4>
+        <div class="ui divided animated selection list">
+            @foreach (var pinnedThread in Model.PinnedThreads)
+            {
+                <a class="item" asp-area="Forums" asp-controller="Threads" asp-action="ThreadBySlug" asp-route-slug="@pinnedThread.Slug">
+                </a>
+            }
+        </div>
+    </div>
+}
+<div class="ui segment">
+    <h4>
+        Threads
+    </h4>
+    <div class="ui divided animated selection list">
+        
+    </div>
+</div>
+<pager pager-vertical-location="Bottom"/>

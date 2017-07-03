@@ -145,8 +145,7 @@ namespace Guilded.Areas.Admin.Controllers
                 CurrentPage = page,
                 LastPage = (int)Math.Ceiling(allRoles.Count() / (double)PageSize),
                 Models = rolesForPage.ToList()
-                    .Select(r => new ApplicationRoleViewModel(r))
-                    .ToList(),
+                    .Select(r => new ApplicationRoleViewModel(r)),
                 PagerUrl = Url.Action(nameof(Index))
             };
         }

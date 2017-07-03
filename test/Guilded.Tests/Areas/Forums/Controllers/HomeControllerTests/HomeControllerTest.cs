@@ -37,12 +37,12 @@ namespace Guilded.Tests.Areas.Forums.Controllers.HomeControllerTests
             }
         }
 
-        protected void AssertThatForumsMatch(ForumViewModel actualForum, Forum expectedForum)
+        protected void AssertThatForumsMatch(ForumOverviewViewModel actualForumOverview, Forum expectedForum)
         {
-            Assert.That(actualForum.Id, Is.EqualTo(expectedForum.Id));
-            Assert.That(actualForum.Slug, Is.EqualTo(expectedForum.Slug));
-            Assert.That(actualForum.Title, Is.EqualTo(expectedForum.Title));
-            Assert.That(actualForum.Subtitle, Is.EqualTo(expectedForum.Subtitle));
+            Assert.That(actualForumOverview.Id, Is.EqualTo(expectedForum.Id));
+            Assert.That(actualForumOverview.Slug, Is.EqualTo(expectedForum.Slug));
+            Assert.That(actualForumOverview.Title, Is.EqualTo(expectedForum.Title));
+            Assert.That(actualForumOverview.Subtitle, Is.EqualTo(expectedForum.Subtitle));
         }
     }
 }

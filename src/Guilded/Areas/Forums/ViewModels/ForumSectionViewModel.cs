@@ -10,7 +10,7 @@ namespace Guilded.Areas.Forums.ViewModels
 
         public int DisplayOrder { get; set; }
 
-        public IEnumerable<ForumViewModel> Forums { get; set; }
+        public IEnumerable<ForumOverviewViewModel> Forums { get; set; }
 
         public ForumSectionViewModel()
         {
@@ -23,7 +23,7 @@ namespace Guilded.Areas.Forums.ViewModels
             Forums = forumSection.Forums.Where(f => f.IsActive)
                 .OrderBy(f => f.Title)
                 .ToList() // need to bring into memory before calling constructor.
-                .Select(f => new ForumViewModel(f));
+                .Select(f => new ForumOverviewViewModel(f));
         }
     }
 }

@@ -10,6 +10,7 @@ namespace Guilded.Data.Forums
     {
         public const int TitleMaxLength = 50;
         public const int TitleMinLength = 4;
+        public const int SlugMaxLength = TitleMaxLength * 2;
         public const int ContentMinLength = 25;
 
         public const string TitleRequiredErrorMessage = ForumSection.TitleRequiredErrorMessage;
@@ -18,6 +19,10 @@ namespace Guilded.Data.Forums
 
         [Key]
         public int Id { get; set; }
+
+        [Required]
+        [StringLength(SlugMaxLength, MinimumLength = TitleMinLength, ErrorMessage = TitleLengthErrorMessage)]
+        public string Slug { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = TitleRequiredErrorMessage)]
         [StringLength(TitleMaxLength, MinimumLength = TitleMinLength)]
