@@ -5,13 +5,12 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Guilded.Data;
 
-namespace Guilded.Migrations.SqlServer
+namespace Guilded.Migrations.SqlServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170630221340_Added_Thread_To_Forum_Relation")]
-    partial class Added_Thread_To_Forum_Relation
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -320,8 +319,7 @@ namespace Guilded.Migrations.SqlServer
 
                     b.HasOne("Guilded.Data.Forums.Thread", "Thread")
                         .WithMany("Replies")
-                        .HasForeignKey("ThreadId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ThreadId");
                 });
 
             modelBuilder.Entity("Guilded.Data.Forums.Thread", b =>

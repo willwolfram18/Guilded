@@ -47,7 +47,7 @@ namespace Guilded.Data.Forums
         public virtual ApplicationUser Author { get; set; }
 
         public virtual Forum Forum { get; set; }
-
+        
         public virtual ICollection<Reply> Replies { get; set; }
     }
 }

@@ -5,19 +5,141 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Guilded.Data;
 
-namespace Guilded.Migrations.SqlServer
+namespace Guilded.Migrations.SqlServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170321141257_RemovedRolePrivilege")]
-    partial class RemovedRolePrivilege
+    [Migration("20170703174808_Reset_Database")]
+    partial class Reset_Database
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.1")
+                .HasAnnotation("ProductVersion", "1.1.2")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Guilded.Data.Models.Core.ApplicationRole", b =>
+            modelBuilder.Entity("Guilded.Data.Forums.Forum", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ForumSectionId");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(35);
+
+                    b.Property<string>("Subtitle")
+                        .HasMaxLength(85);
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(35);
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ForumSectionId");
+
+                    b.ToTable("Forums");
+                });
+
+            modelBuilder.Entity("Guilded.Data.Forums.ForumSection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("DisplayOrder");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(35);
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ForumSections");
+                });
+
+            modelBuilder.Entity("Guilded.Data.Forums.Reply", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuthorId")
+                        .IsRequired();
+
+                    b.Property<string>("Content")
+                        .IsRequired();
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<int>("ThreadId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("ThreadId");
+
+                    b.ToTable("Replies");
+                });
+
+            modelBuilder.Entity("Guilded.Data.Forums.Thread", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuthorId")
+                        .IsRequired();
+
+                    b.Property<string>("Content")
+                        .IsRequired();
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<int>("ForumId");
+
+                    b.Property<bool>("IsLocked");
+
+                    b.Property<bool>("IsPinned");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("ForumId");
+
+                    b.ToTable("Threads");
+                });
+
+            modelBuilder.Entity("Guilded.Data.Home.GuildActivity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Content")
+                        .IsRequired();
+
+                    b.Property<DateTime>("Timestamp");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GuildActivities");
+                });
+
+            modelBuilder.Entity("Guilded.Data.Identity.ApplicationRole", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -31,8 +153,6 @@ namespace Guilded.Migrations.SqlServer
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256);
 
-                    b.Property<string>("ParentRoleId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
@@ -42,12 +162,10 @@ namespace Guilded.Migrations.SqlServer
                         .IsUnique()
                         .HasName("RoleNameIndex");
 
-                    b.HasIndex("ParentRoleId");
-
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("Guilded.Data.Models.Core.ApplicationUser", b =>
+            modelBuilder.Entity("Guilded.Data.Identity.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -61,6 +179,10 @@ namespace Guilded.Migrations.SqlServer
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<DateTime?>("EnabledAfter");
+
+                    b.Property<bool>("IsEnabled");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -95,70 +217,6 @@ namespace Guilded.Migrations.SqlServer
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("Guilded.Data.Models.Forums.Forum", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("ForumSectionId");
-
-                    b.Property<bool>("IsActive");
-
-                    b.Property<string>("SubTitle")
-                        .HasMaxLength(85);
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(35);
-
-                    b.Property<byte[]>("Version")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ForumSectionId");
-
-                    b.ToTable("Forums");
-                });
-
-            modelBuilder.Entity("Guilded.Data.Models.Forums.ForumSection", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("DisplayOrder");
-
-                    b.Property<bool>("IsActive");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(35);
-
-                    b.Property<byte[]>("Version")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ForumSections");
-                });
-
-            modelBuilder.Entity("Guilded.Data.Models.Home.GuildActivity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Content")
-                        .IsRequired();
-
-                    b.Property<DateTime>("Timestamp");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GuildActivities");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
@@ -245,24 +303,42 @@ namespace Guilded.Migrations.SqlServer
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Guilded.Data.Models.Core.ApplicationRole", b =>
+            modelBuilder.Entity("Guilded.Data.Forums.Forum", b =>
                 {
-                    b.HasOne("Guilded.Data.Models.Core.ApplicationRole", "ParentRole")
-                        .WithMany("ChildRoles")
-                        .HasForeignKey("ParentRoleId");
-                });
-
-            modelBuilder.Entity("Guilded.Data.Models.Forums.Forum", b =>
-                {
-                    b.HasOne("Guilded.Data.Models.Forums.ForumSection", "ForumSection")
+                    b.HasOne("Guilded.Data.Forums.ForumSection", "ForumSection")
                         .WithMany("Forums")
                         .HasForeignKey("ForumSectionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Guilded.Data.Forums.Reply", b =>
+                {
+                    b.HasOne("Guilded.Data.Identity.ApplicationUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Guilded.Data.Forums.Thread", "Thread")
+                        .WithMany("Replies")
+                        .HasForeignKey("ThreadId");
+                });
+
+            modelBuilder.Entity("Guilded.Data.Forums.Thread", b =>
+                {
+                    b.HasOne("Guilded.Data.Identity.ApplicationUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Guilded.Data.Forums.Forum", "Forum")
+                        .WithMany("Threads")
+                        .HasForeignKey("ForumId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Guilded.Data.Models.Core.ApplicationRole")
+                    b.HasOne("Guilded.Data.Identity.ApplicationRole")
                         .WithMany("Claims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -270,7 +346,7 @@ namespace Guilded.Migrations.SqlServer
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Guilded.Data.Models.Core.ApplicationUser")
+                    b.HasOne("Guilded.Data.Identity.ApplicationUser")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -278,7 +354,7 @@ namespace Guilded.Migrations.SqlServer
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Guilded.Data.Models.Core.ApplicationUser")
+                    b.HasOne("Guilded.Data.Identity.ApplicationUser")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -286,12 +362,12 @@ namespace Guilded.Migrations.SqlServer
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Guilded.Data.Models.Core.ApplicationRole")
+                    b.HasOne("Guilded.Data.Identity.ApplicationRole")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Guilded.Data.Models.Core.ApplicationUser")
+                    b.HasOne("Guilded.Data.Identity.ApplicationUser")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

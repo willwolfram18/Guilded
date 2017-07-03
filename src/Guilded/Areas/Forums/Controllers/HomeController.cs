@@ -29,7 +29,22 @@ namespace Guilded.Areas.Forums.Controllers
         {
             var forumSections = _dataContext.GetActiveForumSections();
 
-            return View(forumSections.ToList().Select(f => new ForumSectionViewModel(f)));
+            return View(forumSections.OrderBy(f => f.DisplayOrder)
+                .ToList()
+                .Select(f => new ForumSectionViewModel(f))
+            );
+        }
+
+        [Route("{slug}")]
+        public ViewResult ForumBySlug(string slug)
+        {
+            throw new NotImplementedException();
+        }
+
+        [Route("{id:int}")]
+        public ViewResult ForumById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public override ViewResult View(string viewName, object model)

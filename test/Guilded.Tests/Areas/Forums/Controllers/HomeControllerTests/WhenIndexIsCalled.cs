@@ -1,13 +1,8 @@
-﻿using System;
+﻿using Guilded.Areas.Forums.ViewModels;
+using Guilded.Data.Forums;
+using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Guilded.Areas.Forums.ViewModels;
-using Guilded.Data.Forums;
-using Guilded.ViewModels;
-using NUnit.Framework.Api;
-using NUnit.Framework;
 
 namespace Guilded.Tests.Areas.Forums.Controllers.HomeControllerTests
 {

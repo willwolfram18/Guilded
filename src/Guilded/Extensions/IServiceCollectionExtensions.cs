@@ -1,5 +1,6 @@
 ﻿using BattleNetApi.Apis.Interfaces;
 using Guilded.Areas.Admin.DAL;
+using Guilded.Areas.Forums.DAL;
 using Guilded.Common;
 using Guilded.DAL;
 using Guilded.DAL.Home;
@@ -67,9 +68,13 @@ namespace Guilded.Extensions
         private static void AddGuildedDAL(this IServiceCollection services)
         {
             services.AddTransient<IReadOnlyRepository<GuildActivity>, GuildActivityRepo>();
+
             services.AddTransient<IGuildActivityReadOnlyDataContext, GuildActivityReadOnlyDataContext>();
+
             services.AddTransient<IRolesDataContext, RolesDataContext>();
             services.AddTransient<IUsersDataContext, UsersDataContext>();
+
+            services.AddTransient<IForumsDataContext, ForumsDataContext>();
         }
     }
 }

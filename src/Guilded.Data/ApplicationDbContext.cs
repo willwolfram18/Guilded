@@ -3,6 +3,7 @@ using Guilded.Data.Home;
 using Guilded.Data.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Guilded.Data
 {
@@ -30,12 +31,16 @@ namespace Guilded.Data
             // Define the many-to-one relationship for Threads to Forum.
             builder.Entity<Forum>()
                 .HasMany(f => f.Threads)
-                .WithOne(t => t.Forum);
+                .WithOne(t => t.Forum)
+                .IsRequired();
 
+            
             // Define the many-to-one relationship for Replies to Thread.
             builder.Entity<Thread>()
                 .HasMany(t => t.Replies)
-                .WithOne(r => r.Thread);
+                .WithOne(r => r.Thread)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);
         }
