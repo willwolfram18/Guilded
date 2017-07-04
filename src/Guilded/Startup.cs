@@ -3,6 +3,7 @@ using Guilded.Extensions;
 using Guilded.Security.Authorization;
 using Guilded.Security.Claims;
 using Guilded.Services;
+using Guilded.ViewLocationExpanders;
 using Guilded.ViewModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -44,6 +45,7 @@ namespace Guilded
             services.AddMvc().AddRazorOptions(razorOpts =>
             {
                 razorOpts.ViewLocationExpanders.Add(new PartialsFolderViewLocationExpander());
+                razorOpts.ViewLocationExpanders.Add(new DisplayTemplateFolderViewLocationExpander());
             });
 
             services.AddAuthorization(opts =>

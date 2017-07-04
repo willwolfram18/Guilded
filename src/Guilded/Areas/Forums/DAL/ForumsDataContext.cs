@@ -10,7 +10,8 @@ namespace Guilded.Areas.Forums.DAL
     public class ForumsDataContext : ReadWriteDataContextBase, IForumsDataContext
     {
         private IQueryable<Forum> Forums => Context.Forums.Include(f => f.ForumSection)
-            .Include(f => f.Threads);
+            .Include(f => f.Threads)
+            .ThenInclude(t => t.Author);
 
         public ForumsDataContext(ApplicationDbContext context) : base(context)
         {

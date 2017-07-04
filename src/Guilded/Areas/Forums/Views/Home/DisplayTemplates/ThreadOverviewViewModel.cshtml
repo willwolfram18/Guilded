@@ -1,0 +1,13 @@
+﻿@model ThreadOverviewViewModel
+
+<a class="event" asp-area="Forums" asp-controller="Threads" asp-action="ThreadBySlug"
+   asp-route-slug="@Model.Slug">
+    <div class="content">
+        <div class="summary">
+            @Model.Title
+            <div class="date">
+                posted by @Model.Author - @Model.CreatedAt.ToRelativeTimeStamp()
+            </div>
+        </div>
+    </div>
+</a>

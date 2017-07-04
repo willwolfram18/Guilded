@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Guilded
+namespace Guilded.ViewLocationExpanders
 {
     public class PartialsFolderViewLocationExpander : IViewLocationExpander
     {

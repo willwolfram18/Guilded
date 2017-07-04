@@ -9,5 +9,6 @@
         public const string ReturnUrl = "ReturnUrl";
         public const string UserRolesSelectList = "UserRolesSelectList";
         public const string MarkdownAction = "MarkdownAction";
+        public const string ForumSlug = "ForumSlug";
     }
 }

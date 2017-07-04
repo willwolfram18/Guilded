@@ -34,8 +34,14 @@ namespace Guilded.Extensions
 
             var timeDiff = new TimeSpan(now.Ticks - dateToFormat.Ticks);
             var isFutureTime = timeDiff.TotalSeconds < 0;
-            var timeLabel = TimeWithLabel(Math.Abs(timeDiff.TotalSeconds));
-            return null;
+            var timeWithLabel = TimeWithLabel(Math.Abs(timeDiff.TotalSeconds));
+
+            if (isFutureTime)
+            {
+                return $"In {timeWithLabel}";
+            }
+
+            return $"{timeWithLabel} ago";
         }
 
         private static string TimeWithLabel(double timeDiffInSeconds)
@@ -50,9 +56,22 @@ namespace Guilded.Extensions
             }
             if (timeDiffInSeconds < SecInDay)
             {
-                return "days";
+                return FormatTimeWithLabel((int)(timeDiffInSeconds / SecInHr), "hour");
+            }
+            if (timeDiffInSeconds < SecInWeek)
+            {
+                return FormatTimeWithLabel((int)(timeDiffInSeconds / SecInDay), "day");
+            }
+            if (timeDiffInSeconds < SecInMonth)
+            {
+                return FormatTimeWithLabel((int)(timeDiffInSeconds / SecInWeek), "week");
+            }
+            if (timeDiffInSeconds < SecInYear)
+            {
+                return FormatTimeWithLabel((int)(timeDiffInSeconds / SecInMonth), "month");
             }
 
+            return FormatTimeWithLabel((int)(timeDiffInSeconds / SecInYear), "year");
         }
 
         private static string FormatTimeWithLabel(int timeDiff, string label)

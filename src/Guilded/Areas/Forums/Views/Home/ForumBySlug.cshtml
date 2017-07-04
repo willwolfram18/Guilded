@@ -1,6 +1,7 @@
 ﻿@model ForumViewModel
 @{
     ViewData[ViewDataKeys.Title] = $"Forums - {Model.Title}";
+    ViewData[ViewDataKeys.ForumSlug] = Model.Slug;
 }
 
 <guilded-breadcumbs />
@@ -20,20 +21,7 @@
             Pinned threads
         </h4>
         <div class="ui divided feed">
-            @foreach (var pinnedThread in Model.PinnedThreads)
-            {
-                <a class="event" asp-area="Forums" asp-controller="Threads" asp-action="ThreadBySlug" asp-route-slug="@pinnedThread.Slug">
-                    
-                    <div class="content">
-                        <div class="summary">
-                            @pinnedThread.Title
-                            <div class="date">
-                                @pinnedThread.CreatedAt.ToRelativeTimeStamp();
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            }
+            @Html.DisplayFor(m => m.PinnedThreads)
         </div>
     </div>
 }
@@ -41,8 +29,17 @@
     <h4>
         Threads
     </h4>
-    <div class="ui divided animated selection list">
-        
-    </div>
+    @if (Model.Models.Any())
+    {
+        <div class="ui divided feed">
+            @Html.DisplayFor(m => m.Models)
+        </div>
+    }
+    else
+    {
+        <p>
+            No threads to display!
+        </p>
+    }
 </div>
 <pager pager-vertical-location="Bottom"/>
