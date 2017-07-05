@@ -9,5 +9,7 @@ namespace Guilded.Areas.Forums.DAL
         IQueryable<ForumSection> GetActiveForumSections();
         Task<Forum> GetForumByIdAsync(int id);
         Task<Forum> GetForumBySlugAsync(string slug);
+        Task<Thread> GetThreadByIdAsync(int id);
+        Task<Thread> GetThreadBySlugAsync(string slug);
     }
 }

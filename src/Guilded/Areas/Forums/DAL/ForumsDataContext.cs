@@ -13,6 +13,12 @@ namespace Guilded.Areas.Forums.DAL
             .Include(f => f.Threads)
             .ThenInclude(t => t.Author);
 
+        private IQueryable<Thread> Threads => Context.Threads.Include(t => t.Author)
+            .Include(t => t.Forum)
+            .Include(t => t.Replies)
+            .ThenInclude(r => r.Author);
+
+
         public ForumsDataContext(ApplicationDbContext context) : base(context)
         {
         }
@@ -31,6 +37,16 @@ namespace Guilded.Areas.Forums.DAL
         public Task<Forum> GetForumBySlugAsync(string slug)
         {
             return Forums.FirstOrDefaultAsync(f => f.Slug == slug);
+        }
+
+        public Task<Thread> GetThreadByIdAsync(int id)
+        {
+            return Threads.FirstOrDefaultAsync(t => t.Id == id);
+        }
+
+        public Task<Thread> GetThreadBySlugAsync(string slug)
+        {
+            return Threads.FirstOrDefaultAsync(t => t.Slug == slug);
         }
     }
 }
