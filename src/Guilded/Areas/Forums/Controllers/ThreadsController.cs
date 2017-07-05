@@ -51,6 +51,12 @@ namespace Guilded.Areas.Forums.Controllers
             throw new NotImplementedException();
         }
 
+        [Route("~/[area]/{forumSlug}/[controller]/new")]
+        public async Task<IActionResult> CreateThread(string forumSlug)
+        {
+            return View();
+        }
+
         private ThreadViewModel CreateThreadViewModel(Thread thread, int page)
         {
             throw new NotImplementedException();
