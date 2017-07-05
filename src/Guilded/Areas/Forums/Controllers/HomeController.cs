@@ -88,11 +88,7 @@ namespace Guilded.Areas.Forums.Controllers
 
         private ViewResult ForumView(ForumViewModel viewModel)
         {
-            Breadcrumbs.Push(new Breadcrumb
-            {
-                Title = viewModel.Title,
-                Url = Url.Action(nameof(ForumBySlug), new { viewModel.Slug })
-            });
+            PushForumBreadcrumb(viewModel.Title, viewModel.Slug);
 
             return View(viewModel);
         }

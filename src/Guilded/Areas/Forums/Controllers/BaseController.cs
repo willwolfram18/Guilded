@@ -21,6 +21,15 @@ namespace Guilded.Areas.Forums.Controllers
             Breadcrumbs = new Stack<Breadcrumb>();
         }
 
+        protected void PushForumBreadcrumb(string forumName, string forumSlug)
+        {
+            Breadcrumbs.Push(new Breadcrumb
+            {
+                Title = forumName,
+                Url = Url.Action("ForumBySlug", "Home", new { area = "Forums", slug = forumSlug })
+            });
+        }
+
         public override ViewResult View(string viewName, object model)
         {
             Breadcrumbs.Push(new Breadcrumb

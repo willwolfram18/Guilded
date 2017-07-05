@@ -12,6 +12,11 @@
     @Model.Subtitle
 </h4>
 
+<a class="ui small green icon button" asp-area="Forums" asp-controller="Threads" asp-action="CreateThread"
+   asp-route-forumSlug="@Model.Slug">
+    <i class="fa-plus-circle icon"></i> Create a new thread
+</a>
+
 <pager pager-vertical-location="Top" />
 @if (Model.PinnedThreads.Any())
 {

@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using Guilded.Areas.Forums.ViewModels;
+using Guilded.Constants;
 using Guilded.Data.Forums;
+using Guilded.ViewModels;
 
 namespace Guilded.Areas.Forums.Controllers
 {
@@ -54,6 +56,19 @@ namespace Guilded.Areas.Forums.Controllers
         [Route("~/[area]/{forumSlug}/[controller]/new")]
         public async Task<IActionResult> CreateThread(string forumSlug)
         {
+            var forum = await DataContext.GetForumBySlugAsync(forumSlug);
+
+            if (forum == null)
+            {
+                return RedirectToAction("Index", "Home", new {area = "Forums"});
+            }
+
+            Breadcrumbs.Push(new Breadcrumb
+            {
+                Title = "Create new thread"
+            });
+            PushForumBreadcrumb(forum.Title, forumSlug);
+
             return View();
         }
 
