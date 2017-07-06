@@ -53,7 +53,7 @@ namespace Guilded.Areas.Forums.Controllers
             throw new NotImplementedException();
         }
 
-        [Route("~/[area]/{forumSlug}/[controller]/new")]
+        [HttpGet("~/[area]/{forumSlug}/[controller]/new")]
         public async Task<IActionResult> CreateThread(string forumSlug)
         {
             var forum = await DataContext.GetForumBySlugAsync(forumSlug);
@@ -63,13 +63,35 @@ namespace Guilded.Areas.Forums.Controllers
                 return RedirectToAction("Index", "Home", new {area = "Forums"});
             }
 
+            return CreateThreadView(new CreateThreadViewModel
+            {
+                ForumId = forum.Id,
+                ForumSlug = forumSlug
+            }, forum.Title);
+        }
+
+        [HttpPost("~/[area]/{forumSlug}/[controller]/new")]
+        public async Task<IActionResult> CreateThread(CreateThreadViewModel threadToCreate)
+        {
+            var forum = await DataContext.GetForumBySlugAsync(threadToCreate.ForumSlug);
+
+            if (forum == null)
+            {
+                return RedirectToAction("Index", "Home", new { area = "Forums" });
+            }
+
+            return CreateThreadView(threadToCreate, forum.Title);
+        }
+
+        private IActionResult CreateThreadView(CreateThreadViewModel thread, string forumTitle)
+        {
             Breadcrumbs.Push(new Breadcrumb
             {
                 Title = "Create new thread"
             });
-            PushForumBreadcrumb(forum.Title, forumSlug);
+            PushForumBreadcrumb(forumTitle, thread.ForumSlug);
 
-            return View();
+            return View(thread);
         }
 
         private ThreadViewModel CreateThreadViewModel(Thread thread, int page)
