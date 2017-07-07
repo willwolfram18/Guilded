@@ -10,17 +10,17 @@
 
 <form class="ui form" asp-area="Forums" asp-controller="Threads" asp-action="CreateThread"
       asp-route-forumSlug="@Model.ForumSlug">
-    <div asp-validation-summary="All" class="ui raised warning segment"></div>
+    <div asp-validation-summary="All"></div>
     <div class="field">
         <label asp-for="Title"></label>
         <div class="ui left input">
             <input asp-for="Title" />
         </div>
-        <span asp-validation-for="Title" class="ui raised pointing warning label"></span>
+        <span asp-validation-for="Title"></span>
     </div>
     <markdown-editor />
     <div class="field">
-        <span asp-validation-for="Content" class="ui raised pointing warning label"></span>
+        <span asp-validation-for="Content"></span>
     </div>
     <div class="field">
         <button type="submit" class="ui primary button">

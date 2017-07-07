@@ -14,14 +14,14 @@
         </h4>
         <form class="ui form error" method="post" asp-area="Account" asp-controller="Home" asp-action="SignIn"
               asp-route-returnUrl="@ViewData[ViewDataKeys.ReturnUrl]">
-            <div class="ui raised segment" asp-validation-summary="All"></div>
+            <div asp-validation-summary="All"></div>
             <div class="field">
                 <label asp-for="Email"></label>
                 <div class="ui input left icon">
                     <input asp-for="Email"/>
                     <i class="icon envelope"></i>
                 </div>
-                <span class="ui pointing warning raised label" asp-validation-for="Email"></span>
+                <span asp-validation-for="Email"></span>
             </div>
             <div class="field">
                 <label asp-for="Password"></label>
@@ -32,7 +32,7 @@
                 <a asp-area="Account" asp-controller="Home" asp-action="ForgotPassword">
                     Forgot your password?
                 </a>
-                <span class="ui pointing warning raised label" asp-validation-for="Password"></span>
+                <span asp-validation-for="Password"></span>
             </div>
             <div class="field">
                 <div class="ui checkbox">
