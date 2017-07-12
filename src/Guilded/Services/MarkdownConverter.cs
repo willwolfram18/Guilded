@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using BracketPipe;
 using CommonMark;
 using CommonMark.Formatters;
 using CommonMark.Syntax;
 using Microsoft.AspNetCore.Html;
+using HtmlString = Microsoft.AspNetCore.Html.HtmlString;
 
 namespace Guilded.Services
 {
@@ -95,6 +97,13 @@ namespace Guilded.Services
             }
         }
 
-        public IHtmlContent Convert(string content) => new HtmlString(CommonMarkConverter.Convert(content));
+        public IHtmlContent Convert(string content)
+        {
+            var convertedMarkdown = CommonMarkConverter.Convert(content);
+            using (var reader = new HtmlReader(convertedMarkdown))
+            {
+                 return new HtmlString(reader.Sanitize().Minify().ToHtml());
+            }
+        }
     }
 }

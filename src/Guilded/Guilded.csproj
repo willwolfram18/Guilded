@@ -61,6 +61,7 @@
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OAuth.BattleNet" Version="1.0.0-rc1-final" />
     <PackageReference Include="AspNet.Security.OAuth.Extensions" Version="1.0.0-rc1-final" />
+    <PackageReference Include="BracketPipe" Version="0.7.6369.31007" />
     <PackageReference Include="CommonMark.NET" Version="0.15.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="1.1.2" />
