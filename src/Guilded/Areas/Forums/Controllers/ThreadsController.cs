@@ -1,12 +1,13 @@
 ﻿using Guilded.Areas.Forums.DAL;
+using Guilded.Areas.Forums.ViewModels;
+using Guilded.Data.Forums;
+using Guilded.Extensions;
 using Guilded.Services;
+using Guilded.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
-using Guilded.Areas.Forums.ViewModels;
-using Guilded.Constants;
-using Guilded.Data.Forums;
-using Guilded.ViewModels;
 
 namespace Guilded.Areas.Forums.Controllers
 {
@@ -15,7 +16,9 @@ namespace Guilded.Areas.Forums.Controllers
     {
         private readonly IMarkdownConverter _markdownConverter;
 
-        public ThreadsController(IForumsDataContext dataContext, IMarkdownConverter markdownConverter) : base(dataContext)
+        public ThreadsController(IForumsDataContext dataContext,
+            IMarkdownConverter markdownConverter,
+            ILoggerFactory loggerFactory) : base(dataContext, loggerFactory)
         {
             _markdownConverter = markdownConverter;
         }
@@ -80,7 +83,25 @@ namespace Guilded.Areas.Forums.Controllers
                 return RedirectToAction("Index", "Home", new { area = "Forums" });
             }
 
-            return CreateThreadView(threadToCreate, forum.Title);
+            if (!ModelState.IsValid)
+            {
+                return CreateThreadView(threadToCreate, forum.Title);
+            }
+
+            threadToCreate.ForumId = forum.Id;
+
+            try
+            {
+                await DataContext.CreateThreadAsync(threadToCreate.ToThread(User.UserId()));
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e.Message, e);
+                ModelState.AddModelError("", "An error occurred while creating the thread. Please try again.");
+                return CreateThreadView(threadToCreate, forum.Title);
+            }
+
+            return RedirectToAction("ForumBySlug", "Home", new { area = "Forums", slug = forum.Slug });
         }
 
         private IActionResult CreateThreadView(CreateThreadViewModel thread, string forumTitle)

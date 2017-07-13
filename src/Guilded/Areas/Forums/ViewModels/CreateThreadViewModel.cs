@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using Guilded.Data.Forums;
+﻿using Guilded.Data.Forums;
 using Guilded.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -23,5 +22,18 @@ namespace Guilded.Areas.Forums.ViewModels
         [Display(Name = "Content")]
         [MinLength(Thread.ContentMinLength, ErrorMessage = Thread.ContentLengthErrorMessage)]
         public string Content { get; set; }
+
+        public Thread ToThread(string authorId)
+        {
+            return new Thread
+            {
+                Content = Content,
+                Title = Title,
+                ForumId = ForumId,
+                IsLocked = false,
+                IsPinned = false,
+                AuthorId = authorId
+            };
+        }
     }
 }

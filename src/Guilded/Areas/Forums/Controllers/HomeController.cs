@@ -1,8 +1,8 @@
 ﻿using Guilded.Areas.Forums.DAL;
 using Guilded.Areas.Forums.ViewModels;
 using Guilded.Data.Forums;
-using Guilded.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +11,7 @@ namespace Guilded.Areas.Forums.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController(IForumsDataContext dataContext) : base(dataContext)
+        public HomeController(IForumsDataContext dataContext, ILoggerFactory loggerFactory) : base(dataContext, loggerFactory)
         {
         }
 

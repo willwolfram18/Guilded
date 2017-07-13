@@ -2,7 +2,11 @@
 using Guilded.Data;
 using Guilded.Data.Forums;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Globalization;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Guilded.Areas.Forums.DAL
@@ -17,7 +21,6 @@ namespace Guilded.Areas.Forums.DAL
             .Include(t => t.Forum)
             .Include(t => t.Replies)
             .ThenInclude(r => r.Author);
-
 
         public ForumsDataContext(ApplicationDbContext context) : base(context)
         {
@@ -47,6 +50,54 @@ namespace Guilded.Areas.Forums.DAL
         public Task<Thread> GetThreadBySlugAsync(string slug)
         {
             return Threads.FirstOrDefaultAsync(t => t.Slug == slug);
+        }
+
+        public async Task<Thread> CreateThreadAsync(Thread thread)
+        {
+            if (thread == null)
+            {
+                throw new ArgumentNullException(nameof(thread));
+            }
+
+            thread.Title = thread.Title.Trim();
+            thread.Content = thread.Content.Trim();
+            thread.Slug = GenerateSlug(thread.Title);
+
+            await Context.Threads.AddAsync(thread);
+            await SaveChangesAsync();
+
+            return await GetThreadBySlugAsync(thread.Slug);
+        }
+
+        private string GenerateSlug(string title)
+        {
+            var slug = title.ToLower().Trim();
+
+            slug = RemoveDiacritics(slug);
+            
+            // Convert multiple spaces to one.
+            slug = Regex.Replace(slug, @"\s+", " ").Trim();
+
+            // Shorten title, if necessary.
+            if (slug.Length > Thread.SlugMaxLength)
+            {
+                slug = slug.Substring(0, Thread.SlugMaxLength).Trim();
+            }
+
+            slug = Regex.Replace(slug, @"\s", "-");
+            
+            // TODO: Catch similar slugs
+
+            return slug;
+        }
+
+        private string RemoveDiacritics(string text)
+        {
+            var s = new string(text.Normalize(NormalizationForm.FormD)
+                .Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                .ToArray());
+
+            return s.Normalize(NormalizationForm.FormC);
         }
     }
 }
