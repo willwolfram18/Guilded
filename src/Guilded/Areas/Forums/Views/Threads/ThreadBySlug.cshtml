@@ -1,0 +1,10 @@
+﻿@model ThreadViewModel
+@{
+    ViewData[ViewDataKeys.Title] = Model.Title;
+}
+
+<h2>
+    @Model.Title
+</h2>
+
+<markdown-content class="ui segment" data-thread-id="@Model.Id" />

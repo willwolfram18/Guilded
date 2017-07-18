@@ -20,8 +20,9 @@ namespace Guilded.Areas.Forums.ViewModels
         {
         }
 
-        public ThreadViewModel(Thread thead) : base(thead)
+        public ThreadViewModel(Thread thread) : base(thread)
         {
+            Content = thread.Content;
         }
     }
 }

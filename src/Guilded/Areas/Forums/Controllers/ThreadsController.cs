@@ -53,7 +53,7 @@ namespace Guilded.Areas.Forums.Controllers
 
             var viewModel = CreateThreadViewModel(thread, page);
 
-            throw new NotImplementedException();
+            return ThreadView(viewModel, thread.Forum);
         }
 
         [HttpGet("~/[area]/{forumSlug}/[controller]/new")]
@@ -104,7 +104,18 @@ namespace Guilded.Areas.Forums.Controllers
             return RedirectToAction("ForumBySlug", "Home", new { area = "Forums", slug = forum.Slug });
         }
 
-        private IActionResult CreateThreadView(CreateThreadViewModel thread, string forumTitle)
+        private ViewResult ThreadView(ThreadViewModel viewModel, Forum parentForum)
+        {
+            Breadcrumbs.Push(new Breadcrumb
+            {
+                Title = viewModel.Title
+            });
+            PushForumBreadcrumb(parentForum.Title, parentForum.Slug);
+
+            return View(viewModel);
+        }
+
+        private ViewResult CreateThreadView(CreateThreadViewModel thread, string forumTitle)
         {
             Breadcrumbs.Push(new Breadcrumb
             {
@@ -117,7 +128,7 @@ namespace Guilded.Areas.Forums.Controllers
 
         private ThreadViewModel CreateThreadViewModel(Thread thread, int page)
         {
-            throw new NotImplementedException();
+            return new ThreadViewModel(thread);
         }
     }
 }
