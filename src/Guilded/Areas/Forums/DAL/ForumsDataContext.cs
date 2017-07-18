@@ -62,6 +62,7 @@ namespace Guilded.Areas.Forums.DAL
             thread.Title = thread.Title.Trim();
             thread.Content = thread.Content.Trim();
             thread.Slug = GenerateSlug(thread.Title);
+            thread.CreatedAt = DateTime.Now;
 
             await Context.Threads.AddAsync(thread);
             await SaveChangesAsync();

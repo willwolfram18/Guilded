@@ -28,7 +28,7 @@ namespace Guilded.Data.Forums
         public string AuthorId { get; set; }
 
         [Required]
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         [Required]
         [ForeignKey("Thread")]
