@@ -3,11 +3,15 @@
   "private": true,
   "dependencies": {
     "jQuery": "3.2.1",
-    "jquery-validation": "1.16.0",
+    "jquery-validation": "1.17.0",
     "jquery-validation-unobtrusive": "v3.2.6",
-    "semantic": "Semantic-UI#2.2.10",
+    "semantic": "2.2.13",
     "swiper": "^3.4.2",
     "semantic-ui-calendar": "^0.0.8",
     "simplemde": "^1.11.2"
+  },
+  "resolutions": {
+    "semantic": "2.2.13",
+    "jquery-validation": "1.17.0"
   }
 }
