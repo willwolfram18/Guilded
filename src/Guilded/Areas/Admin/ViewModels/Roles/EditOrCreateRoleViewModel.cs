@@ -1,6 +1,6 @@
 ﻿using Guilded.Data.Identity;
 using Guilded.Security.Claims;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;

@@ -1,4 +1,5 @@
-﻿using Guilded.Areas.Forums.Controllers;
+﻿using System;
+using Guilded.Areas.Forums.Controllers;
 using Guilded.Areas.Forums.DAL;
 using Guilded.Areas.Forums.ViewModels;
 using Guilded.Data.Forums;
@@ -6,6 +7,7 @@ using Guilded.Tests.Controllers;
 using Moq;
 using NUnit.Framework;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace Guilded.Tests.Areas.Forums.Controllers.HomeControllerTests
 {
@@ -17,7 +19,10 @@ namespace Guilded.Tests.Areas.Forums.Controllers.HomeControllerTests
         {
             MockDataContext = new Mock<IForumsDataContext>();
 
-            return new HomeController(MockDataContext.Object);
+            return new HomeController(
+                MockDataContext.Object,
+                MockLoggerFactory.Object
+            );
         }
 
         protected void AssertForumSectionsMatch(ForumSectionViewModel actualSection, ForumSection expectedSection)

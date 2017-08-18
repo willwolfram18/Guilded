@@ -1,10 +1,10 @@
-using AspNet.Security.OAuth.BattleNet;
+using Guilded.Common;
 using Guilded.Extensions;
 using Guilded.Security.Authorization;
 using Guilded.Security.Claims;
 using Guilded.Services;
 using Guilded.ViewLocationExpanders;
-using Guilded.ViewModels;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -19,9 +19,12 @@ namespace Guilded
     {
         public Startup(IHostingEnvironment env)
         {
+            var hostingPlatform = Globals.OSX ? "OSX" : "Windows";
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{hostingPlatform}.json", optional: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
@@ -41,7 +44,9 @@ namespace Guilded
         {
             // Add framework services.
             services.AddOptions();
-            services.AddGuilded(Configuration);
+            services.AddGuildedIdentity(Configuration.GetConnectionString("DefaultConnection"));
+            services.AddGuildedServices();
+
             services.AddMvc().AddRazorOptions(razorOpts =>
             {
                 razorOpts.ViewLocationExpanders.Add(new PartialsFolderViewLocationExpander());
@@ -59,11 +64,27 @@ namespace Guilded
             });
             
             services.AddRouting(options => options.LowercaseUrls = true);
-            services.Configure<IdentityOptions>(opts =>
+            services.ConfigureApplicationCookie(opts =>
             {
-                opts.Cookies.ApplicationCookie.LoginPath = new PathString("/account/sign-in");
-                opts.Cookies.ApplicationCookie.AccessDeniedPath = new PathString("/access-denied");
+                opts.LoginPath = new PathString("/account/sign-in");
+                opts.AccessDeniedPath = new PathString("/access-denied");
             });
+            services.AddAuthentication()
+                .AddFacebook(opts =>
+                {
+                    opts.AppId = "xxx";
+                    opts.AppSecret = "xxx";
+                })
+                .AddGoogle(opts =>
+                {
+                    opts.ClientId = "xxx";
+                    opts.ClientSecret = "xxx";
+                })
+                .AddTwitter(opts =>
+                {
+                    opts.ConsumerKey = "xxx";
+                    opts.ConsumerSecret = "xxx";
+                });
 
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
             services.AddTransient<IMarkdownConverter, MarkdownConverter>();
@@ -88,30 +109,15 @@ namespace Guilded
             }
 
             app.UseStaticFiles();
-            app.UseIdentity();
+            app.UseAuthentication();
 
-            app.UseTwitterAuthentication(new TwitterOptions
-            {
-                ConsumerKey = "test",
-                ConsumerSecret = "test"
-            });
-            app.UseGoogleAuthentication(new GoogleOptions
-            {
-                ClientId = "test",
-                ClientSecret = "test",
-            });
-            app.UseFacebookAuthentication(new FacebookOptions
-            {
-                ClientId = "test",
-                ClientSecret = "test"
-            });
-            app.UseBattleNetAuthentication(new BattleNetAuthenticationOptions
-            {
-                ClientId = "test",
-                ClientSecret = "test",
-                DisplayName = "Battle.net",
-                Region = BattleNetAuthenticationRegion.America
-            });
+            //app.UseBattleNetAuthentication(new BattleNetAuthenticationOptions
+            //{
+            //    ClientId = "test",
+            //    ClientSecret = "test",
+            //    DisplayName = "Battle.net",
+            //    Region = BattleNetAuthenticationRegion.America
+            //});
 
 
             app.UseMvc(routes =>

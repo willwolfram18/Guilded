@@ -1,5 +1,5 @@
 using Guilded.Security.Claims;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using System;
 
 namespace Guilded.Areas.Admin.ViewModels.Roles

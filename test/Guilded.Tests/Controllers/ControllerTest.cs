@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Guilded.Controllers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using System;
 using System.Security.Claims;
-using Guilded.Controllers;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Guilded.Tests.Controllers
 {
@@ -36,11 +38,17 @@ namespace Guilded.Tests.Controllers
 
         protected Mock<ClaimsPrincipal> MockUser { get; private set; }
 
+        protected Mock<ILoggerFactory> MockLoggerFactory { get; private set; }
+
+        protected Mock<ILogger> MockLogger { get; private set; }
+
         protected abstract TController SetUpController();
 
         [SetUp]
         public void BaseSetUp()
         {
+            InitializeLogging();
+
             InitializeHttpContext();
 
             InitializeControllerContext();
@@ -131,6 +139,15 @@ namespace Guilded.Tests.Controllers
         protected virtual void AdditionalSetUp()
         {
             // Nothing to do in base class
+        }
+
+        private void InitializeLogging()
+        {
+            MockLoggerFactory = new Mock<ILoggerFactory>();
+            MockLogger = new Mock<ILogger>();
+
+            MockLoggerFactory.Setup(f => f.CreateLogger(It.IsAny<string>()))
+                .Returns(MockLogger.Object);
         }
 
         private void InitializeHttpContext()

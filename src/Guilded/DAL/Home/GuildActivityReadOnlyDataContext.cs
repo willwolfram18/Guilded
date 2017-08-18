@@ -1,6 +1,4 @@
-﻿using BattleNetApi.Apis.Interfaces;
-using BattleNetApi.Objects.WoW;
-using Guilded.Extensions;
+﻿using Guilded.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,16 +9,13 @@ namespace Guilded.DAL.Home
     {
         #region Properties
         #region Private properties
-        private readonly IBattleNetApi _battleNetClient;
         private readonly IReadOnlyRepository<Data.Home.GuildActivity> _websiteNews;
         #endregion
         #endregion
 
         #region Constructor
-        public GuildActivityReadOnlyDataContext(IBattleNetApi bnetClient,
-            IReadOnlyRepository<Data.Home.GuildActivity> websiteNews)
+        public GuildActivityReadOnlyDataContext(IReadOnlyRepository<Data.Home.GuildActivity> websiteNews)
         {
-            _battleNetClient = bnetClient;
             _websiteNews = websiteNews;
         }
         #endregion
@@ -48,20 +43,7 @@ namespace Guilded.DAL.Home
         #region Private methods
         private async Task<List<ViewModels.Home.GuildActivity>> GetBattleNetGuildNews()
         {
-            // TODO: Remove hard coding of Guild server and name
-            try
-            {
-                Guild guildProfile = await _battleNetClient.WowCommunityApi.GetGuildProfileAsync("Wyrmrest Accord", "Guilded Ashalanore", "news");
-
-                var result = guildProfile.News.ToListOfDifferentType(ViewModels.Home.GuildActivity.CreateFromBattleNetNews);
-                result.Sort();
-                return result;
-            }
-            catch
-            {
-                return new List<ViewModels.Home.GuildActivity>();
-            }
-            
+            return new List<ViewModels.Home.GuildActivity>();
         }
 
         private List<ViewModels.Home.GuildActivity> GetWebsiteNews()
