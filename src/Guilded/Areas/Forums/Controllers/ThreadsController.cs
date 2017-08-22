@@ -2,8 +2,10 @@
 using Guilded.Areas.Forums.ViewModels;
 using Guilded.Data.Forums;
 using Guilded.Extensions;
+using Guilded.Security.Claims;
 using Guilded.Services;
 using Guilded.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -73,6 +75,7 @@ namespace Guilded.Areas.Forums.Controllers
             }, forum.Title);
         }
 
+        [Authorize(Policy = RoleClaimTypes.ForumsWriterClaim)]
         [HttpPost("~/[area]/{forumSlug}/[controller]/new")]
         public async Task<IActionResult> CreateThread(CreateThreadViewModel threadToCreate)
         {

@@ -1,14 +1,17 @@
 ﻿using Guilded.Areas.Forums.DAL;
 using Guilded.Constants;
+using Guilded.Security.Claims;
 using Guilded.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace Guilded.Areas.Forums.Controllers
 {
     [Area("Forums")]
     [Route("[area]")]
+    [Authorize(Policy = RoleClaimTypes.ForumsReaderClaim)]
     public abstract class BaseController : Guilded.Controllers.BaseController
     {
         public const int PageSize = 25;
