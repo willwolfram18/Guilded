@@ -72,7 +72,7 @@ namespace Guilded.Areas.Admin.Controllers
 
             if (dbRole == null)
             {
-                dbRole = await _db.CreateRoleAsync(role.ToApplicationRole());
+                dbRole = await _db.CreateRoleAsync(role.ToApplicationRole(), role.PermissionsAsRoleClaims);
                 ViewData[ViewDataKeys.SuccessMessages] = "Role successfully created!";
 
                 _log.LogInformation($"{User.Identity.Name} created role {role.Name} ({role.Id}).");
@@ -81,8 +81,8 @@ namespace Guilded.Areas.Admin.Controllers
             {
                 try
                 {
-                    dbRole.UpdateFromViewModel(role);
-                    dbRole = await _db.UpdateRoleAsync(dbRole);
+                    dbRole.Name = role.Name;
+                    dbRole = await _db.UpdateRoleAsync(dbRole, role.PermissionsAsRoleClaims);
                     ViewData[ViewDataKeys.SuccessMessages] = "Role successfully updated!";
 
                     _log.LogInformation($"{User.Identity.Name} updated role {role.Name} ({role.Id}).");

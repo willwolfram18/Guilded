@@ -36,6 +36,7 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
                     }
                     catch (KeyNotFoundException)
                     {
+                        // Skip permissions which are not valid
                     }
                 }
 
@@ -64,23 +65,11 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
 
         public ApplicationRole ToApplicationRole()
         {
-            var role = new ApplicationRole
+            return new ApplicationRole
             {
                 Id = Id,
                 Name = Name,
             };
-
-            foreach (var permission in PermissionsAsRoleClaims)
-            {
-                role.Claims.Add(new IdentityRoleClaim<string>
-                {
-                    ClaimType = permission.ClaimType,
-                    ClaimValue = "True",
-                    RoleId = role.Id
-                });
-            }
-
-            return role;
         }
     }
 }

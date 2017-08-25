@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Guilded.Security.Claims;
 
 namespace Guilded.Areas.Admin.DAL
 {
@@ -31,17 +32,18 @@ namespace Guilded.Areas.Admin.DAL
             return _roleManager.Roles.FirstOrDefaultAsync(r => r.Id == id);
         }
 
-        public async Task<ApplicationRole> CreateRoleAsync(ApplicationRole roleToCreate)
+        public async Task<ApplicationRole> CreateRoleAsync(ApplicationRole roleToCreate, IEnumerable<RoleClaim> roleClaims)
         {
             var result = await _roleManager.CreateAsync(roleToCreate);
             if (!result.Succeeded)
             {
                 throw new Exception($"Failed to create role '{roleToCreate.Name}'");
             }
+
             return await GetRoleByIdAsync(roleToCreate.Id);
         }
 
-        public async Task<ApplicationRole> UpdateRoleAsync(ApplicationRole roleToUpdate)
+        public async Task<ApplicationRole> UpdateRoleAsync(ApplicationRole roleToUpdate, IEnumerable<RoleClaim> roleClaims)
         {
             var result = await _roleManager.UpdateAsync(roleToUpdate);
             if (!result.Succeeded)

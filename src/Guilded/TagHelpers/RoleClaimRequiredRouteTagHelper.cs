@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace Guilded.TagHelpers
 {
@@ -27,10 +28,12 @@ namespace Guilded.TagHelpers
         private ClaimsPrincipal User => ViewContext.HttpContext.User;
 
         private readonly IUsersDataContext _usersDataContext;
+        private readonly IRolesDataContext _rolesDataContext;
 
-        public RoleClaimRequiredRouteTagHelper(IUsersDataContext usersDataContext)
+        public RoleClaimRequiredRouteTagHelper(IUsersDataContext usersDataContext, IRolesDataContext rolesDataContext)
         {
             _usersDataContext = usersDataContext;
+            _rolesDataContext = rolesDataContext;
         }
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
@@ -61,12 +64,14 @@ namespace Guilded.TagHelpers
 
         private bool MeetsClaimRequirements(ApplicationRole role)
         {
+            var roleClaims = _rolesDataContext.GetClaimsForRole(role);
+
             if (RequiredClaim != null)
             {
-                return role.HasRoleClaim(RequiredClaim);
+                return roleClaims.Any(c => c.Type == RequiredClaim.ClaimType);
             }
 
-            return PossibleClaims.Any(role.HasRoleClaim);
+            return PossibleClaims.Any(c => roleClaims.Any(r => r.Type == c.ClaimType));
         }
     }
 }
