@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,11 +33,18 @@ namespace Guilded.Security.Authorization
 
             var currentUser = await _userManager.GetUserAsync(context.User);
             var userRoleNames = await _userManager.GetRolesAsync(currentUser);
-
             var userRoles = _roleManager.Roles.Where(r => userRoleNames.Contains(r.Name));
-            var roleClaims = userRoles.SelectMany(r => r.Claims.Select(c => c.ClaimType));
+            var roleClaimTypes = new List<string>();
 
-            if (roleClaims.Contains(requirement.RequiredRoleClaim.ClaimType))
+            foreach (var role in userRoles)
+            {
+                roleClaimTypes.AddRange(
+                    (await _roleManager.GetClaimsAsync(role))
+                        .Select(c => c.Type)
+                );
+            }
+
+            if (roleClaimTypes.Contains(requirement.RequiredRoleClaim.ClaimType))
             {
                 context.Succeed(requirement);
             }

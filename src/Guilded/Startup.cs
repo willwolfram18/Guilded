@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Guilded.Common;
 using Guilded.Extensions;
 using Guilded.Security.Authorization;

@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using Guilded.DAL;
 using Guilded.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Guilded.Areas.Admin.DAL
@@ -16,6 +18,8 @@ namespace Guilded.Areas.Admin.DAL
 
         Task<ApplicationRole> UpdateRoleAsync(ApplicationRole roleToUpdate);
 
-        Task<IdentityResult> DeleteRole(ApplicationRole roleToDelete);
+        Task<IdentityResult> DeleteRoleAsync(ApplicationRole roleToDelete);
+
+        IEnumerable<Claim> GetClaimsForRole(ApplicationRole role);
     }
 }

@@ -1,6 +1,7 @@
 using Guilded.Data.Identity;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 
 namespace Guilded.Areas.Admin.ViewModels.Roles
 {
@@ -19,7 +20,7 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
             Permissions = new List<Permission>();
         }
 
-        public ApplicationRoleViewModel(ApplicationRole role) : this()
+        public ApplicationRoleViewModel(ApplicationRole role, IEnumerable<Claim> claims) : this()
         {
             if (role == null)
             {
@@ -28,7 +29,7 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
 
             Id = role.Id;
             Name = role.Name;
-            Permissions = role.Claims.OrderBy(c => c.ClaimType)
+            Permissions = claims.OrderBy(c => c.Type)
                 .Select(c => new Permission(c))
                 .ToList();
         }

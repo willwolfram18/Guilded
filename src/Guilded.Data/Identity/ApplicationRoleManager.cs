@@ -13,14 +13,5 @@ namespace Guilded.Data.Identity
             base(store, roleValidators, keyNormalizer, errors, logger)
         {
         }
-
-        public override IQueryable<ApplicationRole> Roles
-        {
-            get
-            {
-                return base.Roles
-                        .Include(r => r.Claims);
-            }
-        }
     }
 }

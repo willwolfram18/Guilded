@@ -1,6 +1,6 @@
 using Guilded.Security.Claims;
-using Microsoft.AspNetCore.Identity;
 using System;
+using System.Security.Claims;
 
 namespace Guilded.Areas.Admin.ViewModels.Roles
 {
@@ -25,24 +25,23 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
         {
             if (roleClaim == null)
             {
-                throw new ArgumentNullException("roleClaim");
+                throw new ArgumentNullException(nameof(roleClaim));
             }
 
             PermissionType = roleClaim.ClaimType;
             Description = roleClaim.Description;
         }
 
-        public Permission(IdentityRoleClaim<string> roleClaim) : this()
+        public Permission(Claim roleClaim) : this()
         {
             
             if (roleClaim == null)
             {
-                throw new ArgumentNullException("privilege");
+                throw new ArgumentNullException(nameof(roleClaim));
             }
 
-            Id = roleClaim.Id;
-            PermissionType = roleClaim.ClaimType;
-            Description = RoleClaimTypes.LookUpGuildedRoleClaim(roleClaim).Description;
+            PermissionType = roleClaim.Type;
+            Description = RoleClaimTypes.LookUpGuildedRoleClaim(roleClaim.Type).Description;
         }
         #endregion
     }

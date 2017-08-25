@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Claims;
 
 namespace Guilded.Areas.Admin.ViewModels.Roles
 {
@@ -54,11 +55,11 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
             );
         }
 
-        public EditOrCreateRoleViewModel(ApplicationRole role) : this()
+        public EditOrCreateRoleViewModel(ApplicationRole role, IEnumerable<Claim> claims) : this()
         {
             Id = role.Id;
             Name = role.Name;
-            Permissions.AddRange(role.Claims.Select(c => c.ClaimType));
+            Permissions.AddRange(claims.Select(c => c.Type));
         }
 
         public ApplicationRole ToApplicationRole()

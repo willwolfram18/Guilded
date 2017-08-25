@@ -109,7 +109,7 @@ namespace Guilded.Areas.Admin.Controllers
                 return NotFound("That role could not be found.");
             }
 
-            var result = await _db.DeleteRole(role);
+            var result = await _db.DeleteRoleAsync(role);
             if (!result.Succeeded)
             {
                 _log.LogError($"{User.Identity.Name} failed to delete role {role.Name}: " +
@@ -145,7 +145,7 @@ namespace Guilded.Areas.Admin.Controllers
                 CurrentPage = page,
                 LastPage = (int)Math.Ceiling(allRoles.Count() / (double)PageSize),
                 Models = rolesForPage.ToList()
-                    .Select(r => new ApplicationRoleViewModel(r)),
+                    .Select(r => new ApplicationRoleViewModel(r, _db.GetClaimsForRole(r))),
                 PagerUrl = Url.Action(nameof(Index))
             };
         }
@@ -158,7 +158,7 @@ namespace Guilded.Areas.Admin.Controllers
                 Url = Request.Path
             });
 
-            return View(new EditOrCreateRoleViewModel(dbRole));
+            return View(new EditOrCreateRoleViewModel(dbRole, _db.GetClaimsForRole(dbRole)));
         }
     }
 }

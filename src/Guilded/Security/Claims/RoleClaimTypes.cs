@@ -69,11 +69,6 @@ namespace Guilded.Security.Claims
             }
         }
 
-        public static RoleClaim LookUpGuildedRoleClaim(IdentityRoleClaim<string> identityRoleClaim)
-        {
-            return LookUpGuildedRoleClaim(identityRoleClaim.ClaimType);
-        }
-
         public static RoleClaim LookUpGuildedRoleClaim(string claimType)
         {
             if (!TypesToRoleClaims.ContainsKey(claimType))

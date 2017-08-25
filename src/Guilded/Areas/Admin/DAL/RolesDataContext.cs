@@ -4,7 +4,9 @@ using Guilded.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Guilded.Areas.Admin.DAL
@@ -50,9 +52,21 @@ namespace Guilded.Areas.Admin.DAL
             return await GetRoleByIdAsync(roleToUpdate.Id);
         }
 
-        public async Task<IdentityResult> DeleteRole(ApplicationRole roleToDelete)
+        public Task<IdentityResult> DeleteRoleAsync(ApplicationRole roleToDelete)
         {
-            return await _roleManager.DeleteAsync(roleToDelete);
+            return _roleManager.DeleteAsync(roleToDelete);
+        }
+
+        public IEnumerable<Claim> GetClaimsForRole(ApplicationRole role)
+        {
+            IEnumerable<Claim> claims = new List<Claim>();
+
+            Task.Run(async () =>
+            {
+                claims = await _roleManager.GetClaimsAsync(role);
+            }).Wait();
+
+            return claims;
         }
     }
 }
