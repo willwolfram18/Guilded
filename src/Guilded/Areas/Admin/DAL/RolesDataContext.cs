@@ -40,7 +40,14 @@ namespace Guilded.Areas.Admin.DAL
                 throw new Exception($"Failed to create role '{roleToCreate.Name}'");
             }
 
-            return await GetRoleByIdAsync(roleToCreate.Id);
+            var createdRole = await GetRoleByIdAsync(roleToCreate.Id);
+
+            foreach (var roleClaim in roleClaims)
+            {
+                await _roleManager.AddClaimAsync(createdRole, new Claim(RoleClaimTypes.Permission, roleClaim.ClaimValue));
+            }
+
+            return createdRole;
         }
 
         public async Task<ApplicationRole> UpdateRoleAsync(ApplicationRole roleToUpdate, IEnumerable<RoleClaim> roleClaims)
@@ -51,6 +58,9 @@ namespace Guilded.Areas.Admin.DAL
                 throw new Exception($"Failed to update role '{roleToUpdate.Name}': " +
                                     $"{string.Join(", ", result.Errors.Select(e => e.Description))}");
             }
+
+            throw new NotImplementedException("Update the claims associated with the role");
+
             return await GetRoleByIdAsync(roleToUpdate.Id);
         }
 
