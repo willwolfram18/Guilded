@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Guilded.Areas.Admin.Controllers
 {
-    [Authorize(RoleClaimTypes.UserManagementClaim)]
+    [Authorize(Policy = RoleClaimValues.UserManagementClaim)]
     public class UsersController : BaseController
     {
         public const int PageSize = 20;

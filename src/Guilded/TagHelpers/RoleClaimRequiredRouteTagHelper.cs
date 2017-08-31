@@ -68,10 +68,10 @@ namespace Guilded.TagHelpers
 
             if (RequiredClaim != null)
             {
-                return roleClaims.Any(c => c.Type == RequiredClaim.ClaimType);
+                return roleClaims.Any(c => c.Value == RequiredClaim.ClaimValue);
             }
 
-            return PossibleClaims.Any(c => roleClaims.Any(r => r.Type == c.ClaimType));
+            return PossibleClaims.Any(c => roleClaims.Any(r => r.Value == c.ClaimValue));
         }
     }
 }

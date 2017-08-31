@@ -58,9 +58,9 @@ namespace Guilded
             {
                 opts.AddPolicy(AuthorizeEnabledUserAttribute.PolicyName, policy => policy.Requirements.Add(new EnabledUserRequirement()));
 
-                foreach (var roleClaim in RoleClaimTypes.RoleClaims)
+                foreach (var roleClaim in RoleClaimValues.RoleClaims)
                 {
-                    opts.AddPolicy(roleClaim.ClaimType, policy => policy.Requirements.Add(new RoleClaimAuthorizationRequirement(roleClaim)));
+                    opts.AddPolicy(roleClaim.ClaimValue, policy => policy.Requirements.Add(new RoleClaimAuthorizationRequirement(roleClaim)));
                 }
             });
             

@@ -75,7 +75,7 @@ namespace Guilded.Areas.Forums.Controllers
             }, forum.Title);
         }
 
-        [Authorize(Policy = RoleClaimTypes.ForumsWriterClaim)]
+        [Authorize(Policy = RoleClaimValues.ForumsWriterClaim)]
         [HttpPost("~/[area]/{forumSlug}/[controller]/new")]
         public async Task<IActionResult> CreateThread(CreateThreadViewModel threadToCreate)
         {

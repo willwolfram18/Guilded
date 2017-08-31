@@ -32,7 +32,7 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
                 {
                     try
                     {
-                        claims.Add(RoleClaimTypes.LookUpGuildedRoleClaim(permission));
+                        claims.Add(RoleClaimValues.LookUpGuildedRoleClaim(permission));
                     }
                     catch (KeyNotFoundException)
                     {
@@ -50,9 +50,9 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
         {
             Permissions = new List<string>();
             AvailablePermissions = new SelectList(
-                RoleClaimTypes.RoleClaims.OrderBy(c => c.ClaimType),
-                "ClaimType",
-                "ClaimType"
+                RoleClaimValues.RoleClaims.OrderBy(c => c.ClaimValue),
+                "ClaimValue",
+                "ClaimValue"
             );
         }
 
@@ -60,7 +60,7 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
         {
             Id = role.Id;
             Name = role.Name;
-            Permissions.AddRange(claims.Select(c => c.Type));
+            Permissions.AddRange(claims.Select(c => c.Value));
         }
 
         public ApplicationRole ToApplicationRole()

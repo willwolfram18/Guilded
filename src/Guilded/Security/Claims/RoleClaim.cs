@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Guilded.Security.Claims
+﻿namespace Guilded.Security.Claims
 {
     public class RoleClaim
     {
-        #region Properties
-        #region Public properties
-        public string ClaimType { get; private set; }
+        public string ClaimValue { get; private set; }
 
         public string Description { get; private set; }
-        #endregion
-        #endregion
 
-        public RoleClaim(string claimType, string description)
+        public RoleClaim(string claimValue, string description)
         {
-            ClaimType = claimType;
+            ClaimValue = claimValue;
             Description = description;
         }
     }

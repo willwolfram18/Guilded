@@ -40,7 +40,7 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
         {
             var claims = new List<Claim>
             {
-                new Claim(RoleClaimTypes.ForumsLockingClaim, "True")
+                new Claim(RoleClaimTypes.Permission, RoleClaimValues.ForumsLockingClaim)
             };
             var dbRole = new ApplicationRole
             {
@@ -65,7 +65,7 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
 
             for (var i = 0; i < claims.Count; i++)
             {
-                Assert.That(viewModel.Permissions[i], Is.EqualTo(claims[i].Type));
+                Assert.That(viewModel.Permissions[i], Is.EqualTo(claims[i].Value));
             }
         }
 
@@ -77,7 +77,7 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
             var viewModel = result.Model as EditOrCreateRoleViewModel;
 
             Assert.That(viewModel, Is.Not.Null);
-            Assert.That(viewModel.AvailablePermissions.Count(), Is.EqualTo(RoleClaimTypes.RoleClaims.Count()));
+            Assert.That(viewModel.AvailablePermissions.Count(), Is.EqualTo(RoleClaimValues.RoleClaims.Count()));
             Assert.That(viewModel.AvailablePermissions, Is.Ordered.Ascending.By("Value"));
         }
     }

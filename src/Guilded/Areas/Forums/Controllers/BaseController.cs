@@ -11,7 +11,7 @@ namespace Guilded.Areas.Forums.Controllers
 {
     [Area("Forums")]
     [Route("[area]")]
-    [Authorize(Policy = RoleClaimTypes.ForumsReaderClaim)]
+    [Authorize(Policy = RoleClaimValues.ForumsReaderClaim)]
     public abstract class BaseController : Guilded.Controllers.BaseController
     {
         public const int PageSize = 25;

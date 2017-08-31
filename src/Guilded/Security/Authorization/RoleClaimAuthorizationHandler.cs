@@ -40,11 +40,11 @@ namespace Guilded.Security.Authorization
             {
                 roleClaimTypes.AddRange(
                     (await _roleManager.GetClaimsAsync(role))
-                        .Select(c => c.Type)
+                        .Select(c => c.Value)
                 );
             }
 
-            if (roleClaimTypes.Contains(requirement.RequiredRoleClaim.ClaimType))
+            if (roleClaimTypes.Contains(requirement.RequiredRoleClaim.ClaimValue))
             {
                 context.Succeed(requirement);
             }

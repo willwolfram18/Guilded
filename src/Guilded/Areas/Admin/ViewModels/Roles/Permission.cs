@@ -6,17 +6,10 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
 {
     public class Permission
     {
-        #region Properties
-        #region Public Properties
-        public int Id { get; set; }
-
-        public string PermissionType { get; set; }
+        public string PermissionValue { get; set; }
 
         public string Description { get; set; }
-        #endregion
-        #endregion
 
-        #region Constructors
         public Permission()
         {
         }
@@ -28,7 +21,7 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
                 throw new ArgumentNullException(nameof(roleClaim));
             }
 
-            PermissionType = roleClaim.ClaimType;
+            PermissionValue = roleClaim.ClaimValue;
             Description = roleClaim.Description;
         }
 
@@ -40,9 +33,8 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
                 throw new ArgumentNullException(nameof(roleClaim));
             }
 
-            PermissionType = roleClaim.Type;
-            Description = RoleClaimTypes.LookUpGuildedRoleClaim(roleClaim.Type).Description;
+            PermissionValue = roleClaim.Value;
+            Description = RoleClaimValues.LookUpGuildedRoleClaim(roleClaim.Value).Description;
         }
-        #endregion
     }
 }

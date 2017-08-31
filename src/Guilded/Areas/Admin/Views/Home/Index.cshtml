@@ -4,7 +4,7 @@
 
 <div class="ui extra large animated relaxed divided list">
     <a class="item" asp-area="Admin" asp-controller="Roles" asp-action="Index"
-       required-claim="@RoleClaimTypes.RoleManagement">
+       required-claim="@RoleClaimValues.RoleManagement">
         <div class="header">
             Role Management
         </div>
@@ -13,7 +13,7 @@
         </div>
     </a>
     <a class="item" asp-area="Admin" asp-controller="Users" asp-action="Index"
-       required-claim="@RoleClaimTypes.UserManagement">
+       required-claim="@RoleClaimValues.UserManagement">
         <div class="header">
             User Management
         </div>
