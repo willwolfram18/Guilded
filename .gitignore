@@ -29,6 +29,7 @@ src/**/wwwroot/js/**/*.js
 src/**/wwwroot/js/**/*.js.map
 src/**/wwwroot/css/**/*.css
 !src/**/wwwroot/css/shared/font-awesome*.css
+*.db
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
