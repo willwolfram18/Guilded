@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Guilded.Areas.Forums.Controllers
 {
@@ -132,7 +133,12 @@ namespace Guilded.Areas.Forums.Controllers
 
         private ThreadViewModel CreateThreadViewModel(Thread thread, int page)
         {
-            return new ThreadViewModel(thread);
+            return new ThreadViewModel(thread)
+            {
+                PagerUrl = Url.Action(nameof(ThreadBySlug), new { slug = thread.Slug }),
+                CurrentPage = page,
+                LastPage = (int)Math.Ceiling(thread.Replies.Count / (double)PageSize),
+            };
         }
     }
 }

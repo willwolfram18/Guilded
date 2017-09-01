@@ -18,6 +18,7 @@ namespace Guilded.Areas.Forums.ViewModels
 
         public ReplyViewModel(Reply reply)
         {
+            Content = reply.Content;
             CreatedAt = reply.CreatedAt;
             Author = reply.Author.UserName;
         }

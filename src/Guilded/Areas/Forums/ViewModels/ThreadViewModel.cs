@@ -1,6 +1,7 @@
 ﻿using Guilded.Data.Forums;
 using Guilded.ViewModels;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Guilded.Areas.Forums.ViewModels
 {
@@ -8,13 +9,13 @@ namespace Guilded.Areas.Forums.ViewModels
     {
         public string Content { get; set; }
 
-        public int CurrentPage { get; }
+        public int CurrentPage { get; set; }
 
-        public int LastPage { get; }
+        public int LastPage { get; set; }
 
-        public string PagerUrl { get; }
+        public string PagerUrl { get; set; }
 
-        public IEnumerable<ReplyViewModel> Models { get; }
+        public IEnumerable<ReplyViewModel> Models { get; set; }
 
         public ThreadViewModel()
         {
