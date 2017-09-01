@@ -7,4 +7,15 @@
     @Model.Title
 </h2>
 
+<pager pager-vertical-location="Top" />
+
 <markdown-content class="ui segment" data-thread-id="@Model.Id" />
+
+<ul>
+    @foreach (var replyViewModel in Model.Models)
+    {
+        <li>
+            @replyViewModel.Content
+        </li>
+    }
+</ul>

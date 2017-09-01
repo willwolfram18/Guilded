@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 
@@ -134,7 +135,22 @@ namespace Guilded.Areas.Forums.Controllers
                 PagerUrl = Url.Action(nameof(ThreadBySlug), new { slug = thread.Slug }),
                 CurrentPage = page,
                 LastPage = (int)Math.Ceiling(thread.Replies.Count / (double)PageSize),
+                Models = GetRepliesForThreadPage(thread, page),
             };
+        }
+
+        private IEnumerable<ReplyViewModel> GetRepliesForThreadPage(Thread thread, int page)
+        {
+            var isFirstPage = page == 1;
+
+            // Original thread counts as an item on the page, we need to include that in the
+            // skip and take counts.
+            var replyCountToTake = isFirstPage ? PageSize - 1 : PageSize;
+            var replyCountToSkip = PageSize * (page - 1) - 1;
+
+            return thread.Replies.Skip(replyCountToSkip)
+                .Take(replyCountToTake)
+                .Select(r => new ReplyViewModel(r));
         }
     }
 }
