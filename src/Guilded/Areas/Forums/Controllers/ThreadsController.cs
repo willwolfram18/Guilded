@@ -17,13 +17,9 @@ namespace Guilded.Areas.Forums.Controllers
     [Route("[area]/[controller]")]
     public class ThreadsController : ForumsController
     {
-        private readonly IMarkdownConverter _markdownConverter;
-
         public ThreadsController(IForumsDataContext dataContext,
-            IMarkdownConverter markdownConverter,
             ILoggerFactory loggerFactory) : base(dataContext, loggerFactory)
         {
-            _markdownConverter = markdownConverter;
         }
 
         [Route("{id:int}")]
