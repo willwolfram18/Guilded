@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Guilded.Areas.Forums.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : ForumsController
     {
         public HomeController(IForumsDataContext dataContext, ILoggerFactory loggerFactory) : base(dataContext, loggerFactory)
         {

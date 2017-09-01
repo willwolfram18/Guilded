@@ -15,8 +15,6 @@ namespace Guilded.TagHelpers
     [HtmlTargetElement("a")]
     public class RoleClaimRequiredRouteTagHelper : TagHelper
     {
-        private const string RequiredClaimAttribute = "required-claim";
-
         public RoleClaim RequiredClaim { get; set; }
 
         public RoleClaim[] PossibleClaims { get; set; }

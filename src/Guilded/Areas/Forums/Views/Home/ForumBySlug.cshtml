@@ -11,7 +11,7 @@
 </h4>
 
 <a class="ui small green icon button" asp-area="Forums" asp-controller="Threads" asp-action="CreateThread"
-   asp-route-forumSlug="@Model.Slug">
+   asp-route-forumSlug="@Model.Slug" required-claim="@RoleClaimValues.ForumsWriter">
     <i class="fa-plus-circle icon"></i> Create a new thread
 </a>
 

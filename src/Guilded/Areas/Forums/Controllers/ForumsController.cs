@@ -11,8 +11,8 @@ namespace Guilded.Areas.Forums.Controllers
 {
     [Area("Forums")]
     [Route("[area]")]
-    [Authorize(Policy = RoleClaimValues.ForumsReaderClaim)]
-    public abstract class BaseController : Guilded.Controllers.BaseController
+    [Authorize(RoleClaimValues.ForumsReaderClaim)]
+    public abstract class ForumsController : Guilded.Controllers.BaseController
     {
         public const int PageSize = 25;
 
@@ -20,7 +20,7 @@ namespace Guilded.Areas.Forums.Controllers
         protected readonly IForumsDataContext DataContext;
         protected readonly ILogger Logger;
 
-        protected BaseController(IForumsDataContext dataContext, ILoggerFactory loggerFactory)
+        protected ForumsController(IForumsDataContext dataContext, ILoggerFactory loggerFactory)
         {
             DataContext = dataContext;
             Breadcrumbs = new Stack<Breadcrumb>();

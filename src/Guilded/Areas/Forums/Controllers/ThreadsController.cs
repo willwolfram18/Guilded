@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Guilded.Areas.Forums.Controllers
 {
     [Route("[area]/[controller]")]
-    public class ThreadsController : BaseController
+    public class ThreadsController : ForumsController
     {
         private readonly IMarkdownConverter _markdownConverter;
 
@@ -58,6 +58,7 @@ namespace Guilded.Areas.Forums.Controllers
             return ThreadView(viewModel, thread.Forum);
         }
 
+        [Authorize(RoleClaimValues.ForumsWriterClaim)]
         [HttpGet("~/[area]/{forumSlug}/[controller]/new")]
         public async Task<IActionResult> CreateThread(string forumSlug)
         {
@@ -75,7 +76,7 @@ namespace Guilded.Areas.Forums.Controllers
             }, forum.Title);
         }
 
-        [Authorize(Policy = RoleClaimValues.ForumsWriterClaim)]
+        [Authorize(RoleClaimValues.ForumsWriterClaim)]
         [HttpPost("~/[area]/{forumSlug}/[controller]/new")]
         public async Task<IActionResult> CreateThread(CreateThreadViewModel threadToCreate)
         {
