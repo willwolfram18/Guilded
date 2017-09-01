@@ -59,7 +59,23 @@ namespace Guilded.Areas.Admin.DAL
                                     $"{string.Join(", ", result.Errors.Select(e => e.Description))}");
             }
 
-            throw new NotImplementedException("Update the claims associated with the role");
+            var currentClaims = GetClaimsForRole(roleToUpdate).ToList();
+            var setOfClaimsToRemove = new HashSet<Claim>(
+                currentClaims.Where(c => roleClaims.All(rc => rc.ClaimValue != c.Value))
+            );
+            var setOfClaimsToAdd = new HashSet<Claim>(
+                roleClaims.Where(rc => currentClaims.All(c => c.Value != rc.ClaimValue))
+                    .Select(rc => new Claim(RoleClaimTypes.Permission, rc.ClaimValue))
+            );
+
+            foreach (var claim in setOfClaimsToRemove)
+            {
+                await _roleManager.RemoveClaimAsync(roleToUpdate, claim);
+            }
+            foreach (var claim in setOfClaimsToAdd)
+            {
+                await _roleManager.AddClaimAsync(roleToUpdate, claim);
+            }
 
             return await GetRoleByIdAsync(roleToUpdate.Id);
         }
