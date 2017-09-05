@@ -6,6 +6,8 @@ namespace Guilded.Areas.Forums.ViewModels
 {
     public class ReplyViewModel : IMarkdownContent
     {
+        public int Id { get; set; }
+
         public string Content { get; set; }
 
         public DateTime CreatedAt { get; set; }
@@ -18,6 +20,7 @@ namespace Guilded.Areas.Forums.ViewModels
 
         public ReplyViewModel(Reply reply)
         {
+            Id = reply.Id;
             Content = reply.Content;
             CreatedAt = reply.CreatedAt;
             Author = reply.Author.UserName;

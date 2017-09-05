@@ -17,6 +17,12 @@
 
 @section Styles {
     @RenderSection("Styles", false)
+    <environment names="Development">
+        <link rel="stylesheet" type="text/css" href="~/css/forums/forums.css" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" type="text/css" href="~/css/forums/forums.min.css" />
+    </environment>
 }
 
 <guilded-breadcumbs />
