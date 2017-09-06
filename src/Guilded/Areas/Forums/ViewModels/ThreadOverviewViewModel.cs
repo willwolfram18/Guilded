@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Guilded.Data.Forums;
+﻿using Guilded.Data.Forums;
+using System;
 
 namespace Guilded.Areas.Forums.ViewModels
 {
@@ -19,6 +15,10 @@ namespace Guilded.Areas.Forums.ViewModels
 
         public DateTime CreatedAt { get; set; }
 
+        public bool IsLocked { get; set; }
+
+        public bool IsPinned { get; set; }
+
         public ThreadOverviewViewModel()
         {
         }
@@ -30,6 +30,8 @@ namespace Guilded.Areas.Forums.ViewModels
             Slug = thread.Slug;
             Author = thread.Author.UserName;
             CreatedAt = thread.CreatedAt;
+            IsLocked = thread.IsLocked;
+            IsPinned = thread.IsPinned;
         }
     }
 }

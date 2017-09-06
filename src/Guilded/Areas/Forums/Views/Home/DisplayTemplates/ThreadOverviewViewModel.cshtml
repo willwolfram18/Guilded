@@ -5,6 +5,10 @@
     <div class="content">
         <div class="summary">
             @Model.Title
+            @if (Model.IsLocked)
+            {
+                <i class="lock icon" title="locked"></i>
+            }
             <div class="date">
                 posted by @Model.Author - @Model.CreatedAt.ToRelativeTimeStamp()
             </div>

@@ -5,38 +5,51 @@
 
 <h2>
     @Model.Title
+    @if (Model.IsLocked)
+    {
+        <i class="lock icon" title="Locked"></i>
+    }
+    @if (Model.IsPinned)
+    {
+        <i class="fa-sticky-note icon" title="Sticky"></i>
+    }
 </h2>
+
+
 
 <pager pager-vertical-location="Top" />
 
 <div class="ui comments">
-    <div class="comment" data-thread-id="@Model.Id">
-        <a class="avatar" href="#">
-            <img src="https://static.tplugin.com/tplugin/img/unknown-user.png"
-                 styles="height: 35px;"/>
-        </a>
-        <div class="content">
-            <a class="author">
-                @Model.Author
+    @if (Model.CurrentPage == 1)
+    {
+        <div class="comment" data-thread-id="@Model.Id">
+            <a class="avatar" href="#">
+                <img src="https://static.tplugin.com/tplugin/img/unknown-user.png"
+                     styles="height: 35px;"/>
             </a>
-            <div class="metadata">
-                <span class="date">
-                    @Model.CreatedAt.ToRelativeTimeStamp()
-                </span>
-            </div>
-            <div class="text">
-                <markdown-content />
-            </div>
-            <div class="actions">
-                <a class="reply" href="#">
-                    Reply
+            <div class="content">
+                <a class="author">
+                    @Model.Author
                 </a>
-                <a class="quote" href="#">
-                    Quote
-                </a>
+                <div class="metadata">
+                    <span class="date">
+                        @Model.CreatedAt.ToRelativeTimeStamp()
+                    </span>
+                </div>
+                <div class="text">
+                    <markdown-content/>
+                </div>
+                <div class="actions">
+                    <a class="reply" href="#">
+                        Reply
+                    </a>
+                    <a class="quote" href="#">
+                        Quote
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
+    }
     @foreach (var replyViewModel in Model.Models)
     {
         <div class="comment" data-reply-id="@replyViewModel.Id">
@@ -54,7 +67,7 @@
                     </span>
                 </div>
                 <div class="text">
-                    <markdown-content content="@replyViewModel.Content" />
+                    <markdown-content content="@replyViewModel.Content"/>
                 </div>
                 <div class="actions">
                     <a class="quote" href="#">
