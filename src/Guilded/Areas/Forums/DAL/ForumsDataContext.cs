@@ -75,6 +75,8 @@ namespace Guilded.Areas.Forums.DAL
             var slug = title.ToLower().Trim();
 
             slug = RemoveDiacritics(slug);
+
+            slug = Regex.Replace(slug, @"\W", string.Empty);
             
             // Convert multiple spaces to one.
             slug = Regex.Replace(slug, @"\s+", " ").Trim();
