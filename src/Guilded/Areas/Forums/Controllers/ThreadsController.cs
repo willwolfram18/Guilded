@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Guilded.Areas.Forums.Controllers
 {
@@ -51,7 +52,7 @@ namespace Guilded.Areas.Forums.Controllers
                 return NotFound();
             }
 
-            var viewModel = CreateThreadViewModel(thread, page);
+            var viewModel = BuildCreateThreadViewModel(thread, page);
 
             return ThreadView(viewModel, thread.Forum);
         }
@@ -83,6 +84,12 @@ namespace Guilded.Areas.Forums.Controllers
             if (forum == null)
             {
                 return RedirectToAction("Index", "Home", new { area = "Forums" });
+            }
+
+            if (ModelState.IsValid &&
+                !Regex.IsMatch(threadToCreate.Title.Trim(), CreateThreadViewModel.TitleRegexPattern))
+            {
+                ModelState.AddModelError(nameof(CreateThreadViewModel.Title), CreateThreadViewModel.TitleRegexErrorMessage);
             }
 
             if (!ModelState.IsValid)
@@ -128,7 +135,7 @@ namespace Guilded.Areas.Forums.Controllers
             return View(thread);
         }
 
-        private ThreadViewModel CreateThreadViewModel(Thread thread, int page)
+        private ThreadViewModel BuildCreateThreadViewModel(Thread thread, int page)
         {
             return new ThreadViewModel(thread)
             {

@@ -7,6 +7,9 @@ namespace Guilded.Areas.Forums.ViewModels
 {
     public class CreateThreadViewModel : IMarkdownContent
     {
+        public const string TitleRegexPattern = @"^([\d+\s]*)\D+[\w\s]*";
+        public const string TitleRegexErrorMessage = "Title cannot be exclusively numbers and spaces.";
+
         [HiddenInput]
         public int ForumId { get; set; }
 
@@ -15,6 +18,7 @@ namespace Guilded.Areas.Forums.ViewModels
 
         [Required(AllowEmptyStrings = false, ErrorMessage = Thread.TitleRequiredErrorMessage)]
         [Display(Name = "Title")]
+        [RegularExpression(TitleRegexPattern, ErrorMessage = TitleRegexErrorMessage)]
         [StringLength(Thread.TitleMaxLength, MinimumLength = Thread.TitleMinLength, ErrorMessage = Thread.TitleLengthErrorMessage)]
         public string Title { get; set; }
 
