@@ -70,6 +70,11 @@ namespace Guilded.Areas.Forums.DAL
             return await GetThreadBySlugAsync(thread.Slug);
         }
 
+        public async Task<Reply> CreateReplyAsync(Reply reply)
+        {
+            throw new NotImplementedException();
+        }
+
         private string GenerateSlug(string title)
         {
             var slug = title.ToLower().Trim();

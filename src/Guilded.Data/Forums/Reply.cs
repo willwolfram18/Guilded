@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Guilded.Data.Identity;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Guilded.Data.Identity;
 
 namespace Guilded.Data.Forums
 {
     public class Reply
     {
-        public const int ContentMinLength = 25;
+        public const int ContentMinLength = 1;
 
         public const string ContentRequiredErrorMessage = ForumSection.TitleRequiredErrorMessage;
         public const string ContentLengthErrorMessage = "The {0}'s length must contain at least {1} characters.";
