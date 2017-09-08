@@ -1,6 +1,5 @@
 ﻿using Guilded.Areas.Admin.DAL;
 using Guilded.Data.Identity;
-using Guilded.Extensions;
 using Guilded.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -8,11 +7,10 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 
 namespace Guilded.TagHelpers
 {
-    [HtmlTargetElement("a")]
+    [HtmlTargetElement("a", Attributes = "role-claim-protected")]
     public class RoleClaimRequiredRouteTagHelper : TagHelper
     {
         public RoleClaim RequiredClaim { get; set; }

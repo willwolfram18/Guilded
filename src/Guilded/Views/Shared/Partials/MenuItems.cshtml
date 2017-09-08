@@ -11,7 +11,7 @@
 		<i class="fa fa-discord"></i> Discord
 	</a>
     <a class="item" route-active="true" asp-area="Admin" asp-controller="Home" asp-action="Index" route-active-area="Admin"
-       possible-claims="@new [] { RoleClaimValues.RoleManagement, RoleClaimValues.UserManagement }">
+       role-claim-protected possible-claims="@new [] { RoleClaimValues.RoleManagement, RoleClaimValues.UserManagement }">
         <i class="fa fa-cogs"></i> Admin
     </a>
     <form class="ui left pointing dropdown link item" method="post" id="sign-out-form" asp-area="Account" asp-controller="Home" asp-action="SignOut">

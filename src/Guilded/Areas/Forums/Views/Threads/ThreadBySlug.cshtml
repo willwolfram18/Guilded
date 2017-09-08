@@ -49,11 +49,17 @@
                     <markdown-content/>
                 </div>
                 <div class="actions">
-                    <a class="reply" href="#">
-                        Reply
-                    </a>
-                    <a class="quote" href="#">
-                        Quote
+                    @if (!Model.IsLocked)
+                    {
+                        <a class="reply" asp-fragment="create-reply">
+                            Reply
+                        </a>
+                        <a class="quote" asp-fragment="create-reply">
+                            Quote
+                        </a>
+                    }
+                    <a class="share" asp-fragment="share">
+                        Share
                     </a>
                 </div>
             </div>
@@ -65,4 +71,16 @@
 
 <pager pager-vertical-location="Bottom" />
 
-@{ await Html.RenderPartialAsync("CreateReplyViewModel", model: new CreateReplyViewModel { ThreadId = Model.Id }); }
+
+@if (!Model.IsLocked)
+{
+    await Html.RenderPartialAsync("CreateReplyViewModel", model: new CreateReplyViewModel {ThreadId = Model.Id});
+}
+else
+{
+    <div class="ui raised center segment">
+        <p>
+            This thread is locked.
+        </p>
+    </div>
+}
