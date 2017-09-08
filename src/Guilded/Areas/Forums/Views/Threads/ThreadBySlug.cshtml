@@ -20,7 +20,7 @@
 
 <pager pager-vertical-location="Top" />
 
-<div class="ui comments">
+<div class="ui thread comments">
     @if (Model.CurrentPage == 1)
     {
         <div class="comment" data-thread-id="@Model.Id">
@@ -57,7 +57,4 @@
 
 <pager pager-vertical-location="Bottom" />
 
-<form class="ui form" data-action="@Url.Action("PostNewReplyToThread", "Replies", new {area = "Forums", threadId = Model.Id})"
-      data-ajax="true" data-ajax-method="post" asp-antiforgery="true">
-    @{ await Html.RenderPartialAsync("CreateReplyViewModel", model: new CreateReplyViewModel()); }
-</form>
+@{ await Html.RenderPartialAsync("CreateReplyViewModel", model: new CreateReplyViewModel { ThreadId = Model.Id }); }
