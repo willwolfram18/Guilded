@@ -1,7 +1,15 @@
-﻿@using Microsoft.AspNetCore.Mvc.Rendering
-@model ThreadViewModel
+﻿@model ThreadViewModel
 @{
     ViewData[ViewDataKeys.Title] = Model.Title;
+}
+
+@section Scripts {
+    <environment names="Development">
+        <script src="~/js/forums/threads.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/js/forums/threads.min.js"></script>
+    </environment>
 }
 
 <h2>
@@ -16,7 +24,7 @@
     }
 </h2>
 
-
+<input type="hidden" value="@(Model.PagerUrl + "?page=-1")"/>
 
 <pager pager-vertical-location="Top" />
 

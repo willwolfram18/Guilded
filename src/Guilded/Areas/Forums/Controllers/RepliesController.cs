@@ -31,6 +31,10 @@ namespace Guilded.Areas.Forums.Controllers
             {
                 ModelState.AddModelError("", "That thread does not exist.");
             }
+            else if (thread.IsLocked)
+            {
+                ModelState.AddModelError("", "You cannot reply to that thread since it is locked.");
+            }
 
             if (ModelState.IsValid)
             {
