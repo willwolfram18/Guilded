@@ -1,8 +1,12 @@
 @model CreateReplyViewModel
 
-<form id="CreateReply" class="ui form" asp-antiforgery="true" data-action="@Url.Action("PostNewReplyToThread", "Replies", new {area = "Forums", threadId = Model.ThreadId})"
-      data-ajax="true" data-ajax-method="post" data-ajax-on-success="onPostReplySuccess" data-ajax-on-error="onPostReplyError">
+<form id="CreateReply" class="ui form" asp-antiforgery="true" data-ajax-url="@Url.Action("PostNewReplyToThread", "Replies", new {area = "Forums", threadId = Model.ThreadId})"
+      data-ajax="true" data-ajax-method="post" data-ajax-success="onPostReplySuccess" data-ajax-failure="onPostReplyError">
+      <input asp-for="ThreadId" />
       <div asp-validation-summary="All"></div>
       <markdown-editor/>
+      <div class="field">
+            <span asp-validation-for="Content"></span>
+      </div>
       <button type="submit" class="ui primary button">Post</button>
 </form>
