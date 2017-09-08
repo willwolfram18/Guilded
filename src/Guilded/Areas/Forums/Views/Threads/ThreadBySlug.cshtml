@@ -1,4 +1,5 @@
-﻿@model ThreadViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+@model ThreadViewModel
 @{
     ViewData[ViewDataKeys.Title] = Model.Title;
 }
@@ -55,3 +56,8 @@
 </div>
 
 <pager pager-vertical-location="Bottom" />
+
+<form class="ui form" data-action="@Url.Action("PostNewReplyToThread", "Replies", new {area = "Forums", threadId = Model.Id})"
+      data-ajax="true" data-ajax-method="post" asp-antiforgery="true">
+    @{ await Html.RenderPartialAsync("CreateReplyViewModel", model: new CreateReplyViewModel()); }
+</form>

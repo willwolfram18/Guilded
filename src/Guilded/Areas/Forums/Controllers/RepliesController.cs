@@ -49,7 +49,7 @@ namespace Guilded.Areas.Forums.Controllers
             }
 
             Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            return PartialView(reply);
+            return PartialView("CreateReplyViewModel", reply);
         }
     }
 }
