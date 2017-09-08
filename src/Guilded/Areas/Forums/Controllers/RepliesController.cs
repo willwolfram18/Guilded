@@ -36,7 +36,9 @@ namespace Guilded.Areas.Forums.Controllers
             {
                 try
                 {
-                    var createdReply = await DataContext.CreateReplyAsync(null);
+                    var createdReply = await DataContext.CreateReplyAsync(reply.ToReply(User.UserId()));
+
+                    return PartialView("DisplayTemplates/ReplyViewModel", new ReplyViewModel(createdReply));
                 }
                 catch (Exception e)
                 {

@@ -22,6 +22,9 @@ namespace Guilded.Areas.Forums.DAL
             .Include(t => t.Replies)
             .ThenInclude(r => r.Author);
 
+        private IQueryable<Reply> Replies => Context.Replies.Include(r => r.Author)
+            .Include(r => r.Thread);
+
         public ForumsDataContext(ApplicationDbContext context) : base(context)
         {
         }
@@ -70,9 +73,17 @@ namespace Guilded.Areas.Forums.DAL
             return await GetThreadBySlugAsync(thread.Slug);
         }
 
+        public Task<Reply> GetReplyByIdAsync(int replyId)
+        {
+            return Replies.FirstOrDefaultAsync(r => r.Id == replyId);
+        }
+        
         public async Task<Reply> CreateReplyAsync(Reply reply)
         {
-            throw new NotImplementedException();
+            var dbReply = await Context.Replies.AddAsync(reply);
+            await SaveChangesAsync();
+
+            return await GetReplyByIdAsync(dbReply.Entity.Id);
         }
 
         private string GenerateSlug(string title)
@@ -81,7 +92,7 @@ namespace Guilded.Areas.Forums.DAL
 
             slug = RemoveDiacritics(slug);
 
-            slug = Regex.Replace(slug, @"\W", string.Empty);
+            slug = Regex.Replace(slug, @"\W", " ");
             
             // Convert multiple spaces to one.
             slug = Regex.Replace(slug, @"\s+", " ").Trim();

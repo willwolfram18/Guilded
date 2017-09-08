@@ -50,33 +50,8 @@
             </div>
         </div>
     }
-    @foreach (var replyViewModel in Model.Models)
-    {
-        <div class="comment" data-reply-id="@replyViewModel.Id">
-            <a class="avatar" href="#">
-                <img src="https://static.tplugin.com/tplugin/img/unknown-user.png"
-                     styles="height: 35px;"/>
-            </a>
-            <div class="content">
-                <a class="author">
-                    @replyViewModel.Author
-                </a>
-                <div class="metadata">
-                    <span class="date">
-                        @replyViewModel.CreatedAt.ToRelativeTimeStamp()
-                    </span>
-                </div>
-                <div class="text">
-                    <markdown-content content="@replyViewModel.Content"/>
-                </div>
-                <div class="actions">
-                    <a class="quote" href="#">
-                        Quote
-                    </a>
-                </div>
-            </div>
-        </div>
-    }
+    
+    @Html.DisplayFor(m => m.Models)
 </div>
 
 <pager pager-vertical-location="Bottom" />

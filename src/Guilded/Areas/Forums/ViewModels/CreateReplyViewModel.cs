@@ -14,5 +14,15 @@ namespace Guilded.Areas.Forums.ViewModels
         [Display(Name = "Content")]
         [MinLength(Reply.ContentMinLength, ErrorMessage = Reply.ContentLengthErrorMessage)]
         public string Content { get; set; }
+
+        public Reply ToReply(string userId)
+        {
+            return new Reply
+            {
+                Content = Content,
+                ThreadId = ThreadId,
+                AuthorId = userId,
+            };
+        }
     }
 }

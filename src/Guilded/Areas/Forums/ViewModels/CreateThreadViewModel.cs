@@ -7,7 +7,7 @@ namespace Guilded.Areas.Forums.ViewModels
 {
     public class CreateThreadViewModel : IMarkdownContent
     {
-        public const string TitleRegexPattern = @"^([\d+\s]*)\D+[\w\s]*";
+        public const string TitleRegexPattern = @"^([\d+\s]*)\D+[\w\s.!@#$%^&*()_-]*";
         public const string TitleRegexErrorMessage = "Title cannot be exclusively numbers and spaces.";
 
         [HiddenInput]
