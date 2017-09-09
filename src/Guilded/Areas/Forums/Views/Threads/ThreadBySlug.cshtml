@@ -52,14 +52,14 @@
                     @if (!Model.IsLocked)
                     {
                         <a class="reply" asp-fragment="create-reply">
-                            Reply
+                            <i class="reply icon"></i> Reply
                         </a>
                         <a class="quote" asp-fragment="create-reply">
-                            Quote
+                            <i class="comment icon"></i> Quote
                         </a>
                     }
                     <a class="share" asp-fragment="share">
-                        Share
+                        <i class="retweet icon"></i> Share
                     </a>
                 </div>
             </div>
@@ -71,16 +71,21 @@
 
 <pager pager-vertical-location="Bottom" />
 
+<div id="create-reply-wrapper">
+    <h3>
+        Post a reply
+    </h3>
+    @if (!Model.IsLocked)
+    {
+        await Html.RenderPartialAsync("CreateReplyViewModel", model: new CreateReplyViewModel {ThreadId = Model.Id});
+    }
+    else
+    {
+        <div class="ui center segment">
+            <p>
+                This thread is locked.
+            </p>
+        </div>
+    }
+</div>
 
-@if (!Model.IsLocked)
-{
-    await Html.RenderPartialAsync("CreateReplyViewModel", model: new CreateReplyViewModel {ThreadId = Model.Id});
-}
-else
-{
-    <div class="ui raised center segment">
-        <p>
-            This thread is locked.
-        </p>
-    </div>
-}

@@ -18,8 +18,14 @@
             <markdown-content content="@Model.Content"/>
         </div>
         <div class="actions">
-            <a class="quote" href="#">
-                Quote
+            @if (!Model.IsThreadLocked)
+            {
+                <a class="quote" asp-fragment="quote">
+                    <i class="comment icon"></i> Quote
+                </a>
+            }
+            <a class="share" asp-fragment="share">
+                <i class="retweet icon"></i> Share
             </a>
         </div>
     </div>
