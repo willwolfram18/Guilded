@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Guilded.TagHelpers
 {
-    [HtmlTargetElement("a", Attributes = "role-claim-protected")]
+    [HtmlTargetElement(Attributes = "role-claim-protected")]
     public class RoleClaimRequiredRouteTagHelper : TagHelper
     {
         public RoleClaim RequiredClaim { get; set; }

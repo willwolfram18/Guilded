@@ -20,7 +20,7 @@
         <div class="actions">
             @if (!Model.IsThreadLocked)
             {
-                <a class="quote" asp-fragment="quote">
+                <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="quote" asp-fragment="quote">
                     <i class="comment icon"></i> Quote
                 </a>
             }

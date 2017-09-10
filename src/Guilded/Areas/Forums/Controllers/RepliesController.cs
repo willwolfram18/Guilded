@@ -10,6 +10,8 @@ using Guilded.Areas.Forums.ViewModels;
 using Guilded.Data.Forums;
 using Guilded.Extensions;
 using Guilded.Migrations.SqlServer.Migrations;
+using Guilded.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -21,7 +23,8 @@ namespace Guilded.Areas.Forums.Controllers
         public RepliesController(IForumsDataContext dataContext, ILoggerFactory loggerFactory) : base(dataContext, loggerFactory)
         {
         }
-
+        
+        [Authorize(RoleClaimValues.ForumsWriterClaim)]
         [HttpPost("{threadId}/new")]
         public async Task<IActionResult> PostNewReplyToThread(CreateReplyViewModel reply)
         {
