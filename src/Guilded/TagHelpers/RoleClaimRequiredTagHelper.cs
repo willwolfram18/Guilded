@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Guilded.TagHelpers
 {
     [HtmlTargetElement(Attributes = "role-claim-protected")]
-    public class RoleClaimRequiredRouteTagHelper : TagHelper
+    public class RoleClaimRequiredTagHelper : TagHelper
     {
         public RoleClaim RequiredClaim { get; set; }
 
@@ -26,7 +26,7 @@ namespace Guilded.TagHelpers
         private readonly IUsersDataContext _usersDataContext;
         private readonly IRolesDataContext _rolesDataContext;
 
-        public RoleClaimRequiredRouteTagHelper(IUsersDataContext usersDataContext, IRolesDataContext rolesDataContext)
+        public RoleClaimRequiredTagHelper(IUsersDataContext usersDataContext, IRolesDataContext rolesDataContext)
         {
             _usersDataContext = usersDataContext;
             _rolesDataContext = rolesDataContext;

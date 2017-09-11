@@ -82,9 +82,18 @@
     <h3>
         Post a reply
     </h3>
-    @if (!Model.IsLocked && roleClaims.Any(c => c.Value == RoleClaimValues.ForumsWriterClaim))
+    @if (!Model.IsLocked)
     {
-        await Html.RenderPartialAsync("CreateReplyViewModel", model: new CreateReplyViewModel {ThreadId = Model.Id});
+        if (roleClaims.Any(c => c.Value == RoleClaimValues.ForumsWriterClaim))
+        {
+            await Html.RenderPartialAsync("CreateReplyViewModel", model: new CreateReplyViewModel {ThreadId = Model.Id});
+        }
+        else
+        {
+            <div class="ui center segment">
+                You do not have permission to post to the forums.
+            </div>
+        }
     }
     else
     {

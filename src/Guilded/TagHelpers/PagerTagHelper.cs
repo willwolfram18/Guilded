@@ -12,7 +12,7 @@ namespace Guilded.TagHelpers
     public class PagerTagHelper : TagHelper
     {
         private const string OutputTag = "div";
-        private const string DefaultCssClass = "ui buttons pager";
+        private const string DefaultCssClass = "ui small pager buttons";
         private const string ModelAttribute = "model";
         private const string VerticalLocationAttribute = "pager-vertical-location";
         private const string RequiredAttributes = VerticalLocationAttribute;
