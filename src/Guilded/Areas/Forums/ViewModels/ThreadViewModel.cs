@@ -1,8 +1,8 @@
 ﻿using Guilded.Data.Forums;
+using Guilded.Extensions;
 using Guilded.ViewModels;
 using System.Collections.Generic;
 using System.Security.Claims;
-using Guilded.Extensions;
 
 namespace Guilded.Areas.Forums.ViewModels
 {

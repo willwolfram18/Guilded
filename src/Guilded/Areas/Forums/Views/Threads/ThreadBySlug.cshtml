@@ -35,6 +35,13 @@
 
 <pager pager-vertical-location="Top" />
 
+@if (!Model.IsLocked)
+{
+    <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="ui green icon reply button" asp-fragment="create-reply">
+        <i class="reply icon"></i> Reply
+    </a>
+}
+
 <div class="ui thread comments">
     @if (Model.CurrentPage == 1)
     {
@@ -56,12 +63,6 @@
                     <markdown-content/>
                 </div>
                 <div class="actions">
-                    @if (!Model.IsLocked)
-                    {
-                        <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="reply" asp-fragment="create-reply">
-                            <i class="reply icon"></i> Reply
-                        </a>
-                    }
                     @{ await Html.RenderPartialAsync("IForumPost", Model); }
                 </div>
             </div>

@@ -1,14 +1,18 @@
 ﻿@model IForumPost
 
-<a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="quote" asp-fragment="create-reply">
-    <i class="comment icon"></i> Quote
-</a>
 <a class="share" asp-fragment="share">
     <i class="retweet icon"></i> Share
 </a>
-@if (Model.IsUserTheAuthor(User))
+@if (!Model.IsLocked)
 {
-    <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" asp-fragment="delete">
-        <i class="trash icon"></i> Delete
+    <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="quote" asp-fragment="create-reply">
+        <i class="comment icon"></i> Quote
     </a>
+
+    if (Model.IsUserTheAuthor(User))
+    {
+        <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" asp-fragment="delete">
+            <i class="trash icon"></i> Delete
+        </a>
+    }
 }

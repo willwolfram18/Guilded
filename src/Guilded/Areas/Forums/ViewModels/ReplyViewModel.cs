@@ -17,8 +17,8 @@ namespace Guilded.Areas.Forums.ViewModels
         public DateTime CreatedAt { get; set; }
 
         public string Author { get; set; }
-        
-        public bool IsThreadLocked { get; set; }
+
+        public bool IsLocked { get; set; }
 
         public ReplyViewModel()
         {
@@ -30,7 +30,7 @@ namespace Guilded.Areas.Forums.ViewModels
             Content = reply.Content;
             CreatedAt = reply.CreatedAt;
             Author = reply.Author.UserName;
-            IsThreadLocked = reply.Thread.IsLocked;
+            IsLocked = reply.Thread.IsLocked;
             _authorId = reply.AuthorId;
         }
 
