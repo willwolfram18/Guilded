@@ -61,13 +61,8 @@
                         <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="reply" asp-fragment="create-reply">
                             <i class="reply icon"></i> Reply
                         </a>
-                        <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="quote" asp-fragment="create-reply">
-                            <i class="comment icon"></i> Quote
-                        </a>
                     }
-                    <a class="share" asp-fragment="share">
-                        <i class="retweet icon"></i> Share
-                    </a>
+                    @{ await Html.RenderPartialAsync("IForumPost", Model); }
                 </div>
             </div>
         </div>

@@ -49,6 +49,9 @@ namespace Guilded.Data.Forums
         [ForeignKey("Forum")]
         public int ForumId { get; set; }
 
+        [Required]
+        public bool IsDeleted { get; set; }
+
         public virtual ApplicationUser Author { get; set; }
 
         public virtual Forum Forum { get; set; }

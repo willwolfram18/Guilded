@@ -30,6 +30,9 @@ namespace Guilded.Data.Forums
         [ForeignKey("Thread")]
         public int ThreadId { get; set; }
 
+        [Required]
+        public bool IsDeleted { get; set; }
+
         public virtual ApplicationUser Author { get; set; }
 
         public virtual Thread Thread { get; set; }

@@ -18,15 +18,7 @@
             <markdown-content content="@Model.Content"/>
         </div>
         <div class="actions">
-            @if (!Model.IsThreadLocked)
-            {
-                <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="quote" asp-fragment="quote">
-                    <i class="comment icon"></i> Quote
-                </a>
-            }
-            <a class="share" asp-fragment="share">
-                <i class="retweet icon"></i> Share
-            </a>
+            @{ await Html.RenderPartialAsync("IForumPost", Model); }
         </div>
     </div>
 </div>

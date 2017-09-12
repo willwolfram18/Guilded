@@ -1,12 +1,15 @@
 ﻿using Guilded.Data.Forums;
 using Guilded.ViewModels;
 using System.Collections.Generic;
-using System.Linq;
+using System.Security.Claims;
+using Guilded.Extensions;
 
 namespace Guilded.Areas.Forums.ViewModels
 {
-    public class ThreadViewModel : ThreadOverviewViewModel, IMarkdownContent, IPaginatedViewModel<ReplyViewModel>
+    public class ThreadViewModel : ThreadOverviewViewModel, IMarkdownContent, IPaginatedViewModel<ReplyViewModel>, IForumPost
     {
+        private readonly string _authorId;
+
         public string Content { get; set; }
 
         public int CurrentPage { get; set; }
@@ -24,6 +27,12 @@ namespace Guilded.Areas.Forums.ViewModels
         public ThreadViewModel(Thread thread) : base(thread)
         {
             Content = thread.Content;
+            _authorId = thread.AuthorId;
+        }
+
+        public bool IsUserTheAuthor(ClaimsPrincipal user)
+        {
+            return user.UserId() == _authorId;
         }
     }
 }
