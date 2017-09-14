@@ -4,11 +4,13 @@ using Guilded.Common;
 using Guilded.DAL;
 using Guilded.DAL.Home;
 using Guilded.Data;
+using Guilded.Data.Forums;
 using Guilded.Data.Home;
 using Guilded.Data.Identity;
 using Guilded.Security.Authorization;
 using Guilded.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,8 +21,8 @@ namespace Guilded.Extensions
     {
         public static void AddRequirementHandlers(this IServiceCollection services)
         {
-            services.AddTransient<IAuthorizationHandler, RoleClaimAuthorizationHandler>();
-            services.AddTransient<IAuthorizationHandler, EnabledUserHandler>();
+            services.AddScoped<IAuthorizationHandler, RoleClaimAuthorizationHandler>();
+            services.AddScoped<IAuthorizationHandler, EnabledUserHandler>();
         }
 
         public static void AddGuildedIdentity(this IServiceCollection services, string databaseConnectionString)
@@ -54,17 +56,19 @@ namespace Guilded.Extensions
 
         public static void AddGuildedServices(this IServiceCollection services)
         {
-            services.AddTransient<IReadOnlyRepository<GuildActivity>, GuildActivityRepo>();
+            services.AddScoped<IReadOnlyRepository<GuildActivity>, GuildActivityRepo>();
 
-            services.AddTransient<IGuildActivityReadOnlyDataContext, GuildActivityReadOnlyDataContext>();
+            services.AddScoped<IGuildActivityReadOnlyDataContext, GuildActivityReadOnlyDataContext>();
 
-            services.AddTransient<IRolesDataContext, RolesDataContext>();
-            services.AddTransient<IUsersDataContext, UsersDataContext>();
+            services.AddScoped<IRolesDataContext, RolesDataContext>();
+            services.AddScoped<IUsersDataContext, UsersDataContext>();
 
-            services.AddTransient<IForumsDataContext, ForumsDataContext>();
+            services.AddScoped<IForumsDataContext, ForumsDataContext>();
 
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddScoped<IEmailSender, AuthMessageSender>();
+            services.AddScoped<ISmsSender, AuthMessageSender>();
+
+            services.AddScoped<IUserRoleClaimsForRequest, UserRoleClaimsForRequest>();
         }
     }
 }
