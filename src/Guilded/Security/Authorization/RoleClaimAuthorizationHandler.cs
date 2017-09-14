@@ -23,12 +23,9 @@ namespace Guilded.Security.Authorization
                 return;
             }
 
-            var roleClaimTypes = new List<string>(
-                (await _claimsForRequest.GetRoleClaimsAsync())
-                .Select(c => c.ClaimValue)
-            );
+            var roleClaimTypes = await _claimsForRequest.GetRoleClaimsAsync();
 
-            if (roleClaimTypes.Contains(requirement.RequiredRoleClaim.ClaimValue))
+            if (roleClaimTypes.Contains(requirement.RequiredRoleClaim))
             {
                 context.Succeed(requirement);
             }

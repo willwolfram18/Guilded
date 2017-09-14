@@ -1,13 +1,10 @@
 ﻿@using Guilded.Areas.Admin.DAL;
 @model ThreadViewModel
-@inject IUsersDataContext UserDataContext;
-@inject IRolesDataContext RoleDataContext; 
+@inject IUserRoleClaimsForRequest RoleClaims; 
 @{
     ViewData[ViewDataKeys.Title] = Model.Title;
 
-    var currentUser = await UserDataContext.GetUserFromClaimsPrincipalAsync(User);
-    var userRole = await UserDataContext.GetRoleForUserAsync(currentUser);
-    var roleClaims = RoleDataContext.GetClaimsForRole(userRole);
+    var roleClaims = await RoleClaims.GetRoleClaimsAsync();
 }
 
 @section Scripts {
@@ -35,7 +32,7 @@
 
 <pager pager-vertical-location="Top" />
 
-@if (!Model.IsLocked)
+@if (!Model.IsLocked && roleClaims.Any(c => c == RoleClaimValues.ForumsWriter))
 {
     <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="ui green icon reply button" asp-fragment="create-reply">
         <i class="reply icon"></i> Reply
@@ -80,7 +77,7 @@
     </h3>
     @if (!Model.IsLocked)
     {
-        if (roleClaims.Any(c => c.Value == RoleClaimValues.ForumsWriterClaim))
+        if (roleClaims.Any(c => c == RoleClaimValues.ForumsWriter))
         {
             await Html.RenderPartialAsync("CreateReplyViewModel", model: new CreateReplyViewModel {ThreadId = Model.Id});
         }

@@ -12,6 +12,10 @@ function onPostReplyError(response: JQueryXHR) {
     $currentReplyForm.remove();
 }
 
+function onPostReplyBegin() {
+    $(this).addClass("loading");
+}
+
 function onQuoteClick() {
     alert("A thing");
 }
@@ -19,4 +23,4 @@ function onQuoteClick() {
 $(document).ready(() => {
     $(".comment .actions")
         .on("click", ".quote", onQuoteClick);
-})
+});
