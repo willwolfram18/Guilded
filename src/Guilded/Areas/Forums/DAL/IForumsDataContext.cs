@@ -16,5 +16,7 @@ namespace Guilded.Areas.Forums.DAL
         Task<Thread> CreateThreadAsync(Thread thread);
 
         Task<Reply> CreateReplyAsync(Reply reply);
+        Task<Reply> GetReplyByIdAsync(int id);
+        Task DeleteReplyAsync(Reply reply);
     }
 }

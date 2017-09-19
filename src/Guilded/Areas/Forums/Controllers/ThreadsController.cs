@@ -77,6 +77,7 @@ namespace Guilded.Areas.Forums.Controllers
 
         [Authorize(RoleClaimValues.ForumsWriterClaim)]
         [HttpPost("~/[area]/{forumSlug}/[controller]/new")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateThread(CreateThreadViewModel threadToCreate)
         {
             var forum = await DataContext.GetForumBySlugAsync(threadToCreate.ForumSlug);

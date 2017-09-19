@@ -86,6 +86,13 @@ namespace Guilded.Areas.Forums.DAL
             return await GetReplyByIdAsync(dbReply.Entity.Id);
         }
 
+        public async Task DeleteReplyAsync(Reply reply)
+        {
+            Context.Replies.Remove(reply);
+
+            await Context.SaveChangesAsync();
+        }
+
         private string GenerateSlug(string title)
         {
             var slug = title.ToLower().Trim();

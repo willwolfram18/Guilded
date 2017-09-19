@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Guilded.Areas.Forums.DAL;
+﻿using Guilded.Areas.Forums.DAL;
 using Guilded.Areas.Forums.ViewModels;
-using Guilded.Data.Forums;
 using Guilded.Extensions;
-using Guilded.Migrations.SqlServer.Migrations;
 using Guilded.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace Guilded.Areas.Forums.Controllers
 {
@@ -25,7 +19,8 @@ namespace Guilded.Areas.Forums.Controllers
         }
         
         [Authorize(RoleClaimValues.ForumsWriterClaim)]
-        [HttpPost("{threadId}/new")]
+        [HttpPost("{threadId}")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> PostNewReplyToThread(CreateReplyViewModel reply)
         {
             var thread = await DataContext.GetThreadByIdAsync(reply.ThreadId);
@@ -57,6 +52,42 @@ namespace Guilded.Areas.Forums.Controllers
 
             Response.StatusCode = (int)HttpStatusCode.BadRequest;
             return PartialView("CreateReplyViewModel", reply);
+        }
+
+        [Authorize(RoleClaimValues.ForumsWriterClaim)]
+        [HttpDelete("{threadId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteReply(int replyId)
+        {
+            var reply = await DataContext.GetReplyByIdAsync(replyId);
+
+            if (reply == null || reply.IsDeleted || reply.Thread.IsDeleted)
+            {
+                return NotFound();
+            }
+
+            if (reply.Thread.IsLocked)
+            {
+                throw new NotImplementedException();
+            }
+
+            if (reply.AuthorId != User.UserId())
+            {
+                throw new NotImplementedException();
+            }
+
+            try
+            {
+                await DataContext.DeleteReplyAsync(reply);
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e.Message, e);
+            }
+
+            throw new NotImplementedException();
         }
     }
 }
