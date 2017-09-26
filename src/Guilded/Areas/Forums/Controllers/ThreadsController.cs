@@ -52,7 +52,7 @@ namespace Guilded.Areas.Forums.Controllers
                 return NotFound();
             }
 
-            var viewModel = BuildCreateThreadViewModel(thread, page);
+            var viewModel = BuildThreadViewModel(thread, page);
 
             return ThreadView(viewModel, thread.Forum);
         }
@@ -136,7 +136,7 @@ namespace Guilded.Areas.Forums.Controllers
             return View(thread);
         }
 
-        private ThreadViewModel BuildCreateThreadViewModel(Thread thread, int page)
+        private ThreadViewModel BuildThreadViewModel(Thread thread, int page)
         {
             return new ThreadViewModel(thread)
             {
@@ -156,7 +156,9 @@ namespace Guilded.Areas.Forums.Controllers
             var replyCountToTake = isFirstPage ? PageSize - 1 : PageSize;
             var replyCountToSkip = PageSize * (page - 1) - 1;
 
-            return thread.Replies.Skip(replyCountToSkip)
+            return thread.Replies.Where(r => !r.IsDeleted)
+                .OrderBy(r => r.CreatedAt)
+                .Skip(replyCountToSkip)
                 .Take(replyCountToTake)
                 .Select(r => new ReplyViewModel(r));
         }

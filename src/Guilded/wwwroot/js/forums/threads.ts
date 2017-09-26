@@ -16,11 +16,24 @@ function onPostReplyBegin() {
     $(this).addClass("loading");
 }
 
+function onDeleteClick() {
+    let replyId = $(this).closest(".comment").data("reply-id");
+
+    $.ajax({
+        url: $("input[type='hidden'].delete-reply").val(),
+        type: "DELETE",
+        data: {
+            replyId: replyId,
+        }
+    });
+}
+
 function onQuoteClick() {
     alert("A thing");
 }
 
 $(document).ready(() => {
     $(".comment .actions")
-        .on("click", ".quote", onQuoteClick);
+        .on("click", ".quote", onQuoteClick)
+        .on("click", ".delete", onDeleteClick);
 });

@@ -29,6 +29,7 @@
 </h2>
 
 <input type="hidden" class="last-page" value="@(Model.PagerUrl + "?page=-1")"/>
+<input type="hidden" class="delete-reply" value="@(Url.Action("DeleteReply", "Replies", new { area = "Forums", threadId = Model.Id }))"/>
 
 <pager pager-vertical-location="Top" />
 

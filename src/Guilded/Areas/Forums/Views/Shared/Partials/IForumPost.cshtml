@@ -11,7 +11,7 @@
 
     if (Model.IsUserTheAuthor(User))
     {
-        <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" asp-fragment="delete">
+        <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="delete" asp-fragment="delete">
             <i class="trash icon"></i> Delete
         </a>
     }

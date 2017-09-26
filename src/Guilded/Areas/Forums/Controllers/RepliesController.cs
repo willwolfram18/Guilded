@@ -56,7 +56,7 @@ namespace Guilded.Areas.Forums.Controllers
 
         [Authorize(RoleClaimValues.ForumsWriterClaim)]
         [HttpDelete("{threadId}")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteReply(int replyId)
         {
             var reply = await DataContext.GetReplyByIdAsync(replyId);
