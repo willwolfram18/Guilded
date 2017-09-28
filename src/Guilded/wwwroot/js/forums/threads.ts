@@ -17,14 +17,24 @@ function onPostReplyBegin() {
 }
 
 function onDeleteClick() {
-    let replyId = $(this).closest(".comment").data("reply-id");
+    const verificationTokenName = "__RequestVerificationToken";
+
+    let $reply = $(this).closest(".comment");
+    let replyId = $reply.data("reply-id");
+    let verificationToken = $(`input[name='${verificationTokenName}']`).val();
+
+    let formData: any = {
+        replyId: replyId,
+    };
+    formData[verificationTokenName] = verificationToken;
 
     $.ajax({
         url: $("input[type='hidden'].delete-reply").val(),
         type: "DELETE",
-        data: {
-            replyId: replyId,
-        }
+        data: formData,
+        success: () => {
+            $reply.remove();
+        },
     });
 }
 
