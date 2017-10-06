@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Net;
+using System.Net.NetworkInformation;
+using System.Security.Claims;
+using System.Security.Principal;
 using Guilded.Data.Forums;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -6,6 +10,7 @@ using NUnit.Framework;
 using Shouldly;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.Extensions.Logging;
 
 namespace Guilded.Tests.Areas.Forums.Controllers.RepliesControllerTests
 {
@@ -74,6 +79,36 @@ namespace Guilded.Tests.Areas.Forums.Controllers.RepliesControllerTests
             result.Value.ShouldBe("The thread is locked, therefore you cannot delete the reply.");
         }
 
+        [Test]
+        public async Task IfAuthorDoesNotMatchCurrentUserThenUnauthorizedStatusResultReturned()
+        {
+            const int userId = 1;
+            const int authorId = userId + 1;
+
+            DataContextReturnsThis(new Reply { AuthorId = authorId.ToString(), Thread = new Thread() });
+
+            MockUser.Setup(u => u.Claims).Returns(new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, userId.ToString())
+            });
+
+            var result = await Controller.DeleteReply(DefaultReplyId) as ObjectResult;
+
+            result.ShouldNotBeNull();
+            result.StatusCode.ShouldBe((int)HttpStatusCode.Unauthorized);
+            result.Value.ShouldBe("You are not the author of this post.");
+        }
+
+        [Test]
+        public async Task ThenOkResultReturned()
+        {
+            UserIsTheAuthor();
+
+            var result = await Controller.DeleteReply(DefaultReplyId);
+
+            result.ShouldBeOfType<OkResult>();
+        }
+
         private void DataContextReturnsThis(Reply reply)
         {
             MockDataContext.Setup(d => d.GetReplyByIdAsync(It.IsAny<int>()))
@@ -85,6 +120,22 @@ namespace Guilded.Tests.Areas.Forums.Controllers.RepliesControllerTests
             var result = await Controller.DeleteReply(DefaultReplyId);
 
             result.ShouldBeOfType<NotFoundResult>();
+        }
+
+        private void UserIsTheAuthor()
+        {
+            const int authorId = 10;
+
+            DataContextReturnsThis(new Reply
+            {
+                Thread = new Thread(),
+                AuthorId = authorId.ToString()
+            });
+
+            MockUser.Setup(u => u.Claims).Returns(new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, authorId.ToString()),
+            });
         }
     }
 }
