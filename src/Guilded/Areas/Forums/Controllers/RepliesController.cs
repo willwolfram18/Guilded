@@ -17,7 +17,7 @@ namespace Guilded.Areas.Forums.Controllers
         public RepliesController(IForumsDataContext dataContext, ILoggerFactory loggerFactory) : base(dataContext, loggerFactory)
         {
         }
-        
+
         [Authorize(RoleClaimValues.ForumsWriterClaim)]
         [HttpPost("{threadId}")]
         [ValidateAntiForgeryToken]
@@ -68,12 +68,12 @@ namespace Guilded.Areas.Forums.Controllers
 
             if (reply.Thread.IsLocked)
             {
-                throw new NotImplementedException();
+                return BadRequest("The thread is locked, therefore you cannot delete the reply.");
             }
 
             if (reply.AuthorId != User.UserId())
             {
-                throw new NotImplementedException();
+                return StatusCode((int)HttpStatusCode.Unauthorized, "You are not the author of this post.");
             }
 
             try
@@ -87,7 +87,7 @@ namespace Guilded.Areas.Forums.Controllers
                 Logger.LogError(e.Message, e);
             }
 
-            throw new NotImplementedException();
+            return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred with your requet.");
         }
     }
 }

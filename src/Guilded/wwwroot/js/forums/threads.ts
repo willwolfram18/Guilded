@@ -32,10 +32,27 @@ function onDeleteClick() {
         url: $("input[type='hidden'].delete-reply").val(),
         type: "DELETE",
         data: formData,
+        beforeSend: () => {
+            hideErrorAndSuccessMessages();
+            replyFormEntersLoading();
+        },
+        complete: replyFormExitsLoading,
         success: () => {
             $reply.remove();
+            showSuccessMessage("Successfully removed reply.");
         },
+        error: (response) => {
+            showErrorMessage(response.responseText);
+        }
     });
+}
+
+function replyFormEntersLoading() {
+    $("#create-reply").addClass("loading");
+}
+
+function replyFormExitsLoading() {
+    $("#create-reply").removeClass("loading");
 }
 
 function onQuoteClick() {
