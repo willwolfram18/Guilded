@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Guilded.Constants;
 
 namespace Guilded.Areas.Forums.Controllers
 {
@@ -24,20 +25,20 @@ namespace Guilded.Areas.Forums.Controllers
         {
         }
 
-        [Route("{id:int}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> ThreadById(int id, int page = 1)
         {
             var thread = await DataContext.GetThreadByIdAsync(id);
 
             if (thread == null)
             {
-                return NotFound();
+                return RedirectToForumsHome();
             }
 
             return RedirectToAction(nameof(ThreadBySlug), new {slug = thread.Slug, page});
         }
 
-        [Route("{slug}")]
+        [HttpGet("{slug}")]
         public async Task<IActionResult> ThreadBySlug(string slug, int page = 1)
         {
             if (page <= 0)
@@ -49,7 +50,7 @@ namespace Guilded.Areas.Forums.Controllers
 
             if (thread == null)
             {
-                return NotFound();
+                return RedirectToForumsHome();
             }
 
             var viewModel = BuildThreadViewModel(thread, page);
@@ -148,6 +149,12 @@ namespace Guilded.Areas.Forums.Controllers
             }
 
             return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred with your request.");
+        }
+
+        private RedirectToActionResult RedirectToForumsHome()
+        {
+            TempData[ViewDataKeys.ErrorMessages] = "That thread does not exist.";
+            return RedirectToAction("Index", "Home", new { area = "Forums" });
         }
 
         private ViewResult ThreadView(ThreadViewModel viewModel, Forum parentForum)

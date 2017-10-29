@@ -75,7 +75,11 @@ namespace Guilded.Areas.Forums.DAL
 
         public async Task DeleteThreadAsync(Thread thread)
         {
-            throw new NotImplementedException();
+            thread.IsDeleted = true;
+
+            Context.Update(thread);
+
+            await Context.SaveChangesAsync();
         }
 
         public Task<Reply> GetReplyByIdAsync(int replyId)
@@ -93,7 +97,9 @@ namespace Guilded.Areas.Forums.DAL
 
         public async Task DeleteReplyAsync(Reply reply)
         {
-            Context.Replies.Remove(reply);
+            reply.IsDeleted = true;
+
+            Context.Update(reply);
 
             await Context.SaveChangesAsync();
         }

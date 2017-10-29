@@ -1,5 +1,4 @@
-﻿@using Guilded.Areas.Admin.DAL;
-@model ThreadViewModel
+﻿@model ThreadViewModel
 @inject IUserRoleClaimsForRequest RoleClaims; 
 @{
     ViewData[ViewDataKeys.Title] = Model.Title;
@@ -29,7 +28,9 @@
 </h2>
 
 <input type="hidden" class="last-page" value="@(Model.PagerUrl + "?page=-1")"/>
-<input type="hidden" class="delete-reply" value="@(Url.Action("DeleteReply", "Replies", new { area = "Forums", threadId = Model.Id }))"/>
+<input type="hidden" class="delete-thread-url" value="@(Url.Action("DeleteThread", "Threads", new { area = "Forums", threadId = Model.Id}))"/>
+<input type="hidden" class="delete-reply-url" value="@(Url.Action("DeleteReply", "Replies", new { area = "Forums", threadId = Model.Id }))"/>
+<input type="hidden" class="forum-url" value="@(Url.Action("ForumBySlug", "Home", new { area = "Forums", slug = Model.ForumsSlug }))"/>
 
 @{ await Html.RenderPartialAsync("SuccessAndErrorMessages"); }
 

@@ -18,6 +18,8 @@ namespace Guilded.Areas.Forums.ViewModels
 
         public string PagerUrl { get; set; }
 
+        public string ForumsSlug { get; set; }
+
         public IEnumerable<ReplyViewModel> Models { get; set; }
 
         public ThreadViewModel()
@@ -28,6 +30,7 @@ namespace Guilded.Areas.Forums.ViewModels
         {
             Content = thread.Content;
             _authorId = thread.AuthorId;
+            ForumsSlug = thread.Forum.Slug;
         }
 
         public bool IsUserTheAuthor(ClaimsPrincipal user)
