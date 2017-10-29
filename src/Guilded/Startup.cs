@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Security.Claims;
 using Guilded.Common;
 using Guilded.Extensions;
@@ -34,7 +35,6 @@ namespace Guilded
             //    // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
             //    builder.AddUserSecrets();
             //}
-            builder.AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
@@ -88,7 +88,7 @@ namespace Guilded
                 });
 
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
-            services.AddTransient<IMarkdownConverter, MarkdownConverter>();
+            services.AddSingleton<IMarkdownConverter, MarkdownConverter>();
             services.AddRequirementHandlers();
         }
 

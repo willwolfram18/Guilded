@@ -6,7 +6,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - 8000:80
-      - 4430:443
+      - 44300:443
   guilded-db:
     ports:
       - 1401:1433
