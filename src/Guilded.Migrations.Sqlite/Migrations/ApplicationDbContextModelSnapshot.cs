@@ -83,6 +83,8 @@ namespace Guilded.Migrations.Sqlite.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
+                    b.Property<bool>("IsDeleted");
+
                     b.Property<int>("ThreadId");
 
                     b.HasKey("Id");
@@ -108,6 +110,8 @@ namespace Guilded.Migrations.Sqlite.Migrations
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<int>("ForumId");
+
+                    b.Property<bool>("IsDeleted");
 
                     b.Property<bool>("IsLocked");
 

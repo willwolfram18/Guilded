@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Guilded.Constants;
 
 namespace Guilded.Areas.Forums.Controllers
 {
@@ -37,7 +38,7 @@ namespace Guilded.Areas.Forums.Controllers
 
             if (forum == null)
             {
-                return NotFound();
+                return RedirectToForumsHome();
             }
 
             var viewModel = CreatePaginatedForumViewModel(forum, page);
@@ -61,17 +62,23 @@ namespace Guilded.Areas.Forums.Controllers
 
             if (forum == null)
             {
-                return NotFound();
+                return RedirectToForumsHome();
             }
 
             return RedirectToAction(nameof(ForumBySlug), new {slug = forum.Slug});
         }
 
+        private RedirectToActionResult RedirectToForumsHome()
+        {
+            TempData[ViewDataKeys.ErrorMessages] = "That forum does not exist.";
+            return RedirectToAction(nameof(Index), "Home", new { area = "Forums" });
+        }
+
         private ForumViewModel CreatePaginatedForumViewModel(Forum forum, int page)
         {
             var zeroIndexedPage = page - 1;
-            var pinnedThreads = forum.Threads.Where(t => t.IsPinned).OrderByDescending(t => t.CreatedAt);
-            var threads = forum.Threads.Where(t => !t.IsPinned).OrderByDescending(t => t.CreatedAt);
+            var pinnedThreads = forum.Threads.Where(t => !t.IsDeleted && t.IsPinned).OrderByDescending(t => t.CreatedAt);
+            var threads = forum.Threads.Where(t => !t.IsDeleted && !t.IsPinned).OrderByDescending(t => t.CreatedAt);
 
             return new ForumViewModel(forum)
             {

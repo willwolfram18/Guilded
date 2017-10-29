@@ -3,16 +3,17 @@ using Guilded.Areas.Forums.ViewModels;
 using Guilded.Data.Forums;
 using Guilded.Extensions;
 using Guilded.Security.Claims;
-using Guilded.Services;
 using Guilded.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Guilded.Constants;
 
 namespace Guilded.Areas.Forums.Controllers
 {
@@ -24,20 +25,20 @@ namespace Guilded.Areas.Forums.Controllers
         {
         }
 
-        [Route("{id:int}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> ThreadById(int id, int page = 1)
         {
             var thread = await DataContext.GetThreadByIdAsync(id);
 
-            if (thread == null)
+            if (thread == null || thread.IsDeleted)
             {
-                return NotFound();
+                return RedirectToForumsHome();
             }
 
             return RedirectToAction(nameof(ThreadBySlug), new {slug = thread.Slug, page});
         }
 
-        [Route("{slug}")]
+        [HttpGet("{slug}")]
         public async Task<IActionResult> ThreadBySlug(string slug, int page = 1)
         {
             if (page <= 0)
@@ -47,12 +48,12 @@ namespace Guilded.Areas.Forums.Controllers
 
             var thread = await DataContext.GetThreadBySlugAsync(slug);
 
-            if (thread == null)
+            if (thread == null || thread.IsDeleted)
             {
-                return NotFound();
+                return RedirectToForumsHome();
             }
 
-            var viewModel = BuildCreateThreadViewModel(thread, page);
+            var viewModel = BuildThreadViewModel(thread, page);
 
             return ThreadView(viewModel, thread.Forum);
         }
@@ -77,6 +78,7 @@ namespace Guilded.Areas.Forums.Controllers
 
         [Authorize(RoleClaimValues.ForumsWriterClaim)]
         [HttpPost("~/[area]/{forumSlug}/[controller]/new")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateThread(CreateThreadViewModel threadToCreate)
         {
             var forum = await DataContext.GetForumBySlugAsync(threadToCreate.ForumSlug);
@@ -113,6 +115,48 @@ namespace Guilded.Areas.Forums.Controllers
             return RedirectToAction("ForumBySlug", "Home", new { area = "Forums", slug = forum.Slug });
         }
 
+        [Authorize(RoleClaimValues.ForumsWriterClaim)]
+        [HttpDelete("~/[area]/[controller]/{threadId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteThread(int threadId)
+        {
+            var thread = await DataContext.GetThreadByIdAsync(threadId);
+
+            if (thread == null || thread.IsDeleted)
+            {
+                return NotFound();
+            }
+
+            if (thread.AuthorId != User.UserId())
+            {
+                return StatusCode((int)HttpStatusCode.Unauthorized, "You are not the author of this post.");
+            }
+
+            if (thread.IsLocked)
+            {
+                return BadRequest("The thread is locked, therefore you cannot delete the thread.");
+            }
+
+            try
+            {
+                await DataContext.DeleteThreadAsync(thread);
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e.Message, e);
+            }
+
+            return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred with your request.");
+        }
+
+        private RedirectToActionResult RedirectToForumsHome()
+        {
+            TempData[ViewDataKeys.ErrorMessages] = "That thread does not exist.";
+            return RedirectToAction("Index", "Home", new { area = "Forums" });
+        }
+
         private ViewResult ThreadView(ThreadViewModel viewModel, Forum parentForum)
         {
             Breadcrumbs.Push(new Breadcrumb
@@ -135,7 +179,7 @@ namespace Guilded.Areas.Forums.Controllers
             return View(thread);
         }
 
-        private ThreadViewModel BuildCreateThreadViewModel(Thread thread, int page)
+        private ThreadViewModel BuildThreadViewModel(Thread thread, int page)
         {
             return new ThreadViewModel(thread)
             {
@@ -155,7 +199,9 @@ namespace Guilded.Areas.Forums.Controllers
             var replyCountToTake = isFirstPage ? PageSize - 1 : PageSize;
             var replyCountToSkip = PageSize * (page - 1) - 1;
 
-            return thread.Replies.Skip(replyCountToSkip)
+            return thread.Replies.Where(r => !r.IsDeleted)
+                .OrderBy(r => r.CreatedAt)
+                .Skip(replyCountToSkip)
                 .Take(replyCountToTake)
                 .Select(r => new ReplyViewModel(r));
         }

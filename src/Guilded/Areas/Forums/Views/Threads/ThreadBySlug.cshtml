@@ -1,13 +1,9 @@
-﻿@using Guilded.Areas.Admin.DAL;
-@model ThreadViewModel
-@inject IUsersDataContext UserDataContext;
-@inject IRolesDataContext RoleDataContext; 
+﻿@model ThreadViewModel
+@inject IUserRoleClaimsForRequest RoleClaims; 
 @{
     ViewData[ViewDataKeys.Title] = Model.Title;
 
-    var currentUser = await UserDataContext.GetUserFromClaimsPrincipalAsync(User);
-    var userRole = await UserDataContext.GetRoleForUserAsync(currentUser);
-    var roleClaims = RoleDataContext.GetClaimsForRole(userRole);
+    var roleClaims = await RoleClaims.GetRoleClaimsAsync();
 }
 
 @section Scripts {
@@ -32,14 +28,26 @@
 </h2>
 
 <input type="hidden" class="last-page" value="@(Model.PagerUrl + "?page=-1")"/>
+<input type="hidden" class="delete-thread-url" value="@(Url.Action("DeleteThread", "Threads", new { area = "Forums", threadId = Model.Id}))"/>
+<input type="hidden" class="delete-reply-url" value="@(Url.Action("DeleteReply", "Replies", new { area = "Forums", threadId = Model.Id }))"/>
+<input type="hidden" class="forum-url" value="@(Url.Action("ForumBySlug", "Home", new { area = "Forums", slug = Model.ForumsSlug }))"/>
+
+@{ await Html.RenderPartialAsync("SuccessAndErrorMessages"); }
 
 <pager pager-vertical-location="Top" />
+
+@if (!Model.IsLocked && roleClaims.Any(c => c == RoleClaimValues.ForumsWriter))
+{
+    <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="ui green icon reply button" asp-fragment="create-reply">
+        <i class="reply icon"></i> Reply
+    </a>
+}
 
 <div class="ui thread comments">
     @if (Model.CurrentPage == 1)
     {
         <div class="comment" data-thread-id="@Model.Id">
-            <a class="avatar" href="#">
+            <a class="avatar">
                 <img src="https://static.tplugin.com/tplugin/img/unknown-user.png"
                      styles="height: 35px;"/>
             </a>
@@ -56,18 +64,7 @@
                     <markdown-content/>
                 </div>
                 <div class="actions">
-                    @if (!Model.IsLocked)
-                    {
-                        <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="reply" asp-fragment="create-reply">
-                            <i class="reply icon"></i> Reply
-                        </a>
-                        <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="quote" asp-fragment="create-reply">
-                            <i class="comment icon"></i> Quote
-                        </a>
-                    }
-                    <a class="share" asp-fragment="share">
-                        <i class="retweet icon"></i> Share
-                    </a>
+                    @{ await Html.RenderPartialAsync("IForumPost", Model); }
                 </div>
             </div>
         </div>
@@ -84,7 +81,7 @@
     </h3>
     @if (!Model.IsLocked)
     {
-        if (roleClaims.Any(c => c.Value == RoleClaimValues.ForumsWriterClaim))
+        if (roleClaims.Any(c => c == RoleClaimValues.ForumsWriter))
         {
             await Html.RenderPartialAsync("CreateReplyViewModel", model: new CreateReplyViewModel {ThreadId = Model.Id});
         }

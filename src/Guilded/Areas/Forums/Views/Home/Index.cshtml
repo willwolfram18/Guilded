@@ -4,6 +4,8 @@
     Forums
 </h2>
 
+@{ await Html.RenderPartialAsync("SuccessAndErrorMessages"); }
+
 @if (!Model.Any())
 {
     <div class="ui message">

@@ -73,6 +73,15 @@ namespace Guilded.Areas.Forums.DAL
             return await GetThreadBySlugAsync(thread.Slug);
         }
 
+        public async Task DeleteThreadAsync(Thread thread)
+        {
+            thread.IsDeleted = true;
+
+            Context.Update(thread);
+
+            await Context.SaveChangesAsync();
+        }
+
         public Task<Reply> GetReplyByIdAsync(int replyId)
         {
             return Replies.FirstOrDefaultAsync(r => r.Id == replyId);
@@ -84,6 +93,15 @@ namespace Guilded.Areas.Forums.DAL
             await SaveChangesAsync();
 
             return await GetReplyByIdAsync(dbReply.Entity.Id);
+        }
+
+        public async Task DeleteReplyAsync(Reply reply)
+        {
+            reply.IsDeleted = true;
+
+            Context.Update(reply);
+
+            await Context.SaveChangesAsync();
         }
 
         private string GenerateSlug(string title)

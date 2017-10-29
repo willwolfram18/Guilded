@@ -8,7 +8,7 @@ var rename = require("gulp-rename");
 gulp.task("styles", function () {
     var styleDirectory = "./wwwroot/css";
 
-    return gulp.src(["./wwwroot/css/**/*.less", "!./wwwroot/css/**/_*.less"])
+    return gulp.src([styleDirectory + "/**/*.less", "!" + styleDirectory + "/**/_*.less"])
         .pipe(less({
             paths: [path.join(__dirname, "wwwroot", "css")]
         }))

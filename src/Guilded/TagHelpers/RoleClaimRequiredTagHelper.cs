@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Guilded.DAL;
 
 namespace Guilded.TagHelpers
 {
@@ -23,13 +24,11 @@ namespace Guilded.TagHelpers
 
         private ClaimsPrincipal User => ViewContext.HttpContext.User;
 
-        private readonly IUsersDataContext _usersDataContext;
-        private readonly IRolesDataContext _rolesDataContext;
+        private readonly IUserRoleClaimsForRequest _userRoleClaims;
 
-        public RoleClaimRequiredTagHelper(IUsersDataContext usersDataContext, IRolesDataContext rolesDataContext)
+        public RoleClaimRequiredTagHelper(IUserRoleClaimsForRequest userRoleClaims)
         {
-            _usersDataContext = usersDataContext;
-            _rolesDataContext = rolesDataContext;
+            _userRoleClaims = userRoleClaims;
         }
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
@@ -46,10 +45,7 @@ namespace Guilded.TagHelpers
                 return;
             }
 
-            var appUser = await _usersDataContext.GetUserFromClaimsPrincipalAsync(User);
-            var currentRole = await _usersDataContext.GetRoleForUserAsync(appUser);
-
-            if (!MeetsClaimRequirements(currentRole))
+            if (!await MeetsClaimRequirements())
             {
                 output.SuppressOutput();
                 return;
@@ -58,16 +54,16 @@ namespace Guilded.TagHelpers
             await base.ProcessAsync(context, output);
         }
 
-        private bool MeetsClaimRequirements(ApplicationRole role)
+        private async Task<bool> MeetsClaimRequirements()
         {
-            var roleClaims = _rolesDataContext.GetClaimsForRole(role);
+            var roleClaims = await _userRoleClaims.GetRoleClaimsAsync();
 
             if (RequiredClaim != null)
             {
-                return roleClaims.Any(c => c.Value == RequiredClaim.ClaimValue);
+                return roleClaims.Any(c => c == RequiredClaim);
             }
 
-            return PossibleClaims.Any(c => roleClaims.Any(r => r.Value == c.ClaimValue));
+            return PossibleClaims.Any(c => roleClaims.Contains(c));
         }
     }
 }

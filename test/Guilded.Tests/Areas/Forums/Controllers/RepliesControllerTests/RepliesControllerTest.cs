@@ -4,17 +4,17 @@ using Guilded.Tests.Controllers;
 using Moq;
 using System.Security.Principal;
 
-namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
+namespace Guilded.Tests.Areas.Forums.Controllers.RepliesControllerTests
 {
-    public abstract class ThreadsControllerTest : ControllerTest<ThreadsController>
+    public abstract class RepliesControllerTest : ControllerTest<RepliesController>
     {
         protected Mock<IForumsDataContext> MockDataContext { get; private set; }
 
-        protected override ThreadsController SetUpController()
+        protected override RepliesController SetUpController()
         {
             MockDataContext = new Mock<IForumsDataContext>();
 
-            return new ThreadsController(
+            return new RepliesController(
                 MockDataContext.Object,
                 MockLoggerFactory.Object
             );

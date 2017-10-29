@@ -9,6 +9,7 @@ using Moq;
 using NUnit.Framework;
 using System;
 using System.Security.Claims;
+using System.Security.Principal;
 
 namespace Guilded.Tests.Controllers
 {
@@ -37,6 +38,8 @@ namespace Guilded.Tests.Controllers
         protected Mock<HttpResponse> MockHttpResponse { get; private set; }
 
         protected Mock<ClaimsPrincipal> MockUser { get; private set; }
+
+        protected Mock<IIdentity> MockIdentity { get; private set; }
 
         protected Mock<ILoggerFactory> MockLoggerFactory { get; private set; }
 
@@ -68,10 +71,9 @@ namespace Guilded.Tests.Controllers
         /// Sets up and returns the mocked user for the controller.
         /// </summary>
         /// <returns></returns>
-        protected virtual Mock<ClaimsPrincipal> SetUpUser()
-        {
-            return new Mock<ClaimsPrincipal>();
-        }
+        protected virtual Mock<ClaimsPrincipal> SetUpUser() => new Mock<ClaimsPrincipal>();
+
+        protected virtual Mock<IIdentity> SetUpUserIdentity() => new Mock<IIdentity>();
 
         /// <summary>
         /// Sets up and returns the mocked <see cref="HttpContext"/> to be used in the tests.
@@ -114,19 +116,13 @@ namespace Guilded.Tests.Controllers
         /// used in the tests.
         /// </summary>
         /// <returns></returns>
-        protected virtual Mock<ControllerActionDescriptor> SetUpActionDescriptor()
-        {
-            return new Mock<ControllerActionDescriptor>();
-        }
+        protected virtual Mock<ControllerActionDescriptor> SetUpActionDescriptor() => new Mock<ControllerActionDescriptor>();
 
         /// <summary>
         /// Sets up and returns the mocked <see cref="IUrlHelper"/> to be used in the tests.
         /// </summary>
         /// <returns></returns>
-        protected virtual Mock<IUrlHelper> SetUpUrlHelper()
-        {
-            return new Mock<IUrlHelper>();
-        }
+        protected virtual Mock<IUrlHelper> SetUpUrlHelper() => new Mock<IUrlHelper>();
 
         protected virtual Mock<ITempDataDictionary> SetUpTempData()
         {
@@ -159,7 +155,11 @@ namespace Guilded.Tests.Controllers
 
         private void InitializeHttpContextProperties()
         {
+            MockIdentity = SetUpUserIdentity();
+
             MockUser = SetUpUser();
+            MockUser.Setup(u => u.Identity).Returns(MockIdentity.Object);
+
             MockHttpContext = SetUpHttpContext();
             MockHttpRequest = SetUpHttpRequest();
             MockHttpResponse = SetUpHttpResponse();
