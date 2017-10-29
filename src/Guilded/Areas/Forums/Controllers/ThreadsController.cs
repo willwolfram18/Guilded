@@ -3,16 +3,16 @@ using Guilded.Areas.Forums.ViewModels;
 using Guilded.Data.Forums;
 using Guilded.Extensions;
 using Guilded.Security.Claims;
-using Guilded.Services;
 using Guilded.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Guilded.Areas.Forums.Controllers
 {
@@ -116,9 +116,38 @@ namespace Guilded.Areas.Forums.Controllers
 
         [Authorize(RoleClaimValues.ForumsWriterClaim)]
         [HttpDelete("~/[area]/[controller]/{threadId}")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteThread(int threadId)
         {
-            throw new NotImplementedException();
+            var thread = await DataContext.GetThreadByIdAsync(threadId);
+
+            if (thread == null || thread.IsDeleted)
+            {
+                return NotFound();
+            }
+
+            if (thread.AuthorId != User.UserId())
+            {
+                return StatusCode((int)HttpStatusCode.Unauthorized, "You are not the author of this post.");
+            }
+
+            if (thread.IsLocked)
+            {
+                return BadRequest("The thread is locked, therefore you cannot delete the thread.");
+            }
+
+            try
+            {
+                await DataContext.DeleteThreadAsync(thread);
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e.Message, e);
+            }
+
+            return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred with your request.");
         }
 
         private ViewResult ThreadView(ThreadViewModel viewModel, Forum parentForum)

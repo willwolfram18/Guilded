@@ -87,7 +87,7 @@ namespace Guilded.Areas.Forums.Controllers
                 Logger.LogError(e.Message, e);
             }
 
-            return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred with your requet.");
+            return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred with your request.");
         }
     }
 }
