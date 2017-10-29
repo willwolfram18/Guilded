@@ -1,16 +1,11 @@
-﻿using System;
-using System.Net;
-using System.Net.NetworkInformation;
-using System.Security.Claims;
-using System.Security.Principal;
-using Guilded.Data.Forums;
+﻿using Guilded.Data.Forums;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using Shouldly;
+using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.Extensions.Logging;
 
 namespace Guilded.Tests.Areas.Forums.Controllers.RepliesControllerTests
 {

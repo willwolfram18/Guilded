@@ -73,6 +73,11 @@ namespace Guilded.Areas.Forums.DAL
             return await GetThreadBySlugAsync(thread.Slug);
         }
 
+        public async Task DeleteThreadAsync(Thread thread)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Reply> GetReplyByIdAsync(int replyId)
         {
             return Replies.FirstOrDefaultAsync(r => r.Id == replyId);

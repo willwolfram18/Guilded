@@ -114,6 +114,13 @@ namespace Guilded.Areas.Forums.Controllers
             return RedirectToAction("ForumBySlug", "Home", new { area = "Forums", slug = forum.Slug });
         }
 
+        [Authorize(RoleClaimValues.ForumsWriterClaim)]
+        [HttpDelete("~/[area]/[controller]/{threadId}")]
+        public async Task<IActionResult> DeleteThread(int threadId)
+        {
+            throw new NotImplementedException();
+        }
+
         private ViewResult ThreadView(ThreadViewModel viewModel, Forum parentForum)
         {
             Breadcrumbs.Push(new Breadcrumb
