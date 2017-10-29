@@ -1,0 +1,15 @@
+version: '3.2'
+
+services:
+  guilded:
+    image: guilded
+    depends_on:
+      - guilded-db
+    build:
+      context: ./src/Guilded
+      dockerfile: Dockerfile
+  guilded-db:
+    image: microsoft/mssql-server-windows-developer
+    environment:
+      SA_PASSWORD: "Example_SA_P@$$w0rd"
+      ACCEPT_EULA: "Y"

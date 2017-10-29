@@ -1,0 +1,19 @@
+version: '3.2'
+
+services:
+  guilded:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - 8000:80
+      - 4430:443
+  guilded-db:
+    ports:
+      - 1401:1433
+    volumes:
+      - type: volume
+        source: sqldata
+        target: /var/opt/mssql
+volumes:
+  sqldata:
+    
