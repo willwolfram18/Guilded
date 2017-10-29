@@ -1,14 +1,12 @@
-﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Guilded.Areas.Forums.Controllers;
+﻿using Guilded.Areas.Forums.Controllers;
 using Guilded.Data.Forums;
 using Guilded.Data.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using NUnit.Framework;
+using Shouldly;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
 {
@@ -59,14 +57,21 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         }
 
         [Test]
-        public async Task IfThreadIsNotFoundThenNotFoundResultReturned()
+        public async Task IfThreadIsNotFoundThenRedirectToForumsHomePage()
         {
             MockDataContext.Setup(db => db.GetThreadBySlugAsync(It.IsAny<string>()))
                 .ReturnsAsync((Thread)null);
 
-            var result = await Controller.ThreadBySlug(DefaultThreadSlug) as NotFoundResult;
+            await ThenRedirectToForumsHomePage();
+        }
 
-            Assert.That(result, Is.Not.Null);
+        [Test]
+        public async Task IfThreadIsDeletedThenRedirectToForumsHomePage()
+        {
+            MockDataContext.Setup(db => db.GetThreadBySlugAsync(It.IsAny<string>()))
+                .ReturnsAsync(new Thread {IsDeleted = true});
+
+            await ThenRedirectToForumsHomePage();
         }
 
         [Test]
@@ -75,6 +80,17 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
             await Controller.ThreadBySlug(DefaultThreadSlug);
 
             MockDataContext.Verify(db => db.GetThreadBySlugAsync(It.Is<string>(s => s == DefaultThreadSlug)));
+        }
+
+        private async Task ThenRedirectToForumsHomePage()
+        {
+            var result = await Controller.ThreadBySlug(DefaultThreadSlug) as RedirectToActionResult;
+
+            result.ShouldNotBeNull();
+            result.ActionName.ShouldBe(nameof(HomeController.Index));
+            result.ControllerName.ShouldBe("Home");
+            result.RouteValues.Keys.ShouldContain("area");
+            result.RouteValues["area"].ShouldBe("Forums");
         }
     }
 }

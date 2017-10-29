@@ -77,8 +77,8 @@ namespace Guilded.Areas.Forums.Controllers
         private ForumViewModel CreatePaginatedForumViewModel(Forum forum, int page)
         {
             var zeroIndexedPage = page - 1;
-            var pinnedThreads = forum.Threads.Where(t => t.IsPinned).OrderByDescending(t => t.CreatedAt);
-            var threads = forum.Threads.Where(t => !t.IsPinned).OrderByDescending(t => t.CreatedAt);
+            var pinnedThreads = forum.Threads.Where(t => !t.IsDeleted && t.IsPinned).OrderByDescending(t => t.CreatedAt);
+            var threads = forum.Threads.Where(t => !t.IsDeleted && !t.IsPinned).OrderByDescending(t => t.CreatedAt);
 
             return new ForumViewModel(forum)
             {
