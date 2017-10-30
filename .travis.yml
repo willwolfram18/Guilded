@@ -1,0 +1,8 @@
+language: csharp
+mono: none
+dotnet: 2.0.0
+dist: trusty
+script:
+    - dotnet restore Guilded.sln
+    - dotnet build Guilded.sln -c Release
+    - dotnet test ./test/Guilded.Tests/Guilded.Tests.csproj
