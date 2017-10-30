@@ -8,3 +8,5 @@ services:
     build:
       context: ./src/Guilded
       dockerfile: Dockerfile
+  guilded-db:
+    image: microsoft/mssql-server-linux
