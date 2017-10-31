@@ -1,8 +1,17 @@
+sudo: required
+
 language: csharp
+
 mono: none
 dotnet: 2.0.0
 dist: trusty
+
 script:
     - dotnet restore ./src/Guilded/Guilded.csproj
     - dotnet build ./src/Guilded/Guilded.csproj -c Release
     - dotnet test ./test/Guilded.Tests/Guilded.Tests.csproj
+
+after_success:
+    - docker build -t bwolfing/guilded:dev-$Version.$TRAVIS_BUILD_NUMBER ./src/Guilded/
+    - docker login -u="$DockerLogin" -p="$DockerPassword"
+    - docker push bwolfing/guilded:dev-$Version.$TRAVIS_BUILD_NUMBER
