@@ -12,7 +12,8 @@ script:
     - dotnet test ./test/Guilded.Tests/Guilded.Tests.csproj
 
 after_success:
-    - dotnet publish ./src/Guilded/Guilded.csproj -c Release -o ./src/Guilded/obj/Docker/publish
+    # dotnet publish output parameter is relative to project
+    - dotnet publish ./src/Guilded/Guilded.csproj -c Release -o ./obj/Docker/publish
     - docker build -t bwolfing/guilded:dev-$Version.$TRAVIS_BUILD_NUMBER ./src/Guilded/
     - docker login -u="$DockerLogin" -p="$DockerPassword"
     - docker push bwolfing/guilded:dev-$Version.$TRAVIS_BUILD_NUMBER
