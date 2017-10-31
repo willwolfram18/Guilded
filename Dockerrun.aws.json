@@ -1,0 +1,39 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "volumes": [
+        {
+            "name": "sqldata",
+            "host": {
+                "sourcePath": "/var/app/mssql-data"
+            }
+        }
+    ],
+    "containerDefinitions": [
+        {
+            "name": "guilded-app",
+            "image": "bwolfing/guilded:dev-latest",
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": [
+                "guilded-db"
+            ] 
+        },
+        {
+            "name": "guilded-db",
+            "image": "microsoft/mssql-sqlserver-linux",
+            "essential": true,
+            "memory": 4096,
+            "mountPoints": [
+                {
+                    "sourceVolume": "sqldata",
+                    "containerPath": "/var/opt/mssql"
+                }
+            ]
+        }
+    ]
+}
