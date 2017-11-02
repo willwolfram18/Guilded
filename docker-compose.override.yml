@@ -4,6 +4,9 @@ services:
   guilded:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - SQL_SERVER_HOST=guilded-db
+      - SQL_USER=sa
+      - SQL_USER_PASSWORD=Test@123
     ports:
       - 8000:80
       - 44300:443

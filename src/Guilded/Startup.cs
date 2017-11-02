@@ -45,7 +45,7 @@ namespace Guilded
         {
             // Add framework services.
             services.AddOptions();
-            services.AddGuildedIdentity(Configuration.GetConnectionString("DefaultConnection"));
+            services.AddGuildedIdentity(SqlConnectionString());
             services.AddGuildedServices();
 
             services.AddMvc().AddRazorOptions(razorOpts =>
@@ -132,6 +132,16 @@ namespace Guilded
                     template: "{controller=Home}/{action=Index}/{id?}"
                 );
             });
+        }
+
+        private string SqlConnectionString()
+        {
+            var sqlServer = Configuration.GetValue<string>("SQL_SERVER_HOST");
+            var sqlUser = Configuration.GetValue<string>("SQL_USER");
+            var sqlUserPassword = Configuration.GetValue<string>("SQL_USER_PASSWORD");
+
+            return $"Server={sqlServer};Database=Guilded;User={sqlUser};Password={sqlUserPassword};" +
+                   "MultipleActiveResultSets=True;";
         }
     }
 }
