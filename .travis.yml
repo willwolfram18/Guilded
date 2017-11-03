@@ -9,8 +9,8 @@ dist: trusty
 before_script:
     - cd ./src/Guilded
     - npm install
-    - bower install
-    - gulp styles scripts
+    - npm run bower install
+    - npm run gulp styles scripts
     - cd ../../
 
 

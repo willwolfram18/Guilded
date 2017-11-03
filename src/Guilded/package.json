@@ -15,5 +15,9 @@
     "gulp-typescript": "^3.2.3",
     "path": "^0.12.7",
     "typescript": "^2.6.1"
+  },
+  "scripts": {
+    "bower": "bower",
+    "gulp": "gulp"
   }
 }
