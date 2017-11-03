@@ -137,10 +137,11 @@ namespace Guilded
         private string SqlConnectionString()
         {
             var sqlServer = Configuration.GetValue<string>("SQL_SERVER_HOST");
+            var sqlDatabase = Configuration.GetValue<string>("SQL_DB");
             var sqlUser = Configuration.GetValue<string>("SQL_USER");
             var sqlUserPassword = Configuration.GetValue<string>("SQL_USER_PASSWORD");
 
-            return $"Server={sqlServer};Database=Guilded;User={sqlUser};Password={sqlUserPassword};" +
+            return $"Server={sqlServer};Database={sqlDatabase};User={sqlUser};Password={sqlUserPassword};" +
                    "MultipleActiveResultSets=True;";
         }
     }
