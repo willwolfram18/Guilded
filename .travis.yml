@@ -7,8 +7,8 @@ dotnet: 2.0.0
 dist: trusty
 
 before_script:
-    - npm install ./src/Guilded/packages.json
     - cd ./src/Guilded
+    - npm install
     - bower install
     - gulp styles scripts
     - cd ../../
