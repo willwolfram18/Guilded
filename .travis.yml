@@ -6,6 +6,14 @@ mono: none
 dotnet: 2.0.0
 dist: trusty
 
+before_script:
+    - npm install ./src/Guilded/packages.json
+    - cd ./src/Guilded
+    - bower install
+    - gulp styles scripts
+    - cd ../../
+
+
 script:
     - dotnet restore ./src/Guilded/Guilded.csproj
     - dotnet build ./src/Guilded/Guilded.csproj -c Release
@@ -14,8 +22,12 @@ script:
 after_success:
     # dotnet publish output parameter is relative to project
     - dotnet publish ./src/Guilded/Guilded.csproj -c Release -o ./obj/Docker/publish
+    - rm ./src/Guilded/obj/Docker/publish/wwwroot/css/**/*.less
+    - rm ./src/Guilded/obj/Docker/publish/wwwroot/js/**/*.js
+    # Run docker build for images
     - docker build -t bwolfing/guilded:dev-$Version.$TRAVIS_BUILD_NUMBER ./src/Guilded/
     - docker build -t bwolfing/guilded:dev-latest ./src/Guilded
+    # Push to docker hub
     - docker login -u="$DockerLogin" -p="$DockerPassword"
     - docker push bwolfing/guilded:dev-$Version.$TRAVIS_BUILD_NUMBER
     - docker push bwolfing/guilded:dev-latest
