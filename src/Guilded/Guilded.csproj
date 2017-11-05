@@ -50,4 +50,9 @@
     <Folder Include="Areas\Account\ViewModels\Manage\" />
     <Folder Include="Areas\Account\Views\Manage\" />
   </ItemGroup>
+  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
+    <Exec Command="npm install" />
+    <Exec Command="npm run bower install" />
+    <Exec Command="npm run gulp scripts styles" />
+  </Target>
 </Project>
