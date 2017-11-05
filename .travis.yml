@@ -13,7 +13,7 @@ script:
 
 after_success:
     # dotnet publish output parameter is relative to project
-    - dotnet publish ./src/Guilded/Guilded.csproj -c Release --framework linux-x64 -o ./obj/Docker/publish
+    - dotnet publish ./src/Guilded/Guilded.csproj -c Release --runtime linux-x64 -o ./obj/Docker/publish
     - rm ./src/Guilded/obj/Docker/publish/wwwroot/css/**/*.less
     - rm ./src/Guilded/obj/Docker/publish/wwwroot/js/**/*.js
     # Run docker build for images
