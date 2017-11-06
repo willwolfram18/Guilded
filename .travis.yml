@@ -50,4 +50,5 @@ deploy:
     env: Guilded-dev
     bucket_name: elasticbeanstalk-us-west-1-126711177368
     on:
-        branch: **
+        condition: [ $TRAVIS_BUILD_NUMBER -gt 0 ]
+        all_branches: true
