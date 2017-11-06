@@ -17,8 +17,8 @@ after_success:
     - npm install
     - npm run bower install
     - npm run gulp scripts styles
-    - ls wwwroot/lib/jquery
-    - ls obj/Docker/publish/wwwroot/lib/jquery
+    - mkdir -p ./obj/Docker/publish/wwwroot
+    - mv ./wwwroot/lib ./obj/Docker/publish/wwwroot
     # dotnet publish output parameter is relative to project
     - dotnet publish -c Release -o ./obj/Docker/publish
     - rm ./obj/Docker/publish/wwwroot/css/**/*.less
