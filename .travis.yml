@@ -7,7 +7,8 @@ dotnet: 2.0.0
 dist: trusty
 
 env:
-    - ELASTIC_BEANSTALK_LABEL=$Version.$TRAVIS_BUILD_NUMBER
+    - FullVersion=$Version.$TRAVIS_BUILD_NUMBER
+    - ELASTIC_BEANSTALK_LABEL=$FullVersion
 
 script:
     - dotnet restore ./src/Guilded/Guilded.csproj
@@ -28,16 +29,19 @@ after_success:
     - rm ./obj/Docker/publish/wwwroot/css/**/*.less
     - rm ./obj/Docker/publish/wwwroot/js/**/*.ts
     # Run docker build for images
-    - docker build -t bwolfing/guilded:dev-$Version.$TRAVIS_BUILD_NUMBER .
+    - docker build -t bwolfing/guilded:dev-$FullVersion .
     - docker build -t bwolfing/guilded:dev-latest .
     # Push to docker hub
     - docker login -u="$DockerLogin" -p="$DockerPassword"
-    - docker push bwolfing/guilded:dev-$Version.$TRAVIS_BUILD_NUMBER
+    - docker push bwolfing/guilded:dev-$FullVersion
     - docker push bwolfing/guilded:dev-latest
+    # Return to project directory
+    - cd ../../
 
 before_deploy:
     # Remove all files that are not Dockerrun.aws.json
     - rm -rf -- !(Dockerrun.aws.json)
+    - zip $FullVersion.zip Dockerrun.aws.json
 
 deploy:
     skip_cleanup: true
@@ -49,6 +53,7 @@ deploy:
     app: Guilded
     env: Guilded-dev
     bucket_name: elasticbeanstalk-us-west-1-126711177368
+    zip_file: $FullVersion.zip
     on:
         condition: [ $TRAVIS_BUILD_NUMBER -gt 0 ]
         all_branches: true
