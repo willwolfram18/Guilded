@@ -34,7 +34,13 @@ after_success:
     - docker push bwolfing/guilded:dev-$Version.$TRAVIS_BUILD_NUMBER
     - docker push bwolfing/guilded:dev-latest
 
+before_deploy:
+    # Remove all files that are not Dockerrun.aws.json
+    - shopt -s extglob
+    - rm -rf -- !(Dockerrun.aws.json)
+
 deploy:
+    skip_cleanup: true
     provider: elasticbeanstalk
     access-key-id: $AwsAccessKey
     secret-access-key: 
