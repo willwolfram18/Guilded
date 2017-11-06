@@ -6,6 +6,9 @@ mono: none
 dotnet: 2.0.0
 dist: trusty
 
+env:
+    - ELASTIC_BEANSTALK_LABEL=$Version.$TRAVIS_BUILD_NUMBER
+
 script:
     - dotnet restore ./src/Guilded/Guilded.csproj
     - dotnet build ./src/Guilded/Guilded.csproj -c Release
@@ -30,3 +33,13 @@ after_success:
     - docker login -u="$DockerLogin" -p="$DockerPassword"
     - docker push bwolfing/guilded:dev-$Version.$TRAVIS_BUILD_NUMBER
     - docker push bwolfing/guilded:dev-latest
+
+deploy:
+    provider: elasticbeanstalk
+    access-key-id: $AwsAccessKey
+    secret-access-key: 
+        secure: $AwsSecretKey
+    region: us-west-1
+    app: Guilded
+    env: Guilded-dev
+    bucket_name: elasticbeanstalk-us-west-1-126711177368
