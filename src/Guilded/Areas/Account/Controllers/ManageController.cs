@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authentication;
 namespace Guilded.Areas.Account.Controllers
 {
     [Route("~/[area]/[controller]")]
-    public class ManageController : BaseController
+    public class ManageController : AccountController
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;

@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Security.Claims;
 using Guilded.Common;
+using Guilded.Configuration;
 using Guilded.Extensions;
 using Guilded.Security.Authorization;
 using Guilded.Security.Claims;
@@ -87,6 +88,7 @@ namespace Guilded
                     opts.ConsumerSecret = "xxx";
                 });
 
+            services.Configure<ApplicationOptions>(Configuration);
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
             services.AddSingleton<IMarkdownConverter, MarkdownConverter>();
             services.AddRequirementHandlers();

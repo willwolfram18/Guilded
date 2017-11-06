@@ -6,7 +6,7 @@ namespace Guilded.Areas.Account.Controllers
     [AuthorizeEnabledUser]
     [Area("account")]
     [Route("[area]")]
-    public class BaseController : Controller
+    public class AccountController : Controller
     {
         
     }

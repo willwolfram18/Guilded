@@ -15,10 +15,12 @@ using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Guilded.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace Guilded.Areas.Account.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : AccountController
     {
         private const string GoogleRecaptchaBase = "https://www.google.com/";
 
@@ -27,18 +29,21 @@ namespace Guilded.Areas.Account.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly ApplicationOptions _applicationOpts;
 
         public HomeController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            IOptions<ApplicationOptions> applicationOpts)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<HomeController>();
+            _applicationOpts = applicationOpts.Value;
         }
 
         [AllowAnonymous]
@@ -454,13 +459,11 @@ namespace Guilded.Areas.Account.Controllers
 
         private async Task<bool> RecaptchaIsValid(string recaptchaValue)
         {
-            return true;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(GoogleRecaptchaBase);
 
-                // TODO: Include Google Recaptcha
-                var response = await client.PostAsync($"recaptcha/api/siteverify?response={recaptchaValue}&secret=", new StringContent(string.Empty));
+                var response = await client.PostAsync($"recaptcha/api/siteverify?response={recaptchaValue}&secret={_applicationOpts.RecaptchaSecret}", new StringContent(string.Empty));
 
                 if (!response.IsSuccessStatusCode)
                 {
