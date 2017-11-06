@@ -15,11 +15,12 @@ script:
     - dotnet test ./test/Guilded.Tests/Guilded.Tests.csproj
 
 after_success:
-    # Download resources
+    # Download resources via bower and run gulpfile
     - cd ./src/Guilded
     - npm install
     - npm run bower install
     - npm run gulp scripts styles
+    # Move bower resources to publish directory
     - mkdir -p ./obj/Docker/publish/wwwroot
     - mv ./wwwroot/lib ./obj/Docker/publish/wwwroot
     # dotnet publish output parameter is relative to project
@@ -36,7 +37,6 @@ after_success:
 
 before_deploy:
     # Remove all files that are not Dockerrun.aws.json
-    - shopt -s extglob
     - rm -rf -- !(Dockerrun.aws.json)
 
 deploy:
@@ -50,4 +50,4 @@ deploy:
     env: Guilded-dev
     bucket_name: elasticbeanstalk-us-west-1-126711177368
     on:
-        all-branches: true
+        branch: **
