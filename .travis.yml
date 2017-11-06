@@ -49,3 +49,5 @@ deploy:
     app: Guilded
     env: Guilded-dev
     bucket_name: elasticbeanstalk-us-west-1-126711177368
+    on:
+        all-branches: true
