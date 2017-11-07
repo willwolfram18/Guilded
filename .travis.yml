@@ -55,5 +55,4 @@ deploy:
     bucket_name: elasticbeanstalk-us-west-1-126711177368
     zip_file: $FullVersion.zip
     on:
-        condition: [ $TRAVIS_BUILD_NUMBER -gt 0 ]
-        all_branches: true
+        branch: "dev"

@@ -10,6 +10,7 @@ using Guilded.Data.Forums;
 using Guilded.Data.Identity;
 using Guilded.Security.Claims;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Guilded.Extensions
 {
@@ -111,7 +112,9 @@ namespace Guilded.Extensions
 
             foreach (var forumValue in _requiredForums)
             {
-                var forumSection = context.ForumSections.FirstOrDefault(s => s.Title == forumValue.Key);
+                var forumSection = context.ForumSections
+                    .Include(f => f.Forums)
+                    .FirstOrDefault(s => s.Title == forumValue.Key);
 
                 if (forumSection == null)
                 {
@@ -130,7 +133,7 @@ namespace Guilded.Extensions
 
                 foreach (var forum in forumValue.Value)
                 {
-                    if (!forumSection.Forums.Any(f => f.Title == forum))
+                    if (forumSection.Forums.All(f => f.Title != forum))
                     {
                         forumSection.Forums.Add(new Forum
                         {
