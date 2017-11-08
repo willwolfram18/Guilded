@@ -55,4 +55,5 @@ deploy:
     bucket_name: elasticbeanstalk-us-west-1-126711177368
     zip_file: $FullVersion.zip
     on:
-        branch: "dev"
+        condition: [ $TRAVIS_BUILD_NUMBER -eq 31 ]
+        branch: "feature/forums-area/share-link"
