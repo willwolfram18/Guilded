@@ -1,5 +1,7 @@
+using System.Linq;
 using System.Security.Claims;
 using Guilded.Common;
+using Guilded.Configuration;
 using Guilded.Extensions;
 using Guilded.Security.Authorization;
 using Guilded.Security.Claims;
@@ -34,7 +36,6 @@ namespace Guilded
             //    // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
             //    builder.AddUserSecrets();
             //}
-            builder.AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
@@ -45,7 +46,7 @@ namespace Guilded
         {
             // Add framework services.
             services.AddOptions();
-            services.AddGuildedIdentity(Configuration.GetConnectionString("DefaultConnection"));
+            services.AddGuildedIdentity(SqlConnectionString());
             services.AddGuildedServices();
 
             services.AddMvc().AddRazorOptions(razorOpts =>
@@ -87,8 +88,9 @@ namespace Guilded
                     opts.ConsumerSecret = "xxx";
                 });
 
+            services.Configure<ApplicationOptions>(Configuration);
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
-            services.AddTransient<IMarkdownConverter, MarkdownConverter>();
+            services.AddSingleton<IMarkdownConverter, MarkdownConverter>();
             services.AddRequirementHandlers();
         }
 
@@ -132,6 +134,17 @@ namespace Guilded
                     template: "{controller=Home}/{action=Index}/{id?}"
                 );
             });
+        }
+
+        private string SqlConnectionString()
+        {
+            var sqlServer = Configuration.GetValue<string>("SQL_SERVER_HOST");
+            var sqlDatabase = Configuration.GetValue<string>("SQL_DB");
+            var sqlUser = Configuration.GetValue<string>("SQL_USER");
+            var sqlUserPassword = Configuration.GetValue<string>("SQL_USER_PASSWORD");
+
+            return $"Server={sqlServer};Database={sqlDatabase};User={sqlUser};Password={sqlUserPassword};" +
+                   "MultipleActiveResultSets=True;";
         }
     }
 }

@@ -7,6 +7,9 @@
         "target": "es5"
     },
     "compileOnSave": true,
+    "include": [
+        "wwwroot/js"
+    ],
     "exclude": [
         "wwwroot/lib",
         "node_modules/@types"

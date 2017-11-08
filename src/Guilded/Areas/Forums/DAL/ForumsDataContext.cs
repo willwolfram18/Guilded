@@ -104,7 +104,7 @@ namespace Guilded.Areas.Forums.DAL
             await Context.SaveChangesAsync();
         }
 
-        private string GenerateSlug(string title)
+        public static string GenerateSlug(string title)
         {
             var slug = title.ToLower().Trim();
 
@@ -128,7 +128,7 @@ namespace Guilded.Areas.Forums.DAL
             return slug;
         }
 
-        private string RemoveDiacritics(string text)
+        private static string RemoveDiacritics(string text)
         {
             var s = new string(text.Normalize(NormalizationForm.FormD)
                 .Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)

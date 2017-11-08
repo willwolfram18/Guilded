@@ -1,0 +1,26 @@
+version: '3.2'
+
+services:
+  guilded:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - SQL_SERVER_HOST=guilded-db
+      - SQL_DB=Guilded
+      - SQL_USER=sa
+      - SQL_USER_PASSWORD=Test@123
+    ports:
+      - 8000:80
+      - 44300:443
+  guilded-db:
+    ports:
+      - 1401:1433
+    volumes:
+      - type: volume
+        source: sqldata
+        target: /var/opt/mssql
+    environment:
+      - SA_PASSWORD=Test@123
+      - ACCEPT_EULA=Y
+volumes:
+  sqldata:
+    
