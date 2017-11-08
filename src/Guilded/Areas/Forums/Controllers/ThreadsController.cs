@@ -14,15 +14,22 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Guilded.Constants;
+using Guilded.Services;
 
 namespace Guilded.Areas.Forums.Controllers
 {
     [Route("[area]/[controller]")]
     public class ThreadsController : ForumsController
     {
+        public const int ThreadPreviewLength = 100;
+
+        private readonly IConvertMarkdown _markdown;
+
         public ThreadsController(IForumsDataContext dataContext,
-            ILoggerFactory loggerFactory) : base(dataContext, loggerFactory)
+            ILoggerFactory loggerFactory,
+            IConvertMarkdown markdown) : base(dataContext, loggerFactory)
         {
+            _markdown = markdown;
         }
 
         [HttpGet("{id:int}")]
@@ -56,6 +63,13 @@ namespace Guilded.Areas.Forums.Controllers
             var viewModel = BuildThreadViewModel(thread, page);
 
             return ThreadView(viewModel, thread.Forum);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("{slug}/share")]
+        public async Task<IActionResult> ShareThread(string slug)
+        {
+            throw new NotImplementedException();
         }
 
         [Authorize(RoleClaimValues.ForumsWriterClaim)]

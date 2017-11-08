@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using BracketPipe;
+﻿using BracketPipe;
 using CommonMark;
 using CommonMark.Formatters;
 using CommonMark.Syntax;
 using Microsoft.AspNetCore.Html;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using HtmlString = Microsoft.AspNetCore.Html.HtmlString;
 
 namespace Guilded.Services
 {
-    public class MarkdownConverter : IMarkdownConverter
+    public class MarkdownConverter : IConvertMarkdown
     {
         static MarkdownConverter()
         {
@@ -104,6 +105,11 @@ namespace Guilded.Services
             {
                  return new HtmlString(reader.Sanitize().Minify().ToHtml());
             }
+        }
+
+        public string ConvertAndStripHtml(string content)
+        {
+            throw new NotImplementedException();
         }
     }
 }
