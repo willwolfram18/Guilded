@@ -69,7 +69,26 @@ namespace Guilded.Areas.Forums.Controllers
         [HttpGet("{slug}/share")]
         public async Task<IActionResult> ShareThread(string slug)
         {
-            throw new NotImplementedException();
+            var thread = await DataContext.GetThreadBySlugAsync(slug);
+
+            if (thread == null || thread.IsDeleted)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new ThreadPreview
+            {
+                ContentPreview = _markdown.ConvertAndStripHtml(thread.Content),
+                Slug = slug,
+                Title = thread.Title
+            };
+
+            if (viewModel.ContentPreview.Length > ThreadPreviewLength)
+            {
+                viewModel.ContentPreview = viewModel.ContentPreview.Substring(0, ThreadPreviewLength);
+            }
+
+            return View(viewModel);
         }
 
         [Authorize(RoleClaimValues.ForumsWriterClaim)]

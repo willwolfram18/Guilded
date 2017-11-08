@@ -20,9 +20,11 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         {
             _defaultThread = new Thread
             {
-                Slug = DefaultSlug
+                Slug = DefaultSlug,
             };
 
+            MockMarkdownConverter.Setup(md => md.ConvertAndStripHtml(It.IsAny<string>()))
+                .Returns(string.Empty);
             MockDataContext.Setup(d => d.GetThreadBySlugAsync(It.IsAny<string>()))
                 .ReturnsAsync(_defaultThread);
         }
