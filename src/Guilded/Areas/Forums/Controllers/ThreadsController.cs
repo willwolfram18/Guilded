@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Guilded.Areas.Forums.Constants;
 using Guilded.Constants;
 using Guilded.Services;
 
@@ -66,7 +67,7 @@ namespace Guilded.Areas.Forums.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{slug}/share")]
+        [HttpGet("{slug}/share", Name = RouteNames.ThreadSharingRoute)]
         public async Task<IActionResult> ShareThread(string slug)
         {
             var thread = await DataContext.GetThreadBySlugAsync(slug);

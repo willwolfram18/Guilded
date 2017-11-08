@@ -3,10 +3,10 @@ using CommonMark;
 using CommonMark.Formatters;
 using CommonMark.Syntax;
 using Microsoft.AspNetCore.Html;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using HtmlString = Microsoft.AspNetCore.Html.HtmlString;
 
 namespace Guilded.Services
@@ -109,7 +109,9 @@ namespace Guilded.Services
 
         public string ConvertAndStripHtml(string content)
         {
-            throw new NotImplementedException();
+            var convertedMarkdown = Convert(content);
+
+            return Regex.Replace(convertedMarkdown.ToString(), @"<[^>]*>", string.Empty);
         }
     }
 }

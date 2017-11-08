@@ -1,0 +1,20 @@
+﻿@model ThreadPreview
+@{
+    Layout = string.Empty;
+    var shareLink = Url.RouteUrl(RouteNames.ThreadSharingRoute, new { slug = Model.Slug }, "https");
+}
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+<head>
+    <title>
+        @Model.Title
+    </title>
+    <meta property="og:title" content="@Model.Title" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="@shareLink"/>
+    <meta property="og:description" content="@Model.ContentPreview" />
+</head>
+<body>
+<input id="shareLink" type="hidden" value="@shareLink"/>
+</body>
+</html>
