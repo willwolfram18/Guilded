@@ -29,10 +29,10 @@ namespace Guilded.Areas.Forums.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{slug}", Name = RouteNames.ThreadSharingRoute)]
-        public async Task<IActionResult> Thread(string slug)
+        [HttpGet("{id:int}", Name = RouteNames.ShareThreadRoute)]
+        public async Task<IActionResult> Thread(int id)
         {
-            var thread = await DataContext.GetThreadBySlugAsync(slug);
+            var thread = await DataContext.GetThreadByIdAsync(id);
             if (thread == null || thread.IsDeleted)
             {
                 return NotFound();
@@ -40,7 +40,7 @@ namespace Guilded.Areas.Forums.Controllers
 
             var viewModel = new ThreadPreview
             {
-                ShareLink = Url.RouteUrl(RouteNames.ThreadSharingRoute, new { slug }, "https"),
+                ShareLink = Url.RouteUrl(RouteNames.ViewThreadByIdRoute, new { id }, "https"),
                 Description = _markdownConverter.ConvertAndStripHtml(thread.Content),
                 Title = thread.Title
             };

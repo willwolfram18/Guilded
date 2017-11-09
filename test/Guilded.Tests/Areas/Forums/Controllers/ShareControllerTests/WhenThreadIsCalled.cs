@@ -13,8 +13,8 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
 {
     public class WhenThreadIsCalled : ShareControllerTest
     {
-        private const string DefaultSlug = "my-thread";
-        private const string DefaultShareLink = "https://example.com/forums/share/thread/my-thread";
+        private const int DefaultId = 3;
+        private const string DefaultShareLink = "https://example.com/forums/threads/";
 
         private Thread _defaultThread;
 
@@ -23,7 +23,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
         {
             _defaultThread = new Thread
             {
-                Slug = DefaultSlug,
+                Id = DefaultId,
             };
 
             MockUrlHelper.Setup(u => u.RouteUrl(
@@ -31,14 +31,14 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
             )).Returns(DefaultShareLink);
             MockMarkdownConverter.Setup(md => md.ConvertAndStripHtml(It.IsAny<string>()))
                 .Returns(string.Empty);
-            MockDataContext.Setup(d => d.GetThreadBySlugAsync(It.IsAny<string>()))
+            MockDataContext.Setup(d => d.GetThreadByIdAsync(It.IsAny<int>()))
                 .ReturnsAsync(_defaultThread);
         }
 
         [Test]
         public async Task IfSlugIsNotFoundThenNotFoundResultReturned()
         {
-            MockDataContext.Setup(d => d.GetThreadBySlugAsync(It.IsAny<string>()))
+            MockDataContext.Setup(d => d.GetThreadByIdAsync(It.IsAny<int>()))
                 .ReturnsAsync((Thread)null);
 
             await ThenResultShouldBeNotFound();
@@ -53,17 +53,17 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
         }
 
         [Test]
-        public async Task ThenGetThreadBySlugAsyncIsCalledWithSlugParameter()
+        public async Task ThenGetThreadByIdAsyncIsCalledWithSlugParameter()
         {
-            await Controller.Thread(DefaultSlug);
+            await Controller.Thread(DefaultId);
 
-            MockDataContext.Verify(d => d.GetThreadBySlugAsync(It.Is<string>(s => s == DefaultSlug)));
+            MockDataContext.Verify(d => d.GetThreadByIdAsync(It.Is<int>(i => i == DefaultId)));
         }
 
         [Test]
         public async Task ThenViewResultIsReturned()
         {
-            var result = await Controller.Thread(DefaultSlug);
+            var result = await Controller.Thread(DefaultId);
 
             result.ShouldBeOfType<ViewResult>();
         }
@@ -91,13 +91,13 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
         [Test]
         public async Task ThenThreadSharingUrlShouldBeUsed()
         {
-            await Controller.Thread(DefaultSlug);
+            await Controller.Thread(DefaultId);
 
             MockUrlHelper.Verify(u => u.RouteUrl(
                 It.Is<UrlRouteContext>(c => 
                     c.Protocol == "https" && 
-                    c.RouteName == RouteNames.ThreadSharingRoute &&
-                    c.Values.GetType().GetProperty("slug") != null
+                    c.RouteName == RouteNames.ViewThreadByIdRoute &&
+                    c.Values.GetType().GetProperty("id") != null
                 )
             ));
         }
@@ -117,7 +117,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
 
             _defaultThread.Content = threadContent;
 
-            await Controller.Thread(DefaultSlug);
+            await Controller.Thread(DefaultId);
 
             MockMarkdownConverter.Verify(c => c.ConvertAndStripHtml(It.Is<string>(s => s == threadContent)));
         }
@@ -153,14 +153,14 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
 
         private async Task ThenResultShouldBeNotFound()
         {
-            var result = await Controller.Thread(DefaultSlug);
+            var result = await Controller.Thread(DefaultId);
 
             result.ShouldBeOfType<NotFoundResult>();
         }
 
         private async Task<ThreadPreview> ShareThreadViewModel()
         {
-            var result = (ViewResult)await Controller.Thread(DefaultSlug);
+            var result = (ViewResult)await Controller.Thread(DefaultId);
             return result.Model as ThreadPreview;
         }
     }
