@@ -1,6 +1,6 @@
 ﻿@model IForumPost
 
-<a class="share" asp-fragment="share">
+<a class="share" data-share-link="@Model.ShareLink" asp-fragment="share">
     <i class="retweet icon"></i> Share
 </a>
 @if (!Model.IsLocked)

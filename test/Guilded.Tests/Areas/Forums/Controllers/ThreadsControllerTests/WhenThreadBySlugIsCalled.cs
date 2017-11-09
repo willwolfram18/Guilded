@@ -93,7 +93,8 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
             MockUrlHelper.Verify(u => u.RouteUrl(
                 It.Is<UrlRouteContext>(c => 
                     c.RouteName == RouteNames.ShareThreadRoute &&
-                    c.Values.GetType().GetProperty("id") != null
+                    c.Values.GetType().GetProperty("id") != null &&
+                    c.Protocol == "https"
             )));
         }
 
