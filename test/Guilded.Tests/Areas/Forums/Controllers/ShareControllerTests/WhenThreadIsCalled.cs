@@ -52,7 +52,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
         }
 
         [Test]
-        public async Task ThenGetThreadByIdAsyncIsCalledWithSlugParameter()
+        public async Task ThenGetThreadByIdAsyncIsCalledWithIdParameter()
         {
             await Controller.Thread(DefaultId);
 
@@ -78,13 +78,11 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
 
             _defaultThread.Title = threadTitle;
 
-            var viewModel = await ShareThreadViewModel();
-
-            viewModel.Title.ShouldBe(threadTitle);
+            await ThenViewModelTitleMatchesExpected<ThreadPreview>(threadTitle, c => c.Thread);
         }
 
         [Test]
-        public async Task ThenThreadSharingUrlShouldBeUsed()
+        public async Task ThenViewThreadRouteIsUsed()
         {
             await Controller.Thread(DefaultId);
 

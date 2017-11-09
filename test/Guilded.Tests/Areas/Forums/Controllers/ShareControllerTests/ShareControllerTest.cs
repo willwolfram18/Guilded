@@ -68,6 +68,15 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
             viewModel.ShareLink.ShouldBe(DefaultShareLink);
         }
 
+        protected async Task ThenViewModelTitleMatchesExpected<T>(string expectedTitle,
+            ActionExpression controllerAction)
+            where T : class, IShareForumsContent
+        {
+            var viewModel = await GetViewModel<T>(controllerAction);
+
+            viewModel.Title.ShouldBe(expectedTitle);
+        }
+
         private async Task<IActionResult> InvokeActionExpressionAsync(ActionExpression controllerAction)
         {
             var actionDelegate = controllerAction.Compile();
