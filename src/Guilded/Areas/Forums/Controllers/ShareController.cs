@@ -28,7 +28,6 @@ namespace Guilded.Areas.Forums.Controllers
             _markdownConverter = markdownConverter;
         }
 
-        [AllowAnonymous]
         [HttpGet("{id:int}", Name = RouteNames.ShareThreadRoute)]
         public async Task<IActionResult> Thread(int id)
         {
@@ -51,6 +50,11 @@ namespace Guilded.Areas.Forums.Controllers
             }
 
             return View("ShareContent", viewModel);
+        }
+
+        public async Task<IActionResult> Forum(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

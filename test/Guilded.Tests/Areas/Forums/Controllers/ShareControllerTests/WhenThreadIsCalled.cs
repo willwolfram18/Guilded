@@ -13,8 +13,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
 {
     public class WhenThreadIsCalled : ShareControllerTest
     {
-        private const int DefaultId = 3;
-        private const string DefaultShareLink = "https://example.com/forums/threads/";
+        protected override string DefaultShareLink => "https://example.com/forums/threads/";
 
         private Thread _defaultThread;
 
@@ -36,12 +35,12 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
         }
 
         [Test]
-        public async Task IfSlugIsNotFoundThenNotFoundResultReturned()
+        public async Task IfIdIsNotFoundThenNotFoundResultReturned()
         {
             MockDataContext.Setup(d => d.GetThreadByIdAsync(It.IsAny<int>()))
                 .ReturnsAsync((Thread)null);
 
-            await ThenResultShouldBeNotFound();
+            await ThenResultShouldBeNotFound(c => c.Thread);
         }
 
         [Test]
@@ -49,7 +48,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
         {
             _defaultThread.IsDeleted = true;
 
-            await ThenResultShouldBeNotFound();
+            await ThenResultShouldBeNotFound(c => c.Thread);
         }
 
         [Test]
@@ -63,17 +62,13 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
         [Test]
         public async Task ThenViewResultIsReturned()
         {
-            var result = await Controller.Thread(DefaultId);
-
-            result.ShouldBeOfType<ViewResult>();
+            await ThenViewResultIsReturned(c => c.Thread);
         }
 
         [Test]
         public async Task ThenViewModelIsAThreadPreview()
         {
-            var viewModel = await ShareThreadViewModel();
-
-            viewModel.ShouldNotBeNull();
+            await ThenViewModelIsOfType<ThreadPreview>(c => c.Thread);
         }
 
         [Test]
@@ -105,9 +100,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
         [Test]
         public async Task ThenShareLinkIsResultOfUrlHelper()
         {
-            var viewModel = await ShareThreadViewModel();
-
-            viewModel.ShareLink.ShouldBe(DefaultShareLink);
+            await ThenViewModelShareLinkMatchesDefaultShareLink(c => c.Thread);
         }
 
         [Test]
@@ -149,13 +142,6 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
             var viewModel = await ShareThreadViewModel();
 
             viewModel.Description.Length.ShouldBe(ShareController.ThreadPreviewLength);
-        }
-
-        private async Task ThenResultShouldBeNotFound()
-        {
-            var result = await Controller.Thread(DefaultId);
-
-            result.ShouldBeOfType<NotFoundResult>();
         }
 
         private async Task<ThreadPreview> ShareThreadViewModel()
