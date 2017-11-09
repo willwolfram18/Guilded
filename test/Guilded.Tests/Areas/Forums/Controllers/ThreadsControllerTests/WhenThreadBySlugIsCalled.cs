@@ -7,6 +7,9 @@ using NUnit.Framework;
 using Shouldly;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Guilded.Areas.Forums.Constants;
+using Guilded.Areas.Forums.ViewModels;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
 {
@@ -80,6 +83,32 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
             await Controller.ThreadBySlug(DefaultThreadSlug);
 
             MockDataContext.Verify(db => db.GetThreadBySlugAsync(It.Is<string>(s => s == DefaultThreadSlug)));
+        }
+
+        [Test]
+        public async Task ThenThreadSharingRouteIsUsed()
+        {
+            await Controller.ThreadBySlug(DefaultThreadSlug);
+
+            MockUrlHelper.Verify(u => u.RouteUrl(
+                It.Is<UrlRouteContext>(c => 
+                    c.RouteName == RouteNames.ShareThreadRoute &&
+                    c.Values.GetType().GetProperty("id") != null
+            )));
+        }
+
+        [Test]
+        public async Task ThenThreadShareLinkIsTheResultOfTheUrlHelper()
+        {
+            const string expectedShareUrl = "http://example.com/forums/share/thread/1";
+
+            MockUrlHelper.Setup(u => u.RouteUrl(It.IsAny<UrlRouteContext>()))
+                .Returns(expectedShareUrl);
+
+            var result = (ViewResult)await Controller.ThreadBySlug(DefaultThreadSlug);
+            var viewModel = (ThreadViewModel)result.Model;
+
+            viewModel.ShareLink.ShouldBe(expectedShareUrl);
         }
 
         private async Task ThenRedirectToForumsHomePage()

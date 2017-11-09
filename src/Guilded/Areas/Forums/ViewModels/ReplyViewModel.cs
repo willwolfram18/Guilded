@@ -20,6 +20,8 @@ namespace Guilded.Areas.Forums.ViewModels
 
         public bool IsLocked { get; set; }
 
+        public string ShareLink { get; set; }
+
         public ReplyViewModel()
         {
         }

@@ -20,6 +20,8 @@ namespace Guilded.Areas.Forums.ViewModels
 
         public string ForumsSlug { get; set; }
 
+        public string ShareLink { get; set; }
+
         public IEnumerable<ReplyViewModel> Models { get; set; }
 
         public ThreadViewModel()

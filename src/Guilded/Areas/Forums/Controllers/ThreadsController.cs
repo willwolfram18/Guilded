@@ -188,6 +188,7 @@ namespace Guilded.Areas.Forums.Controllers
                 CurrentPage = page,
                 LastPage = (int)Math.Ceiling(thread.Replies.Count / (double)PageSize),
                 Models = GetRepliesForThreadPage(thread, page),
+                ShareLink = Url.RouteUrl(RouteNames.ShareThreadRoute, new { id = thread.Id })
             };
         }
 
