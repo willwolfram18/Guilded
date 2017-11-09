@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 namespace Guilded.Areas.Forums.Controllers
 {
     [AllowAnonymous]
-    [Route("[controller]")]
+    [Route("[area]/[controller]/[action]")]
     public class ShareController : ForumsController
     {
         public const int ThreadPreviewLength = 100;
@@ -28,8 +28,9 @@ namespace Guilded.Areas.Forums.Controllers
             _markdownConverter = markdownConverter;
         }
 
-        [HttpGet("thread/{slug}", Name = RouteNames.ThreadSharingRoute)]
-        public async Task<IActionResult> ShareThread(string slug)
+        [AllowAnonymous]
+        [HttpGet("{slug}", Name = RouteNames.ThreadSharingRoute)]
+        public async Task<IActionResult> Thread(string slug)
         {
             var thread = await DataContext.GetThreadBySlugAsync(slug);
             if (thread == null || thread.IsDeleted)
@@ -39,6 +40,7 @@ namespace Guilded.Areas.Forums.Controllers
 
             var viewModel = new ThreadPreview
             {
+                ShareLink = Url.RouteUrl(RouteNames.ThreadSharingRoute, new { slug }, "https"),
                 Description = _markdownConverter.ConvertAndStripHtml(thread.Content),
                 Title = thread.Title
             };
@@ -48,7 +50,7 @@ namespace Guilded.Areas.Forums.Controllers
                 viewModel.Description = viewModel.Description.Substring(0, ThreadPreviewLength);
             }
 
-            return View(viewModel);
+            return View("ShareContent", viewModel);
         }
     }
 }

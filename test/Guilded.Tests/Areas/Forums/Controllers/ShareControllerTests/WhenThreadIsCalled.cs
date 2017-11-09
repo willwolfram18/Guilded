@@ -1,13 +1,13 @@
-﻿using Guilded.Areas.Forums.Controllers;
+﻿using Guilded.Areas.Forums.Constants;
+using Guilded.Areas.Forums.Controllers;
 using Guilded.Areas.Forums.ViewModels;
 using Guilded.Data.Forums;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Moq;
 using NUnit.Framework;
 using Shouldly;
 using System.Threading.Tasks;
-using Guilded.Areas.Forums.Constants;
-using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
 {
@@ -55,7 +55,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
         [Test]
         public async Task ThenGetThreadBySlugAsyncIsCalledWithSlugParameter()
         {
-            await Controller.ShareThread(DefaultSlug);
+            await Controller.Thread(DefaultSlug);
 
             MockDataContext.Verify(d => d.GetThreadBySlugAsync(It.Is<string>(s => s == DefaultSlug)));
         }
@@ -63,7 +63,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
         [Test]
         public async Task ThenViewResultIsReturned()
         {
-            var result = await Controller.ShareThread(DefaultSlug);
+            var result = await Controller.Thread(DefaultSlug);
 
             result.ShouldBeOfType<ViewResult>();
         }
@@ -91,7 +91,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
         [Test]
         public async Task ThenThreadSharingUrlShouldBeUsed()
         {
-            await Controller.ShareThread(DefaultSlug);
+            await Controller.Thread(DefaultSlug);
 
             MockUrlHelper.Verify(u => u.RouteUrl(
                 It.Is<UrlRouteContext>(c => 
@@ -117,7 +117,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
 
             _defaultThread.Content = threadContent;
 
-            await Controller.ShareThread(DefaultSlug);
+            await Controller.Thread(DefaultSlug);
 
             MockMarkdownConverter.Verify(c => c.ConvertAndStripHtml(It.Is<string>(s => s == threadContent)));
         }
@@ -153,14 +153,14 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
 
         private async Task ThenResultShouldBeNotFound()
         {
-            var result = await Controller.ShareThread(DefaultSlug);
+            var result = await Controller.Thread(DefaultSlug);
 
             result.ShouldBeOfType<NotFoundResult>();
         }
 
         private async Task<ThreadPreview> ShareThreadViewModel()
         {
-            var result = (ViewResult)await Controller.ShareThread(DefaultSlug);
+            var result = (ViewResult)await Controller.Thread(DefaultSlug);
             return result.Model as ThreadPreview;
         }
     }
