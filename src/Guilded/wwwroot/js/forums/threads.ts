@@ -115,6 +115,10 @@ $(document).ready(() => {
         }
     });
 
+    let clipboard = new Clipboard(".comment .actions .share", {
+        text: (trigger: Element) => $(trigger).data("share-link"),
+    });
+
     $(".comment .actions")
         .on("click", ".quote", onQuoteClick);
 

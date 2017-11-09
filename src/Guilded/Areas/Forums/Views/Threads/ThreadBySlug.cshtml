@@ -8,10 +8,16 @@
 
 @section Scripts {
     <environment names="Development">
+        <script src="~/lib/clipboard/dist/clipboard.js"></script>
         <script src="~/js/forums/threads.js"></script>
     </environment>
     <environment names="Staging,Production">
-        <script src="~/js/forums/threads.min.js"></script>
+        <script src="~/lib/clipboard/dist/clipboard.min.js"
+                asp-fallback-src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js">
+        </script>
+        <script src="~/js/forums/threads.min.js"
+                asp-append-version="true">
+        </script>
     </environment>
 }
 
