@@ -1,0 +1,20 @@
+﻿@model IShareForumsContent
+@{
+    Layout = string.Empty;
+}
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+<head>
+    <title>
+        @Model.Title
+    </title>
+    <meta property="og:title" content="@Model.Title" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="@Model.ShareLink" />
+    <meta property="og:image" content="http://bnetcmsus-a.akamaihd.net/cms/template_resource/fh/FHSCSCG9CXOC1462229977849.png" />
+    <meta property="og:description" content="@Model.Description" />
+</head>
+<body>
+    <input id="shareLink" type="hidden" value="@Model.ShareLink" />
+</body>
+</html>

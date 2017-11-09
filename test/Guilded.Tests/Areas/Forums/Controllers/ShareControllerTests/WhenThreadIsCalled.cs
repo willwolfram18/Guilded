@@ -6,12 +6,15 @@ using Moq;
 using NUnit.Framework;
 using Shouldly;
 using System.Threading.Tasks;
+using Guilded.Areas.Forums.Constants;
+using Microsoft.AspNetCore.Mvc.Routing;
 
-namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
+namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
 {
-    public class WhenShareThreadIsCalled : ThreadsControllerTest
+    public class WhenThreadIsCalled : ShareControllerTest
     {
         private const string DefaultSlug = "my-thread";
+        private const string DefaultShareLink = "https://example.com/forums/share/thread/my-thread";
 
         private Thread _defaultThread;
 
@@ -23,6 +26,9 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
                 Slug = DefaultSlug,
             };
 
+            MockUrlHelper.Setup(u => u.RouteUrl(
+                It.IsAny<UrlRouteContext>()
+            )).Returns(DefaultShareLink);
             MockMarkdownConverter.Setup(md => md.ConvertAndStripHtml(It.IsAny<string>()))
                 .Returns(string.Empty);
             MockDataContext.Setup(d => d.GetThreadBySlugAsync(It.IsAny<string>()))
@@ -71,7 +77,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         }
 
         [Test]
-        public async Task ThenViewModelSlugAndTitleShouldMatchDataModle()
+        public async Task ThenViewModelTitleShouldMatchDataModel()
         {
             const string threadTitle = "My thread title";
 
@@ -80,7 +86,28 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
             var viewModel = await ShareThreadViewModel();
 
             viewModel.Title.ShouldBe(threadTitle);
-            viewModel.Slug.ShouldBe(DefaultSlug);
+        }
+
+        [Test]
+        public async Task ThenThreadSharingUrlShouldBeUsed()
+        {
+            await Controller.ShareThread(DefaultSlug);
+
+            MockUrlHelper.Verify(u => u.RouteUrl(
+                It.Is<UrlRouteContext>(c => 
+                    c.Protocol == "https" && 
+                    c.RouteName == RouteNames.ThreadSharingRoute &&
+                    c.Values.GetType().GetProperty("slug") != null
+                )
+            ));
+        }
+
+        [Test]
+        public async Task ThenShareLinkIsResultOfUrlHelper()
+        {
+            var viewModel = await ShareThreadViewModel();
+
+            viewModel.ShareLink.ShouldBe(DefaultShareLink);
         }
 
         [Test]
@@ -96,7 +123,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         }
 
         [Test]
-        public async Task ThenViewModelContentIsConvertedMarkdownThatIsStrippedOfHtml()
+        public async Task ThenViewModelDescriptionIsConvertedMarkdownThatIsStrippedOfHtml()
         {
             const string threadContent = "__Yes__ I _am_ markdown!";
             const string strippedContent = "Yes I am markdown!";
@@ -108,20 +135,20 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
 
             var viewModel = await ShareThreadViewModel();
 
-            viewModel.ContentPreview.ShouldBe(strippedContent);
+            viewModel.Description.ShouldBe(strippedContent);
         }
 
         [Test]
         public async Task ThenContentPreviewDoesNotExceedDesiredMaximum()
         {
-            var threadContent = new string('a', ThreadsController.ThreadPreviewLength + 5);
+            var threadContent = new string('a', ShareController.ThreadPreviewLength + 5);
 
             MockMarkdownConverter.Setup(c => c.ConvertAndStripHtml(It.IsAny<string>()))
                 .Returns(threadContent);
 
             var viewModel = await ShareThreadViewModel();
 
-            viewModel.ContentPreview.Length.ShouldBe(ThreadsController.ThreadPreviewLength);
+            viewModel.Description.Length.ShouldBe(ShareController.ThreadPreviewLength);
         }
 
         private async Task ThenResultShouldBeNotFound()

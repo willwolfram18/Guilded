@@ -22,15 +22,9 @@ namespace Guilded.Areas.Forums.Controllers
     [Route("[area]/[controller]")]
     public class ThreadsController : ForumsController
     {
-        public const int ThreadPreviewLength = 100;
-
-        private readonly IConvertMarkdown _markdown;
-
         public ThreadsController(IForumsDataContext dataContext,
-            ILoggerFactory loggerFactory,
-            IConvertMarkdown markdown) : base(dataContext, loggerFactory)
+            ILoggerFactory loggerFactory) : base(dataContext, loggerFactory)
         {
-            _markdown = markdown;
         }
 
         [HttpGet("{id:int}")]
@@ -64,32 +58,6 @@ namespace Guilded.Areas.Forums.Controllers
             var viewModel = BuildThreadViewModel(thread, page);
 
             return ThreadView(viewModel, thread.Forum);
-        }
-
-        [AllowAnonymous]
-        [HttpGet("{slug}/share", Name = RouteNames.ThreadSharingRoute)]
-        public async Task<IActionResult> ShareThread(string slug)
-        {
-            var thread = await DataContext.GetThreadBySlugAsync(slug);
-
-            if (thread == null || thread.IsDeleted)
-            {
-                return NotFound();
-            }
-
-            var viewModel = new ThreadPreview
-            {
-                ContentPreview = _markdown.ConvertAndStripHtml(thread.Content),
-                Slug = slug,
-                Title = thread.Title
-            };
-
-            if (viewModel.ContentPreview.Length > ThreadPreviewLength)
-            {
-                viewModel.ContentPreview = viewModel.ContentPreview.Substring(0, ThreadPreviewLength);
-            }
-
-            return View(viewModel);
         }
 
         [Authorize(RoleClaimValues.ForumsWriterClaim)]
