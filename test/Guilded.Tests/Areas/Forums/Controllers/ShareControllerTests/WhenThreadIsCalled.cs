@@ -132,14 +132,14 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
         [Test]
         public async Task ThenContentPreviewDoesNotExceedDesiredMaximum()
         {
-            var threadContent = new string('a', ShareController.ThreadPreviewLength + 5);
+            var threadContent = new string('a', ShareController.ShareDescriptionLength + 5);
 
             MockMarkdownConverter.Setup(c => c.ConvertAndStripHtml(It.IsAny<string>()))
                 .Returns(threadContent);
 
             var viewModel = await ShareThreadViewModel();
 
-            viewModel.Description.Length.ShouldBe(ShareController.ThreadPreviewLength);
+            viewModel.Description.Length.ShouldBe(ShareController.ShareDescriptionLength);
         }
 
         private async Task<ThreadPreview> ShareThreadViewModel()

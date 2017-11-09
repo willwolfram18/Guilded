@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Guilded.Areas.Forums.Constants;
+﻿using Guilded.Areas.Forums.Constants;
 using Guilded.Areas.Forums.DAL;
 using Guilded.Areas.Forums.ViewModels;
 using Guilded.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace Guilded.Areas.Forums.Controllers
 {
@@ -17,7 +13,7 @@ namespace Guilded.Areas.Forums.Controllers
     [Route("[area]/[controller]/[action]")]
     public class ShareController : ForumsController
     {
-        public const int ThreadPreviewLength = 100;
+        public const int ShareDescriptionLength = 100;
 
         private readonly IConvertMarkdown _markdownConverter;
 
@@ -44,17 +40,42 @@ namespace Guilded.Areas.Forums.Controllers
                 Title = thread.Title
             };
 
-            if (viewModel.Description.Length > ThreadPreviewLength)
+            if (viewModel.Description.Length > ShareDescriptionLength)
             {
-                viewModel.Description = viewModel.Description.Substring(0, ThreadPreviewLength);
+                viewModel.Description = viewModel.Description.Substring(0, ShareDescriptionLength);
             }
 
             return View("ShareContent", viewModel);
         }
 
+        [HttpGet("{id:int}", Name = RouteNames.ShareForumRoute)]
         public async Task<IActionResult> Forum(int id)
         {
-            throw new NotImplementedException();
+            var forum = await DataContext.GetForumByIdAsync(id);
+            if (forum == null || !forum.IsActive)
+            {
+                return NotFound();
+            }
+
+            var description = forum.Subtitle;
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                description = $"The '{forum.Title}' forums";
+            }
+
+            if (description.Length > ShareDescriptionLength)
+            {
+                description = description.Substring(0, ShareDescriptionLength);
+            }
+
+            var viewModel = new ForumPreview
+            {
+                Description = description,
+                ShareLink = Url.RouteUrl(RouteNames.ViewForumByIdRoute, new { id }, "https"),
+                Title = forum.Title
+            };
+
+            return View("ShareContent", viewModel);
         }
     }
 }

@@ -2,8 +2,8 @@
 {
     public class ForumPreview : IShareForumsContent
     {
-        public string Title { get; }
-        public string ShareLink { get; }
-        public string Description { get; }
+        public string Title { get; set; }
+        public string ShareLink { get; set; }
+        public string Description { get; set; }
     }
 }

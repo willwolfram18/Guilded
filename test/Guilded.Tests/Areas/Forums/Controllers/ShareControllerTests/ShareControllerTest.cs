@@ -1,5 +1,6 @@
 ﻿using Guilded.Areas.Forums.Controllers;
 using Guilded.Areas.Forums.DAL;
+using Guilded.Areas.Forums.ViewModels;
 using Guilded.Services;
 using Guilded.Tests.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,6 @@ using Shouldly;
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Guilded.Areas.Forums.ViewModels;
 
 namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
 {

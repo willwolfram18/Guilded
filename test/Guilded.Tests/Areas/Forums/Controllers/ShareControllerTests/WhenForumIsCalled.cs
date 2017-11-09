@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Guilded.Areas.Forums.Constants;
+﻿using Guilded.Areas.Forums.Constants;
 using Guilded.Areas.Forums.Controllers;
 using Guilded.Areas.Forums.ViewModels;
 using Guilded.Data.Forums;
@@ -11,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Moq;
 using NUnit.Framework;
 using Shouldly;
+using System.Threading.Tasks;
 
 namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
 {
@@ -112,13 +108,13 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
         [Test]
         public async Task IfSubtitleIsLongerThanAllowedThenDescriptionUsesShortenedSubtitle()
         {
-            var substitle = new string('a', ShareController.ThreadPreviewLength + 5);
+            var substitle = new string('a', ShareController.ShareDescriptionLength + 5);
 
             _defaultForum.Subtitle = substitle;
 
             var viewModel = await GetViewModel<ForumPreview>(c => c.Forum);
 
-            viewModel.Description.ShouldBe(substitle.Substring(0, ShareController.ThreadPreviewLength));
+            viewModel.Description.ShouldBe(substitle.Substring(0, ShareController.ShareDescriptionLength));
         }
 
         [Test]
