@@ -1,8 +1,5 @@
 ﻿@model IForumPost
 
-<a class="share" data-share-link="@Model.ShareLink" asp-fragment="share">
-    <i class="retweet icon"></i> Share
-</a>
 @if (!Model.IsLocked)
 {
     <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="quote" asp-fragment="create-reply">

@@ -6,7 +6,10 @@ using System.Security.Claims;
 
 namespace Guilded.Areas.Forums.ViewModels
 {
-    public class ThreadViewModel : ThreadOverviewViewModel, IMarkdownContent, IPaginatedViewModel<ReplyViewModel>, IForumPost
+    public class ThreadViewModel : ThreadOverviewViewModel,
+        IMarkdownContent,
+        IPaginatedViewModel<ReplyViewModel>,
+        IForumPost
     {
         private readonly string _authorId;
 

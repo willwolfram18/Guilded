@@ -87,6 +87,7 @@ namespace Guilded.Areas.Forums.Controllers
                 PagerUrl = Url.Action(nameof(ForumBySlug), new { slug = forum.Slug}),
                 LastPage = (int)Math.Ceiling(forum.Threads.Count / (double)PageSize),
                 PinnedThreads = pinnedThreads.ToList().Select(t => new ThreadOverviewViewModel(t)),
+                ShareLink = Url.RouteUrl(RouteNames.ShareForumRoute, new { id = forum.Id }, "https"),
                 Models = threads.Skip(zeroIndexedPage * PageSize)
                     .Take(PageSize)
                     .ToList()

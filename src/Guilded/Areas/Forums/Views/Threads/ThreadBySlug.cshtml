@@ -9,11 +9,15 @@
 @section Scripts {
     <environment names="Development">
         <script src="~/lib/clipboard/dist/clipboard.js"></script>
+        <script src="~/js/forums/share-posts.js"></script>
         <script src="~/js/forums/threads.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="~/lib/clipboard/dist/clipboard.min.js"
                 asp-fallback-src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js">
+        </script>
+        <script src="~/js/forums/share-posts.min.js"
+                asp-append-version="true">
         </script>
         <script src="~/js/forums/threads.min.js"
                 asp-append-version="true">
@@ -44,10 +48,13 @@
 
 @if (!Model.IsLocked && roleClaims.Any(c => c == RoleClaimValues.ForumsWriter))
 {
-    <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="ui green icon reply button" asp-fragment="create-reply">
+    <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="ui small green icon reply button" asp-fragment="create-reply">
         <i class="reply icon"></i> Reply
     </a>
 }
+<a class="ui small icon share link button" asp-fragment="share" data-share-link="@Model.ShareLink">
+    <i class="share icon"></i> Share
+</a>
 
 <div class="ui thread comments">
     @if (Model.CurrentPage == 1)

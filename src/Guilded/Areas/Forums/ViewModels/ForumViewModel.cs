@@ -12,6 +12,8 @@ namespace Guilded.Areas.Forums.ViewModels
 
         public string PagerUrl { get; set; }
 
+        public string ShareLink { get; set; }
+
         public IEnumerable<ThreadOverviewViewModel> Models { get; set;  }
 
         public IEnumerable<ThreadOverviewViewModel> PinnedThreads { get; set; }
