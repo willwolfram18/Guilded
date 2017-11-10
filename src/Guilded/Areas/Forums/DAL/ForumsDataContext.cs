@@ -73,6 +73,26 @@ namespace Guilded.Areas.Forums.DAL
             return await GetThreadBySlugAsync(thread.Slug);
         }
 
+        public Task LockThread(Thread thread)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UnlockThread(Thread thread)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task PinThread(Thread thread)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UnpinThread(Thread thread)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task DeleteThreadAsync(Thread thread)
         {
             thread.IsDeleted = true;

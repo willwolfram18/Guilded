@@ -152,6 +152,13 @@ namespace Guilded.Areas.Forums.Controllers
             return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred with your request.");
         }
 
+        [HttpPost("~/[area]/[controller]/{threadId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePinOrLockStatus(int threadId)
+        {
+            throw new NotImplementedException();
+        }
+
         private RedirectToActionResult RedirectToForumsHome()
         {
             TempData[ViewDataKeys.ErrorMessages] = "That thread does not exist.";

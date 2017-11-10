@@ -58,6 +58,16 @@ namespace Guilded
             services.AddAuthorization(opts =>
             {
                 opts.AddPolicy(AuthorizeEnabledUserAttribute.PolicyName, policy => policy.Requirements.Add(new EnabledUserRequirement()));
+                opts.AddPolicy(
+                    CustomAuthorizationPolicies.CanPinOrLockForums,
+                    policy => policy.Requirements.Add(
+                        new MultiRoleClaimAuthorizationRequirement(new []
+                        {
+                            RoleClaimValues.ForumsPinning,
+                            RoleClaimValues.ForumsLocking
+                        })
+                    )
+                );
 
                 foreach (var roleClaim in RoleClaimValues.RoleClaims)
                 {
