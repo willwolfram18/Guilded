@@ -152,9 +152,34 @@ namespace Guilded.Areas.Forums.Controllers
             return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred with your request.");
         }
 
-        [HttpPost("~/[area]/[controller]/{threadId}")]
+        [Authorize(RoleClaimValues.ForumsLockingClaim)]
+        [HttpPost("~/[area]/[controller]/lock/{threadId}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangePinOrLockStatus(int threadId)
+        public Task<IActionResult> Lock(int threadId)
+        {
+            throw new NotImplementedException();
+        }
+
+        [Authorize(RoleClaimValues.ForumsLockingClaim)]
+        [HttpDelete("~/[area]/[controller]/lock/{threadId}")]
+        [ValidateAntiForgeryToken]
+        public Task<IActionResult> Unlock(int threadId)
+        {
+            throw new NotImplementedException();
+        }
+
+        [Authorize(RoleClaimValues.ForumsPinningClaim)]
+        [HttpPost("~/[area]/[controller]/pin/{threadId}")]
+        [ValidateAntiForgeryToken]
+        public Task<IActionResult> Pin(int threadId)
+        {
+            throw new NotImplementedException();
+        }
+
+        [Authorize(RoleClaimValues.ForumsPinningClaim)]
+        [HttpDelete("~/[area]/[controller]/pin/{threadId}")]
+        [ValidateAntiForgeryToken]
+        public Task<IActionResult> Unpin(int threadId)
         {
             throw new NotImplementedException();
         }
