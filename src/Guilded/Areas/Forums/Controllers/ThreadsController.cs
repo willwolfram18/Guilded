@@ -1,5 +1,7 @@
-﻿using Guilded.Areas.Forums.DAL;
+﻿using Guilded.Areas.Forums.Constants;
+using Guilded.Areas.Forums.DAL;
 using Guilded.Areas.Forums.ViewModels;
+using Guilded.Constants;
 using Guilded.Data.Forums;
 using Guilded.Extensions;
 using Guilded.Security.Claims;
@@ -13,7 +15,6 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Guilded.Constants;
 
 namespace Guilded.Areas.Forums.Controllers
 {
@@ -25,7 +26,7 @@ namespace Guilded.Areas.Forums.Controllers
         {
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}", Name = RouteNames.ViewThreadByIdRoute)]
         public async Task<IActionResult> ThreadById(int id, int page = 1)
         {
             var thread = await DataContext.GetThreadByIdAsync(id);
@@ -187,6 +188,7 @@ namespace Guilded.Areas.Forums.Controllers
                 CurrentPage = page,
                 LastPage = (int)Math.Ceiling(thread.Replies.Count / (double)PageSize),
                 Models = GetRepliesForThreadPage(thread, page),
+                ShareLink = Url.RouteUrl(RouteNames.ShareThreadRoute, new { id = thread.Id }, "https")
             };
         }
 

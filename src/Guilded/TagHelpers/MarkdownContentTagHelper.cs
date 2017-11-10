@@ -14,7 +14,7 @@ namespace Guilded.TagHelpers
     [HtmlTargetElement("markdown-content", TagStructure = TagStructure.WithoutEndTag)]
     public class MarkdownContentTagHelper : TagHelper
     {
-        private readonly IMarkdownConverter _converter;
+        private readonly IConvertMarkdown _converter;
 
         private string _content;
         public string Content
@@ -28,7 +28,7 @@ namespace Guilded.TagHelpers
         [HtmlAttributeNotBound]
         public ViewContext Context { get; set; }
 
-        public MarkdownContentTagHelper(IMarkdownConverter converter)
+        public MarkdownContentTagHelper(IConvertMarkdown converter)
         {
             _converter = converter;
         }

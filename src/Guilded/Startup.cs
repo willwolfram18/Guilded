@@ -90,7 +90,7 @@ namespace Guilded
 
             services.Configure<ApplicationOptions>(Configuration);
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
-            services.AddSingleton<IMarkdownConverter, MarkdownConverter>();
+            services.AddSingleton<IConvertMarkdown, MarkdownConverter>();
             services.AddRequirementHandlers();
         }
 

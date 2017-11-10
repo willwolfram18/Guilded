@@ -6,7 +6,10 @@ using System.Security.Claims;
 
 namespace Guilded.Areas.Forums.ViewModels
 {
-    public class ThreadViewModel : ThreadOverviewViewModel, IMarkdownContent, IPaginatedViewModel<ReplyViewModel>, IForumPost
+    public class ThreadViewModel : ThreadOverviewViewModel,
+        IMarkdownContent,
+        IPaginatedViewModel<ReplyViewModel>,
+        IForumPost
     {
         private readonly string _authorId;
 
@@ -19,6 +22,8 @@ namespace Guilded.Areas.Forums.ViewModels
         public string PagerUrl { get; set; }
 
         public string ForumsSlug { get; set; }
+
+        public string ShareLink { get; set; }
 
         public IEnumerable<ReplyViewModel> Models { get; set; }
 

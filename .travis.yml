@@ -50,9 +50,10 @@ deploy:
     secret-access-key: 
         secure: $AwsSecretKey
     region: us-west-1
-    app: Guilded
-    env: Guilded-dev
+    app: Guilded.me
+    env: selama-ashalanore
     bucket_name: elasticbeanstalk-us-west-1-126711177368
     zip_file: $FullVersion.zip
     on:
-        branch: "dev"
+        condition: [ $TRAVIS_BUILD_NUMBER -eq 32 ]
+        branch: "feature/forums-area/share-link"

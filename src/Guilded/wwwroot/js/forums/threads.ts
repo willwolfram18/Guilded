@@ -93,6 +93,10 @@ function onQuoteClick() {
     alert("A thing");
 }
 
+function onShareClick(e: JQueryEventObject) {
+    console.log("copied");
+}
+
 $(document).ready(() => {
     $(".comment .actions")
         .on("click", ".quote", onQuoteClick);

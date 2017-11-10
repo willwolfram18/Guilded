@@ -1,0 +1,33 @@
+﻿@model IShareForumsContent
+@{
+    Layout = string.Empty;
+}
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+<head>
+    <title>
+        @Model.Title
+    </title>
+    <meta property="og:title" content="@Model.Title" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="@Model.ShareLink" />
+    <meta property="og:image" content="http://bnetcmsus-a.akamaihd.net/cms/template_resource/fh/FHSCSCG9CXOC1462229977849.png" />
+    <meta property="og:description" content="@Model.Description" />
+    
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/js/forums/share.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/lib/jquery/dist/jquery.js"
+                asp-fallback-src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js">
+        </script>
+        <script src="~?js/forums/share.min.js"
+                asp-append-version="true">
+        </script>
+    </environment>
+</head>
+<body>
+    <input id="shareLink" type="hidden" value="@Model.ShareLink" />
+</body>
+</html>

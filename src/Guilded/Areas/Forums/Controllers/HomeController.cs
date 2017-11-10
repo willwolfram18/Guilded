@@ -1,12 +1,13 @@
-﻿using Guilded.Areas.Forums.DAL;
+﻿using Guilded.Areas.Forums.Constants;
+using Guilded.Areas.Forums.DAL;
 using Guilded.Areas.Forums.ViewModels;
+using Guilded.Constants;
 using Guilded.Data.Forums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Guilded.Constants;
 
 namespace Guilded.Areas.Forums.Controllers
 {
@@ -55,7 +56,7 @@ namespace Guilded.Areas.Forums.Controllers
             return ForumView(viewModel);
         }
 
-        [Route("{id:int}")]
+        [Route("{id:int}", Name = RouteNames.ViewForumByIdRoute)]
         public async Task<IActionResult> ForumById(int id)
         {
             var forum = await DataContext.GetForumByIdAsync(id);
@@ -86,6 +87,7 @@ namespace Guilded.Areas.Forums.Controllers
                 PagerUrl = Url.Action(nameof(ForumBySlug), new { slug = forum.Slug}),
                 LastPage = (int)Math.Ceiling(forum.Threads.Count / (double)PageSize),
                 PinnedThreads = pinnedThreads.ToList().Select(t => new ThreadOverviewViewModel(t)),
+                ShareLink = Url.RouteUrl(RouteNames.ShareForumRoute, new { id = forum.Id }, "https"),
                 Models = threads.Skip(zeroIndexedPage * PageSize)
                     .Take(PageSize)
                     .ToList()
