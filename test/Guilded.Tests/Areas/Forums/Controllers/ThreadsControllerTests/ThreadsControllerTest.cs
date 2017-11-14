@@ -3,6 +3,8 @@ using Guilded.Areas.Forums.DAL;
 using Guilded.Tests.Controllers;
 using Moq;
 using System.Security.Principal;
+using System.Threading.Tasks;
+using Guilded.Data.Forums;
 
 namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
 {
@@ -28,5 +30,12 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
 
             return identity;
         }
+
+        protected void GetThreadByIdReturns(Thread thisThread)
+        {
+            MockDataContext.Setup(db => db.GetThreadByIdAsync(It.IsAny<int>()))
+                .ReturnsAsync(thisThread);
+        }
+
     }
 }

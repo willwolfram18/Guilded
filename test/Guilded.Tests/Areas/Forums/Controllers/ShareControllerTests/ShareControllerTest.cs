@@ -6,14 +6,11 @@ using Guilded.Tests.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Shouldly;
-using System;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
 {
-    using ActionExpression = Expression<Func<ShareController, Func<int, Task<IActionResult>>>>;
-
     public abstract class ShareControllerTest : ControllerTest<ShareController>
     {
         protected const int DefaultId = 3;
@@ -36,57 +33,57 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
             );
         }
 
-        protected async Task ThenResultShouldBeNotFound(ActionExpression controllerAction)
+        protected async Task ThenResultShouldBeNotFound()
         {
-            await ThenActionResultShouldBeOfType<NotFoundResult>(controllerAction);
+            await ThenActionResultShouldBeOfType<NotFoundResult>();
         }
 
-        protected async Task ThenViewResultIsReturned(ActionExpression controllerAction)
+        [Test]
+        protected async Task ThenViewResultIsReturned()
         {
-            await ThenActionResultShouldBeOfType<ViewResult>(controllerAction);
+            await ThenActionResultShouldBeOfType<ViewResult>();
         }
 
-        protected async Task ThenViewModelIsOfType<T>(ActionExpression controllerAction)
+        protected async Task ThenViewModelIsOfType<T>()
             where T : class 
         {
-            var viewModel = await GetViewModel<T>(controllerAction);
+            var viewModel = await GetViewModel<T>();
             viewModel.ShouldBeOfType<T>();
         }
 
-        protected async Task<T> GetViewModel<T>(ActionExpression controllerAction)
+        protected async Task<T> GetViewModel<T>()
             where T : class
 
         {
-            var result = (ViewResult)await InvokeActionExpressionAsync(controllerAction);
+            var result = (ViewResult)await InvokeActionExpressionAsync();
             return result.Model as T;
         }
 
-        protected async Task ThenViewModelShareLinkMatchesDefaultShareLink(ActionExpression controllerAction)
+        protected async Task ThenViewModelShareLinkMatchesDefaultShareLink()
         {
-            var viewModel = await GetViewModel<IShareForumsContent>(controllerAction);
+            var viewModel = await GetViewModel<IShareForumsContent>();
 
             viewModel.ShareLink.ShouldBe(DefaultShareLink);
         }
 
-        protected async Task ThenViewModelTitleMatchesExpected<T>(string expectedTitle,
-            ActionExpression controllerAction)
+        protected async Task ThenViewModelTitleMatchesExpected<T>(string expectedTitle)
             where T : class, IShareForumsContent
         {
-            var viewModel = await GetViewModel<T>(controllerAction);
+            var viewModel = await GetViewModel<T>();
 
             viewModel.Title.ShouldBe(expectedTitle);
         }
 
-        private async Task<IActionResult> InvokeActionExpressionAsync(ActionExpression controllerAction)
+        private async Task<IActionResult> InvokeActionExpressionAsync()
         {
-            var actionDelegate = controllerAction.Compile();
+            var actionDelegate = ActionToTest.Compile();
             var result = await actionDelegate.Invoke(Controller)(DefaultId);
             return result;
         }
 
-        private async Task ThenActionResultShouldBeOfType<T>(ActionExpression controllerAction)
+        private async Task ThenActionResultShouldBeOfType<T>()
         {
-            var result = await InvokeActionExpressionAsync(controllerAction);
+            var result = await InvokeActionExpressionAsync();
 
             result.ShouldBeOfType<T>();
         }

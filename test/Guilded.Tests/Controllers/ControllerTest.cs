@@ -8,15 +8,22 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using System;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Security.Principal;
+using System.Threading.Tasks;
+using Guilded.Areas.Forums.Controllers;
 
 namespace Guilded.Tests.Controllers
 {
+    
+
     [TestFixture]
     public abstract class ControllerTest<TController>
         where TController : BaseController
     {
+        protected virtual Expression<Func<TController, Func<int, Task<IActionResult>>>> ActionToTest { get; }
+
         protected TController Controller { get; private set; }
 
         protected Mock<IUrlHelper> MockUrlHelper { get; private set; }
