@@ -57,6 +57,14 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
         }
 
         [Test]
+        public async Task IfThreadsForumIsInactiveThenNotFoundResultReturned()
+        {
+            _defaultThread.Forum = new Forum { IsActive = false };
+
+            await ThenResultShouldBeNotFound();
+        }
+
+        [Test]
         public async Task ThenGetThreadByIdAsyncIsCalledWithIdParameter()
         {
             await Controller.Thread(DefaultId);

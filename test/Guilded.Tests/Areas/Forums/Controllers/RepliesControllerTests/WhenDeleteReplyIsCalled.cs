@@ -75,6 +75,23 @@ namespace Guilded.Tests.Areas.Forums.Controllers.RepliesControllerTests
         }
 
         [Test]
+        public async Task IfThreadsForumIsInactiveThenNotFoundIsReturned()
+        {
+            DataContextReturnsThis(new Reply
+            {
+                Thread = new Thread
+                {
+                    Forum = new Forum
+                    {
+                        IsActive = false
+                    }
+                }
+            });
+
+            await ThenNotFoundResultIsReturned();
+        }
+
+        [Test]
         public async Task IfAuthorDoesNotMatchCurrentUserThenUnauthorizedStatusResultReturned()
         {
             const int userId = 1;

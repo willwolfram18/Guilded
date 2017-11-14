@@ -78,6 +78,21 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         }
 
         [Test]
+        public async Task IfThreadsForumIsInactiveThenRedirectToForumsHomePage()
+        {
+            MockDataContext.Setup(db => db.GetThreadBySlugAsync(It.IsAny<string>()))
+                .ReturnsAsync(new Thread
+                {
+                    Forum = new Forum
+                    {
+                        IsActive = false
+                    }
+                });
+
+            await ThenRedirectToForumsHomePage();
+        }
+
+        [Test]
         public async Task ThenGetThreadBySlugAsyncIsCalled()
         {
             await Controller.ThreadBySlug(DefaultThreadSlug);
