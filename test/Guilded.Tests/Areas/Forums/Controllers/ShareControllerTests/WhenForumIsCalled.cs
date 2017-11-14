@@ -19,7 +19,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
 
         protected override string DefaultShareLink => "https://example.com/forums/share/forum/3";
 
-        protected override Expression<Func<ShareController, Func<int, Task<IActionResult>>>> ActionToTest =>
+        protected override Expression<Func<ShareController, Func<int, Task<IActionResult>>>> AsyncActionToTest =>
             c => c.Forum;
 
         [SetUp]

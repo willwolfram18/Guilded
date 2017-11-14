@@ -12,17 +12,16 @@ using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using Guilded.Areas.Forums.Controllers;
 
 namespace Guilded.Tests.Controllers
 {
-    
+
 
     [TestFixture]
     public abstract class ControllerTest<TController>
         where TController : BaseController
     {
-        protected virtual Expression<Func<TController, Func<int, Task<IActionResult>>>> ActionToTest { get; }
+        protected virtual Expression<Func<TController, Func<int, Task<IActionResult>>>> AsyncActionToTest { get; }
 
         protected TController Controller { get; private set; }
 

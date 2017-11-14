@@ -13,7 +13,6 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
 {
     public class WhenLockIsCalled : ThreadsControllerTest
     {
-        private const int DefaultThreadId = 10;
         private Thread _defaultThread;
 
         [SetUp]
@@ -32,15 +31,33 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         {
             GetThreadByIdReturns(null);
 
-            var result = await Controller.Lock(DefaultThreadId);
-
-            result.ShouldBeOfType<NotFoundResult>();
+            await ThenNotFoundResultIsReturned();
         }
 
         [Test]
         public async Task IfThreadIsDeletedThenNotFoundReturned()
         {
+            _defaultThread.IsDeleted = true;
 
+            await ThenNotFoundResultIsReturned();
+        }
+
+        [Test]
+        public async Task IfTheadIsLockedThenOkReturned()
+        {
+            _defaultThread.IsLocked = true;
+
+            await ThenOkResultIsReturned();
+        }
+
+        [Test]
+        public async Task IfThreadIsLockedThenLockIsNotCalledOnThread()
+        {
+            _defaultThread.IsLocked = true;
+
+            await Controller.Lock(DefaultThreadId);
+
+            MockDataContext.Verify(db => db.LockThread(It.IsAny<Thread>()), Times.Never);
         }
     }
 }

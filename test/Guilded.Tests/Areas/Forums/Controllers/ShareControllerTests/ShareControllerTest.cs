@@ -76,7 +76,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
 
         private async Task<IActionResult> InvokeActionExpressionAsync()
         {
-            var actionDelegate = ActionToTest.Compile();
+            var actionDelegate = AsyncActionToTest.Compile();
             var result = await actionDelegate.Invoke(Controller)(DefaultId);
             return result;
         }
