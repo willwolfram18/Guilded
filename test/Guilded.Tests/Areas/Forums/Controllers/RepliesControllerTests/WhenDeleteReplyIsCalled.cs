@@ -13,6 +13,26 @@ namespace Guilded.Tests.Areas.Forums.Controllers.RepliesControllerTests
     {
         private const int DefaultReplyId = 3;
 
+        private Reply _defaultReply;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _defaultReply = new Reply
+            {
+                Id = DefaultReplyId,
+                Thread = new Thread
+                {
+                    Forum = new Forum
+                    {
+                        IsActive = true
+                    }
+                }
+            };
+
+            DataContextReturnsThis(_defaultReply);
+        }
+
         [Test]
         public async Task IfReplyReturnedIsNullThenNotFoundResultReturned()
         {
@@ -24,7 +44,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.RepliesControllerTests
         [Test]
         public async Task IfReplyIsDeletedThenNotFoundResultReturned()
         {
-            DataContextReturnsThis(new Reply { IsDeleted = true });
+            _defaultReply.IsDeleted = true;
 
             await ThenNotFoundResultIsReturned();
         }
@@ -32,10 +52,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.RepliesControllerTests
         [Test]
         public async Task IfThreadIsDeletedThenNotFoundResultReturned()
         {
-            DataContextReturnsThis(new Reply
-            {
-                Thread = new Thread { IsDeleted = true }
-            });
+            _defaultReply.Thread.IsDeleted = true;
 
             await ThenNotFoundResultIsReturned();
         }
@@ -43,13 +60,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.RepliesControllerTests
         [Test]
         public async Task IfThreadIsLockedThenBadRequestIsReturned()
         {
-            DataContextReturnsThis(new Reply
-            {
-                Thread = new Thread
-                {
-                    IsLocked = true
-                }
-            });
+            _defaultReply.Thread.IsLocked = true;
 
             var result = await Controller.DeleteReply(DefaultReplyId);
 
@@ -59,13 +70,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.RepliesControllerTests
         [Test]
         public async Task IfThreadIsLockedThenBadRequestMessageTellsUser()
         {
-            DataContextReturnsThis(new Reply
-            {
-                Thread = new Thread
-                {
-                    IsLocked = true
-                }
-            });
+            _defaultReply.Thread.IsLocked = true;
 
             var result = await Controller.DeleteReply(DefaultReplyId) as BadRequestObjectResult;
 
@@ -77,16 +82,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.RepliesControllerTests
         [Test]
         public async Task IfThreadsForumIsInactiveThenNotFoundIsReturned()
         {
-            DataContextReturnsThis(new Reply
-            {
-                Thread = new Thread
-                {
-                    Forum = new Forum
-                    {
-                        IsActive = false
-                    }
-                }
-            });
+            _defaultReply.Thread.Forum.IsActive = false;
 
             await ThenNotFoundResultIsReturned();
         }
@@ -97,7 +93,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.RepliesControllerTests
             const int userId = 1;
             const int authorId = userId + 1;
 
-            DataContextReturnsThis(new Reply { AuthorId = authorId.ToString(), Thread = new Thread() });
+            _defaultReply.AuthorId = authorId.ToString();
 
             MockUser.Setup(u => u.Claims).Returns(new[]
             {
@@ -138,11 +134,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.RepliesControllerTests
         {
             const int authorId = 10;
 
-            DataContextReturnsThis(new Reply
-            {
-                Thread = new Thread(),
-                AuthorId = authorId.ToString()
-            });
+            _defaultReply.AuthorId = authorId.ToString();
 
             MockUser.Setup(u => u.Claims).Returns(new[]
             {

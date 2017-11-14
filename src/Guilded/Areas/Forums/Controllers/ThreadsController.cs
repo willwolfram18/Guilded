@@ -31,7 +31,7 @@ namespace Guilded.Areas.Forums.Controllers
         {
             var thread = await DataContext.GetThreadByIdAsync(id);
 
-            if (thread == null || thread.IsDeleted)
+            if (thread.IsInactive())
             {
                 return RedirectToForumsHome();
             }
@@ -49,7 +49,7 @@ namespace Guilded.Areas.Forums.Controllers
 
             var thread = await DataContext.GetThreadBySlugAsync(slug);
 
-            if (thread == null || thread.IsDeleted)
+            if (thread.IsInactive())
             {
                 return RedirectToForumsHome();
             }

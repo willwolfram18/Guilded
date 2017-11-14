@@ -28,6 +28,10 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
             _defaultThread = new Thread
             {
                 Id = DefaultId,
+                Forum = new Forum
+                {
+                    IsActive = true
+                }
             };
 
             MockUrlHelper.Setup(u => u.RouteUrl(
@@ -59,7 +63,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
         [Test]
         public async Task IfThreadsForumIsInactiveThenNotFoundResultReturned()
         {
-            _defaultThread.Forum = new Forum { IsActive = false };
+            _defaultThread.Forum.IsActive = false;
 
             await ThenResultShouldBeNotFound();
         }

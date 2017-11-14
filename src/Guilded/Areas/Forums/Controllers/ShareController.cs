@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using Guilded.Extensions;
 
 namespace Guilded.Areas.Forums.Controllers
 {
@@ -28,7 +29,7 @@ namespace Guilded.Areas.Forums.Controllers
         public async Task<IActionResult> Thread(int id)
         {
             var thread = await DataContext.GetThreadByIdAsync(id);
-            if (thread == null || thread.IsDeleted)
+            if (thread.IsInactive())
             {
                 return NotFound();
             }

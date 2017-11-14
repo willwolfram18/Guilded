@@ -26,7 +26,10 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         [SetUp]
         public void SetUp()
         {
-            _defaultParentForum = new Forum();
+            _defaultParentForum = new Forum
+            {
+                IsActive = true
+            };
 
             _defaultReplies = new List<Reply>();
             _defaultAuthor = new ApplicationUser
@@ -71,8 +74,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         [Test]
         public async Task IfThreadIsDeletedThenRedirectToForumsHomePage()
         {
-            MockDataContext.Setup(db => db.GetThreadBySlugAsync(It.IsAny<string>()))
-                .ReturnsAsync(new Thread {IsDeleted = true});
+            _defaultThread.IsDeleted = true;
 
             await ThenRedirectToForumsHomePage();
         }
@@ -80,14 +82,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         [Test]
         public async Task IfThreadsForumIsInactiveThenRedirectToForumsHomePage()
         {
-            MockDataContext.Setup(db => db.GetThreadBySlugAsync(It.IsAny<string>()))
-                .ReturnsAsync(new Thread
-                {
-                    Forum = new Forum
-                    {
-                        IsActive = false
-                    }
-                });
+            _defaultThread.Forum.IsActive = false;
 
             await ThenRedirectToForumsHomePage();
         }
