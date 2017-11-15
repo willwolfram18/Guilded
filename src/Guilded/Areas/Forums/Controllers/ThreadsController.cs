@@ -31,7 +31,7 @@ namespace Guilded.Areas.Forums.Controllers
         {
             var thread = await DataContext.GetThreadByIdAsync(id);
 
-            if (thread.IsInactive())
+            if (thread.IsNotFound())
             {
                 return RedirectToForumsHome();
             }
@@ -49,7 +49,7 @@ namespace Guilded.Areas.Forums.Controllers
 
             var thread = await DataContext.GetThreadBySlugAsync(slug);
 
-            if (thread.IsInactive())
+            if (thread.IsNotFound())
             {
                 return RedirectToForumsHome();
             }
@@ -155,9 +155,29 @@ namespace Guilded.Areas.Forums.Controllers
         [Authorize(RoleClaimValues.ForumsLockingClaim)]
         [HttpPost("~/[area]/[controller]/lock/{threadId}")]
         [ValidateAntiForgeryToken]
-        public Task<IActionResult> Lock(int threadId)
+        public async Task<IActionResult> Lock(int threadId)
         {
-            throw new NotImplementedException();
+            var thread = await DataContext.GetThreadByIdAsync(threadId);
+            if (thread.IsNotFound())
+            {
+                return NotFound();
+            }
+
+            if (thread.IsLocked)
+            {
+                return Ok();
+            }
+
+            try
+            {
+                await DataContext.LockThreadAsync(thread);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.LogError("Error occurred locking thread", e);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
         }
 
         [Authorize(RoleClaimValues.ForumsLockingClaim)]

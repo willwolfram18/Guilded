@@ -29,7 +29,7 @@ namespace Guilded.Areas.Forums.Controllers
         public async Task<IActionResult> Thread(int id)
         {
             var thread = await DataContext.GetThreadByIdAsync(id);
-            if (thread.IsInactive())
+            if (thread.IsNotFound())
             {
                 return NotFound();
             }

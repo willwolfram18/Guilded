@@ -1,9 +1,11 @@
-﻿using Guilded.Data.Forums;
+﻿using Guilded.Areas.Forums.Controllers;
+using Guilded.Data.Forums;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using Shouldly;
 using System;
+using System.Linq.Expressions;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -13,12 +15,19 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
     {
         private Thread _defaultThread;
 
+        protected override Expression<Func<ThreadsController, Func<int, Task<IActionResult>>>> AsyncActionToTest =>
+            c => c.Lock;
+
         [SetUp]
         public void SetUp()
         {
             _defaultThread = new Thread
             {
-                Id = DefaultThreadId
+                Id = DefaultThreadId,
+                Forum = new Forum
+                {
+                    IsActive = true
+                }
             };
 
             GetThreadByIdReturns(_defaultThread);
@@ -86,7 +95,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
             var exceptionToThrow = new Exception();
             MockDataContext.Setup(db => db.LockThreadAsync(It.IsAny<Thread>())).Throws(exceptionToThrow);
 
-            var result = await ThenResultShouldBeOfType<ObjectResult>();
+            var result = await ThenResultShouldBeOfType<StatusCodeResult>();
 
             result.StatusCode.ShouldBe((int)HttpStatusCode.InternalServerError);
         }

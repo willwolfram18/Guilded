@@ -23,37 +23,23 @@ namespace Guilded.Areas.Forums.DAL
             .ThenInclude(r => r.Author);
 
         private IQueryable<Reply> Replies => Context.Replies.Include(r => r.Author)
-            .Include(r => r.Thread);
+            .Include(r => r.Thread)
+            .ThenInclude(t => t.Forum);
 
         public ForumsDataContext(ApplicationDbContext context) : base(context)
         {
         }
 
-        public IQueryable<ForumSection> GetActiveForumSections()
-        {
-            return Context.ForumSections.Include(f => f.Forums)
+        public IQueryable<ForumSection> GetActiveForumSections() => Context.ForumSections.Include(f => f.Forums)
                 .Where(f => f.IsActive);
-        }
 
-        public Task<Forum> GetForumByIdAsync(int id)
-        {
-            return Forums.FirstOrDefaultAsync(f => f.Id == id);
-        }
+        public Task<Forum> GetForumByIdAsync(int id) => Forums.FirstOrDefaultAsync(f => f.Id == id);
 
-        public Task<Forum> GetForumBySlugAsync(string slug)
-        {
-            return Forums.FirstOrDefaultAsync(f => f.Slug == slug);
-        }
+        public Task<Forum> GetForumBySlugAsync(string slug) => Forums.FirstOrDefaultAsync(f => f.Slug == slug);
 
-        public Task<Thread> GetThreadByIdAsync(int id)
-        {
-            return Threads.FirstOrDefaultAsync(t => t.Id == id);
-        }
+        public Task<Thread> GetThreadByIdAsync(int id) => Threads.FirstOrDefaultAsync(t => t.Id == id);
 
-        public Task<Thread> GetThreadBySlugAsync(string slug)
-        {
-            return Threads.FirstOrDefaultAsync(t => t.Slug == slug);
-        }
+        public Task<Thread> GetThreadBySlugAsync(string slug) => Threads.FirstOrDefaultAsync(t => t.Slug == slug);
 
         public async Task<Thread> CreateThreadAsync(Thread thread)
         {
@@ -102,10 +88,7 @@ namespace Guilded.Areas.Forums.DAL
             await Context.SaveChangesAsync();
         }
 
-        public Task<Reply> GetReplyByIdAsync(int replyId)
-        {
-            return Replies.FirstOrDefaultAsync(r => r.Id == replyId);
-        }
+        public Task<Reply> GetReplyByIdAsync(int replyId) => Replies.FirstOrDefaultAsync(r => r.Id == replyId);
         
         public async Task<Reply> CreateReplyAsync(Reply reply)
         {
