@@ -73,7 +73,7 @@ namespace Guilded.Areas.Forums.DAL
             return await GetThreadBySlugAsync(thread.Slug);
         }
 
-        public Task LockThread(Thread thread)
+        public Task LockThreadAsync(Thread thread)
         {
             throw new NotImplementedException();
         }

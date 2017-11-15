@@ -45,12 +45,13 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
 
         protected Task ThenOkResultIsReturned() => ThenResultShouldBeOfType<OkResult>();
 
-        protected async Task ThenResultShouldBeOfType<TResult>()
+        protected async Task<TResult> ThenResultShouldBeOfType<TResult>()
         {
             var actionDelegate = AsyncActionToTest.Compile();
             var result = await actionDelegate.Invoke(Controller).Invoke(DefaultThreadId);
 
             result.ShouldBeOfType<TResult>();
+            return (TResult)result;
         }
     }
 }

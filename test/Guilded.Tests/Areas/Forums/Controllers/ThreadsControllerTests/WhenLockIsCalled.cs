@@ -1,13 +1,11 @@
-﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Guilded.Data.Forums;
+﻿using Guilded.Data.Forums;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using NUnit.Framework;
 using Shouldly;
+using System;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
 {
@@ -43,6 +41,14 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         }
 
         [Test]
+        public async Task IfThreadsForumIsInactiveThenNotFoundReturned()
+        {
+            _defaultThread.Forum.IsActive = false;
+
+            await ThenNotFoundResultIsReturned();
+        }
+
+        [Test]
         public async Task IfTheadIsLockedThenOkReturned()
         {
             _defaultThread.IsLocked = true;
@@ -57,7 +63,32 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
 
             await Controller.Lock(DefaultThreadId);
 
-            MockDataContext.Verify(db => db.LockThread(It.IsAny<Thread>()), Times.Never);
+            MockDataContext.Verify(db => db.LockThreadAsync(It.IsAny<Thread>()), Times.Never);
+        }
+
+        [Test]
+        public async Task ThenLockIsCalledOnReturnedThread()
+        {
+            await Controller.Lock(DefaultThreadId);
+
+            MockDataContext.Verify(db => db.LockThreadAsync(It.Is<Thread>(t => t == _defaultThread)));
+        }
+
+        [Test]
+        public new Task ThenOkResultIsReturned()
+        {
+            return base.ThenOkResultIsReturned();
+        }
+
+        [Test]
+        public async Task IfLockThrowsExceptionThenInternalErrorIsReturned()
+        {
+            var exceptionToThrow = new Exception();
+            MockDataContext.Setup(db => db.LockThreadAsync(It.IsAny<Thread>())).Throws(exceptionToThrow);
+
+            var result = await ThenResultShouldBeOfType<ObjectResult>();
+
+            result.StatusCode.ShouldBe((int)HttpStatusCode.InternalServerError);
         }
     }
 }
