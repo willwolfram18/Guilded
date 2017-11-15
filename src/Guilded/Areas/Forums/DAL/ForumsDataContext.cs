@@ -61,7 +61,11 @@ namespace Guilded.Areas.Forums.DAL
 
         public Task LockThreadAsync(Thread thread)
         {
-            throw new NotImplementedException();
+            thread.IsLocked = true;
+
+            Context.Update(thread);
+
+            return Context.SaveChangesAsync();
         }
 
         public Task UnlockThread(Thread thread)
@@ -79,13 +83,13 @@ namespace Guilded.Areas.Forums.DAL
             throw new NotImplementedException();
         }
 
-        public async Task DeleteThreadAsync(Thread thread)
+        public Task DeleteThreadAsync(Thread thread)
         {
             thread.IsDeleted = true;
 
             Context.Update(thread);
 
-            await Context.SaveChangesAsync();
+            return Context.SaveChangesAsync();
         }
 
         public Task<Reply> GetReplyByIdAsync(int replyId) => Replies.FirstOrDefaultAsync(r => r.Id == replyId);
@@ -98,13 +102,13 @@ namespace Guilded.Areas.Forums.DAL
             return await GetReplyByIdAsync(dbReply.Entity.Id);
         }
 
-        public async Task DeleteReplyAsync(Reply reply)
+        public Task DeleteReplyAsync(Reply reply)
         {
             reply.IsDeleted = true;
 
             Context.Update(reply);
 
-            await Context.SaveChangesAsync();
+            return Context.SaveChangesAsync();
         }
 
         public static string GenerateSlug(string title)
