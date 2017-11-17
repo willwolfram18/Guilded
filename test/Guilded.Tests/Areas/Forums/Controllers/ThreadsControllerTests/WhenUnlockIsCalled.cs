@@ -19,13 +19,13 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         [SetUp]
         public void SetUp()
         {
-            DefaultThread.IsLocked = true;
+            ThreadBuilder.IsLocked();
         }
 
         [Test]
         public async Task IfThreadDoesNotExistThenNotFoundReturned()
         {
-            GetThreadByIdReturns(null);
+            ThreadBuilder.ThreadDoesNotExist();
 
             await ThenNotFoundResultIsReturned();
         }
@@ -33,7 +33,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         [Test]
         public async Task IfThreadIsDeletedThenNotFoundReturned()
         {
-            DefaultThread.IsDeleted = true;
+            ThreadBuilder.IsDeleted();
 
             await ThenNotFoundResultIsReturned();
         }
@@ -41,7 +41,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         [Test]
         public async Task IfThreadsForumIsInactiveThenNotFoundReturned()
         {
-            DefaultThread.Forum.IsActive = false;
+            ThreadBuilder.WithInactiveForum();
 
             await ThenNotFoundResultIsReturned();
         }
@@ -49,7 +49,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         [Test]
         public async Task IfThreadIsUnlockedThenOkReturned()
         {
-            DefaultThread.IsLocked = false;
+            ThreadBuilder.IsUnlocked();
 
             await ThenOkResultIsReturned();
         }
@@ -57,7 +57,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         [Test]
         public async Task IfThreadIsUnlockedThenUnlockIsNotCalledOnThread()
         {
-            DefaultThread.IsLocked = false;
+            ThreadBuilder.IsUnlocked();
 
             await Controller.Unlock(DefaultThreadId);
 
@@ -69,7 +69,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         {
             await Controller.Unlock(DefaultThreadId);
 
-            MockDataContext.Verify(d => d.UnlockThreadAsync(It.Is<Thread>(t => t == DefaultThread)));
+            MockDataContext.Verify(d => d.UnlockThreadAsync(It.Is<Thread>(t => t == ThreadBuilder.Build())));
         }
 
         [Test]

@@ -2,6 +2,7 @@
 using Guilded.Areas.Forums.DAL;
 using Guilded.Data.Forums;
 using Guilded.Tests.Controllers;
+using Guilded.Tests.ModelBuilders;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -15,7 +16,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
     {
         protected const int DefaultThreadId = 10;
 
-        protected Thread DefaultThread { get; private set; }
+        protected ThreadBuilder ThreadBuilder { get; private set; }
 
         protected Mock<IForumsDataContext> MockDataContext { get; private set; }
 
@@ -38,25 +39,15 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
             return identity;
         }
 
-        protected void GetThreadByIdReturns(Thread thisThread)
-        {
-            MockDataContext.Setup(db => db.GetThreadByIdAsync(It.IsAny<int>()))
-                .ReturnsAsync(thisThread);
-        }
-
         [SetUp]
         public void SharedThreadControllerSetUp()
         {
-            DefaultThread = new Thread
-            {
-                Id = DefaultThreadId,
-                Forum = new Forum
-                {
-                    IsActive = true
-                }
-            };
+            ThreadBuilder = new ThreadBuilder()
+                .WithId(DefaultThreadId)
+                .WithActiveForum();
 
-            GetThreadByIdReturns(DefaultThread);
+            MockDataContext.Setup(db => db.GetThreadByIdAsync(It.IsAny<int>()))
+                .ReturnsAsync(ThreadBuilder.Build);
         }
 
         protected Task ThenNotFoundResultIsReturned() => ThenResultShouldBeOfType<NotFoundResult>();
