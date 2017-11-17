@@ -183,9 +183,29 @@ namespace Guilded.Areas.Forums.Controllers
         [Authorize(RoleClaimValues.ForumsLockingClaim)]
         [HttpDelete("~/[area]/[controller]/lock/{threadId}")]
         [ValidateAntiForgeryToken]
-        public Task<IActionResult> Unlock(int threadId)
+        public async Task<IActionResult> Unlock(int threadId)
         {
-            throw new NotImplementedException();
+            var thread = await DataContext.GetThreadByIdAsync(threadId);
+            if (thread.IsNotFound())
+            {
+                return NotFound();
+            }
+
+            if (!thread.IsLocked)
+            {
+                return Ok();
+            }
+
+            try
+            {
+                await DataContext.UnlockThreadAsync(thread);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.LogError("Error occurred locking thread", e);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
         }
 
         [Authorize(RoleClaimValues.ForumsPinningClaim)]

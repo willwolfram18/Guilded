@@ -70,7 +70,11 @@ namespace Guilded.Areas.Forums.DAL
 
         public Task UnlockThreadAsync(Thread thread)
         {
-            throw new NotImplementedException();
+            thread.IsLocked = false;
+
+            Context.Update(thread);
+
+            return Context.SaveChangesAsync();
         }
 
         public Task PinThread(Thread thread)
