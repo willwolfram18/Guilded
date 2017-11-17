@@ -4,7 +4,6 @@ using Guilded.Tests.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
-using Shouldly;
 using System;
 using System.Linq.Expressions;
 using System.Net;
@@ -12,10 +11,16 @@ using System.Threading.Tasks;
 
 namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
 {
-    public class WhenLockIsCalled : ThreadsControllerTest
+    public class WhenUnlockIsCalled : ThreadsControllerTest
     {
         protected override Expression<Func<ThreadsController, Func<int, Task<IActionResult>>>> AsyncActionToTest =>
-            c => c.Lock;
+            c => c.Unlock;
+
+        [SetUp]
+        public void SetUp()
+        {
+            DefaultThread.IsLocked = true;
+        }
 
         [Test]
         public async Task IfThreadDoesNotExistThenNotFoundReturned()
@@ -42,42 +47,43 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         }
 
         [Test]
-        public async Task IfTheadIsLockedThenOkReturned()
+        public async Task IfThreadIsUnlockedThenOkReturned()
         {
-            DefaultThread.IsLocked = true;
+            DefaultThread.IsLocked = false;
 
             await ThenOkResultIsReturned();
         }
 
         [Test]
-        public async Task IfThreadIsLockedThenLockIsNotCalledOnThread()
+        public async Task IfThreadIsUnlockedThenUnlockIsNotCalledOnThread()
         {
-            DefaultThread.IsLocked = true;
+            DefaultThread.IsLocked = false;
 
-            await Controller.Lock(DefaultThreadId);
+            await Controller.Unlock(DefaultThreadId);
 
-            MockDataContext.Verify(db => db.LockThreadAsync(It.IsAny<Thread>()), Times.Never);
+            MockDataContext.Verify(d => d.UnlockThreadAsync(It.IsAny<Thread>()), Times.Never);
         }
 
         [Test]
-        public async Task ThenLockIsCalledOnReturnedThread()
+        public async Task ThenUnlockIsCalledOnThread()
         {
-            await Controller.Lock(DefaultThreadId);
+            await Controller.Unlock(DefaultThreadId);
 
-            MockDataContext.Verify(db => db.LockThreadAsync(It.Is<Thread>(t => t == DefaultThread)));
+            MockDataContext.Verify(d => d.UnlockThreadAsync(It.Is<Thread>(t => t == DefaultThread)));
         }
 
         [Test]
-        public new Task ThenOkResultIsReturned()
+        public new async Task ThenOkResultIsReturned()
         {
-            return base.ThenOkResultIsReturned();
+            await base.ThenOkResultIsReturned();
         }
 
         [Test]
-        public async Task IfLockThrowsExceptionThenInternalErrorIsReturned()
+        public async Task IfUnlockThrowsExceptionThenInternalErrorIsReturned()
         {
             var exceptionToThrow = new Exception();
-            MockDataContext.Setup(db => db.LockThreadAsync(It.IsAny<Thread>())).Throws(exceptionToThrow);
+            MockDataContext.Setup(db => db.UnlockThreadAsync(It.IsAny<Thread>()))
+                .Throws(exceptionToThrow);
 
             var result = await ThenResultShouldBeOfType<StatusCodeResult>();
 

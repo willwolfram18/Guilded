@@ -68,7 +68,7 @@ namespace Guilded.Areas.Forums.DAL
             return Context.SaveChangesAsync();
         }
 
-        public Task UnlockThread(Thread thread)
+        public Task UnlockThreadAsync(Thread thread)
         {
             throw new NotImplementedException();
         }
