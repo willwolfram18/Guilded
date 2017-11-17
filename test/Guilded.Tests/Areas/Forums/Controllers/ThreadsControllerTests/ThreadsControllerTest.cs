@@ -1,6 +1,5 @@
 ﻿using Guilded.Areas.Forums.Controllers;
 using Guilded.Areas.Forums.DAL;
-using Guilded.Data.Forums;
 using Guilded.Tests.Controllers;
 using Guilded.Tests.ModelBuilders;
 using Microsoft.AspNetCore.Mvc;
@@ -47,6 +46,8 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
                 .WithActiveForum();
 
             MockDataContext.Setup(db => db.GetThreadByIdAsync(It.IsAny<int>()))
+                .ReturnsAsync(ThreadBuilder.Build);
+            MockDataContext.Setup(db => db.GetThreadBySlugAsync(It.IsAny<string>()))
                 .ReturnsAsync(ThreadBuilder.Build);
         }
 

@@ -1,15 +1,15 @@
-﻿using Guilded.Areas.Forums.Controllers;
+﻿using Guilded.Areas.Forums.Constants;
+using Guilded.Areas.Forums.Controllers;
+using Guilded.Areas.Forums.ViewModels;
 using Guilded.Data.Forums;
 using Guilded.Data.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Moq;
 using NUnit.Framework;
 using Shouldly;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Guilded.Areas.Forums.Constants;
-using Guilded.Areas.Forums.ViewModels;
-using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
 {
@@ -26,26 +26,10 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         [SetUp]
         public void SetUp()
         {
-            _defaultParentForum = new Forum
-            {
-                IsActive = true
-            };
-
-            _defaultReplies = new List<Reply>();
-            _defaultAuthor = new ApplicationUser
-            {
-                UserName = "Default user"
-            };
-            _defaultThread = new Thread
-            {
-                Slug = DefaultThreadSlug,
-                Replies = _defaultReplies,
-                Author = _defaultAuthor,
-                Forum = _defaultParentForum
-            };
-
-            MockDataContext.Setup(db => db.GetThreadBySlugAsync(It.IsAny<string>()))
-                .ReturnsAsync(_defaultThread);
+            ThreadBuilder.WithActiveForum()
+                .WithSlug(DefaultThreadSlug)
+                .WithAuthorName("Default user")
+                .WithNoReplies();
         }
 
         [Test]
@@ -56,17 +40,16 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         {
             var result = await Controller.ThreadBySlug(DefaultThreadSlug, page) as RedirectToActionResult;
 
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result.ActionName, Is.EqualTo(nameof(ThreadsController.ThreadBySlug)));
-            Assert.That(result.RouteValues.ContainsKey("slug"), Is.True);
-            Assert.That(result.RouteValues["slug"], Is.EqualTo(DefaultThreadSlug));
+            result.ShouldNotBeNull();
+            result.ActionName.ShouldBe(nameof(ThreadsController.ThreadBySlug));
+            result.RouteValues.ShouldContainKey("slug");
+            result.RouteValues["slug"].ShouldBe(DefaultThreadSlug);
         }
 
         [Test]
         public async Task IfThreadIsNotFoundThenRedirectToForumsHomePage()
         {
-            MockDataContext.Setup(db => db.GetThreadBySlugAsync(It.IsAny<string>()))
-                .ReturnsAsync((Thread)null);
+            ThreadBuilder.DoesNotExist();
 
             await ThenRedirectToForumsHomePage();
         }
@@ -74,7 +57,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         [Test]
         public async Task IfThreadIsDeletedThenRedirectToForumsHomePage()
         {
-            _defaultThread.IsDeleted = true;
+            ThreadBuilder.IsDeleted();
 
             await ThenRedirectToForumsHomePage();
         }
@@ -82,7 +65,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         [Test]
         public async Task IfThreadsForumIsInactiveThenRedirectToForumsHomePage()
         {
-            _defaultThread.Forum.IsActive = false;
+            ThreadBuilder.WithInactiveForum();
 
             await ThenRedirectToForumsHomePage();
         }

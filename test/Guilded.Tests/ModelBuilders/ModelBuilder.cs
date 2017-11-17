@@ -4,6 +4,14 @@
     {
         protected T Instance { get; set; }
 
-        public T Build() => Instance;
+        protected virtual void BeforeBuild()
+        {
+        }
+
+        public T Build()
+        {
+            BeforeBuild();
+            return Instance;
+        }
     }
 }

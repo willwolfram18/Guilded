@@ -1,20 +1,20 @@
-﻿using System;
+﻿using Guilded.Data.Forums;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Guilded.Data.Forums;
 
 namespace Guilded.Tests.ModelBuilders
 {
     public class ThreadBuilder : ModelBuilder<Thread>
     {
+        private readonly ApplicationUserBuilder _userBuilder;
+
         public ThreadBuilder()
         {
             Instance = new Thread();
+
+            _userBuilder = new ApplicationUserBuilder();
         }
 
-        public void ThreadDoesNotExist()
+        public void DoesNotExist()
         {
             Instance = null;
         }
@@ -22,6 +22,34 @@ namespace Guilded.Tests.ModelBuilders
         public ThreadBuilder WithId(int id)
         {
             Instance.Id = id;
+
+            return this;
+        }
+
+        public ThreadBuilder WithSlug(string slug)
+        {
+            Instance.Slug = slug;
+
+            return this;
+        }
+
+        public ThreadBuilder WithAuthorId(string authorId)
+        {
+            _userBuilder.WithId(authorId);
+
+            return this;
+        }
+
+        public ThreadBuilder WithAuthorName(string authorName)
+        {
+            _userBuilder.WithUserName(authorName);
+
+            return this;
+        }
+
+        public ThreadBuilder WithNoReplies()
+        {
+            Instance.Replies = new List<Reply>();
 
             return this;
         }
@@ -65,6 +93,17 @@ namespace Guilded.Tests.ModelBuilders
             };
 
             return this;
+        }
+
+        protected override void BeforeBuild()
+        {
+            if (Instance == null)
+            {
+                return;
+            }
+
+            Instance.Author = _userBuilder.Build();
+            Instance.AuthorId = Instance.Author.Id;
         }
     }
 }

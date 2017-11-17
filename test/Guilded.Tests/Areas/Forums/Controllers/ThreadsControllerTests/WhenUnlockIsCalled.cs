@@ -25,7 +25,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         [Test]
         public async Task IfThreadDoesNotExistThenNotFoundReturned()
         {
-            ThreadBuilder.ThreadDoesNotExist();
+            ThreadBuilder.DoesNotExist();
 
             await ThenNotFoundResultIsReturned();
         }

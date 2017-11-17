@@ -1,23 +1,28 @@
-﻿using Guilded.Data.Forums;
+﻿using System;
+using Guilded.Data.Forums;
+using Guilded.Tests.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using Shouldly;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Guilded.Areas.Forums.Controllers;
 
 namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
 {
     public class WhenDeleteThreadIsCalled : ThreadsControllerTest
     {
-        private const int DefaultThreadId = 5;
+        protected override Expression<Func<ThreadsController, Func<int, Task<IActionResult>>>> AsyncActionToTest =>
+            c => c.DeleteThread;
 
         [Test]
         public async Task IfThreadCannotBeFoundThenNotFoundResultIsReturned()
         {
-            GetThreadByIdReturnsThisThread(null);
+            ThreadBuilder.DoesNotExist();
 
             await ThenNotFoundResultIsReturned();
         }
@@ -25,7 +30,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         [Test]
         public async Task IfThreadIsDeletedThenNotFoundResultIsReturned()
         {
-            GetThreadByIdReturnsThisThread(new Thread { IsDeleted = true });
+            ThreadBuilder.IsDeleted();
 
             await ThenNotFoundResultIsReturned();
         }
@@ -36,22 +41,23 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
             const int authorId = 1;
             const int userId = authorId + 1;
 
-            GetThreadByIdReturnsThisThread(new Thread { AuthorId = authorId.ToString() });
-            CurrentUsersIdIsThis(userId);
+            ThreadBuilder.WithAuthorId(authorId.ToString());
+
+            MockUserIdIsThis(userId);
 
             var result = await Controller.DeleteThread(DefaultThreadId) as ObjectResult;
 
             result.ShouldNotBeNull();
-            result.StatusCode.ShouldBe((int)HttpStatusCode.Unauthorized);
+            result.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
             result.Value.ShouldBe("You are not the author of this post.");
         }
 
         [Test]
         public async Task IfThreadIsLockedThenBadRequestIsReturned()
         {
-            var thread = CurrentUserIsAuthor();
+            CurrentUserIsAuthor();
 
-            thread.IsLocked = true;
+            ThreadBuilder.IsLocked();
 
             var result = await Controller.DeleteThread(DefaultThreadId) as BadRequestObjectResult;
 
@@ -60,41 +66,26 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         }
 
         [Test]
-        public async Task ThenOkResultIsReturned()
+        public new async Task ThenOkResultIsReturned()
         {
             CurrentUserIsAuthor();
 
-            var result = await Controller.DeleteThread(DefaultThreadId);
-
-            result.ShouldBeOfType<OkResult>();
+            await base.ThenOkResultIsReturned();
         }
 
         [Test]
         public async Task ThenThreadIsSavedToDataContext()
         {
-            var threadToDelete = CurrentUserIsAuthor();
+            CurrentUserIsAuthor();
 
             await Controller.DeleteThread(DefaultThreadId);
 
             MockDataContext.Verify(d => d.DeleteThreadAsync(
-                It.Is<Thread>(t => t == threadToDelete)
+                It.Is<Thread>(t => t == ThreadBuilder.Build())
             ));
         }
 
-        private void GetThreadByIdReturnsThisThread(Thread thread)
-        {
-            MockDataContext.Setup(d => d.GetThreadByIdAsync(It.IsAny<int>()))
-                .ReturnsAsync(thread);
-        }
-
-        private async Task ThenNotFoundResultIsReturned()
-        {
-            var result = await Controller.DeleteThread(DefaultThreadId);
-
-            result.ShouldBeOfType<NotFoundResult>();
-        }
-
-        private void CurrentUsersIdIsThis(int userId)
+        private void MockUserIdIsThis(int userId)
         {
             MockUser.Setup(u => u.Claims)
                 .Returns(new List<Claim>
@@ -103,20 +94,13 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
                 });
         }
 
-        private Thread CurrentUserIsAuthor()
+        private void CurrentUserIsAuthor()
         {
             const int authorId = 1;
 
-            var threadFromDataContext = new Thread
-            {
-                Id = DefaultThreadId,
-                AuthorId = authorId.ToString()
-            };
+            ThreadBuilder.WithAuthorId(authorId.ToString());
 
-            CurrentUsersIdIsThis(authorId);
-            GetThreadByIdReturnsThisThread(threadFromDataContext);
-
-            return threadFromDataContext;
+            MockUserIdIsThis(authorId);
         }
     }
 }
