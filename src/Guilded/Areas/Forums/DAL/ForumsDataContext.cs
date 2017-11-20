@@ -77,7 +77,7 @@ namespace Guilded.Areas.Forums.DAL
             return Context.SaveChangesAsync();
         }
 
-        public Task PinThread(Thread thread)
+        public Task PinThreadAsync(Thread thread)
         {
             throw new NotImplementedException();
         }

@@ -95,6 +95,20 @@ namespace Guilded.Tests.ModelBuilders
             return this;
         }
 
+        public ThreadBuilder IsPinned()
+        {
+            Instance.IsPinned = true;
+
+            return this;
+        }
+
+        public ThreadBuilder IsUnpinned()
+        {
+            Instance.IsPinned = false;
+
+            return this;
+        }
+
         protected override void BeforeBuild()
         {
             if (Instance == null)

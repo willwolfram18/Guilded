@@ -43,8 +43,10 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         {
             ThreadBuilder = new ThreadBuilder()
                 .WithId(DefaultThreadId)
-                .WithActiveForum();
-
+                .WithActiveForum()
+                .IsUnpinned()
+                .IsUnlocked();
+                
             MockDataContext.Setup(db => db.GetThreadByIdAsync(It.IsAny<int>()))
                 .ReturnsAsync(ThreadBuilder.Build);
             MockDataContext.Setup(db => db.GetThreadBySlugAsync(It.IsAny<string>()))
