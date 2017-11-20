@@ -79,12 +79,20 @@ namespace Guilded.Areas.Forums.DAL
 
         public Task PinThreadAsync(Thread thread)
         {
-            throw new NotImplementedException();
+            thread.IsPinned = true;
+
+            Context.Update(thread);
+
+            return Context.SaveChangesAsync();
         }
 
         public Task UnpinThread(Thread thread)
         {
-            throw new NotImplementedException();
+            thread.IsPinned = false;
+
+            Context.Update(thread);
+
+            return Context.SaveChangesAsync();
         }
 
         public Task DeleteThreadAsync(Thread thread)
