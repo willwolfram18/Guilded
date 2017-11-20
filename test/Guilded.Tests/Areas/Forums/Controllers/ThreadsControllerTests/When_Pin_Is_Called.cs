@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using Guilded.Areas.Forums.Controllers;
+﻿using Guilded.Areas.Forums.Controllers;
 using Guilded.Data.Forums;
+using Guilded.Tests.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
+using Shouldly;
+using System;
+using System.Linq.Expressions;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
 {
@@ -69,6 +69,18 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
         public async Task Then_PinThreadAsync_Is_Called()
         {
             await Controller.Pin(DefaultThreadId);
+
+            MockDataContext.Verify(d => d.PinThreadAsync(It.Is<Thread>(t => t == ThreadBuilder.Build())));
+        }
+
+        [Test]
+        public async Task If_PinThreadAsync_Throws_Exception_Then_Internal_Error_Returned()
+        {
+            MockDataContext.Setup(d => d.PinThreadAsync(It.IsAny<Thread>())).Throws<Exception>();
+
+            var statusResult = await ThenResultShouldBeOfType<StatusCodeResult>();
+
+            statusResult.StatusCode.ShouldBe(HttpStatusCode.InternalServerError);
         }
     }
 }
