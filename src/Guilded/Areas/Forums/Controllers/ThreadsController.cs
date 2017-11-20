@@ -204,16 +204,36 @@ namespace Guilded.Areas.Forums.Controllers
             catch (Exception e)
             {
                 Logger.LogError("Error occurred locking thread", e);
-                return StatusCode((int)HttpStatusCode.InternalServerError);
+                return StatusCode(HttpStatusCode.InternalServerError);
             }
         }
 
         [Authorize(RoleClaimValues.ForumsPinningClaim)]
         [HttpPost("~/[area]/[controller]/pin/{threadId}")]
         [ValidateAntiForgeryToken]
-        public Task<IActionResult> Pin(int threadId)
+        public async Task<IActionResult> Pin(int threadId)
         {
-            throw new NotImplementedException();
+            var thread = await DataContext.GetThreadByIdAsync(threadId);
+            if (thread.IsNotFound())
+            {
+                return NotFound();
+            }
+
+            if (thread.IsPinned)
+            {
+                return Ok();
+            }
+
+            try
+            {
+                await DataContext.PinThreadAsync(thread);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.LogError("Error occurred pinning thread", e);
+                return StatusCode(HttpStatusCode.InternalServerError);
+            }
         }
 
         [Authorize(RoleClaimValues.ForumsPinningClaim)]
