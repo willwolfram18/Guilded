@@ -4,7 +4,6 @@ using Guilded.Tests.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
-using Shouldly;
 using System;
 using System.Linq.Expressions;
 using System.Net;
@@ -16,6 +15,12 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
     {
         protected override Expression<Func<ThreadsController, Func<int, Task<IActionResult>>>> AsyncActionToTest =>
             c => c.Pin;
+
+        [SetUp]
+        public void SetUp()
+        {
+            ThreadBuilder.IsUnpinned();
+        }
 
         [Test]
         public async Task If_Thread_Is_Not_Found_Then_NotFoundResult_Is_Returned()

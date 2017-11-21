@@ -17,7 +17,7 @@ namespace Guilded.Areas.Forums.DAL
         Task LockThreadAsync(Thread thread);
         Task UnlockThreadAsync(Thread thread);
         Task PinThreadAsync(Thread thread);
-        Task UnpinThread(Thread thread);
+        Task UnpinThreadAsync(Thread thread);
         Task DeleteThreadAsync(Thread thread);
 
         Task<Reply> CreateReplyAsync(Reply reply);

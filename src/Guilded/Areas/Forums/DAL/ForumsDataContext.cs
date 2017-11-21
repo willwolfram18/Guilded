@@ -86,7 +86,7 @@ namespace Guilded.Areas.Forums.DAL
             return Context.SaveChangesAsync();
         }
 
-        public Task UnpinThread(Thread thread)
+        public Task UnpinThreadAsync(Thread thread)
         {
             thread.IsPinned = false;
 

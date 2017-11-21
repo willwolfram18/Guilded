@@ -239,9 +239,29 @@ namespace Guilded.Areas.Forums.Controllers
         [Authorize(RoleClaimValues.ForumsPinningClaim)]
         [HttpDelete("~/[area]/[controller]/pin/{threadId}")]
         [ValidateAntiForgeryToken]
-        public Task<IActionResult> Unpin(int threadId)
+        public async Task<IActionResult> Unpin(int threadId)
         {
-            throw new NotImplementedException();
+            var thread = await DataContext.GetThreadByIdAsync(threadId);
+            if (thread.IsNotFound())
+            {
+                return NotFound();
+            }
+
+            if (!thread.IsPinned)
+            {
+                return Ok();
+            }
+
+            try
+            {
+                await DataContext.UnpinThreadAsync(thread);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.LogError("Error occurred unpinning thread", e);
+                return StatusCode(HttpStatusCode.InternalServerError);
+            }
         }
 
         private RedirectToActionResult RedirectToForumsHome()
