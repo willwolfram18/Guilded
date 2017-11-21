@@ -50,7 +50,7 @@ namespace Guilded.Areas.Forums.DAL
 
             thread.Title = thread.Title.Trim();
             thread.Content = thread.Content.Trim();
-            thread.Slug = GenerateSlug(thread.Title);
+            thread.Slug = GenerateThreadSlug(thread.Title);
             thread.CreatedAt = DateTime.Now;
 
             await Context.Threads.AddAsync(thread);
@@ -141,9 +141,21 @@ namespace Guilded.Areas.Forums.DAL
             }
 
             slug = Regex.Replace(slug, @"\s", "-");
-            
-            // TODO: Catch similar slugs
 
+            return slug;
+        }
+
+        private string GenerateThreadSlug(string title)
+        {
+            var slug = GenerateSlug(title);
+            var similarSlugs = Threads.Where(t => t.Slug.StartsWith(slug)).Select(t => t.Slug).ToList();
+            var similarSlugCount = similarSlugs.Count(s => Regex.IsMatch(s, $@"^{slug}(|-\d+)$"));
+
+            if (similarSlugCount != 0)
+            {
+                slug += $"-{similarSlugCount}";
+            }
+            
             return slug;
         }
 
