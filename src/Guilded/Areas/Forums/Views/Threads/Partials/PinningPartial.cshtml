@@ -4,5 +4,6 @@
 }
 <a role-claim-protected required-claim="RoleClaimValues.ForumsPinning" class="ui small icon pinning button">
     <i class="fa-sticky-note icon"></i> @pinAction
-    <input type="hidden" value="@(Url.Action(pinAction, "Threads", new { area = "Forums", threadId = Model.Id }))"/>
+    <input type="hidden" value="@(Url.Action(pinAction, "Threads", new { area = "Forums", threadId = Model.Id }))"
+           data-action-method="@(Model.IsPinned ? "DELETE" : "POST")" />
 </a>

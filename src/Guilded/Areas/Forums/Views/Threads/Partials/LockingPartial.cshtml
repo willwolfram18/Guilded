@@ -4,5 +4,6 @@
 }
 <a role-claim-protected required-claim="RoleClaimValues.ForumsLocking" class="ui small icon locking button">
     <i class="@(Model.IsLocked ? "unlock" : "lock") icon"></i> @pinAction
-    <input type="hidden" value="@(Url.Action(pinAction, "Threads", new { area = "Forums", threadId = Model.Id }))" />
+    <input type="hidden" value="@(Url.Action(pinAction, "Threads", new { area = "Forums", threadId = Model.Id }))"
+           data-action-method="@(Model.IsLocked ? "DELETE" : "POST")"/>
 </a>
