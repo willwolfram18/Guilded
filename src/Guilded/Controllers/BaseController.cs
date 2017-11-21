@@ -1,5 +1,6 @@
 ﻿using Guilded.Constants;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Guilded.Controllers
 {
@@ -14,5 +15,7 @@ namespace Guilded.Controllers
 
             return base.View(viewName, model);
         }
+
+        protected StatusCodeResult StatusCode(HttpStatusCode statusCode) => StatusCode((int)statusCode);
     }
 }

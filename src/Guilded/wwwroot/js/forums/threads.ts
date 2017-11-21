@@ -97,7 +97,29 @@ function onShareClick(e: JQueryEventObject) {
     console.log("copied");
 }
 
+function onPinOrLockClick(e: JQueryEventObject) {
+    const $hiddenInput = $(e.target).find("input[type='hidden'][data-action-method]")
+    const actionUrl: string = $hiddenInput.val();
+
+    let actionData = {};
+    insertRequestVerificationTokenIntoData(actionData);
+
+    $.ajax({
+        method: $hiddenInput.data("action-method"),
+        url: actionUrl,
+        data: actionData,
+        beforeSend: hideErrorAndSuccessMessages,
+        success: () => window.location.reload(true),
+        error: () => {
+            showErrorMessage("An error occurred with your request. Please try again.");
+        }
+    });
+}
+
 $(document).ready(() => {
+    $(".ui.button.locking,.ui.button.pinning")
+        .on("click", onPinOrLockClick);
+
     $(".comment .actions")
         .on("click", ".quote", onQuoteClick);
 

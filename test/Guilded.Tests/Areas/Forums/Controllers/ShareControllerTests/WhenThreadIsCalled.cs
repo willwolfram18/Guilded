@@ -7,15 +7,20 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Moq;
 using NUnit.Framework;
 using Shouldly;
+using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
 {
     public class WhenThreadIsCalled : ShareControllerTest
     {
+        private Thread _defaultThread;
+
         protected override string DefaultShareLink => "https://example.com/forums/threads/";
 
-        private Thread _defaultThread;
+        protected override Expression<Func<ShareController, Func<int, Task<IActionResult>>>> AsyncActionToTest =>
+            c => c.Thread;
 
         [SetUp]
         public void SetUp()
@@ -23,6 +28,10 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
             _defaultThread = new Thread
             {
                 Id = DefaultId,
+                Forum = new Forum
+                {
+                    IsActive = true
+                }
             };
 
             MockUrlHelper.Setup(u => u.RouteUrl(
@@ -40,7 +49,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
             MockDataContext.Setup(d => d.GetThreadByIdAsync(It.IsAny<int>()))
                 .ReturnsAsync((Thread)null);
 
-            await ThenResultShouldBeNotFound(c => c.Thread);
+            await ThenResultShouldBeNotFound();
         }
 
         [Test]
@@ -48,7 +57,15 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
         {
             _defaultThread.IsDeleted = true;
 
-            await ThenResultShouldBeNotFound(c => c.Thread);
+            await ThenResultShouldBeNotFound();
+        }
+
+        [Test]
+        public async Task IfThreadsForumIsInactiveThenNotFoundResultReturned()
+        {
+            _defaultThread.Forum.IsActive = false;
+
+            await ThenResultShouldBeNotFound();
         }
 
         [Test]
@@ -60,15 +77,9 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
         }
 
         [Test]
-        public async Task ThenViewResultIsReturned()
-        {
-            await ThenViewResultIsReturned(c => c.Thread);
-        }
-
-        [Test]
         public async Task ThenViewModelIsAThreadPreview()
         {
-            await ThenViewModelIsOfType<ThreadPreview>(c => c.Thread);
+            await ThenViewModelIsOfType<ThreadPreview>();
         }
 
         [Test]
@@ -78,7 +89,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
 
             _defaultThread.Title = threadTitle;
 
-            await ThenViewModelTitleMatchesExpected<ThreadPreview>(threadTitle, c => c.Thread);
+            await ThenViewModelTitleMatchesExpected<ThreadPreview>(threadTitle);
         }
 
         [Test]
@@ -98,7 +109,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
         [Test]
         public async Task ThenShareLinkIsResultOfUrlHelper()
         {
-            await ThenViewModelShareLinkMatchesDefaultShareLink(c => c.Thread);
+            await ThenViewModelShareLinkMatchesDefaultShareLink();
         }
 
         [Test]

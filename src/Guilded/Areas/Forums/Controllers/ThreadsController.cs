@@ -31,7 +31,7 @@ namespace Guilded.Areas.Forums.Controllers
         {
             var thread = await DataContext.GetThreadByIdAsync(id);
 
-            if (thread == null || thread.IsDeleted)
+            if (thread.IsNotFound())
             {
                 return RedirectToForumsHome();
             }
@@ -49,7 +49,7 @@ namespace Guilded.Areas.Forums.Controllers
 
             var thread = await DataContext.GetThreadBySlugAsync(slug);
 
-            if (thread == null || thread.IsDeleted)
+            if (thread.IsNotFound())
             {
                 return RedirectToForumsHome();
             }
@@ -150,6 +150,118 @@ namespace Guilded.Areas.Forums.Controllers
             }
 
             return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred with your request.");
+        }
+
+        [Authorize(RoleClaimValues.ForumsLockingClaim)]
+        [HttpPost("~/[area]/[controller]/lock/{threadId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Lock(int threadId)
+        {
+            var thread = await DataContext.GetThreadByIdAsync(threadId);
+            if (thread.IsNotFound())
+            {
+                return NotFound();
+            }
+
+            if (thread.IsLocked)
+            {
+                return Ok();
+            }
+
+            try
+            {
+                await DataContext.LockThreadAsync(thread);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.LogError("Error occurred locking thread", e);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [Authorize(RoleClaimValues.ForumsLockingClaim)]
+        [HttpDelete("~/[area]/[controller]/lock/{threadId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Unlock(int threadId)
+        {
+            var thread = await DataContext.GetThreadByIdAsync(threadId);
+            if (thread.IsNotFound())
+            {
+                return NotFound();
+            }
+
+            if (!thread.IsLocked)
+            {
+                return Ok();
+            }
+
+            try
+            {
+                await DataContext.UnlockThreadAsync(thread);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.LogError("Error occurred locking thread", e);
+                return StatusCode(HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [Authorize(RoleClaimValues.ForumsPinningClaim)]
+        [HttpPost("~/[area]/[controller]/pin/{threadId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Pin(int threadId)
+        {
+            var thread = await DataContext.GetThreadByIdAsync(threadId);
+            if (thread.IsNotFound())
+            {
+                return NotFound();
+            }
+
+            if (thread.IsPinned)
+            {
+                return Ok();
+            }
+
+            try
+            {
+                await DataContext.PinThreadAsync(thread);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.LogError("Error occurred pinning thread", e);
+                return StatusCode(HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [Authorize(RoleClaimValues.ForumsPinningClaim)]
+        [HttpDelete("~/[area]/[controller]/pin/{threadId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Unpin(int threadId)
+        {
+            var thread = await DataContext.GetThreadByIdAsync(threadId);
+            if (thread.IsNotFound())
+            {
+                return NotFound();
+            }
+
+            if (!thread.IsPinned)
+            {
+                return Ok();
+            }
+
+            try
+            {
+                await DataContext.UnpinThreadAsync(thread);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.LogError("Error occurred unpinning thread", e);
+                return StatusCode(HttpStatusCode.InternalServerError);
+            }
         }
 
         private RedirectToActionResult RedirectToForumsHome()

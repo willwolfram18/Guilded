@@ -2,19 +2,25 @@
 using Guilded.Areas.Forums.Controllers;
 using Guilded.Areas.Forums.ViewModels;
 using Guilded.Data.Forums;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Moq;
 using NUnit.Framework;
 using Shouldly;
+using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
 {
     public class WhenForumIsCalled : ShareControllerTest
     {
+        private Forum _defaultForum;
+
         protected override string DefaultShareLink => "https://example.com/forums/share/forum/3";
 
-        private Forum _defaultForum;
+        protected override Expression<Func<ShareController, Func<int, Task<IActionResult>>>> AsyncActionToTest =>
+            c => c.Forum;
 
         [SetUp]
         public void SetUp()
@@ -38,7 +44,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
             MockDataContext.Setup(d => d.GetForumByIdAsync(It.IsAny<int>()))
                 .ReturnsAsync((Forum)null);
 
-            await ThenResultShouldBeNotFound(c => c.Forum);
+            await ThenResultShouldBeNotFound();
         }
 
         [Test]
@@ -46,19 +52,13 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
         {
             _defaultForum.IsActive = false;
 
-            await ThenResultShouldBeNotFound(c => c.Forum);
-        }
-
-        [Test]
-        public async Task ThenViewResultIsReturned()
-        {
-            await ThenViewResultIsReturned(c => c.Forum);
+            await ThenResultShouldBeNotFound();
         }
 
         [Test]
         public async Task ThenViewModelShouldBeAForumPreview()
         {
-            await ThenViewModelIsOfType<ForumPreview>(c => c.Forum);
+            await ThenViewModelIsOfType<ForumPreview>();
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
 
             _defaultForum.Title = forumTitle;
 
-            await ThenViewModelTitleMatchesExpected<ForumPreview>(forumTitle, c => c.Forum);
+            await ThenViewModelTitleMatchesExpected<ForumPreview>(forumTitle);
         }
 
         [Test]
@@ -100,7 +100,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
 
             _defaultForum.Subtitle = subtitle;
 
-            var viewModel = await GetViewModel<ForumPreview>(c => c.Forum);
+            var viewModel = await GetViewModel<ForumPreview>();
 
             viewModel.Description.ShouldBe(subtitle);
         }
@@ -112,7 +112,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
 
             _defaultForum.Subtitle = substitle;
 
-            var viewModel = await GetViewModel<ForumPreview>(c => c.Forum);
+            var viewModel = await GetViewModel<ForumPreview>();
 
             viewModel.Description.ShouldBe(substitle.Substring(0, ShareController.ShareDescriptionLength));
         }
@@ -129,7 +129,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
             _defaultForum.Subtitle = subTitle;
             _defaultForum.Title = title;
 
-            var viewModel = await GetViewModel<ForumPreview>(c => c.Forum);
+            var viewModel = await GetViewModel<ForumPreview>();
 
             viewModel.Description.ShouldBe(genericDescription);
         }
@@ -137,7 +137,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ShareControllerTests
         [Test]
         public async Task ThenShareLinkIsResultOfUrlHelper()
         {
-            await ThenViewModelShareLinkMatchesDefaultShareLink(c => c.Forum);
+            await ThenViewModelShareLinkMatchesDefaultShareLink();
         }
     }
 }

@@ -23,37 +23,23 @@ namespace Guilded.Areas.Forums.DAL
             .ThenInclude(r => r.Author);
 
         private IQueryable<Reply> Replies => Context.Replies.Include(r => r.Author)
-            .Include(r => r.Thread);
+            .Include(r => r.Thread)
+            .ThenInclude(t => t.Forum);
 
         public ForumsDataContext(ApplicationDbContext context) : base(context)
         {
         }
 
-        public IQueryable<ForumSection> GetActiveForumSections()
-        {
-            return Context.ForumSections.Include(f => f.Forums)
+        public IQueryable<ForumSection> GetActiveForumSections() => Context.ForumSections.Include(f => f.Forums)
                 .Where(f => f.IsActive);
-        }
 
-        public Task<Forum> GetForumByIdAsync(int id)
-        {
-            return Forums.FirstOrDefaultAsync(f => f.Id == id);
-        }
+        public Task<Forum> GetForumByIdAsync(int id) => Forums.FirstOrDefaultAsync(f => f.Id == id);
 
-        public Task<Forum> GetForumBySlugAsync(string slug)
-        {
-            return Forums.FirstOrDefaultAsync(f => f.Slug == slug);
-        }
+        public Task<Forum> GetForumBySlugAsync(string slug) => Forums.FirstOrDefaultAsync(f => f.Slug == slug);
 
-        public Task<Thread> GetThreadByIdAsync(int id)
-        {
-            return Threads.FirstOrDefaultAsync(t => t.Id == id);
-        }
+        public Task<Thread> GetThreadByIdAsync(int id) => Threads.FirstOrDefaultAsync(t => t.Id == id);
 
-        public Task<Thread> GetThreadBySlugAsync(string slug)
-        {
-            return Threads.FirstOrDefaultAsync(t => t.Slug == slug);
-        }
+        public Task<Thread> GetThreadBySlugAsync(string slug) => Threads.FirstOrDefaultAsync(t => t.Slug == slug);
 
         public async Task<Thread> CreateThreadAsync(Thread thread)
         {
@@ -73,19 +59,52 @@ namespace Guilded.Areas.Forums.DAL
             return await GetThreadBySlugAsync(thread.Slug);
         }
 
-        public async Task DeleteThreadAsync(Thread thread)
+        public Task LockThreadAsync(Thread thread)
+        {
+            thread.IsLocked = true;
+
+            Context.Update(thread);
+
+            return Context.SaveChangesAsync();
+        }
+
+        public Task UnlockThreadAsync(Thread thread)
+        {
+            thread.IsLocked = false;
+
+            Context.Update(thread);
+
+            return Context.SaveChangesAsync();
+        }
+
+        public Task PinThreadAsync(Thread thread)
+        {
+            thread.IsPinned = true;
+
+            Context.Update(thread);
+
+            return Context.SaveChangesAsync();
+        }
+
+        public Task UnpinThreadAsync(Thread thread)
+        {
+            thread.IsPinned = false;
+
+            Context.Update(thread);
+
+            return Context.SaveChangesAsync();
+        }
+
+        public Task DeleteThreadAsync(Thread thread)
         {
             thread.IsDeleted = true;
 
             Context.Update(thread);
 
-            await Context.SaveChangesAsync();
+            return Context.SaveChangesAsync();
         }
 
-        public Task<Reply> GetReplyByIdAsync(int replyId)
-        {
-            return Replies.FirstOrDefaultAsync(r => r.Id == replyId);
-        }
+        public Task<Reply> GetReplyByIdAsync(int replyId) => Replies.FirstOrDefaultAsync(r => r.Id == replyId);
         
         public async Task<Reply> CreateReplyAsync(Reply reply)
         {
@@ -95,13 +114,13 @@ namespace Guilded.Areas.Forums.DAL
             return await GetReplyByIdAsync(dbReply.Entity.Id);
         }
 
-        public async Task DeleteReplyAsync(Reply reply)
+        public Task DeleteReplyAsync(Reply reply)
         {
             reply.IsDeleted = true;
 
             Context.Update(reply);
 
-            await Context.SaveChangesAsync();
+            return Context.SaveChangesAsync();
         }
 
         public static string GenerateSlug(string title)
