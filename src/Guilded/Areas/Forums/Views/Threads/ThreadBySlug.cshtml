@@ -46,15 +46,28 @@
 
 <pager pager-vertical-location="Top" />
 
-@if (!Model.IsLocked && roleClaims.Any(c => c == RoleClaimValues.ForumsWriter))
+<div class="ui small buttons">
+    @{
+        await Html.RenderPartialAsync("PinningPartial", Model);
+        await Html.RenderPartialAsync("LockingPartial", Model);
+    }
+</div>
+@if (roleClaims.Any(c => c == RoleClaimValues.ForumsLocking || c == RoleClaimValues.ForumsPinning))
 {
-    <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="ui small green icon reply button" asp-fragment="create-reply">
-        <i class="reply icon"></i> Reply
-    </a>
+    <br/>
+    <br/>
 }
-<a class="ui small icon share link button" asp-fragment="share" data-share-link="@Model.ShareLink">
-    <i class="share icon"></i> Share
-</a>
+<div class="ui small buttons">
+    @if (!Model.IsLocked && roleClaims.Any(c => c == RoleClaimValues.ForumsWriter))
+    {
+        <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="ui small green icon reply button" asp-fragment="create-reply">
+            <i class="reply icon"></i> Reply
+        </a>
+    }
+    <a class="ui small icon share link button" asp-fragment="share" data-share-link="@Model.ShareLink">
+        <i class="share icon"></i> Share
+    </a>
+</div>
 
 <div class="ui thread comments">
     @if (Model.CurrentPage == 1)

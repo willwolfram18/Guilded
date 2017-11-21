@@ -1,0 +1,8 @@
+﻿@model ThreadViewModel
+@{
+    var pinAction = Model.IsPinned ? "Unpin" : "Pin";
+}
+<a role-claim-protected required-claim="RoleClaimValues.ForumsPinning" class="ui small icon pinning button">
+    <i class="fa-sticky-note icon"></i> @pinAction
+    <input type="hidden" value="@(Url.Action(pinAction, "Threads", new { area = "Forums", threadId = Model.Id }))"/>
+</a>

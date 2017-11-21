@@ -1,0 +1,8 @@
+﻿@model ThreadViewModel
+@{
+    var pinAction = Model.IsLocked ? "Unlock" : "Lock";
+}
+<a role-claim-protected required-claim="RoleClaimValues.ForumsLocking" class="ui small icon locking button">
+    <i class="@(Model.IsLocked ? "unlock" : "lock") icon"></i> @pinAction
+    <input type="hidden" value="@(Url.Action(pinAction, "Threads", new { area = "Forums", threadId = Model.Id }))" />
+</a>
