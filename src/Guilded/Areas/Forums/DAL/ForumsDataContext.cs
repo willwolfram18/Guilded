@@ -59,6 +59,11 @@ namespace Guilded.Areas.Forums.DAL
             return await GetThreadBySlugAsync(thread.Slug);
         }
 
+        public async Task<Thread> UpdateThreadContentByIdAsync(int id, string content)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task LockThreadAsync(Thread thread)
         {
             thread.IsLocked = true;

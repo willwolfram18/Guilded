@@ -117,6 +117,14 @@ namespace Guilded.Areas.Forums.Controllers
         }
 
         [Authorize(RoleClaimValues.ForumsWriterClaim)]
+        [HttpPost("~/[area]/[controller]/{threadId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateThread(UpdateThreadViewModel viewModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        [Authorize(RoleClaimValues.ForumsWriterClaim)]
         [HttpDelete("~/[area]/[controller]/{threadId}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteThread(int threadId)

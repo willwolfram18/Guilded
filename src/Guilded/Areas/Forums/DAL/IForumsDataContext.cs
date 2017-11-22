@@ -14,6 +14,7 @@ namespace Guilded.Areas.Forums.DAL
         Task<Thread> GetThreadByIdAsync(int id);
         Task<Thread> GetThreadBySlugAsync(string slug);
         Task<Thread> CreateThreadAsync(Thread thread);
+        Task<Thread> UpdateThreadContentByIdAsync(int id, string content);
         Task LockThreadAsync(Thread thread);
         Task UnlockThreadAsync(Thread thread);
         Task PinThreadAsync(Thread thread);
