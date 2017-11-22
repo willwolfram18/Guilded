@@ -25,7 +25,7 @@ namespace Guilded.Areas.Forums.Controllers
         {
             var thread = await DataContext.GetThreadByIdAsync(reply.ThreadId);
 
-            if (thread == null || thread.IsDeleted || !thread.Forum.IsActive)
+            if (thread.IsNotFound())
             {
                 ModelState.AddModelError("", "That thread does not exist.");
             }
