@@ -89,6 +89,19 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
             ));
         }
 
+        [Test]
+        public async Task If_UpdateThreadContentByIdAsync_Throws_Error_Then_InternalServer_Status_Code_Returned()
+        {
+            MockDataContext.Setup(d => d.UpdateThreadContentByIdAsync(
+                It.IsAny<int>(),
+                It.IsAny<string>()
+            )).Throws<Exception>();
+
+            var result = await ThenResultShouldBeOfType<StatusCodeResult>();
+
+            result.StatusCode.ShouldBe(HttpStatusCode.InternalServerError);
+        }
+
         private new async Task<TResult> ThenResultShouldBeOfType<TResult>()
         {
             var result = await Controller.UpdateThread(_viewModelBuilder.Build());

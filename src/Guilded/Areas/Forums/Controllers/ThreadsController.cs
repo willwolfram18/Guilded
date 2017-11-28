@@ -121,6 +121,11 @@ namespace Guilded.Areas.Forums.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateThread(UpdateThreadViewModel viewModel)
         {
+            var thread = await DataContext.GetThreadByIdAsync(viewModel.ThreadId);
+            if (thread.IsNotFound())
+            {
+                return NotFound("That thread does not exist.");
+            }
             throw new NotImplementedException();
         }
 
