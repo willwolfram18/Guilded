@@ -17,5 +17,11 @@ namespace Guilded.Controllers
         }
 
         protected StatusCodeResult StatusCode(HttpStatusCode statusCode) => StatusCode((int)statusCode);
+
+        protected ObjectResult StatusCode(HttpStatusCode statusCode, object value) =>
+            new ObjectResult(value)
+            {
+                StatusCode = (int)statusCode
+            };
     }
 }

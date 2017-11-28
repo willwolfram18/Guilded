@@ -126,7 +126,27 @@ namespace Guilded.Areas.Forums.Controllers
             {
                 return NotFound("That thread does not exist.");
             }
-            throw new NotImplementedException();
+
+            if (thread.IsLocked)
+            {
+                return BadRequest("This post is locked and cannot be edited.");
+            }
+
+            if (thread.AuthorId != User.UserId())
+            {
+                return StatusCode(HttpStatusCode.Unauthorized, "You are not the author of this post.");
+            }
+
+            try
+            {
+                thread = await DataContext.UpdateThreadContentByIdAsync(thread.Id, viewModel.UpdatedContent);
+                return PartialView(new ThreadViewModel(thread));
+            }
+            catch (Exception e)
+            {
+                Logger.LogError($"An error occurred attempting to update the content of thread {viewModel.ThreadId}", e);
+                return StatusCode(HttpStatusCode.InternalServerError);
+            }
         }
 
         [Authorize(RoleClaimValues.ForumsWriterClaim)]

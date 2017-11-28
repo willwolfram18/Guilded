@@ -1,15 +1,14 @@
-﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Guilded.Tests.Extensions;
 using Guilded.Tests.ModelBuilders;
 using Microsoft.AspNetCore.Mvc;
-using Shouldly;
-using Guilded.Tests.Extensions;
 using Moq;
+using NUnit.Framework;
+using Shouldly;
+using System;
+using System.Net;
+using System.Threading.Tasks;
+using Guilded.Areas.Forums.ViewModels;
+using Guilded.Data.Forums;
 
 namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
 {
@@ -26,6 +25,16 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
             const string authorId = "author";
             ThreadBuilder.WithAuthorId(authorId);
             MockUserIdIsThis(authorId);
+
+            MockDataContext.Setup(d => d.UpdateThreadContentByIdAsync(
+                It.IsAny<int>(),
+                It.IsAny<string>()
+            )).ReturnsAsync((Func<int, string, Thread>)((id, content) => new ThreadBuilder()
+                .WithId(id)
+                .WithContent(content)
+                .WithActiveForum()
+                .Build()
+            ));
         }
 
         [Test]
@@ -71,7 +80,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
             var result = await ThenResultShouldBeOfType<ObjectResult>();
 
             result.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
-            result.Value.ShouldBe("You are not the author of that post.");
+            result.Value.ShouldBe("You are not the author of this post.");
         }
 
         [Test]
@@ -100,6 +109,22 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
             var result = await ThenResultShouldBeOfType<StatusCodeResult>();
 
             result.StatusCode.ShouldBe(HttpStatusCode.InternalServerError);
+        }
+
+        [Test]
+        public async Task Then_PartialViewResult_Is_Returned()
+        {
+            const string threadContent = @"## Aw yiss
+I updated content.";
+
+            _viewModelBuilder.WithContent(threadContent);
+
+            var result = await ThenResultShouldBeOfType<PartialViewResult>();
+            var viewModel = result.Model as ThreadViewModel;
+
+            viewModel.ShouldNotBeNull();
+            viewModel.Id.ShouldBe(DefaultThreadId);
+            viewModel.Content.ShouldBe(threadContent);
         }
 
         private new async Task<TResult> ThenResultShouldBeOfType<TResult>()

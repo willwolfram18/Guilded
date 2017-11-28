@@ -47,6 +47,13 @@ namespace Guilded.Tests.ModelBuilders
             return this;
         }
 
+        public ThreadBuilder WithContent(string content)
+        {
+            Instance.Content = content;
+
+            return this;
+        }
+
         public ThreadBuilder WithNoReplies()
         {
             Instance.Replies = new List<Reply>();
