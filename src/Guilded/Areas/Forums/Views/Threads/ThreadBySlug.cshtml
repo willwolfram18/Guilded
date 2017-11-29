@@ -44,19 +44,19 @@
 
 @{ await Html.RenderPartialAsync("SuccessAndErrorMessages"); }
 
-<pager pager-vertical-location="Top" />
 
-<div class="ui small buttons">
-    @{
-        await Html.RenderPartialAsync("PinningPartial", Model);
-        await Html.RenderPartialAsync("LockingPartial", Model);
-    }
-</div>
 @if (roleClaims.Any(c => c == RoleClaimValues.ForumsLocking || c == RoleClaimValues.ForumsPinning))
 {
-    <br/>
-    <br/>
+    <div class="ui small pin-lock buttons">
+        @{
+            await Html.RenderPartialAsync("PinningPartial", Model);
+            await Html.RenderPartialAsync("LockingPartial", Model);
+        }
+    </div>
 }
+
+<pager pager-vertical-location="Top" />
+
 <div class="ui small buttons">
     @if (!Model.IsLocked && roleClaims.Any(c => c == RoleClaimValues.ForumsWriter))
     {
@@ -128,3 +128,19 @@
     }
 </div>
 
+<div id="editPostModal" class="ui modal">
+    <div class="header">
+        Edit Post
+    </div>
+    <div class="content">
+        <markdown-editor content="" />
+    </div>
+    <div class="actions">
+        <div class="ui primary approve button">
+            Submit
+        </div>
+        <div class="ui cancel button">
+            Cancel
+        </div>
+    </div>
+</div>

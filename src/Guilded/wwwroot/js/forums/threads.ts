@@ -1,3 +1,6 @@
+let $editPostModal: JQuery;
+let $createReply: JQuery;
+
 function onPostReplySuccess(data: any) {
     let pageUrl = $("input[type='hidden'].last-page").val();
 
@@ -5,11 +8,10 @@ function onPostReplySuccess(data: any) {
 }
 
 function onPostReplyError(response: JQueryXHR) {
-    let $currentReplyForm = $("#create-reply");
     let $updatedForm = $(response.responseText);
 
-    $updatedForm.insertBefore($currentReplyForm);
-    $currentReplyForm.remove();
+    $updatedForm.insertBefore($createReply);
+    $createReply.remove();
 }
 
 function onPostReplyBegin() {
@@ -25,11 +27,11 @@ function insertRequestVerificationTokenIntoData(formData: any) {
 }
 
 function replyFormEntersLoading() {
-    $("#create-reply").addClass("loading");
+    $createReply.addClass("loading");
 }
 
 function replyFormExitsLoading() {
-    $("#create-reply").removeClass("loading");
+    $createReply.removeClass("loading");
 }
 
 function onBeforeDeleteSend() {
@@ -97,8 +99,9 @@ function onQuoteClick() {
     alert("A thing");
 }
 
-function onShareClick(e: JQueryEventObject) {
-    console.log("copied");
+function onThreadEditClick(e: JQueryEventObject) {
+    
+    $editPostModal.show();
 }
 
 function onPinOrLockClick(e: JQueryEventObject) {
@@ -121,6 +124,8 @@ function onPinOrLockClick(e: JQueryEventObject) {
 }
 
 $(document).ready(() => {
+    $createReply = $("#create-reply");
+
     $(".ui.button.locking,.ui.button.pinning")
         .on("click", onPinOrLockClick);
 
@@ -131,5 +136,10 @@ $(document).ready(() => {
         .on("click", ".delete", onReplyDeleteClick);
 
     $(".comment[data-thread-id]")
-        .on("click", ".delete", onThreadDeleteClick);
+        .on("click", ".delete", onThreadDeleteClick)
+        .on("click", ".edit", onThreadEditClick);
+
+    $editPostModal = $("#editPostModal").modal({
+        onApprove: () => console.log("Submit")
+    });
 });
