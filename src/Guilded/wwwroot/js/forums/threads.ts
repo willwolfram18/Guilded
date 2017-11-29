@@ -41,51 +41,55 @@ function onDeleteError(response: JQueryXHR) {
     showErrorMessage(response.responseText || response.statusText);
 }
 
-function onReplyDeleteClick() {
-    let $reply = $(this).closest(".comment");
-    let replyId = $reply.data("reply-id");
-    let formData: any = {
-        replyId: replyId,
-    };
+function onReplyDeleteClick(e: JQueryEventObject) {
+    confirmAction("Are you sure you want to delete this reply?", () => {
+        let $reply = $(e.target).closest(".comment");
+        let replyId = $reply.data("reply-id");
+        let formData: any = {
+            replyId: replyId,
+        };
 
-    insertRequestVerificationTokenIntoData(formData);
+        insertRequestVerificationTokenIntoData(formData);
 
-    $.ajax({
-        url: $("input[type='hidden'].delete-reply-url").val(),
-        type: "DELETE",
-        data: formData,
-        beforeSend: onBeforeDeleteSend,
-        complete: replyFormExitsLoading,
-        success: () => {
-            $reply.remove();
-            showSuccessMessage("Successfully removed reply.");
-        },
-        error: onDeleteError
+        $.ajax({
+            url: $("input[type='hidden'].delete-reply-url").val(),
+            type: "DELETE",
+            data: formData,
+            beforeSend: onBeforeDeleteSend,
+            complete: replyFormExitsLoading,
+            success: () => {
+                $reply.remove();
+                showSuccessMessage("Successfully deleted the reply.");
+            },
+            error: onDeleteError
+        });
     });
 }
 
 function onThreadDeleteClick() {
-    let formData: any = {
-    };
+    confirmAction("Are you sure you want to delete this thread?", () => {
+        let formData: any = {
+        };
 
-    insertRequestVerificationTokenIntoData(formData);
+        insertRequestVerificationTokenIntoData(formData);
 
-    $.ajax({
-        url: $("input[type='hidden'].delete-thread-url").val(),
-        type: "DELETE",
-        data: formData,
-        beforeSend: onBeforeDeleteSend,
-        complete: replyFormExitsLoading,
-        success: () => {
-            showSuccessMessage("Successfully removed the thread. You will be redirected to the forums in a moment.");
+        $.ajax({
+            url: $("input[type='hidden'].delete-thread-url").val(),
+            type: "DELETE",
+            data: formData,
+            beforeSend: onBeforeDeleteSend,
+            complete: replyFormExitsLoading,
+            success: () => {
+                showSuccessMessage("Successfully deleted the thread. You will be redirected to the forums in a moment.");
 
-            setTimeout(() => {
-                let forumUrl: string = $("input[type='hidden'].forum-url").val();
+                setTimeout(() => {
+                    let forumUrl: string = $("input[type='hidden'].forum-url").val();
 
-                window.location.href = forumUrl;
-            }, 2500);
-        },
-        error: onDeleteError
+                    window.location.href = forumUrl;
+                }, 1500);
+            },
+            error: onDeleteError
+        });
     });
 }
 
