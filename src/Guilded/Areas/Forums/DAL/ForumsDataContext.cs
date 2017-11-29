@@ -61,7 +61,15 @@ namespace Guilded.Areas.Forums.DAL
 
         public async Task<Thread> UpdateThreadContentByIdAsync(int id, string content)
         {
-            throw new NotImplementedException();
+            var thread = await GetThreadByIdAsync(id);
+
+            thread.Content = content;
+
+            Context.Update(thread);
+
+            await Context.SaveChangesAsync();
+
+            return thread;
         }
 
         public Task LockThreadAsync(Thread thread)
