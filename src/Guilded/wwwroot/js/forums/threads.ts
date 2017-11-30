@@ -129,6 +129,10 @@ $(document).ready(() => {
     $(".ui.button.locking,.ui.button.pinning")
         .on("click", onPinOrLockClick);
 
+    $(".ui.reply.button").on("click", () => {
+        $editPostModal.modal("show");
+    })
+
     $(".comment .actions")
         .on("click", ".quote", onQuoteClick);
 
@@ -139,7 +143,5 @@ $(document).ready(() => {
         .on("click", ".delete", onThreadDeleteClick)
         .on("click", ".edit", onThreadEditClick);
 
-    $editPostModal = $("#editPostModal").modal({
-        onApprove: () => console.log("Submit")
-    });
+    $editPostModal = $("#create-reply-wrapper").modal();
 });

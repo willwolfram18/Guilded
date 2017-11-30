@@ -101,46 +101,26 @@
 
 <pager pager-vertical-location="Bottom" />
 
-<div id="create-reply-wrapper">
-    <h3>
-        Post a reply
-    </h3>
-    @if (!Model.IsLocked)
-    {
-        if (roleClaims.Any(c => c == RoleClaimValues.ForumsWriter))
+@if (!Model.IsLocked)
+{
+    <div id="create-reply-wrapper" class="ui modal">
+        <div class="header">
+            Post a reply
+        </div>
+        @if (roleClaims.Any(c => c == RoleClaimValues.ForumsWriter))
         {
             await Html.RenderPartialAsync("CreateReplyViewModel", model: new CreateReplyViewModel {ThreadId = Model.Id});
         }
         else
         {
-            <div class="ui center segment">
+            <div class="content">
                 You do not have permission to post to the forums.
             </div>
+            <div class="actions">
+                <div class="ui red cancel button">
+                    Okay
+                </div>
+            </div>
         }
-    }
-    else
-    {
-        <div class="ui center segment">
-            <p>
-                This thread is locked.
-            </p>
-        </div>
-    }
-</div>
-
-<div id="editPostModal" class="ui modal">
-    <div class="header">
-        Edit Post
     </div>
-    <div class="content">
-        <markdown-editor content="" />
-    </div>
-    <div class="actions">
-        <div class="ui primary approve button">
-            Submit
-        </div>
-        <div class="ui cancel button">
-            Cancel
-        </div>
-    </div>
-</div>
+}
