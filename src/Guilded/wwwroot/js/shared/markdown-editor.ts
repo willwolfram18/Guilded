@@ -1,8 +1,4 @@
-﻿function insertText(text: string, textToInsert: string, insertAt: number): string {
-    return `${text.substr(0, insertAt)}${textToInsert}${text.substr(insertAt)}`;
-}
-
-function onMarkdownToolbarButtonClick(e: JQueryEventObject) {
+﻿function onMarkdownToolbarButtonClick(e: JQueryEventObject) {
     let $target = $(e.target);
     if (!$target.is(".button")) {
         $target = $target.closest(".button");
@@ -14,7 +10,8 @@ function onMarkdownToolbarButtonClick(e: JQueryEventObject) {
 
     switch (markdownAction) {
         case "bold":
-            insertBold($markdownEditor, $markdown);
+        case "italic":
+            insertWrappingMarkdown($markdown, $target.data("markdown"));
             break;
         case "preview":
             togglePreview($markdownEditor, $markdown);
@@ -25,7 +22,7 @@ function onMarkdownToolbarButtonClick(e: JQueryEventObject) {
     }
 }
 
-function insertBold($markdownEditor: JQuery, $markdown: JQuery) {
+function insertWrappingMarkdown($markdown: JQuery, markdown: string) {
     let textarea: HTMLTextAreaElement = $markdown[0] as HTMLTextAreaElement;
 
     if (!textarea) {
@@ -36,14 +33,17 @@ function insertBold($markdownEditor: JQuery, $markdown: JQuery) {
     let end = textarea.selectionEnd;
 
     if (start === end) {
-        document.execCommand("insertText", false, "____")
+        document.execCommand("insertText", false, markdown + markdown)
+        start = end = start + markdown.length;
     } else {
         let textToWrap = textarea.value.substr(start, end - start);
-        document.execCommand("insertText", false, `__${textToWrap}__`)
+        document.execCommand("insertText", false, `${markdown}${textToWrap}${markdown}`)
+        end = end + markdown.length * 2;
     }
-    
+
     textarea.focus();
-    textarea.selectionStart = textarea.selectionEnd = start + 2;
+    textarea.selectionStart = start;
+    textarea.selectionEnd = end;
 }
 
 function togglePreview($markdownEditor: JQuery, $markdown: JQuery) {
