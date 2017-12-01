@@ -1,4 +1,8 @@
-﻿function onMarkdownToolbarButtonClick(e: JQueryEventObject) {
+﻿function insertText(text: string, textToInsert: string, insertAt: number): string {
+    return `${text.substr(0, insertAt)}${textToInsert}${text.substr(insertAt)}`;
+}
+
+function onMarkdownToolbarButtonClick(e: JQueryEventObject) {
     let $target = $(e.target);
     if (!$target.is(".button")) {
         $target = $target.closest(".button");
@@ -9,6 +13,9 @@
     const $markdown = $markdownEditor.find(".markdown");
 
     switch (markdownAction) {
+        case "bold":
+            insertBold($markdownEditor, $markdown);
+            break;
         case "preview":
             togglePreview($markdownEditor, $markdown);
             break;
@@ -16,6 +23,27 @@
             $("#markdown-help").modal("toggle");
             break;
     }
+}
+
+function insertBold($markdownEditor: JQuery, $markdown: JQuery) {
+    let textarea: HTMLTextAreaElement = $markdown[0] as HTMLTextAreaElement;
+
+    if (!textarea) {
+        return;
+    }
+
+    let start = textarea.selectionStart;
+    let end = textarea.selectionEnd;
+
+    if (start === end) {
+        document.execCommand("insertText", false, "____")
+    } else {
+        let textToWrap = textarea.value.substr(start, end - start);
+        document.execCommand("insertText", false, `__${textToWrap}__`)
+    }
+    
+    textarea.focus();
+    textarea.selectionStart = textarea.selectionEnd = start + 2;
 }
 
 function togglePreview($markdownEditor: JQuery, $markdown: JQuery) {
