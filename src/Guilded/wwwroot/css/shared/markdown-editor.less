@@ -1,0 +1,58 @@
+﻿.markdown-editor
+{
+    @border: 1px solid rgba(34, 36, 38, 0.15);
+    border: @border;
+    border-radius: 4px;
+
+    .markdown-toolbar
+    {
+        padding: 4px;
+
+        .ui.button
+        {
+            border: 1px solid transparent;
+            border-radius: 4px;
+            background-color: white;
+
+            &:hover
+            {
+                border: @border;
+            }
+        }
+    }
+
+    .separator
+    {
+        display: inline-block;
+        width: 0;
+        border-left: 1px solid #d9d9d9;
+        border-right: 1px solid #fff;
+        color: transparent;
+        text-indent: -10px;
+        margin: 0 6px;
+    }
+
+    textarea.markdown
+    {
+        &:focus
+        {
+            border-color: inherit;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    }
+
+
+    textarea.markdown,
+    .markdown-preview
+    {
+        border: none;
+        border-top: @border;
+        
+        padding: 0.78571429em 1em;
+        
+        height: 12em;
+        min-height: 8em;
+        max-height: 24em;
+    }
+}

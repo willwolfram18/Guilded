@@ -1,15 +1,61 @@
 ﻿@model IMarkdownContent
 
 <environment names="Development">
-    <link rel="stylesheet" href="lib/simplemde/debug/simplemde.css" />
+    <link rel="stylesheet" href="css/shared/markdown-editor.css" />
 </environment>
 <environment names="Staging, Production">
-    <link rel="stylesheet" href="lib/simplemde/dist/simplemde.min.css"
-          asp-fallback-href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css" />
+    <link rel="stylesheet" href="css/shared/markdown-editor.min.css"
+          asp-append-version="true" />
 </environment>
 
 <div class="markdown-editor" data-markdown-action="@ViewData[ViewDataKeys.MarkdownAction]">
-    <textarea asp-for="Content" placeholder="Content..."></textarea>
+    <div class="markdown-toolbar">
+        <div class="ui compact buttons">
+            <div class="ui icon button">
+                <i class="bold icon"></i>
+            </div>
+            <div class="ui icon button">
+                <i class="italic icon"></i>
+            </div>
+            <div class="ui icon button">
+                <i class="header icon"></i>
+            </div>
+        </div>
+        <i class="separator">|</i>
+        <div class="ui compact buttons">
+            <div class="ui icon button">
+                <i class="fa-quote-left icon"></i>
+            </div>
+            <div class="ui icon button">
+                <i class="fa-list-ul icon"></i>
+            </div>
+            <div class="ui icon button">
+                <i class="fa-list-ol icon"></i>
+            </div>
+            <div class="ui icon button">
+                <i class="minus icon"></i>
+            </div>
+        </div>
+        <i class="separator">|</i>
+        <div class="ui compact buttons">
+            <div class="ui icon button">
+                <i class="fa-link icon"></i>
+            </div>
+            <div class="ui icon button">
+                <i class="image icon"></i>
+            </div>
+        </div>
+        <i class="separator">|</i>
+        <div class="ui compact icon button" data-markdown-action="preview" title="Preview">
+            <i class="eye icon"></i>
+        </div>
+        <i class="separator">|</i>
+        <div class="ui compact icon button" data-markdown-action="guide" title="View markdown guide">
+            <i class="fa-question-circle icon"></i>
+        </div>
+    </div>
+    <textarea class="markdown" asp-for="Content" placeholder="Content..."></textarea>
+    <div class="markdown-preview" style="display: none;"></div>
 </div>
 
 <environment names="Development">
@@ -31,18 +77,16 @@
         <h4>Emphasis</h4>
         <pre>__<strong>bold</strong>__
 _<em>italics</em>_
-_
-<em>Italic
-multiple
-lines</em>
-_
-
 __
 <strong>Bold
 multiple
 lines</strong>
 __
-
+_
+<em>Italic
+multiple
+lines</em>
+_
 _
 __<strong><em>
 Bold and italic
@@ -80,25 +124,22 @@ __</pre>
         <pre>| Column 1 | Column 2 | Column 3 |
 | -------- | -------- | -------- |
 | John     | Doe      | Male     |
-| Mary     | Smith    | Female   |
+| Mary     | Smith    | Female   |</pre>
 
 <em>Or without aligning the columns...</em>
-
-| Column 1 | Column 2 | Column 3 |
+        <pre>| Column 1 | Column 2 | Column 3 |
 | -------- | -------- | -------- |
 | John | Doe | Male |
 | Mary | Smith | Female |
 </pre>
         <h4>Displaying code</h4>
-        <pre>`var example = "hello!";`
+        <pre>`var example = "hello!";`</pre>
 
-<em>Or spanning multiple lines...</em>
-
-```
+        <em>Or spanning multiple lines...</em>
+        <pre>```
 var example = "hello!";
 alert(example);
 ```</pre>
-        <footer>Provided for use with <a href="http://sparksuite.github.io/simplemde-markdown-editor" target="_blank">SimpleMDE</a></footer>
     </div>
     <div class="actions">
         <div class="ui primary approve button">
