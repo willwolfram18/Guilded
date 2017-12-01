@@ -100,12 +100,12 @@ function onQuoteClick() {
 }
 
 function onThreadEditClick(e: JQueryEventObject) {
-    
-    $editPostModal.show();
+    $editPostModal.find(".header").text("Edit thread");
+    $editPostModal.modal("show");
 }
 
 function onPinOrLockClick(e: JQueryEventObject) {
-    const $hiddenInput = $(e.target).find("input[type='hidden'][data-action-method]")
+    const $hiddenInput = $(e.target).find("input[type='hidden'][data-action-method]");
     const actionUrl: string = $hiddenInput.val();
 
     let actionData = {};
@@ -129,9 +129,11 @@ $(document).ready(() => {
     $(".ui.button.locking,.ui.button.pinning")
         .on("click", onPinOrLockClick);
 
-    $(".ui.reply.button").on("click", () => {
-        $editPostModal.modal("show");
-    })
+    $(".ui.reply.button").on("click",
+        () => {
+            $editPostModal.find(".header").text("Post a reply");
+            $editPostModal.modal("show");
+        });
 
     $(".comment .actions")
         .on("click", ".quote", onQuoteClick);
