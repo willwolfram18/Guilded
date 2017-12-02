@@ -21,6 +21,8 @@
         "guide": this.toggleHelpGuide
     };
 
+    private static Editors: [JQuery, MarkdownEditor][] = [];
+
     constructor(private $markdownEditor: JQuery) {
         this.$markdown = $markdownEditor.find(".markdown");
         this.$markdownEditor.find(".markdown-preview").hide();
@@ -32,6 +34,8 @@
             .on("keydown", (e) => {
                 this.onMarkdownKeyPress(e);
             });
+
+        MarkdownEditor.Editors.push([$markdownEditor, this]);
     }
 
     private get textarea(): HTMLTextAreaElement {
@@ -71,6 +75,16 @@
     }
     private set selectEnd(position: number) {
         this.textarea.selectionEnd = position;
+    }
+
+    static getEditor($markdownEditor: JQuery): MarkdownEditor {
+        for (let pair of MarkdownEditor.Editors) {
+            if (pair[0][0] == $markdownEditor[0]) {
+                return pair[1];
+            }
+        }
+
+        return null;
     }
 
     insertBold() {
