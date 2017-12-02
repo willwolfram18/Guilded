@@ -41,9 +41,20 @@
     }
 
     private get startOfLine(): number {
-        let startOfLine = this.markdownText.lastIndexOf("\n", this.selectStart);
+        for (let i = this.selectStart; i > 0; i--) {
+            if (this.markdownText[i - 1] === "\n") {
+                return i;
+            }
+        }
 
-        return startOfLine === -1 ? 0 : startOfLine;
+        return 0;
+    }
+
+    private get endOfLine(): number {
+        const endOfLine = this.markdownText
+            .indexOf("\n", this.startOfLine);
+
+        return endOfLine === -1 ? this.markdownText.length : endOfLine;
     }
 
     private get selectStart(): number {
@@ -174,8 +185,22 @@
             return;
         }
 
-        if (this.markdownText.substr(this.startOfLine, this.unorderedListMarkdown.length)) {
-            
+        if (this.doesLineStartWithText(this.unorderedListMarkdown)) {
+            e.preventDefault();
+
+            if (this.markdownText
+                .substr(this.startOfLine, this.endOfLine - this.startOfLine)
+                .replace(this.unorderedListMarkdown, "")) {
+                this.insertText(`\n${this.unorderedListMarkdown}`);
+            } else {
+                this.selectStart = this.startOfLine;
+                this.selectEnd = this.endOfLine;
+
+                this.deleteText();
+                this.selectStart = this.selectEnd = this.startOfLine;
+            }
+
+            return;
         }
     }
 
@@ -254,17 +279,16 @@
 
         let start = this.selectStart;
         let end = this.selectEnd;
-        let startOfLineCursorPosition = this.startOfLine + (this.startOfLine === 0 ? 0 : 1);
 
-        if (this.markdownText.substr(startOfLineCursorPosition, text.length) === text) {
-            this.selectStart = startOfLineCursorPosition;
-            this.selectEnd = startOfLineCursorPosition + text.length;
+        if (this.doesLineStartWithText(text)) {
+            this.selectStart = this.startOfLine;
+            this.selectEnd = this.startOfLine + text.length;
             this.deleteText();
 
             start -= text.length;
             end -= text.length;
         } else {
-            this.selectStart = this.selectEnd = startOfLineCursorPosition;
+            this.selectStart = this.selectEnd = this.startOfLine;
             this.insertText(text);
 
             start += text.length;
@@ -274,12 +298,17 @@
         this.selectStart = start;
         this.selectEnd = end;
     }
+
+    private doesLineStartWithText(text: string): boolean {
+        return new RegExp(`^${text.replace(/\*/g, "\\*")}`).test(this.markdownText.substr(this.startOfLine))
+    }
 }
 
+let m: MarkdownEditor;
 
 $(document).ready(() => {
     $(".markdown-editor").each((i, elem) => {
-        new MarkdownEditor($(elem));
+        m = new MarkdownEditor($(elem));
     });
     //simpleMde = new SimpleMDE({
     //    autoDownloadFontAwesome: false,
