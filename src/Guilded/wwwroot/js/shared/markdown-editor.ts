@@ -56,6 +56,20 @@
         });
     }
 
+    insertRuler() {
+        let originalStart = this.selectStart;
+        let originalEnd = this.selectEnd;
+
+        if (this.selectStart !== this.selectEnd) {
+            this.selectStart = this.selectEnd
+        }
+
+        document.execCommand("insertText", false, "\n\n-----\n")
+
+        this.selectStart = originalStart;
+        this.selectEnd = originalEnd;
+    }
+
     toggleHelpGuide() {
         $("#markdown-help").modal("toggle");
     }
@@ -98,6 +112,9 @@
                 break;
             case "italic":
                 this.insertItalic();
+                break;
+            case "ruler":
+                this.insertRuler();
                 break;
             case "preview":
                 this.togglePreview();
