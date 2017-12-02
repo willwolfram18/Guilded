@@ -1,5 +1,9 @@
 ﻿class MarkdownEditor {
-    private $markdown: JQuery;
+    private readonly HeaderMarkdown = "#";
+    private readonly BoldMarkdown = "__";
+    private readonly ItalicMarkdown = "-";
+
+    private readonly $markdown: JQuery;
 
     constructor(private $markdownEditor: JQuery) {
         this.$markdown = $markdownEditor.find(".markdown");
@@ -13,6 +17,12 @@
 
     private get textarea(): HTMLTextAreaElement {
         return this.$markdown[0] as HTMLTextAreaElement;
+    }
+
+    private get startOfLine(): number {
+        let startOfLine = this.textarea.value.lastIndexOf("\n", this.selectStart);
+
+        return startOfLine === -1 ? 0 : startOfLine;
     }
 
     private get selectStart(): number {
@@ -30,15 +40,45 @@
     }
 
     insertBold() {
-        this.insertWrappingMarkdown("__");
+        this.insertWrappingMarkdown(this.BoldMarkdown);
     }
 
     insertItalic() {
-        this.insertWrappingMarkdown("_");
+        this.insertWrappingMarkdown(this.ItalicMarkdown);
+    }
+
+    insertHeader() {
+        let originalStart = this.selectStart;
+        let originalEnd = this.selectEnd;
+
+        this.selectStart = this.selectEnd = this.startOfLine;
+        let textToInsert = this.HeaderMarkdown;
+        let headerLevel = this.getCurrentHeaderLevel();
+
+        if (headerLevel === 1) {
+            textToInsert += " ";
+        }
+
+        if (headerLevel <= 6) {
+            document.execCommand("insertText", false, textToInsert);
+        } else {
+            // We need to select the header characaters.
+            this.selectStart = this.startOfLine;
+            this.selectEnd = this.startOfLine + headerLevel;
+
+            originalStart -= headerLevel;
+            originalEnd -= headerLevel;
+
+            document.execCommand("delete", false);
+
+            textToInsert = "";
+        }
+
+        this.selectStart = originalStart + textToInsert.length;
+        this.selectEnd = originalEnd + textToInsert.length;
     }
 
     togglePreview() {
-        console.log("preview toggle")
         let $markdownPreview = this.$markdownEditor.find(".markdown-preview");
 
         this.$markdown.toggle();
@@ -74,6 +114,10 @@
         $("#markdown-help").modal("toggle");
     }
 
+    focus() {
+        this.textarea.focus();
+    }
+
     private insertWrappingMarkdown(markdown: string) {
         if (!this.textarea) {
             return;
@@ -91,7 +135,7 @@
             end = end + markdown.length * 2;
         }
 
-        this.textarea.focus();
+        this.focus();
         this.selectStart = start;
         this.selectEnd = end;
     }
@@ -104,7 +148,7 @@
 
         let markdownAction = $target.data("markdown-action");
 
-        this.textarea.focus();
+        this.focus();
 
         switch (markdownAction) {
             case "bold":
@@ -112,6 +156,9 @@
                 break;
             case "italic":
                 this.insertItalic();
+                break;
+            case "header":
+                this.insertHeader();
                 break;
             case "ruler":
                 this.insertRuler();
@@ -123,6 +170,19 @@
                 this.toggleHelpGuide();
                 break;
         }
+    }
+
+    private getCurrentHeaderLevel() {
+        let headerLevel = 1;
+        let position = this.selectStart;
+
+        while (headerLevel <= 6 && position < this.textarea.value.length &&
+            this.textarea.value[position] === this.HeaderMarkdown) {
+            headerLevel++;
+            position++;
+        }
+
+        return headerLevel;
     }
 }
 
