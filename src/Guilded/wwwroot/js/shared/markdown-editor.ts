@@ -3,6 +3,7 @@
     private readonly boldMarkdown = "__";
     private readonly italicMarkdown = "-";
     private readonly unorderedListMarkdown = "* ";
+    private readonly orderedListMarkdown = "1. ";
     private readonly quoteMarkdown = "> ";
 
     private readonly $markdown: JQuery;
@@ -12,6 +13,7 @@
         "header": this.insertHeader,
         "quote": this.insertQuote,
         "ul": this.insertUnorderedList,
+        "ol": this.insertOrderedList,
         "ruler": this.insertRuler,
         "link": this.insertLink,
         "image": this.insertImage,
@@ -27,7 +29,7 @@
             .on("click", ".markdown-toolbar .button", (e) => {
                 this.onMarkdownToolbarButtonClick(e);
             })
-            .on("keypress", (e) => {
+            .on("keydown", (e) => {
                 this.onMarkdownKeyPress(e);
             });
     }
@@ -118,6 +120,10 @@
         this.toggleSubstringAtStartOfLine(this.unorderedListMarkdown);
     }
 
+    insertOrderedList() {
+        this.toggleSubstringAtStartOfLine(this.orderedListMarkdown);
+    }
+
     insertRuler() {
         let originalStart = this.selectStart;
         let originalEnd = this.selectEnd;
@@ -179,28 +185,87 @@
     }
 
     private onMarkdownKeyPress(e: JQueryEventObject) {
+        const tabKeyCode = 9;
         const enterKeyCode = 13;
+
+        if (e.keyCode === tabKeyCode) {
+            e.preventDefault();
+
+            if (e.shiftKey) {
+                this.unindentLine();
+            } else {
+                this.indentLine();
+            }
+            return;
+        }
 
         if (e.keyCode !== enterKeyCode || !this.markdownText.length) {
             return;
         }
 
-        if (this.doesLineStartWithText(this.unorderedListMarkdown)) {
+        if (this.doesLineStartWithText("\\s{0,}" + this.unorderedListMarkdown)) {
             e.preventDefault();
-
-            if (this.markdownText
-                .substr(this.startOfLine, this.endOfLine - this.startOfLine)
-                .replace(this.unorderedListMarkdown, "")) {
-                this.insertText(`\n${this.unorderedListMarkdown}`);
-            } else {
-                this.selectStart = this.startOfLine;
-                this.selectEnd = this.endOfLine;
-
-                this.deleteText();
-                this.selectStart = this.selectEnd = this.startOfLine;
-            }
-
+            this.continueOrRemoveLeadingMarkdown(this.unorderedListMarkdown);
             return;
+        }
+        if (this.doesLineStartWithText("\\s{0,}" + this.quoteMarkdown)) {
+            e.preventDefault();
+            this.continueOrRemoveLeadingMarkdown(this.quoteMarkdown);
+            return;
+        }
+        if (this.doesLineStartWithText("\\s{0,}" + this.orderedListMarkdown)) {
+            e.preventDefault();
+            this.continueOrRemoveLeadingMarkdown(this.orderedListMarkdown);
+            return;
+        }
+    }
+
+    private unindentLine() {
+        if (this.markdownText[this.startOfLine] !== " ") {
+            return;
+        }
+
+        let start = this.selectStart;
+        let end = this.selectEnd;
+
+        let spacesToRemove = 1;
+        while (spacesToRemove < 4 &&
+            this.startOfLine + spacesToRemove < this.markdownText.length &&
+            this.markdownText[this.startOfLine + spacesToRemove] === " ") {
+            spacesToRemove++;
+        }
+
+        this.selectStart = this.startOfLine;
+        this.selectEnd = this.startOfLine + spacesToRemove;
+        this.deleteText();
+
+        this.selectStart = start - spacesToRemove;
+        this.selectEnd = end - spacesToRemove;
+    }
+
+    private indentLine() {
+        let start = this.selectStart;
+        let end = this.selectEnd;
+
+        this.selectStart = this.selectEnd = this.startOfLine;
+
+        this.insertText("    ");
+
+        this.selectStart = start + 4;
+        this.selectEnd = end + 4;
+    }
+
+    private continueOrRemoveLeadingMarkdown(leadingMarkdown: string) {
+        if (this.markdownText
+            .substr(this.startOfLine, this.endOfLine - this.startOfLine)
+            .replace(leadingMarkdown, "")) {
+            this.insertText(`\n${leadingMarkdown}`);
+        } else {
+            this.selectStart = this.startOfLine;
+            this.selectEnd = this.endOfLine;
+
+            this.deleteText();
+            this.selectStart = this.selectEnd = this.startOfLine;
         }
     }
 
@@ -245,7 +310,7 @@
 
             end += linkText.length + 1;
         } else {
-            this.insertText(`${isImage ? "!" : ""}[${this.markdownText.substr(start, end - start)}](http://)`);
+            this.insertText(`${isImage ? "!" : ""}[${this.markdownText.substr(start, end - start).trim()}](http://)`);
             end++;
         }
 
@@ -310,41 +375,4 @@ $(document).ready(() => {
     $(".markdown-editor").each((i, elem) => {
         m = new MarkdownEditor($(elem));
     });
-    //simpleMde = new SimpleMDE({
-    //    autoDownloadFontAwesome: false,
-    //    blockStyles: {
-    //        bold: "__",
-    //        italic: "_"
-    //    },
-    //    element: $(".markdown-editor #Content")[0],
-    //    indentWithTabs: false,
-    //    parsingConfig: {
-    //        strikethrough: false
-    //    },
-    //    placeholder: "Content...",
-    //    previewRender: convertMarkdown,
-    //    tabSize: 4,
-    //    toolbar: [
-    //        "bold",
-    //        "italic",
-    //        "heading",
-    //        "|",
-    //        "quote",
-    //        "unordered-list",
-    //        "ordered-list",
-    //        "horizontal-rule",
-    //        "|",
-    //        "link",
-    //        "image",
-    //        "|",
-    //        "preview",
-    //        "|",
-    //        {
-    //            name: "guide",
-    //            action: () => $("#markdown-help").modal("toggle"),
-    //            className: "fa fa-question-circle",
-    //            title: "View markdown guide"
-    //        }
-    //    ]
-    //});
 });
