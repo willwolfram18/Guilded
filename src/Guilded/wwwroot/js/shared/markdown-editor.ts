@@ -60,7 +60,7 @@
         }
 
         if (headerLevel <= 6) {
-            document.execCommand("insertText", false, textToInsert);
+            this.insertText(textToInsert);
         } else {
             // We need to select the header characaters.
             this.selectStart = this.startOfLine;
@@ -104,10 +104,26 @@
             this.selectStart = this.selectEnd
         }
 
-        document.execCommand("insertText", false, "\n\n-----\n")
+        this.insertText("\n\n-----\n")
 
         this.selectStart = originalStart;
         this.selectEnd = originalEnd;
+    }
+
+    insertLink() {
+        let start = this.selectStart;
+        let end = this.selectEnd;
+
+        if (start === end) {
+            this.insertText("[link text](http://)");
+            end += "link text".length + 1;
+        } else {
+            this.insertText(`[${this.textarea.value.substr(start, end - start)}](http://)`);
+            end++;
+        }
+
+        this.selectStart = start + 1;
+        this.selectEnd = end;
     }
 
     toggleHelpGuide() {
@@ -117,29 +133,7 @@
     focus() {
         this.textarea.focus();
     }
-
-    private insertWrappingMarkdown(markdown: string) {
-        if (!this.textarea) {
-            return;
-        }
-
-        let start = this.selectStart;
-        let end = this.selectEnd;
-
-        if (start === end) {
-            document.execCommand("insertText", false, markdown + markdown)
-            start = end = start + markdown.length;
-        } else {
-            let textToWrap = this.textarea.value.substr(start, end - start);
-            document.execCommand("insertText", false, `${markdown}${textToWrap}${markdown}`)
-            end = end + markdown.length * 2;
-        }
-
-        this.focus();
-        this.selectStart = start;
-        this.selectEnd = end;
-    }
-
+    
     private onMarkdownToolbarButtonClick(e: JQueryEventObject) {
         let $target = $(e.target);
         if (!$target.is(".button")) {
@@ -163,6 +157,9 @@
             case "ruler":
                 this.insertRuler();
                 break;
+            case "link":
+                this.insertLink();
+                break;
             case "preview":
                 this.togglePreview();
                 break;
@@ -170,6 +167,32 @@
                 this.toggleHelpGuide();
                 break;
         }
+    }
+
+    private insertWrappingMarkdown(markdown: string) {
+        if (!this.textarea) {
+            return;
+        }
+
+        let start = this.selectStart;
+        let end = this.selectEnd;
+
+        if (start === end) {
+            this.insertText(markdown + markdown)
+            start = end = start + markdown.length;
+        } else {
+            let textToWrap = this.textarea.value.substr(start, end - start);
+            this.insertText(`${markdown}${textToWrap}${markdown}`);
+            end = end + markdown.length * 2;
+        }
+
+        this.focus();
+        this.selectStart = start;
+        this.selectEnd = end;
+    }
+
+    private insertText(text: string) {
+        document.execCommand("insertText", false, text);
     }
 
     private getCurrentHeaderLevel() {
