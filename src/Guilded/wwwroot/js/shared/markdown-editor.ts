@@ -111,19 +111,11 @@
     }
 
     insertLink() {
-        let start = this.selectStart;
-        let end = this.selectEnd;
+        this.insertLinkMarkdown(false);
+    }
 
-        if (start === end) {
-            this.insertText("[link text](http://)");
-            end += "link text".length + 1;
-        } else {
-            this.insertText(`[${this.textarea.value.substr(start, end - start)}](http://)`);
-            end++;
-        }
-
-        this.selectStart = start + 1;
-        this.selectEnd = end;
+    insertImage() {
+        this.insertLinkMarkdown(true);
     }
 
     toggleHelpGuide() {
@@ -160,6 +152,9 @@
             case "link":
                 this.insertLink();
                 break;
+            case "image":
+                this.insertImage();
+                break;
             case "preview":
                 this.togglePreview();
                 break;
@@ -193,6 +188,30 @@
 
     private insertText(text: string) {
         document.execCommand("insertText", false, text);
+    }
+
+    private insertLinkMarkdown(isImage: boolean) {
+        let start = this.selectStart;
+        let end = this.selectEnd;
+
+        if (start === end) {
+            let linkText = !isImage ? "link text" : "image description";
+
+            this.insertText(`${isImage ? "!" : ""}[${linkText}](http://)`);
+
+            end += linkText.length + 1;
+        } else {
+            this.insertText(`${isImage ? "!" : ""}[${this.textarea.value.substr(start, end - start)}](http://)`);
+            end++;
+        }
+
+        if (isImage) {
+            start++;
+            end++;
+        }
+
+        this.selectStart = start + 1;
+        this.selectEnd = end;
     }
 
     private getCurrentHeaderLevel() {
