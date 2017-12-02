@@ -100,7 +100,6 @@ function onQuoteClick() {
 }
 
 function onThreadEditClick(e: JQueryEventObject) {
-    $editPostModal.find(".header").text("Edit thread");
     $editPostModal.modal("show");
 }
 
@@ -129,11 +128,9 @@ $(document).ready(() => {
     $(".ui.button.locking,.ui.button.pinning")
         .on("click", onPinOrLockClick);
 
-    $(".ui.reply.button").on("click",
-        () => {
-            $editPostModal.find(".header").text("Post a reply");
-            $editPostModal.modal("show");
-        });
+    $(".ui.reply.button").on("click", () => {
+        MarkdownEditor.getEditor($("#create-reply-wrapper .markdown-editor")).focus();
+    });
 
     $(".comment .actions")
         .on("click", ".quote", onQuoteClick);
@@ -145,5 +142,5 @@ $(document).ready(() => {
         .on("click", ".delete", onThreadDeleteClick)
         .on("click", ".edit", onThreadEditClick);
 
-    $editPostModal = $("#create-reply-wrapper").modal();
+    $editPostModal = $("#editPostModal").modal();
 });

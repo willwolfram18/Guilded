@@ -1,7 +1,7 @@
 ﻿class MarkdownEditor {
     private readonly headerMarkdown = "#";
     private readonly boldMarkdown = "__";
-    private readonly italicMarkdown = "-";
+    private readonly italicMarkdown = "_";
     private readonly unorderedListMarkdown = "* ";
     private readonly orderedListMarkdown = "1. ";
     private readonly quoteMarkdown = "> ";

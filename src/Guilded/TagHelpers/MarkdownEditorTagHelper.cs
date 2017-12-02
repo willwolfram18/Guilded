@@ -12,6 +12,7 @@ namespace Guilded.TagHelpers
     [HtmlTargetElement("markdown-editor", TagStructure = TagStructure.WithoutEndTag)]
     public class MarkdownEditorTagHelper : TagHelper
     {
+
         private readonly IHtmlHelper _htmlHelper;
         private string _content;
 
@@ -26,12 +27,6 @@ namespace Guilded.TagHelpers
         [HtmlAttributeNotBound]
         public ViewContext Context { get; set; }
 
-        private bool? AreResourcesLoaded
-        {
-            get => Context.ViewData[ViewDataKeys.MarkdownResourcesLoaded] as bool?;
-            set => Context.ViewData[ViewDataKeys.MarkdownResourcesLoaded] = value;
-        }
-
         public MarkdownEditorTagHelper(IHtmlHelper htmlHelper)
         {
             _htmlHelper = htmlHelper;
@@ -42,15 +37,11 @@ namespace Guilded.TagHelpers
             var url = new UrlHelper(Context);
             Context.ViewData[ViewDataKeys.MarkdownAction] = url.Action("Index", "Markdown", new {area = ""});
 
-            AreResourcesLoaded = AreResourcesLoaded ?? false;
-
             (_htmlHelper as IViewContextAware).Contextualize(Context);
 
             output.TagMode = TagMode.StartTagAndEndTag;
             output.TagName = "div";
             output.Content.SetHtmlContent(await _htmlHelper.PartialAsync("MarkdownEditor", new MarkdownContent { Content = Content }));
-
-            AreResourcesLoaded = true;
         }
     }
 }
