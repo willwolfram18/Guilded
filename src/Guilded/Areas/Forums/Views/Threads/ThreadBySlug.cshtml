@@ -132,7 +132,9 @@
         <div class="header">
             Edit post
         </div>
-        <form class="ui form">
+        <form class="ui form" data-ajax="true" data-ajax-method="post" asp-antiforgery="true"
+              data-ajax-begin="onPostReplyBegin" data-ajax-success="onEditPostSuccess"
+              data-ajax-failure="onEditPostError">
             <div class="content">
                 <markdown-editor content="" />
             </div>
