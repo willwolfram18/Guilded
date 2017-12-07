@@ -100,7 +100,21 @@ function onQuoteClick() {
 }
 
 function onThreadEditClick(e: JQueryEventObject) {
+    let targetId = $(e.target).closest(".comment").data("thread-id");
+    $editPostModal.find("form").addClass("loading");
     $editPostModal.modal("show");
+
+    $.ajax({
+        method: "GET",
+        url: `/forums/threads/edit/${targetId}`,
+        success: (response) => $editPostModal
+            .find("form").removeClass("loading")
+            .find("textarea").val(response).trigger("change"),
+        error: (response: JQueryXHR) => {
+            $editPostModal.modal("hide");
+            showErrorMessage(response.responseText || response.statusText);
+        }
+})
 }
 
 function onPinOrLockClick(e: JQueryEventObject) {
@@ -128,7 +142,7 @@ $(document).ready(() => {
     $(".ui.button.locking,.ui.button.pinning")
         .on("click", onPinOrLockClick);
 
-    $(".ui.reply.button").on("click", () => {
+    $(".ui.reply.button").on("mousedown mouseup focus click", () => {
         MarkdownEditor.getEditor($("#create-reply-wrapper .markdown-editor")).focus();
     });
 

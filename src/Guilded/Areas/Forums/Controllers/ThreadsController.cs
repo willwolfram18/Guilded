@@ -116,8 +116,20 @@ namespace Guilded.Areas.Forums.Controllers
             return RedirectToAction("ForumBySlug", "Home", new { area = "Forums", slug = forum.Slug });
         }
 
+        [HttpGet("~/[area]/[controller]/edit/{threadId}")]
+        public async Task<IActionResult> UpdateThread(int threadId)
+        {
+            var thread = await DataContext.GetThreadByIdAsync(threadId);
+            if (thread.IsNotFound())
+            {
+                return NotFound("That thread does not exist.");
+            }
+
+            return Content(thread.Content);
+        }
+
         [Authorize(RoleClaimValues.ForumsWriterClaim)]
-        [HttpPost("~/[area]/[controller]/{threadId}")]
+        [HttpPost("~/[area]/[controller]/edit/{threadId}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateThread(UpdateThreadViewModel viewModel)
         {
