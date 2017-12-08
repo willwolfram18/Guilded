@@ -19,7 +19,7 @@ namespace Guilded.Areas.Forums.Controllers
         }
 
         [Authorize(RoleClaimValues.ForumsWriterClaim)]
-        [HttpPost("{threadId}")]
+        [HttpPost("new/{threadId}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PostNewReplyToThread(CreateReplyViewModel reply)
         {
