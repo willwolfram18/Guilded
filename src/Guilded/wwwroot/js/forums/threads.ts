@@ -99,22 +99,52 @@ function onQuoteClick() {
     alert("A thing");
 }
 
-function onThreadEditClick(e: JQueryEventObject) {
-    let targetId = $(e.target).closest(".comment").data("thread-id");
-    $editPostModal.find("form").addClass("loading");
-    $editPostModal.modal("show");
+function onEditClick(e: JQueryEventObject) {
+    const $post = $(e.target).closest(".comment");
+    let editUrl = $post.data("edit-url");
+
+    $editPostModal.find("form")
+        .addClass("loading")
+        .attr("action", editUrl);
+
+    $editPostModal.modal("show")
+        .data("update-element", $post);
 
     $.ajax({
         method: "GET",
-        url: `/forums/threads/edit/${targetId}`,
-        success: (response) => $editPostModal
-            .find("form").removeClass("loading")
-            .find("textarea").val(response).trigger("change"),
+        url: editUrl,
+        success: (response) => {
+            let mdEditor = MarkdownEditor.getEditor($editPostModal.find(".markdown-editor"));
+
+            mdEditor.text = "" + response;
+            $editPostModal.find("form").removeClass("loading");
+        },
         error: (response: JQueryXHR) => {
             $editPostModal.modal("hide");
             showErrorMessage(response.responseText || response.statusText);
         }
-})
+    });
+}
+
+function onEditPostBegin() {
+    $editPostModal.find(".ui.warning.segment").addClass("hidden");
+    $editPostModal.find("form").addClass("loading")
+}
+
+function onEditPostSuccess(response: any) {
+    let $postToUpdate = $($editPostModal.data("update-element"));
+    $postToUpdate.find(".content .text").html(response);
+    $editPostModal.modal("hide");
+}
+
+function onEditPostComplete() {
+    $editPostModal.find("form").removeClass("loading");
+}
+
+function onEditPostError(response: JQueryXHR) {
+    $editPostModal.find(".ui.warning.segment")
+        .text(response.responseText || response.statusText)
+        .removeClass("hidden");
 }
 
 function onPinOrLockClick(e: JQueryEventObject) {
@@ -147,14 +177,16 @@ $(document).ready(() => {
     });
 
     $(".comment .actions")
-        .on("click", ".quote", onQuoteClick);
+        .on("click", ".quote", onQuoteClick)
+        .on("click", ".edit", onEditClick);
 
     $(".comment[data-reply-id] .actions")
         .on("click", ".delete", onReplyDeleteClick);
 
     $(".comment[data-thread-id]")
-        .on("click", ".delete", onThreadDeleteClick)
-        .on("click", ".edit", onThreadEditClick);
+        .on("click", ".delete", onThreadDeleteClick);
 
-    $editPostModal = $("#editPostModal").modal();
+    $editPostModal = $("#editPostModal").modal({
+        onShow: onEditPostBegin,
+    });
 });

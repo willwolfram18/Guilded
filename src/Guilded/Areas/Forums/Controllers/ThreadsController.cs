@@ -151,7 +151,7 @@ namespace Guilded.Areas.Forums.Controllers
 
             try
             {
-                thread = await DataContext.UpdateThreadContentByIdAsync(thread.Id, viewModel.UpdatedContent);
+                thread = await DataContext.UpdateThreadContentByIdAsync(thread.Id, viewModel.Content);
                 return PartialView(new ThreadViewModel(thread));
             }
             catch (Exception e)

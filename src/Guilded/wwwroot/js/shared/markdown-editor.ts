@@ -87,6 +87,13 @@
         return null;
     }
 
+    get text(): string {
+        return this.markdownText;
+    }
+    set text(value: string) {
+        this.$markdown.val(value).trigger("change");
+    }
+
     insertBold() {
         this.insertWrappingMarkdown(this.boldMarkdown);
     }

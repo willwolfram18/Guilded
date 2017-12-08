@@ -4,6 +4,6 @@
     {
         public int ThreadId { get; set; }
 
-        public string UpdatedContent { get; set; }
+        public string Content { get; set; }
     }
 }

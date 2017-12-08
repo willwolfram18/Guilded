@@ -72,7 +72,7 @@
 <div class="ui thread comments">
     @if (Model.CurrentPage == 1)
     {
-        <div class="comment" data-thread-id="@Model.Id">
+        <div class="comment" data-thread-id="@Model.Id" data-edit-url="@Url.Action("UpdateThread", "Threads", new { area = "Forums", threadId = Model.Id })">
             <a class="avatar">
                 <img src="https://static.tplugin.com/tplugin/img/unknown-user.png"
                      styles="height: 35px;"/>
@@ -133,15 +133,16 @@
             Edit post
         </div>
         <form class="ui form" data-ajax="true" data-ajax-method="post" asp-antiforgery="true"
-              data-ajax-begin="onPostReplyBegin" data-ajax-success="onEditPostSuccess"
-              data-ajax-failure="onEditPostError">
+              data-ajax-begin="onEditPostBegin" data-ajax-complete="onEditPostComplete"
+              data-ajax-success="onEditPostSuccess" data-ajax-failure="onEditPostError">
             <div class="content">
-                <markdown-editor content="" />
+                <div class="ui hidden raised warning segment"></div>
+                <markdown-editor content=""/>
             </div>
             <div class="actions">
-                <div class="ui primary approve button">
+                <button type="submit" class="ui primary button">
                     Submit
-                </div>
+                </button>
                 <div class="ui cancel button">
                     Cancel
                 </div>

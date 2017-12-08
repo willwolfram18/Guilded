@@ -18,7 +18,7 @@ namespace Guilded.Tests.ModelBuilders
 
         public UpdateThreadViewModelBuilder WithContent(string content)
         {
-            Instance.UpdatedContent = content;
+            Instance.Content = content;
 
             return this;
         }
