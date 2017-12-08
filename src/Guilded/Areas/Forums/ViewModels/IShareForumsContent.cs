@@ -7,5 +7,7 @@
         string ShareLink { get; }
 
         string Description { get; }
+
+        string ViewLink { get; }
     }
 }

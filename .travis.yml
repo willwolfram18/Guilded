@@ -55,5 +55,5 @@ deploy:
     bucket_name: elasticbeanstalk-us-west-1-126711177368
     zip_file: $FullVersion.zip
     on:
-        condition: [ $TRAVIS_BUILD_NUMBER -eq 62 ]
+        condition: [ $TRAVIS_BUILD_NUMBER -eq 63 ]
         branch: "feature/forums-area/edit-posts"
