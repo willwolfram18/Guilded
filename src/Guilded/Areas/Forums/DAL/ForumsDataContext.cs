@@ -127,6 +127,18 @@ namespace Guilded.Areas.Forums.DAL
             return await GetReplyByIdAsync(dbReply.Entity.Id);
         }
 
+        public async Task<Reply> UpdateReplyContentByIdAsync(int replyId, string content)
+        {
+            var dbReply = await GetReplyByIdAsync(replyId);
+
+            dbReply.Content = content;
+
+            Context.Update(dbReply);
+            await SaveChangesAsync();
+
+            return dbReply;
+        }
+
         public Task DeleteReplyAsync(Reply reply)
         {
             reply.IsDeleted = true;

@@ -23,6 +23,7 @@ namespace Guilded.Areas.Forums.DAL
 
         Task<Reply> CreateReplyAsync(Reply reply);
         Task<Reply> GetReplyByIdAsync(int id);
+        Task<Reply> UpdateReplyContentByIdAsync(int id, string content);
         Task DeleteReplyAsync(Reply reply);
     }
 }
