@@ -1,16 +1,14 @@
-﻿using System;
+﻿using Guilded.Areas.Forums.Controllers;
 using Guilded.Data.Forums;
 using Guilded.Tests.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using Shouldly;
-using System.Collections.Generic;
+using System;
 using System.Linq.Expressions;
 using System.Net;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Guilded.Areas.Forums.Controllers;
 
 namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
 {
@@ -43,7 +41,7 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
 
             ThreadBuilder.WithAuthorId(authorId.ToString());
 
-            MockUserIdIsThis(userId);
+            MockUserIdIsThis(userId.ToString());
 
             var result = await Controller.DeleteThread(DefaultThreadId) as ObjectResult;
 
@@ -85,22 +83,13 @@ namespace Guilded.Tests.Areas.Forums.Controllers.ThreadsControllerTests
             ));
         }
 
-        private void MockUserIdIsThis(int userId)
-        {
-            MockUser.Setup(u => u.Claims)
-                .Returns(new List<Claim>
-                {
-                    new Claim(ClaimTypes.NameIdentifier, userId.ToString())
-                });
-        }
-
         private void CurrentUserIsAuthor()
         {
             const int authorId = 1;
 
             ThreadBuilder.WithAuthorId(authorId.ToString());
 
-            MockUserIdIsThis(authorId);
+            MockUserIdIsThis(authorId.ToString());
         }
     }
 }

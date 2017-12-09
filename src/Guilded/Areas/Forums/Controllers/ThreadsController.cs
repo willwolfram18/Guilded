@@ -116,6 +116,51 @@ namespace Guilded.Areas.Forums.Controllers
             return RedirectToAction("ForumBySlug", "Home", new { area = "Forums", slug = forum.Slug });
         }
 
+        [HttpGet("~/[area]/[controller]/edit/{threadId}")]
+        public async Task<IActionResult> UpdateThread(int threadId)
+        {
+            var thread = await DataContext.GetThreadByIdAsync(threadId);
+            if (thread.IsNotFound())
+            {
+                return NotFound("That thread does not exist.");
+            }
+
+            return Content(thread.Content);
+        }
+
+        [Authorize(RoleClaimValues.ForumsWriterClaim)]
+        [HttpPost("~/[area]/[controller]/edit/{threadId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateThread(UpdateThreadViewModel viewModel)
+        {
+            var thread = await DataContext.GetThreadByIdAsync(viewModel.ThreadId);
+            if (thread.IsNotFound())
+            {
+                return NotFound("That thread does not exist.");
+            }
+
+            if (thread.IsLocked)
+            {
+                return BadRequest("This post is locked and cannot be edited.");
+            }
+
+            if (thread.AuthorId != User.UserId())
+            {
+                return StatusCode(HttpStatusCode.Unauthorized, "You are not the author of this post.");
+            }
+
+            try
+            {
+                thread = await DataContext.UpdateThreadContentByIdAsync(thread.Id, viewModel.Content);
+                return PartialView(new ThreadViewModel(thread));
+            }
+            catch (Exception e)
+            {
+                Logger.LogError($"An error occurred attempting to update the content of thread {viewModel.ThreadId}", e);
+                return StatusCode(HttpStatusCode.InternalServerError);
+            }
+        }
+
         [Authorize(RoleClaimValues.ForumsWriterClaim)]
         [HttpDelete("~/[area]/[controller]/{threadId}")]
         [ValidateAntiForgeryToken]

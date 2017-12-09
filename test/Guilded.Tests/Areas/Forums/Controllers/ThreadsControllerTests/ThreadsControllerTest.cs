@@ -1,4 +1,5 @@
-﻿using Guilded.Areas.Forums.Controllers;
+﻿using System;
+using Guilded.Areas.Forums.Controllers;
 using Guilded.Areas.Forums.DAL;
 using Guilded.Tests.Controllers;
 using Guilded.Tests.ModelBuilders;

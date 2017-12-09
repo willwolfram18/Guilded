@@ -19,7 +19,7 @@ namespace Guilded.Areas.Forums.Controllers
         }
 
         [Authorize(RoleClaimValues.ForumsWriterClaim)]
-        [HttpPost("{threadId}")]
+        [HttpPost("new/{threadId}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PostNewReplyToThread(CreateReplyViewModel reply)
         {
@@ -52,6 +52,61 @@ namespace Guilded.Areas.Forums.Controllers
 
             Response.StatusCode = (int)HttpStatusCode.BadRequest;
             return PartialView("CreateReplyViewModel", reply);
+        }
+
+        [HttpGet("{replyId}")]
+        public async Task<IActionResult> UpdateReply(int replyId)
+        {
+            var reply = await DataContext.GetReplyByIdAsync(replyId);
+            if (reply.IsNotFound())
+            {
+                return NotFound("That reply does not exist.");
+            }
+
+            if (reply.Thread.IsLocked)
+            {
+                return BadRequest("You cannot edit a post in a locked thread.");
+            }
+
+            if (reply.AuthorId != User.UserId())
+            {
+                return StatusCode(HttpStatusCode.Unauthorized, "You are not the author of this post.");
+            }
+
+            return Content(reply.Content);
+        }
+
+        [Authorize(RoleClaimValues.ForumsWriterClaim)]
+        [HttpPost("{replyId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateReply(UpdateReplyViewModel reply)
+        {
+            var dbReply = await DataContext.GetReplyByIdAsync(reply.ReplyId);
+            if (dbReply.IsNotFound())
+            {
+                return NotFound("That reply does not exist.");
+            }
+
+            if (dbReply.Thread.IsLocked)
+            {
+                return BadRequest("You cannot edit a post in a locked thread.");
+            }
+
+            if (dbReply.AuthorId != User.UserId())
+            {
+                return StatusCode(HttpStatusCode.Unauthorized, "You are not the author of this post.");
+            }
+
+            try
+            {
+                dbReply = await DataContext.UpdateReplyContentByIdAsync(reply.ReplyId, reply.Content);
+                return PartialView(new ReplyViewModel(dbReply));
+            }
+            catch (Exception e)
+            {
+                Logger.LogError($"An error occurred attempting to update the content of reply {reply.ReplyId}.", e);
+                return StatusCode(HttpStatusCode.InternalServerError);
+            }
         }
 
         [Authorize(RoleClaimValues.ForumsWriterClaim)]

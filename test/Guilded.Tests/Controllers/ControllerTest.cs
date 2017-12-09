@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -141,6 +142,15 @@ namespace Guilded.Tests.Controllers
         protected virtual void AdditionalSetUp()
         {
             // Nothing to do in base class
+        }
+
+        protected void MockUserIdIsThis(string userId)
+        {
+            MockUser.Setup(u => u.Claims)
+                .Returns(new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, userId)
+                });
         }
 
         private void InitializeLogging()

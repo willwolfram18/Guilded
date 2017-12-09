@@ -1,5 +1,5 @@
 ﻿$(document).ready(() => {
-    const redirectUrl: string = $("#shareLink").val();
+    const redirectUrl: string = $("#viewLink").val();
 
     window.location.assign(redirectUrl);
 });

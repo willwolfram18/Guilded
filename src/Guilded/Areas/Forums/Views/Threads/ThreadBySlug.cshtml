@@ -44,19 +44,19 @@
 
 @{ await Html.RenderPartialAsync("SuccessAndErrorMessages"); }
 
-<pager pager-vertical-location="Top" />
 
-<div class="ui small buttons">
-    @{
-        await Html.RenderPartialAsync("PinningPartial", Model);
-        await Html.RenderPartialAsync("LockingPartial", Model);
-    }
-</div>
 @if (roleClaims.Any(c => c == RoleClaimValues.ForumsLocking || c == RoleClaimValues.ForumsPinning))
 {
-    <br/>
-    <br/>
+    <div class="ui small pin-lock buttons">
+        @{
+            await Html.RenderPartialAsync("PinningPartial", Model);
+            await Html.RenderPartialAsync("LockingPartial", Model);
+        }
+    </div>
 }
+
+<pager pager-vertical-location="Top" />
+
 <div class="ui small buttons">
     @if (!Model.IsLocked && roleClaims.Any(c => c == RoleClaimValues.ForumsWriter))
     {
@@ -72,7 +72,7 @@
 <div class="ui thread comments">
     @if (Model.CurrentPage == 1)
     {
-        <div class="comment" data-thread-id="@Model.Id">
+        <div class="comment" data-thread-id="@Model.Id" data-edit-url="@Url.Action("UpdateThread", "Threads", new { area = "Forums", threadId = Model.Id })">
             <a class="avatar">
                 <img src="https://static.tplugin.com/tplugin/img/unknown-user.png"
                      styles="height: 35px;"/>
@@ -101,30 +101,52 @@
 
 <pager pager-vertical-location="Bottom" />
 
-<div id="create-reply-wrapper">
-    <h3>
-        Post a reply
-    </h3>
-    @if (!Model.IsLocked)
-    {
-        if (roleClaims.Any(c => c == RoleClaimValues.ForumsWriter))
+@if (!Model.IsLocked)
+{
+    <div id="create-reply-wrapper">
+        <h3>
+            Post a reply
+        </h3>
+        @if (!Model.IsLocked)
         {
-            await Html.RenderPartialAsync("CreateReplyViewModel", model: new CreateReplyViewModel {ThreadId = Model.Id});
+            if (roleClaims.Any(c => c == RoleClaimValues.ForumsWriter))
+            {
+                await Html.RenderPartialAsync("CreateReplyViewModel", model: new CreateReplyViewModel {ThreadId = Model.Id});
+            }
+            else
+            {
+                <div class="ui center segment">
+                    You do not have permission to post to the forums.
+                </div>
+            }
         }
         else
         {
             <div class="ui center segment">
-                You do not have permission to post to the forums.
+                This thread is locked.
             </div>
         }
-    }
-    else
-    {
-        <div class="ui center segment">
-            <p>
-                This thread is locked.
-            </p>
-        </div>
-    }
-</div>
+    </div>
 
+    <div id="editPostModal" class="ui modal">
+        <div class="header">
+            Edit post
+        </div>
+        <form class="ui form" data-ajax="true" data-ajax-method="post" asp-antiforgery="true"
+              data-ajax-begin="onEditPostBegin" data-ajax-complete="onEditPostComplete"
+              data-ajax-success="onEditPostSuccess" data-ajax-failure="onEditPostError">
+            <div class="content">
+                <div class="ui hidden raised warning segment"></div>
+                <markdown-editor content=""/>
+            </div>
+            <div class="actions">
+                <button type="submit" class="ui primary button">
+                    Submit
+                </button>
+                <div class="ui cancel button">
+                    Cancel
+                </div>
+            </div>
+        </form>
+    </div>
+}

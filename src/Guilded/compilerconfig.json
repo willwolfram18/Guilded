@@ -34,5 +34,9 @@
   {
     "outputFile": "wwwroot/css/forums/forums.css",
     "inputFile": "wwwroot/css/forums/forums.less"
+  },
+  {
+    "outputFile": "wwwroot/css/shared/markdown-editor.css",
+    "inputFile": "wwwroot/css/shared/markdown-editor.less"
   }
 ]

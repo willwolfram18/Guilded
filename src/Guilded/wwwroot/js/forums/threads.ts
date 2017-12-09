@@ -1,3 +1,6 @@
+let $editPostModal: JQuery;
+let $createReply: JQuery;
+
 function onPostReplySuccess(data: any) {
     let pageUrl = $("input[type='hidden'].last-page").val();
 
@@ -5,11 +8,10 @@ function onPostReplySuccess(data: any) {
 }
 
 function onPostReplyError(response: JQueryXHR) {
-    let $currentReplyForm = $("#create-reply");
     let $updatedForm = $(response.responseText);
 
-    $updatedForm.insertBefore($currentReplyForm);
-    $currentReplyForm.remove();
+    $updatedForm.insertBefore($createReply);
+    $createReply.remove();
 }
 
 function onPostReplyBegin() {
@@ -25,11 +27,11 @@ function insertRequestVerificationTokenIntoData(formData: any) {
 }
 
 function replyFormEntersLoading() {
-    $("#create-reply").addClass("loading");
+    $createReply.addClass("loading");
 }
 
 function replyFormExitsLoading() {
-    $("#create-reply").removeClass("loading");
+    $createReply.removeClass("loading");
 }
 
 function onBeforeDeleteSend() {
@@ -41,51 +43,55 @@ function onDeleteError(response: JQueryXHR) {
     showErrorMessage(response.responseText || response.statusText);
 }
 
-function onReplyDeleteClick() {
-    let $reply = $(this).closest(".comment");
-    let replyId = $reply.data("reply-id");
-    let formData: any = {
-        replyId: replyId,
-    };
+function onReplyDeleteClick(e: JQueryEventObject) {
+    confirmAction("Are you sure you want to delete this reply?", () => {
+        let $reply = $(e.target).closest(".comment");
+        let replyId = $reply.data("reply-id");
+        let formData: any = {
+            replyId: replyId,
+        };
 
-    insertRequestVerificationTokenIntoData(formData);
+        insertRequestVerificationTokenIntoData(formData);
 
-    $.ajax({
-        url: $("input[type='hidden'].delete-reply-url").val(),
-        type: "DELETE",
-        data: formData,
-        beforeSend: onBeforeDeleteSend,
-        complete: replyFormExitsLoading,
-        success: () => {
-            $reply.remove();
-            showSuccessMessage("Successfully removed reply.");
-        },
-        error: onDeleteError
+        $.ajax({
+            url: $("input[type='hidden'].delete-reply-url").val(),
+            type: "DELETE",
+            data: formData,
+            beforeSend: onBeforeDeleteSend,
+            complete: replyFormExitsLoading,
+            success: () => {
+                $reply.remove();
+                showSuccessMessage("Successfully deleted the reply.");
+            },
+            error: onDeleteError
+        });
     });
 }
 
 function onThreadDeleteClick() {
-    let formData: any = {
-    };
+    confirmAction("Are you sure you want to delete this thread?", () => {
+        let formData: any = {
+        };
 
-    insertRequestVerificationTokenIntoData(formData);
+        insertRequestVerificationTokenIntoData(formData);
 
-    $.ajax({
-        url: $("input[type='hidden'].delete-thread-url").val(),
-        type: "DELETE",
-        data: formData,
-        beforeSend: onBeforeDeleteSend,
-        complete: replyFormExitsLoading,
-        success: () => {
-            showSuccessMessage("Successfully removed the thread. You will be redirected to the forums in a moment.");
+        $.ajax({
+            url: $("input[type='hidden'].delete-thread-url").val(),
+            type: "DELETE",
+            data: formData,
+            beforeSend: onBeforeDeleteSend,
+            complete: replyFormExitsLoading,
+            success: () => {
+                showSuccessMessage("Successfully deleted the thread. You will be redirected to the forums in a moment.");
 
-            setTimeout(() => {
-                let forumUrl: string = $("input[type='hidden'].forum-url").val();
+                setTimeout(() => {
+                    let forumUrl: string = $("input[type='hidden'].forum-url").val();
 
-                window.location.href = forumUrl;
-            }, 2500);
-        },
-        error: onDeleteError
+                    window.location.href = forumUrl;
+                }, 1500);
+            },
+            error: onDeleteError
+        });
     });
 }
 
@@ -93,12 +99,56 @@ function onQuoteClick() {
     alert("A thing");
 }
 
-function onShareClick(e: JQueryEventObject) {
-    console.log("copied");
+function onEditClick(e: JQueryEventObject) {
+    const $post = $(e.target).closest(".comment");
+    let editUrl = $post.data("edit-url");
+
+    $editPostModal.find("form")
+        .addClass("loading")
+        .attr("action", editUrl);
+
+    $editPostModal.modal("show")
+        .data("update-element", $post);
+
+    $.ajax({
+        method: "GET",
+        url: editUrl,
+        success: (response) => {
+            let mdEditor = MarkdownEditor.getEditor($editPostModal.find(".markdown-editor"));
+
+            mdEditor.text = "" + response;
+            $editPostModal.find("form").removeClass("loading");
+        },
+        error: (response: JQueryXHR) => {
+            $editPostModal.modal("hide");
+            showErrorMessage(response.responseText || response.statusText);
+        }
+    });
+}
+
+function onEditPostBegin() {
+    $editPostModal.find(".ui.warning.segment").addClass("hidden");
+    $editPostModal.find("form").addClass("loading")
+}
+
+function onEditPostSuccess(response: any) {
+    let $postToUpdate = $($editPostModal.data("update-element"));
+    $postToUpdate.find(".content .text").html(response);
+    $editPostModal.modal("hide");
+}
+
+function onEditPostComplete() {
+    $editPostModal.find("form").removeClass("loading");
+}
+
+function onEditPostError(response: JQueryXHR) {
+    $editPostModal.find(".ui.warning.segment")
+        .text(response.responseText || response.statusText)
+        .removeClass("hidden");
 }
 
 function onPinOrLockClick(e: JQueryEventObject) {
-    const $hiddenInput = $(e.target).find("input[type='hidden'][data-action-method]")
+    const $hiddenInput = $(e.target).find("input[type='hidden'][data-action-method]");
     const actionUrl: string = $hiddenInput.val();
 
     let actionData = {};
@@ -117,15 +167,26 @@ function onPinOrLockClick(e: JQueryEventObject) {
 }
 
 $(document).ready(() => {
+    $createReply = $("#create-reply");
+
     $(".ui.button.locking,.ui.button.pinning")
         .on("click", onPinOrLockClick);
 
+    $(".ui.reply.button").on("mousedown mouseup focus click", () => {
+        MarkdownEditor.getEditor($("#create-reply-wrapper .markdown-editor")).focus();
+    });
+
     $(".comment .actions")
-        .on("click", ".quote", onQuoteClick);
+        .on("click", ".quote", onQuoteClick)
+        .on("click", ".edit", onEditClick);
 
     $(".comment[data-reply-id] .actions")
         .on("click", ".delete", onReplyDeleteClick);
 
     $(".comment[data-thread-id]")
         .on("click", ".delete", onThreadDeleteClick);
+
+    $editPostModal = $("#editPostModal").modal({
+        onShow: onEditPostBegin,
+    });
 });

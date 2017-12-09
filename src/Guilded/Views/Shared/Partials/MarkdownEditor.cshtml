@@ -1,108 +1,51 @@
 ﻿@model IMarkdownContent
-
-<environment names="Development">
-    <link rel="stylesheet" href="lib/simplemde/debug/simplemde.css" />
-</environment>
-<environment names="Staging, Production">
-    <link rel="stylesheet" href="lib/simplemde/dist/simplemde.min.css"
-          asp-fallback-href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css" />
-</environment>
-
+ 
 <div class="markdown-editor" data-markdown-action="@ViewData[ViewDataKeys.MarkdownAction]">
-    <textarea asp-for="Content" placeholder="Content..."></textarea>
-</div>
-
-<environment names="Development">
-    <script src="~/lib/simplemde/debug/simplemde.js"></script>
-    <script src="~/js/shared/markdown-editor.js"></script>
-</environment>
-<environment names="Staging,Production">
-    <script src="~/js/shared/markdown-editor.min.js"
-            asp-append-version="true"></script>
-    <script src="~/lib/simplemde/dist/simplemde.min.js"
-            asp-fallback-src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-</environment>
-
-<div class="ui modal" id="markdown-help">
-    <div class="header">
-        Markdown Help
-    </div>
-    <div class="content">
-        <h4>Emphasis</h4>
-        <pre>__<strong>bold</strong>__
-_<em>italics</em>_
-_
-<em>Italic
-multiple
-lines</em>
-_
-
-__
-<strong>Bold
-multiple
-lines</strong>
-__
-
-_
-__<strong><em>
-Bold and italic
-across many lines
-</em></strong>__
-_
-
-__
-_<strong><em>
-You can switch
-their order too
-</em></strong>_
-__</pre>
-        <h4>Headers</h4>
-        <pre># Big header
-## Medium header
-### Small header
-#### Tiny header</pre>
-        <h4>Lists</h4>
-        <pre>* Generic list item
-* Generic list item
-* Generic list item
-
-1. Numbered list item
-2. Numbered list item
-3. Numbered list item</pre>
-        <h4>Links</h4>
-        <pre>[Text to display](http://www.example.com)</pre>
-        <h4>Quotes</h4>
-        <pre>&gt; This is a quote.
-&gt; It can span multiple lines!</pre>
-        <h4>Images &nbsp; <small>Need to upload an image? <a href="http://imgur.com/" target="_blank">Imgur</a> has a great interface.</small></h4>
-        <pre>![](http://www.example.com/image.jpg)</pre>
-        <h4>Tables</h4>
-        <pre>| Column 1 | Column 2 | Column 3 |
-| -------- | -------- | -------- |
-| John     | Doe      | Male     |
-| Mary     | Smith    | Female   |
-
-<em>Or without aligning the columns...</em>
-
-| Column 1 | Column 2 | Column 3 |
-| -------- | -------- | -------- |
-| John | Doe | Male |
-| Mary | Smith | Female |
-</pre>
-        <h4>Displaying code</h4>
-        <pre>`var example = "hello!";`
-
-<em>Or spanning multiple lines...</em>
-
-```
-var example = "hello!";
-alert(example);
-```</pre>
-        <footer>Provided for use with <a href="http://sparksuite.github.io/simplemde-markdown-editor" target="_blank">SimpleMDE</a></footer>
-    </div>
-    <div class="actions">
-        <div class="ui primary approve button">
-            Ok
+    <div class="markdown-toolbar">
+        <div class="ui compact buttons">
+            <div class="ui icon button" data-markdown-action="bold" title="Bold">
+                <i class="bold icon"></i>
+            </div>
+            <div class="ui icon button" data-markdown-action="italic" title="Italic">
+                <i class="italic icon"></i>
+            </div>
+            <div class="ui icon button" data-markdown-action="header" title="Header">
+                <i class="header icon"></i>
+            </div>
+        </div>
+        <i class="separator">|</i>
+        <div class="ui compact buttons">
+            <div class="ui icon button" title="Quote" data-markdown-action="quote">
+                <i class="fa-quote-left icon"></i>
+            </div>
+            <div class="ui icon button" title="Unordered list" data-markdown-action="ul">
+                <i class="fa-list-ul icon"></i>
+            </div>
+            <div class="ui icon button" title="Ordered list" data-markdown-action="ol">
+                <i class="fa-list-ol icon"></i>
+            </div>
+            <div class="ui icon button" data-markdown-action="ruler" title="Horizontal ruler">
+                <i class="minus icon"></i>
+            </div>
+        </div>
+        <i class="separator">|</i>
+        <div class="ui compact buttons">
+            <div class="ui icon button" title="Insert link" data-markdown-action="link">
+                <i class="fa-link icon"></i>
+            </div>
+            <div class="ui icon button" title="Insert image" data-markdown-action="image">
+                <i class="image icon"></i>
+            </div>
+        </div>
+        <i class="separator">|</i>
+        <div class="ui compact icon button" data-markdown-action="preview" title="Preview">
+            <i class="eye icon"></i>
+        </div>
+        <i class="separator">|</i>
+        <div class="ui compact icon button" data-markdown-action="guide" title="View markdown guide">
+            <i class="fa-question-circle icon"></i>
         </div>
     </div>
+    <textarea class="markdown" name="Content" value="@Model.Content" placeholder="Content...">@Model.Content</textarea>
+    <div class="markdown-preview" style="display: none;"></div>
 </div>

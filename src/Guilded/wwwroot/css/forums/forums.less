@@ -1,18 +1,36 @@
-﻿.ui.comments
+﻿.ui
 {
-    &.thread
+    &.comments
     {
-        max-width: inherit;
 
-        .comment
+        &.thread
         {
-            &[data-thread-id],
-            &[data-reply-id]
+            max-width: inherit;
+
+            .comment
             {
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                padding: 10px;
+                &[data-thread-id],
+                &[data-reply-id]
+                {
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    padding: 10px;
+                }
             }
+        }
+    }
+
+    &.buttons
+    {
+        &.pin-lock
+        {
+            margin-bottom: 10px;
+        }
+
+        &.pin-lock,
+        &.pager
+        {
+            display: block;
         }
     }
 }

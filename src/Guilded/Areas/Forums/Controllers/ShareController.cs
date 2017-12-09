@@ -36,7 +36,8 @@ namespace Guilded.Areas.Forums.Controllers
 
             var viewModel = new ThreadPreview
             {
-                ShareLink = Url.RouteUrl(RouteNames.ViewThreadByIdRoute, new { id }, "https"),
+                ViewLink = Url.RouteUrl(RouteNames.ViewThreadByIdRoute, new { id }, "https"),
+                ShareLink = Url.RouteUrl(RouteNames.ShareThreadRoute, new { id }, "https"),
                 Description = _markdownConverter.ConvertAndStripHtml(thread.Content),
                 Title = thread.Title
             };
@@ -72,7 +73,8 @@ namespace Guilded.Areas.Forums.Controllers
             var viewModel = new ForumPreview
             {
                 Description = description,
-                ShareLink = Url.RouteUrl(RouteNames.ViewForumByIdRoute, new { id }, "https"),
+                ViewLink = Url.RouteUrl(RouteNames.ViewForumByIdRoute, new { id }, "https"),
+                ShareLink = Url.RouteUrl(RouteNames.ShareForumRoute, new { id }, "https"),
                 Title = forum.Title
             };
 

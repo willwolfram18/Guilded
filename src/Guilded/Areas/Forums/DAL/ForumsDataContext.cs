@@ -59,6 +59,19 @@ namespace Guilded.Areas.Forums.DAL
             return await GetThreadBySlugAsync(thread.Slug);
         }
 
+        public async Task<Thread> UpdateThreadContentByIdAsync(int id, string content)
+        {
+            var thread = await GetThreadByIdAsync(id);
+
+            thread.Content = content;
+
+            Context.Update(thread);
+
+            await Context.SaveChangesAsync();
+
+            return thread;
+        }
+
         public Task LockThreadAsync(Thread thread)
         {
             thread.IsLocked = true;
@@ -112,6 +125,18 @@ namespace Guilded.Areas.Forums.DAL
             await SaveChangesAsync();
 
             return await GetReplyByIdAsync(dbReply.Entity.Id);
+        }
+
+        public async Task<Reply> UpdateReplyContentByIdAsync(int replyId, string content)
+        {
+            var dbReply = await GetReplyByIdAsync(replyId);
+
+            dbReply.Content = content;
+
+            Context.Update(dbReply);
+            await SaveChangesAsync();
+
+            return dbReply;
         }
 
         public Task DeleteReplyAsync(Reply reply)
