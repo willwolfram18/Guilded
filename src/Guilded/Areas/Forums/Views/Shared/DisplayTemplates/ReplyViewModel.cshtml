@@ -1,0 +1,24 @@
+@model ReplyViewModel
+
+<div class="comment" data-reply-id="@Model.Id" data-edit-url="@Url.Action("UpdateReply", "Replies", new { area = "Forums", replyId = Model.Id })">
+    <a class="avatar">
+        <img src="https://static.tplugin.com/tplugin/img/unknown-user.png"
+             styles="height: 35px;"/>
+    </a>
+    <div class="content">
+        <a class="author">
+            @Model.Author
+        </a>
+        <div class="metadata">
+            <span class="date">
+                @Model.CreatedAt.ToRelativeTimeStamp()
+            </span>
+        </div>
+        <div class="text">
+            <markdown-content content="@Model.Content"/>
+        </div>
+        <div class="actions">
+            @{ await Html.RenderPartialAsync("IForumPost", Model); }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,152 @@
+﻿@model ThreadViewModel
+@inject IUserRoleClaimsForRequest RoleClaims; 
+@{
+    ViewData[ViewDataKeys.Title] = Model.Title;
+
+    var roleClaims = await RoleClaims.GetRoleClaimsAsync();
+}
+
+@section Scripts {
+    <environment names="Development">
+        <script src="~/lib/clipboard/dist/clipboard.js"></script>
+        <script src="~/js/forums/share-posts.js"></script>
+        <script src="~/js/forums/threads.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/lib/clipboard/dist/clipboard.min.js"
+                asp-fallback-src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js">
+        </script>
+        <script src="~/js/forums/share-posts.min.js"
+                asp-append-version="true">
+        </script>
+        <script src="~/js/forums/threads.min.js"
+                asp-append-version="true">
+        </script>
+    </environment>
+}
+
+<h2>
+    @Model.Title
+    @if (Model.IsLocked)
+    {
+        <i class="lock icon" title="Locked"></i>
+    }
+    @if (Model.IsPinned)
+    {
+        <i class="fa-sticky-note icon" title="Sticky"></i>
+    }
+</h2>
+
+<input type="hidden" class="last-page" value="@(Model.PagerUrl + "?page=-1")"/>
+<input type="hidden" class="delete-thread-url" value="@(Url.Action("DeleteThread", "Threads", new { area = "Forums", threadId = Model.Id}))"/>
+<input type="hidden" class="delete-reply-url" value="@(Url.Action("DeleteReply", "Replies", new { area = "Forums", threadId = Model.Id }))"/>
+<input type="hidden" class="forum-url" value="@(Url.Action("ForumBySlug", "Home", new { area = "Forums", slug = Model.ForumsSlug }))"/>
+
+@{ await Html.RenderPartialAsync("SuccessAndErrorMessages"); }
+
+
+@if (roleClaims.Any(c => c == RoleClaimValues.ForumsLocking || c == RoleClaimValues.ForumsPinning))
+{
+    <div class="ui small pin-lock buttons">
+        @{
+            await Html.RenderPartialAsync("PinningPartial", Model);
+            await Html.RenderPartialAsync("LockingPartial", Model);
+        }
+    </div>
+}
+
+<pager pager-vertical-location="Top" />
+
+<div class="ui small buttons">
+    @if (!Model.IsLocked && roleClaims.Any(c => c == RoleClaimValues.ForumsWriter))
+    {
+        <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="ui small green icon reply button" asp-fragment="create-reply">
+            <i class="reply icon"></i> Reply
+        </a>
+    }
+    <a class="ui small icon share link button" asp-fragment="share" data-share-link="@Model.ShareLink">
+        <i class="share icon"></i> Share
+    </a>
+</div>
+
+<div class="ui thread comments">
+    @if (Model.CurrentPage == 1)
+    {
+        <div class="comment" data-thread-id="@Model.Id" data-edit-url="@Url.Action("UpdateThread", "Threads", new { area = "Forums", threadId = Model.Id })">
+            <a class="avatar">
+                <img src="https://static.tplugin.com/tplugin/img/unknown-user.png"
+                     styles="height: 35px;"/>
+            </a>
+            <div class="content">
+                <a class="author">
+                    @Model.Author
+                </a>
+                <div class="metadata">
+                    <span class="date">
+                        @Model.CreatedAt.ToRelativeTimeStamp()
+                    </span>
+                </div>
+                <div class="text">
+                    <markdown-content/>
+                </div>
+                <div class="actions">
+                    @{ await Html.RenderPartialAsync("IForumPost", Model); }
+                </div>
+            </div>
+        </div>
+    }
+    
+    @Html.DisplayFor(m => m.Models)
+</div>
+
+<pager pager-vertical-location="Bottom" />
+
+@if (!Model.IsLocked)
+{
+    <div id="create-reply-wrapper">
+        <h3>
+            Post a reply
+        </h3>
+        @if (!Model.IsLocked)
+        {
+            if (roleClaims.Any(c => c == RoleClaimValues.ForumsWriter))
+            {
+                await Html.RenderPartialAsync("CreateReplyViewModel", model: new CreateReplyViewModel {ThreadId = Model.Id});
+            }
+            else
+            {
+                <div class="ui center segment">
+                    You do not have permission to post to the forums.
+                </div>
+            }
+        }
+        else
+        {
+            <div class="ui center segment">
+                This thread is locked.
+            </div>
+        }
+    </div>
+
+    <div id="editPostModal" class="ui modal">
+        <div class="header">
+            Edit post
+        </div>
+        <form class="ui form" data-ajax="true" data-ajax-method="post" asp-antiforgery="true"
+              data-ajax-begin="onEditPostBegin" data-ajax-complete="onEditPostComplete"
+              data-ajax-success="onEditPostSuccess" data-ajax-failure="onEditPostError">
+            <div class="content">
+                <div class="ui hidden raised warning segment"></div>
+                <markdown-editor content=""/>
+            </div>
+            <div class="actions">
+                <button type="submit" class="ui primary button">
+                    Submit
+                </button>
+                <div class="ui cancel button">
+                    Cancel
+                </div>
+            </div>
+        </form>
+    </div>
+}

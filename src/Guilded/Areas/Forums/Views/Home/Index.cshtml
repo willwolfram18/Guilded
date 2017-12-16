@@ -1,20 +1,49 @@
-﻿@{
-    ViewData[ViewDataKeys.Title] = "Forums";
-    var content = @"### Hello, world!
-
-**
-block bold
-
-yup
-**";
-}
+﻿@model IEnumerable<ForumSectionViewModel>
 
 <h2>
     Forums
 </h2>
 
-<guilded-breadcumbs />
+@{ await Html.RenderPartialAsync("SuccessAndErrorMessages"); }
 
-<form class="ui form">
-    <markdown-editor content="@content" />
-</form>
+@if (!Model.Any())
+{
+    <div class="ui message">
+        <h3>
+            There are no forums to display!
+        </h3>
+    </div>
+}
+else
+{
+    foreach (var forumSection in Model)
+    {
+        <div class="ui segment">
+            <h4 class="title">
+                @forumSection.Title
+            </h4>
+            @if (!forumSection.Forums.Any())
+            {
+                <p>
+                    No forums to display!
+                </p>
+            }
+            else
+            {
+                <div class="ui divided animated selection list">
+                    @foreach (var forum in forumSection.Forums)
+                    {
+                        <a class="item" asp-area="Forums" asp-controller="Home" asp-action="ForumBySlug" asp-route-slug="@forum.Slug">
+                            <div class="content">
+                                <div class="header">
+                                    @forum.Title
+                                </div>
+                                @forum.Subtitle
+                            </div>
+                        </a>
+                    }
+                </div>
+            }
+        </div>
+    }
+}

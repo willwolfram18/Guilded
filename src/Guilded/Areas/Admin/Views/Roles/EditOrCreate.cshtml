@@ -32,14 +32,14 @@
 @{ await Html.SuccessAndErrorMessages(); }
 
 <form class="ui form" method="post" asp-area="Admin" asp-controller="Roles" asp-action="EditOrCreate" asp-route-roleId="@Model.Id">
-    <div class="ui raised warning segment" asp-validation-summary="All"></div>
+    <div asp-validation-summary="All"></div>
     <input asp-for="Id" />
     <div class="field">
         <label asp-for="Name"></label>
         <div class="ui input">
             <input asp-for="Name" placeholder="Enter the role name"/>
         </div>
-        <span class="ui raised warning pointing label" asp-validation-for="Name"></span>
+        <span asp-validation-for="Name"></span>
     </div>
     <div class="field">
         <div class="inline label">
@@ -65,11 +65,11 @@
     </div>
     <div class="content">
         <div class="ui relaxed divided list">
-            @foreach (var roleClaim in RoleClaimTypes.RoleClaims.OrderBy(r => r.ClaimType))
+            @foreach (var roleClaim in RoleClaimValues.RoleClaims.OrderBy(r => r.ClaimValue))
             {
                 <div class="item">
                     <div class="header">
-                        @roleClaim.ClaimType
+                        @roleClaim.ClaimValue
                     </div>
                     <div class="description">
                         @roleClaim.Description

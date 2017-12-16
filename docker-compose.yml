@@ -1,0 +1,12 @@
+version: '3.2'
+
+services:
+  guilded:
+    image: bwolfing/guilded
+    depends_on:
+      - guilded-db
+    build:
+      context: ./src/Guilded
+      dockerfile: Dockerfile
+  guilded-db:
+    image: microsoft/mssql-server-linux

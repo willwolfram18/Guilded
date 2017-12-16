@@ -1,9 +1,13 @@
-using AspNet.Security.OAuth.BattleNet;
+using System.Linq;
+using System.Security.Claims;
+using Guilded.Common;
+using Guilded.Configuration;
 using Guilded.Extensions;
 using Guilded.Security.Authorization;
 using Guilded.Security.Claims;
 using Guilded.Services;
-using Guilded.ViewModels;
+using Guilded.ViewLocationExpanders;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -18,9 +22,12 @@ namespace Guilded
     {
         public Startup(IHostingEnvironment env)
         {
+            var hostingPlatform = Globals.OSX ? "OSX" : "Windows";
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{hostingPlatform}.json", optional: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
@@ -29,7 +36,6 @@ namespace Guilded
             //    // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
             //    builder.AddUserSecrets();
             //}
-            builder.AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
@@ -40,31 +46,51 @@ namespace Guilded
         {
             // Add framework services.
             services.AddOptions();
-            services.AddGuilded(Configuration);
+            services.AddGuildedIdentity(SqlConnectionString());
+            services.AddGuildedServices();
+
             services.AddMvc().AddRazorOptions(razorOpts =>
             {
                 razorOpts.ViewLocationExpanders.Add(new PartialsFolderViewLocationExpander());
+                razorOpts.ViewLocationExpanders.Add(new DisplayTemplateFolderViewLocationExpander());
             });
 
             services.AddAuthorization(opts =>
             {
                 opts.AddPolicy(AuthorizeEnabledUserAttribute.PolicyName, policy => policy.Requirements.Add(new EnabledUserRequirement()));
 
-                foreach (var roleClaim in RoleClaimTypes.RoleClaims)
+                foreach (var roleClaim in RoleClaimValues.RoleClaims)
                 {
-                    opts.AddPolicy(roleClaim.ClaimType, policy => policy.Requirements.Add(new RoleClaimAuthorizationRequirement(roleClaim)));
+                    opts.AddPolicy(roleClaim.ClaimValue, policy => policy.Requirements.Add(new RoleClaimAuthorizationRequirement(roleClaim)));
                 }
             });
             
             services.AddRouting(options => options.LowercaseUrls = true);
-            services.Configure<IdentityOptions>(opts =>
+            services.ConfigureApplicationCookie(opts =>
             {
-                opts.Cookies.ApplicationCookie.LoginPath = new PathString("/account/sign-in");
-                opts.Cookies.ApplicationCookie.AccessDeniedPath = new PathString("/access-denied");
+                opts.LoginPath = new PathString("/account/sign-in");
+                opts.AccessDeniedPath = new PathString("/access-denied");
             });
+            services.AddAuthentication()
+                .AddFacebook(opts =>
+                {
+                    opts.AppId = "xxx";
+                    opts.AppSecret = "xxx";
+                })
+                .AddGoogle(opts =>
+                {
+                    opts.ClientId = "xxx";
+                    opts.ClientSecret = "xxx";
+                })
+                .AddTwitter(opts =>
+                {
+                    opts.ConsumerKey = "xxx";
+                    opts.ConsumerSecret = "xxx";
+                });
 
+            services.Configure<ApplicationOptions>(Configuration);
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
-            services.AddTransient<IMarkdownConverter, MarkdownConverter>();
+            services.AddSingleton<IConvertMarkdown, MarkdownConverter>();
             services.AddRequirementHandlers();
         }
 
@@ -86,30 +112,15 @@ namespace Guilded
             }
 
             app.UseStaticFiles();
-            app.UseIdentity();
+            app.UseAuthentication();
 
-            app.UseTwitterAuthentication(new TwitterOptions
-            {
-                ConsumerKey = "test",
-                ConsumerSecret = "test"
-            });
-            app.UseGoogleAuthentication(new GoogleOptions
-            {
-                ClientId = "test",
-                ClientSecret = "test",
-            });
-            app.UseFacebookAuthentication(new FacebookOptions
-            {
-                ClientId = "test",
-                ClientSecret = "test"
-            });
-            app.UseBattleNetAuthentication(new BattleNetAuthenticationOptions
-            {
-                ClientId = "test",
-                ClientSecret = "test",
-                DisplayName = "Battle.net",
-                Region = BattleNetAuthenticationRegion.America
-            });
+            //app.UseBattleNetAuthentication(new BattleNetAuthenticationOptions
+            //{
+            //    ClientId = "test",
+            //    ClientSecret = "test",
+            //    DisplayName = "Battle.net",
+            //    Region = BattleNetAuthenticationRegion.America
+            //});
 
 
             app.UseMvc(routes =>
@@ -123,6 +134,17 @@ namespace Guilded
                     template: "{controller=Home}/{action=Index}/{id?}"
                 );
             });
+        }
+
+        private string SqlConnectionString()
+        {
+            var sqlServer = Configuration.GetValue<string>("SQL_SERVER_HOST");
+            var sqlDatabase = Configuration.GetValue<string>("SQL_DB");
+            var sqlUser = Configuration.GetValue<string>("SQL_USER");
+            var sqlUserPassword = Configuration.GetValue<string>("SQL_USER_PASSWORD");
+
+            return $"Server={sqlServer};Database={sqlDatabase};User={sqlUser};Password={sqlUserPassword};" +
+                   "MultipleActiveResultSets=True;";
         }
     }
 }

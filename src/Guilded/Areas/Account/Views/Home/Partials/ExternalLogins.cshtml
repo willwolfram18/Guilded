@@ -1,7 +1,7 @@
 ﻿@inject SignInManager<ApplicationUser> SignInManager
 
 @{
-    var loginProviders = SignInManager.GetExternalAuthenticationSchemes().ToList();
+    var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
     if (loginProviders.Count == 0)
     {
         <div>
@@ -18,8 +18,8 @@
                 <p>
                     @foreach (var provider in loginProviders)
                     {
-                        <button type="submit" class="ui fluid huge @provider.AuthenticationScheme.ToLower() social button" name="provider" value="@provider.AuthenticationScheme">
-                            <i class="@provider.AuthenticationScheme.ToLower() icon"></i>
+                        <button type="submit" class="ui fluid huge @provider.Name.ToLower() social button" name="provider" value="@provider.Name">
+                            <i class="@provider.Name.ToLower() icon"></i>
                             @provider.DisplayName
                         </button>
                     }

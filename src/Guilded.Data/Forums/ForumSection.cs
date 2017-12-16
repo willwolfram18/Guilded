@@ -30,7 +30,7 @@ namespace Guilded.Data.Forums
         public bool IsActive { get; set; }
 
         [ConcurrencyCheck]
-        public Guid Version { get; set; }
+        public Guid Version { get; set; } = Guid.NewGuid();
 
         public virtual ICollection<Forum> Forums { get; set; }
     }

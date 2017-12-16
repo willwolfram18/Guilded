@@ -1,0 +1,41 @@
+﻿.ui
+{
+    &.comments
+    {
+
+        &.thread
+        {
+            max-width: inherit;
+
+            .comment
+            {
+                &[data-thread-id],
+                &[data-reply-id]
+                {
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    padding: 10px;
+                }
+            }
+        }
+    }
+
+    &.buttons
+    {
+        &.pin-lock
+        {
+            margin-bottom: 10px;
+        }
+
+        &.pin-lock,
+        &.pager
+        {
+            display: block;
+        }
+    }
+}
+
+#create-reply-wrapper
+{
+    margin-top: 35px;
+}

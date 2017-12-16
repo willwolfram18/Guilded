@@ -1,4 +1,4 @@
-﻿using Guilded.Areas.Admin.Data.DAL;
+﻿using Guilded.Areas.Admin.DAL;
 using Guilded.Areas.Admin.ViewModels.Users;
 using Guilded.Constants;
 using Guilded.Data.Identity;
@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Guilded.Areas.Admin.Controllers
 {
-    [Authorize(RoleClaimTypes.UserManagementClaim)]
+    [Authorize(Policy = RoleClaimValues.UserManagementClaim)]
     public class UsersController : BaseController
     {
         public const int PageSize = 20;

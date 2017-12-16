@@ -1,0 +1,17 @@
+﻿@model IForumPost
+
+@if (!Model.IsLocked)
+{
+    <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="quote">
+        <i class="comment icon"></i> Quote
+    </a>
+    if (Model.IsUserTheAuthor(User))
+    {
+        <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="edit">
+            <i class="pencil icon"></i> Edit
+        </a>
+        <a role-claim-protected required-claim="@RoleClaimValues.ForumsWriter" class="delete">
+            <i class="trash icon"></i> Delete
+        </a>
+    }
+}

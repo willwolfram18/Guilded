@@ -83,11 +83,23 @@ else
             <div class="content" data-role="@role.Id">
                 <p class="transition hidden">
                     <div class="ui relaxed list">
+                        @if (role.Permissions.Count == 0)
+                        {
+                            <div class="item">
+                                <div class="header">
+                                    No permissions!
+                                </div>
+                                <div class="description">
+                                    This role doesn't have any permissions. You can edit
+                                    the role to include new permissions.
+                                </div>
+                            </div>
+                        }
                         @foreach (var permission in role.Permissions)
                         {
                             <div class="item">
                                 <div class="header">
-                                    @permission.PermissionType
+                                    @permission.PermissionValue
                                 </div>
                                 <div class="description">
                                     @permission.Description

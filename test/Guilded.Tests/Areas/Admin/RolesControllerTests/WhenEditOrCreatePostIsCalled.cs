@@ -1,9 +1,11 @@
-﻿using System.Security.Claims;
-using System.Security.Principal;
-using Guilded.Areas.Admin.ViewModels.Roles;
+﻿using Guilded.Areas.Admin.ViewModels.Roles;
 using Guilded.Data.Identity;
+using Guilded.Security.Claims;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading.Tasks;
 
 namespace Guilded.Tests.Areas.Admin.RolesControllerTests
@@ -22,12 +24,21 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
         {
             MockAdminDataContext.Setup(db => db.GetRoleByIdAsync(It.IsAny<string>()))
                 .ReturnsAsync((ApplicationRole) null);
-            MockAdminDataContext.Setup(db => db.CreateRoleAsync(It.IsAny<ApplicationRole>())).ReturnsAsync(new ApplicationRole());
+            MockAdminDataContext.Setup(db => db.CreateRoleAsync(
+                It.IsAny<ApplicationRole>(),
+                It.IsAny<IEnumerable<RoleClaim>>()
+            )).ReturnsAsync(new ApplicationRole());
 
             await Controller.EditOrCreate(new EditOrCreateRoleViewModel());
 
-            MockAdminDataContext.Verify(db => db.CreateRoleAsync(It.IsAny<ApplicationRole>()));
-            MockAdminDataContext.Verify(db => db.UpdateRoleAsync(It.IsAny<ApplicationRole>()), Times.Never);
+            MockAdminDataContext.Verify(db => db.CreateRoleAsync(
+                It.IsAny<ApplicationRole>(),
+                It.IsAny<IEnumerable<RoleClaim>>()
+            ));
+            MockAdminDataContext.Verify(db => db.UpdateRoleAsync(
+                It.IsAny<ApplicationRole>(),
+                It.IsAny<IEnumerable<RoleClaim>>()
+            ), Times.Never);
         }
 
         [Test]
@@ -36,13 +47,21 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
             var dbRole = new ApplicationRole();
             MockAdminDataContext.Setup(db => db.GetRoleByIdAsync(It.IsAny<string>()))
                 .ReturnsAsync(dbRole);
-            MockAdminDataContext.Setup(db => db.UpdateRoleAsync(It.IsAny<ApplicationRole>()))
-                .ReturnsAsync(new ApplicationRole());
+            MockAdminDataContext.Setup(db => db.UpdateRoleAsync(
+                It.IsAny<ApplicationRole>(),
+                It.IsAny<IEnumerable<RoleClaim>>()
+            )).ReturnsAsync(new ApplicationRole());
 
             await Controller.EditOrCreate(new EditOrCreateRoleViewModel());
 
-            MockAdminDataContext.Verify(db => db.UpdateRoleAsync(It.IsAny<ApplicationRole>()));
-            MockAdminDataContext.Verify(db => db.CreateRoleAsync(It.IsAny<ApplicationRole>()), Times.Never);
+            MockAdminDataContext.Verify(db => db.UpdateRoleAsync(
+                It.IsAny<ApplicationRole>(),
+                It.IsAny<IEnumerable<RoleClaim>>()
+            ));
+            MockAdminDataContext.Verify(db => db.CreateRoleAsync(
+                It.IsAny<ApplicationRole>(),
+                It.IsAny<IEnumerable<RoleClaim>>()
+            ), Times.Never);
         }
     }
 }

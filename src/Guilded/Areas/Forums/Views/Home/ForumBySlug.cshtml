@@ -1,0 +1,65 @@
+﻿@model ForumViewModel
+@{
+    ViewData[ViewDataKeys.Title] = Model.Title;
+}
+
+@section Scripts {
+    <environment names="Development">
+        <script src="~/lib/clipboard/dist/clipboard.js"></script>
+        <script src="~/js/forums/share-posts.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/lib/clipboard/dist/clipboard.min.js"
+                asp-fallback-src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js">
+        </script>
+        <script src="~/js/forums/share-posts.min.js"
+                asp-append-version="true">
+        </script>
+    </environment>
+}
+
+<h2>
+    @Model.Title
+</h2>
+<h4>
+    @Model.Subtitle
+</h4>
+
+<a class="ui small green icon button" asp-area="Forums" asp-controller="Threads" asp-action="CreateThread"
+   asp-route-forumSlug="@Model.Slug" role-claim-protected required-claim="@RoleClaimValues.ForumsWriter">
+    <i class="fa-plus-circle icon"></i> Create a new thread
+</a>
+<a class="ui small share link icon button" asp-fragment="share" data-share-link="@Model.ShareLink">
+    <i class="share icon"></i> Share
+</a>
+
+<pager pager-vertical-location="Top" />
+@if (Model.PinnedThreads.Any())
+{
+    <div class="ui segment">
+        <h4>
+            Pinned threads
+        </h4>
+        <div class="ui divided feed">
+            @Html.DisplayFor(m => m.PinnedThreads)
+        </div>
+    </div>
+}
+<div class="ui segment">
+    <h4>
+        Threads
+    </h4>
+    @if (Model.Models.Any())
+    {
+        <div class="ui divided feed">
+            @Html.DisplayFor(m => m.Models)
+        </div>
+    }
+    else
+    {
+        <p>
+            No threads to display!
+        </p>
+    }
+</div>
+<pager pager-vertical-location="Bottom"/>

@@ -1,16 +1,18 @@
-﻿using BattleNetApi.Apis.Interfaces;
-using Guilded.Areas.Admin.Data.DAL;
+﻿using Guilded.Areas.Admin.DAL;
+using Guilded.Areas.Forums.DAL;
 using Guilded.Common;
+using Guilded.DAL;
+using Guilded.DAL.Home;
 using Guilded.Data;
-using Guilded.Data.DAL;
-using Guilded.Data.DAL.Home;
+using Guilded.Data.Forums;
 using Guilded.Data.Home;
 using Guilded.Data.Identity;
 using Guilded.Security.Authorization;
 using Guilded.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Guilded.Extensions
@@ -19,37 +21,25 @@ namespace Guilded.Extensions
     {
         public static void AddRequirementHandlers(this IServiceCollection services)
         {
-            services.AddTransient<IAuthorizationHandler, RoleClaimAuthorizationHandler>();
-            services.AddTransient<IAuthorizationHandler, EnabledUserHandler>();
+            services.AddScoped<IAuthorizationHandler, RoleClaimAuthorizationHandler>();
+            services.AddScoped<IAuthorizationHandler, EnabledUserHandler>();
         }
 
-        public static void AddGuilded(this IServiceCollection services, IConfigurationRoot configuration)
-        {
-            services.AddGuildedDb(configuration);
-            services.AddGuildedDAL();
-
-            services.AddSingleton<IBattleNetApi>(
-                new BattleNetApi.Apis.BattleNetApi(configuration["OAuthProviders:BattleNetClientId"])
-            );
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
-        }
-
-        private static void AddGuildedDb(this IServiceCollection services, IConfigurationRoot configuration)
+        public static void AddGuildedIdentity(this IServiceCollection services, string databaseConnectionString)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 if (Globals.OSX)
                 {
                     options.UseSqlite(
-                        configuration.GetConnectionString("DefaultConnection:OSX"),
+                        databaseConnectionString,
                         opts => opts.MigrationsAssembly("Guilded.Migrations.Sqlite")
                     );
                 }
                 else
                 {
                     options.UseSqlServer(
-                        configuration.GetConnectionString("DefaultConnection:Windows"),
+                        databaseConnectionString,
                         opts => opts.MigrationsAssembly("Guilded.Migrations.SqlServer")
                     );
                 }
@@ -64,12 +54,21 @@ namespace Guilded.Extensions
                 .AddDefaultTokenProviders();
         }
 
-        private static void AddGuildedDAL(this IServiceCollection services)
+        public static void AddGuildedServices(this IServiceCollection services)
         {
-            services.AddTransient<IReadOnlyRepository<GuildActivity>, GuildActivityRepo>();
-            services.AddTransient<IGuildActivityReadOnlyDataContext, GuildActivityReadOnlyDataContext>();
-            services.AddTransient<IRolesDataContext, RolesDataContext>();
-            services.AddTransient<IUsersDataContext, UsersDataContext>();
+            services.AddScoped<IReadOnlyRepository<GuildActivity>, GuildActivityRepo>();
+
+            services.AddScoped<IGuildActivityReadOnlyDataContext, GuildActivityReadOnlyDataContext>();
+
+            services.AddScoped<IRolesDataContext, RolesDataContext>();
+            services.AddScoped<IUsersDataContext, UsersDataContext>();
+
+            services.AddScoped<IForumsDataContext, ForumsDataContext>();
+
+            services.AddScoped<IEmailSender, AuthMessageSender>();
+            services.AddScoped<ISmsSender, AuthMessageSender>();
+
+            services.AddScoped<IUserRoleClaimsForRequest, UserRoleClaimsForRequest>();
         }
     }
 }

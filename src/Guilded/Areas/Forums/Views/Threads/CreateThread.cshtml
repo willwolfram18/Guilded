@@ -1,0 +1,29 @@
+﻿@model CreateThreadViewModel
+@{
+    ViewData[ViewDataKeys.Title] = "Create new thread";
+}
+
+<h2>
+    Create new thread
+</h2>
+
+<form class="ui form" asp-area="Forums" asp-controller="Threads" asp-action="CreateThread"
+      asp-route-forumSlug="@Model.ForumSlug">
+    <div asp-validation-summary="All"></div>
+    <div class="field">
+        <label asp-for="Title"></label>
+        <div class="ui left input">
+            <input asp-for="Title" />
+        </div>
+        <span asp-validation-for="Title"></span>
+    </div>
+    <markdown-editor />
+    <div class="field">
+        <span asp-validation-for="Content"></span>
+    </div>
+    <div class="field">
+        <button type="submit" class="ui primary button">
+            Post
+        </button>
+    </div>
+</form>

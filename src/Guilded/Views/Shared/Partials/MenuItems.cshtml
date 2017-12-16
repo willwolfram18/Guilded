@@ -1,17 +1,17 @@
 ﻿<a class="item" route-active="true" asp-area="" asp-controller="Home" asp-action="Index">
     <i class="fa fa-home"></i> Home
 </a>
-<a class="item" route-active="true" asp-area="Forums" asp-controller="Home" asp-action="Index"
-   route-active-area="Forums" route-active-controller="Home" route-active-action="Index">
-    <i class="fa fa-comment"></i> Forums
-</a>
 @if (User.Identity.IsAuthenticated)
 {
+    <a class="item" route-active="true" asp-area="Forums" asp-controller="Home" asp-action="Index"
+       route-active-area="Forums" route-active-controller="Home" route-active-action="Index">
+        <i class="fa fa-comment"></i> Forums
+    </a>
 	<a class="item" href="#">
 		<i class="fa fa-discord"></i> Discord
 	</a>
     <a class="item" route-active="true" asp-area="Admin" asp-controller="Home" asp-action="Index" route-active-area="Admin"
-       possible-claims="@new [] { RoleClaimTypes.RoleManagement, RoleClaimTypes.UserManagement }">
+       role-claim-protected possible-claims="@new [] { RoleClaimValues.RoleManagement, RoleClaimValues.UserManagement }">
         <i class="fa fa-cogs"></i> Admin
     </a>
     <form class="ui left pointing dropdown link item" method="post" id="sign-out-form" asp-area="Account" asp-controller="Home" asp-action="SignOut">

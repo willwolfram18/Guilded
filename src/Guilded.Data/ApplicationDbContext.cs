@@ -3,6 +3,7 @@ using Guilded.Data.Home;
 using Guilded.Data.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Guilded.Data
 {
@@ -10,11 +11,10 @@ namespace Guilded.Data
     {
         public DbSet<GuildActivity> GuildActivity { get; set; }
 
-        #region Forums
         public DbSet<ForumSection> ForumSections { get; set; }
-
         public DbSet<Forum> Forums { get; set; }
-        #endregion
+        public DbSet<Thread> Threads { get; set; }
+        public DbSet<Reply> Replies { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -23,9 +23,25 @@ namespace Guilded.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            // Enforce unique role names.
             builder.Entity<ApplicationRole>()
                 .HasIndex(r => r.Name)
                 .IsUnique();
+
+            // Define the many-to-one relationship for Threads to Forum.
+            builder.Entity<Forum>()
+                .HasMany(f => f.Threads)
+                .WithOne(t => t.Forum)
+                .IsRequired();
+
+            
+            // Define the many-to-one relationship for Replies to Thread.
+            builder.Entity<Thread>()
+                .HasMany(t => t.Replies)
+                .WithOne(r => r.Thread)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
             base.OnModelCreating(builder);
         }
     }

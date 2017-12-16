@@ -1,0 +1,14 @@
+{
+  "AWSEBDockerrunVersion": 1,
+  "Image": {
+    "Name": "bwolfing/guilded:dev-latest",
+    "Latest": true
+  },
+  "Ports": [
+    {
+      "ContainerPort": "80"
+    }
+  ],
+  "Volumes": [
+  ]
+}

@@ -1,0 +1,30 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (string.IsNullOrWhiteSpace(ViewData[ViewDataKeys.Title]?.ToString()))
+    {
+        ViewData[ViewDataKeys.Title] = "Forums";
+    }
+    else
+    {
+        ViewData[ViewDataKeys.Title] = $"Forums - {ViewData[ViewDataKeys.Title]}";
+    }
+}
+
+@section Scripts {
+    @RenderSection("Scripts", false)
+}
+
+@section Styles {
+    @RenderSection("Styles", false)
+    <environment names="Development">
+        <link rel="stylesheet" type="text/css" href="~/css/forums/forums.css" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" type="text/css" href="~/css/forums/forums.min.css" />
+    </environment>
+}
+
+<guilded-breadcumbs />
+
+@RenderBody()

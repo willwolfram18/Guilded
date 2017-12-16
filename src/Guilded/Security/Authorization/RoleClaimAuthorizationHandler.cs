@@ -1,7 +1,5 @@
-﻿using Guilded.Data.Identity;
+﻿using Guilded.DAL;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,17 +7,11 @@ namespace Guilded.Security.Authorization
 {
     public class RoleClaimAuthorizationHandler : AuthorizationHandler<RoleClaimAuthorizationRequirement>
     {
-        private readonly ILogger _logger;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly IUserRoleClaimsForRequest _claimsForRequest;
 
-        public RoleClaimAuthorizationHandler(ILoggerFactory loggerFactory, 
-            UserManager<ApplicationUser> userManager,
-            RoleManager<ApplicationRole> roleManager)
+        public RoleClaimAuthorizationHandler(IUserRoleClaimsForRequest claimsForRequest)
         {
-            _logger = loggerFactory.CreateLogger<RoleClaimAuthorizationHandler>();
-            _userManager = userManager;
-            _roleManager = roleManager;
+            _claimsForRequest = claimsForRequest;
         }
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, RoleClaimAuthorizationRequirement requirement)
@@ -30,13 +22,9 @@ namespace Guilded.Security.Authorization
                 return;
             }
 
-            var currentUser = await _userManager.GetUserAsync(context.User);
-            var userRoleNames = await _userManager.GetRolesAsync(currentUser);
+            var roleClaimTypes = await _claimsForRequest.GetRoleClaimsAsync();
 
-            var userRoles = _roleManager.Roles.Where(r => userRoleNames.Contains(r.Name));
-            var roleClaims = userRoles.SelectMany(r => r.Claims.Select(c => c.ClaimType));
-
-            if (roleClaims.Contains(requirement.RequiredRoleClaim.ClaimType))
+            if (roleClaimTypes.Contains(requirement.RequiredRoleClaim))
             {
                 context.Succeed(requirement);
             }

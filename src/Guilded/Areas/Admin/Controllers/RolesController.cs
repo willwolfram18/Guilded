@@ -1,4 +1,4 @@
-﻿using Guilded.Areas.Admin.Data.DAL;
+﻿using Guilded.Areas.Admin.DAL;
 using Guilded.Areas.Admin.ViewModels.Roles;
 using Guilded.Constants;
 using Guilded.Data.Identity;
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Guilded.Areas.Admin.Controllers
 {
-    [Authorize(Policy = RoleClaimTypes.RoleManagementClaim)]
+    [Authorize(Policy = RoleClaimValues.RoleManagementClaim)]
     public class RolesController : BaseController
     {
         public const int PageSize = 20;
@@ -72,7 +72,7 @@ namespace Guilded.Areas.Admin.Controllers
 
             if (dbRole == null)
             {
-                dbRole = await _db.CreateRoleAsync(role.ToApplicationRole());
+                dbRole = await _db.CreateRoleAsync(role.ToApplicationRole(), role.PermissionsAsRoleClaims);
                 ViewData[ViewDataKeys.SuccessMessages] = "Role successfully created!";
 
                 _log.LogInformation($"{User.Identity.Name} created role {role.Name} ({role.Id}).");
@@ -81,8 +81,8 @@ namespace Guilded.Areas.Admin.Controllers
             {
                 try
                 {
-                    dbRole.UpdateFromViewModel(role);
-                    dbRole = await _db.UpdateRoleAsync(dbRole);
+                    dbRole.Name = role.Name;
+                    dbRole = await _db.UpdateRoleAsync(dbRole, role.PermissionsAsRoleClaims);
                     ViewData[ViewDataKeys.SuccessMessages] = "Role successfully updated!";
 
                     _log.LogInformation($"{User.Identity.Name} updated role {role.Name} ({role.Id}).");
@@ -109,7 +109,7 @@ namespace Guilded.Areas.Admin.Controllers
                 return NotFound("That role could not be found.");
             }
 
-            var result = await _db.DeleteRole(role);
+            var result = await _db.DeleteRoleAsync(role);
             if (!result.Succeeded)
             {
                 _log.LogError($"{User.Identity.Name} failed to delete role {role.Name}: " +
@@ -145,8 +145,7 @@ namespace Guilded.Areas.Admin.Controllers
                 CurrentPage = page,
                 LastPage = (int)Math.Ceiling(allRoles.Count() / (double)PageSize),
                 Models = rolesForPage.ToList()
-                    .Select(r => new ApplicationRoleViewModel(r))
-                    .ToList(),
+                    .Select(r => new ApplicationRoleViewModel(r, _db.GetClaimsForRole(r))),
                 PagerUrl = Url.Action(nameof(Index))
             };
         }
@@ -159,7 +158,7 @@ namespace Guilded.Areas.Admin.Controllers
                 Url = Request.Path
             });
 
-            return View(new EditOrCreateRoleViewModel(dbRole));
+            return View(new EditOrCreateRoleViewModel(dbRole, _db.GetClaimsForRole(dbRole)));
         }
     }
 }

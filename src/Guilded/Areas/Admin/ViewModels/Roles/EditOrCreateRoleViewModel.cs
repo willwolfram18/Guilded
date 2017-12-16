@@ -1,11 +1,12 @@
 ﻿using Guilded.Data.Identity;
 using Guilded.Security.Claims;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Claims;
 
 namespace Guilded.Areas.Admin.ViewModels.Roles
 {
@@ -31,10 +32,11 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
                 {
                     try
                     {
-                        claims.Add(RoleClaimTypes.LookUpGuildedRoleClaim(permission));
+                        claims.Add(RoleClaimValues.LookUpGuildedRoleClaim(permission));
                     }
                     catch (KeyNotFoundException)
                     {
+                        // Skip permissions which are not valid
                     }
                 }
 
@@ -48,38 +50,26 @@ namespace Guilded.Areas.Admin.ViewModels.Roles
         {
             Permissions = new List<string>();
             AvailablePermissions = new SelectList(
-                RoleClaimTypes.RoleClaims.OrderBy(c => c.ClaimType),
-                "ClaimType",
-                "ClaimType"
+                RoleClaimValues.RoleClaims.OrderBy(c => c.ClaimValue),
+                "ClaimValue",
+                "ClaimValue"
             );
         }
 
-        public EditOrCreateRoleViewModel(ApplicationRole role) : this()
+        public EditOrCreateRoleViewModel(ApplicationRole role, IEnumerable<Claim> claims) : this()
         {
             Id = role.Id;
             Name = role.Name;
-            Permissions.AddRange(role.Claims.Select(c => c.ClaimType));
+            Permissions.AddRange(claims.Select(c => c.Value));
         }
 
         public ApplicationRole ToApplicationRole()
         {
-            var role = new ApplicationRole
+            return new ApplicationRole
             {
                 Id = Id,
                 Name = Name,
             };
-
-            foreach (var permission in PermissionsAsRoleClaims)
-            {
-                role.Claims.Add(new IdentityRoleClaim<string>
-                {
-                    ClaimType = permission.ClaimType,
-                    ClaimValue = "True",
-                    RoleId = role.Id
-                });
-            }
-
-            return role;
         }
     }
 }

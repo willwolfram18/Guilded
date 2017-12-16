@@ -3,14 +3,22 @@
   "name": "guilded",
   "private": true,
   "devDependencies": {
+    "@types/clipboard": "^1.5.35",
     "@types/jquery": "2.0.43",
     "@types/semantic-ui": "2.2.3",
     "@types/simplemde": "^1.11.6",
     "@types/swiper": "^3.4.2",
+    "bower": "^1.8.2",
     "gulp": "^3.9.1",
     "gulp-clean-css": "^3.2.0",
     "gulp-less": "^3.3.0",
     "gulp-rename": "^1.2.2",
-    "path": "^0.12.7"
+    "gulp-typescript": "^3.2.3",
+    "path": "^0.12.7",
+    "typescript": "^2.6.1"
+  },
+  "scripts": {
+    "bower": "bower",
+    "gulp": "gulp"
   }
 }

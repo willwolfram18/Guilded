@@ -1,22 +1,27 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3EFE6692-0ED9-43B3-9C6D-DF3D4FBA0F56}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0AE35626-4FA3-4CF5-94D9-D84087F08AAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guilded.Tests", "test\Guilded.Tests\Guilded.Tests.csproj", "{4CACEFEB-BDC1-405E-8A26-C334968862AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Guilded.Tests", "test\Guilded.Tests\Guilded.Tests.csproj", "{4CACEFEB-BDC1-405E-8A26-C334968862AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleNetApi", "src\BattleNetApi\BattleNetApi.csproj", "{76D7A69D-1107-4C0E-9972-AC6A6F43C223}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Guilded", "src\Guilded\Guilded.csproj", "{D9BF1637-11E9-4C2E-BF42-A717F7F1D4A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guilded", "src\Guilded\Guilded.csproj", "{D9BF1637-11E9-4C2E-BF42-A717F7F1D4A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Guilded.Migrations.Sqlite", "src\Guilded.Migrations.Sqlite\Guilded.Migrations.Sqlite.csproj", "{064A53C7-81AE-479B-BA7B-68FEB3F691F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guilded.Migrations.Sqlite", "src\Guilded.Migrations.Sqlite\Guilded.Migrations.Sqlite.csproj", "{064A53C7-81AE-479B-BA7B-68FEB3F691F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Guilded.Data", "src\Guilded.Data\Guilded.Data.csproj", "{7FE36D7D-1E41-49A3-A35A-4750A10785AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guilded.Data", "src\Guilded.Data\Guilded.Data.csproj", "{7FE36D7D-1E41-49A3-A35A-4750A10785AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Guilded.Migrations.SqlServer", "src\Guilded.Migrations.SqlServer\Guilded.Migrations.SqlServer.csproj", "{F63B1E31-1203-4DE9-B2B5-F7E17A106B39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guilded.Migrations.SqlServer", "src\Guilded.Migrations.SqlServer\Guilded.Migrations.SqlServer.csproj", "{F63B1E31-1203-4DE9-B2B5-F7E17A106B39}"
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{C6EB5A08-9E77-45EB-9836-22177FAF379E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{996C91B5-7D42-4FE9-B2BC-6AAD2DA7A573}"
+	ProjectSection(SolutionItems) = preProject
+		.travis.yml = .travis.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,10 +33,6 @@ Global
 		{4CACEFEB-BDC1-405E-8A26-C334968862AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CACEFEB-BDC1-405E-8A26-C334968862AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CACEFEB-BDC1-405E-8A26-C334968862AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{76D7A69D-1107-4C0E-9972-AC6A6F43C223}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{76D7A69D-1107-4C0E-9972-AC6A6F43C223}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{76D7A69D-1107-4C0E-9972-AC6A6F43C223}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{76D7A69D-1107-4C0E-9972-AC6A6F43C223}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D9BF1637-11E9-4C2E-BF42-A717F7F1D4A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D9BF1637-11E9-4C2E-BF42-A717F7F1D4A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9BF1637-11E9-4C2E-BF42-A717F7F1D4A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -48,16 +49,22 @@ Global
 		{F63B1E31-1203-4DE9-B2B5-F7E17A106B39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F63B1E31-1203-4DE9-B2B5-F7E17A106B39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F63B1E31-1203-4DE9-B2B5-F7E17A106B39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6EB5A08-9E77-45EB-9836-22177FAF379E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6EB5A08-9E77-45EB-9836-22177FAF379E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6EB5A08-9E77-45EB-9836-22177FAF379E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6EB5A08-9E77-45EB-9836-22177FAF379E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4CACEFEB-BDC1-405E-8A26-C334968862AF} = {0AE35626-4FA3-4CF5-94D9-D84087F08AAE}
-		{76D7A69D-1107-4C0E-9972-AC6A6F43C223} = {3EFE6692-0ED9-43B3-9C6D-DF3D4FBA0F56}
 		{D9BF1637-11E9-4C2E-BF42-A717F7F1D4A5} = {3EFE6692-0ED9-43B3-9C6D-DF3D4FBA0F56}
 		{064A53C7-81AE-479B-BA7B-68FEB3F691F0} = {3EFE6692-0ED9-43B3-9C6D-DF3D4FBA0F56}
 		{7FE36D7D-1E41-49A3-A35A-4750A10785AE} = {3EFE6692-0ED9-43B3-9C6D-DF3D4FBA0F56}
 		{F63B1E31-1203-4DE9-B2B5-F7E17A106B39} = {3EFE6692-0ED9-43B3-9C6D-DF3D4FBA0F56}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ADC58B32-3F7A-446A-808B-D43EE7A31258}
 	EndGlobalSection
 EndGlobal

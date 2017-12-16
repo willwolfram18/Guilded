@@ -9,10 +9,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Guilded.TagHelpers
 {
-    [HtmlTargetElement("markdown-editor", ParentTag = "form", TagStructure = TagStructure.WithoutEndTag)]
+    [HtmlTargetElement("markdown-editor", TagStructure = TagStructure.WithoutEndTag)]
     public class MarkdownEditorTagHelper : TagHelper
     {
+
+        private readonly IHtmlHelper _htmlHelper;
         private string _content;
+
         public string Content
         {
             get =>_content ??
@@ -23,8 +26,6 @@ namespace Guilded.TagHelpers
         [ViewContext]
         [HtmlAttributeNotBound]
         public ViewContext Context { get; set; }
-
-        private readonly IHtmlHelper _htmlHelper;
 
         public MarkdownEditorTagHelper(IHtmlHelper htmlHelper)
         {

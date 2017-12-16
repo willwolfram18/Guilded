@@ -1,19 +1,29 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Guilded.Controllers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Security.Claims;
-using Guilded.Controllers;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using System.Security.Principal;
+using System.Threading.Tasks;
 
 namespace Guilded.Tests.Controllers
 {
+
+
     [TestFixture]
     public abstract class ControllerTest<TController>
         where TController : BaseController
     {
+        protected virtual Expression<Func<TController, Func<int, Task<IActionResult>>>> AsyncActionToTest { get; }
+
         protected TController Controller { get; private set; }
 
         protected Mock<IUrlHelper> MockUrlHelper { get; private set; }
@@ -36,11 +46,19 @@ namespace Guilded.Tests.Controllers
 
         protected Mock<ClaimsPrincipal> MockUser { get; private set; }
 
+        protected Mock<IIdentity> MockIdentity { get; private set; }
+
+        protected Mock<ILoggerFactory> MockLoggerFactory { get; private set; }
+
+        protected Mock<ILogger> MockLogger { get; private set; }
+
         protected abstract TController SetUpController();
 
         [SetUp]
         public void BaseSetUp()
         {
+            InitializeLogging();
+
             InitializeHttpContext();
 
             InitializeControllerContext();
@@ -60,10 +78,9 @@ namespace Guilded.Tests.Controllers
         /// Sets up and returns the mocked user for the controller.
         /// </summary>
         /// <returns></returns>
-        protected virtual Mock<ClaimsPrincipal> SetUpUser()
-        {
-            return new Mock<ClaimsPrincipal>();
-        }
+        protected virtual Mock<ClaimsPrincipal> SetUpUser() => new Mock<ClaimsPrincipal>();
+
+        protected virtual Mock<IIdentity> SetUpUserIdentity() => new Mock<IIdentity>();
 
         /// <summary>
         /// Sets up and returns the mocked <see cref="HttpContext"/> to be used in the tests.
@@ -106,19 +123,13 @@ namespace Guilded.Tests.Controllers
         /// used in the tests.
         /// </summary>
         /// <returns></returns>
-        protected virtual Mock<ControllerActionDescriptor> SetUpActionDescriptor()
-        {
-            return new Mock<ControllerActionDescriptor>();
-        }
+        protected virtual Mock<ControllerActionDescriptor> SetUpActionDescriptor() => new Mock<ControllerActionDescriptor>();
 
         /// <summary>
         /// Sets up and returns the mocked <see cref="IUrlHelper"/> to be used in the tests.
         /// </summary>
         /// <returns></returns>
-        protected virtual Mock<IUrlHelper> SetUpUrlHelper()
-        {
-            return new Mock<IUrlHelper>();
-        }
+        protected virtual Mock<IUrlHelper> SetUpUrlHelper() => new Mock<IUrlHelper>();
 
         protected virtual Mock<ITempDataDictionary> SetUpTempData()
         {
@@ -133,6 +144,24 @@ namespace Guilded.Tests.Controllers
             // Nothing to do in base class
         }
 
+        protected void MockUserIdIsThis(string userId)
+        {
+            MockUser.Setup(u => u.Claims)
+                .Returns(new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, userId)
+                });
+        }
+
+        private void InitializeLogging()
+        {
+            MockLoggerFactory = new Mock<ILoggerFactory>();
+            MockLogger = new Mock<ILogger>();
+
+            MockLoggerFactory.Setup(f => f.CreateLogger(It.IsAny<string>()))
+                .Returns(MockLogger.Object);
+        }
+
         private void InitializeHttpContext()
         {
             InitializeHttpContextProperties();
@@ -142,7 +171,11 @@ namespace Guilded.Tests.Controllers
 
         private void InitializeHttpContextProperties()
         {
+            MockIdentity = SetUpUserIdentity();
+
             MockUser = SetUpUser();
+            MockUser.Setup(u => u.Identity).Returns(MockIdentity.Object);
+
             MockHttpContext = SetUpHttpContext();
             MockHttpRequest = SetUpHttpRequest();
             MockHttpResponse = SetUpHttpResponse();

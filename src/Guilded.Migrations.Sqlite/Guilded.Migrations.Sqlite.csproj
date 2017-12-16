@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>Guilded.Migrations.Sqlite</AssemblyName>
     <PackageId>Guilded.Migrations.Sqlite</PackageId>
-    <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
+    <AssetTargetFallback>$(AssetTargetFallback);dotnet5.6;portable-net45+win8</AssetTargetFallback>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
@@ -15,7 +15,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="1.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="20170205051522_IdentitySchema.Designer.cs" />
+    <Compile Remove="20170205051522_IdentitySchema.cs" />
+    <Compile Remove="20170305074833_ForumSection_And_Forums.Designer.cs" />
+    <Compile Remove="20170305074833_ForumSection_And_Forums.cs" />
+    <Compile Remove="20170311051849_CustomApplicationRole.Designer.cs" />
+    <Compile Remove="20170311051849_CustomApplicationRole.cs" />
+    <Compile Remove="20170326181358_RemovePrivilegeRole.Designer.cs" />
+    <Compile Remove="20170326181358_RemovePrivilegeRole.cs" />
+    <Compile Remove="20170403143237_UpdatedModels.Designer.cs" />
+    <Compile Remove="20170403143237_UpdatedModels.cs" />
+    <Compile Remove="ApplicationDbContextModelSnapshot.cs" />
+  </ItemGroup>
 </Project>

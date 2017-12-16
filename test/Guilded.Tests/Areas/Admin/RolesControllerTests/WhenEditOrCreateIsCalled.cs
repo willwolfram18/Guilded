@@ -1,12 +1,12 @@
 ﻿using Guilded.Areas.Admin.ViewModels.Roles;
 using Guilded.Data.Identity;
 using Guilded.Security.Claims;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Guilded.Tests.Areas.Admin.RolesControllerTests
@@ -38,12 +38,9 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
         [Test]
         public async Task ThenViewModelMatchesDataModel()
         {
-            var claims = new List<IdentityRoleClaim<string>>
+            var claims = new List<Claim>
             {
-                new IdentityRoleClaim<string>
-                {
-                    ClaimType = RoleClaimTypes.ForumsLocking.ClaimType
-                }
+                new Claim(RoleClaimTypes.Permission, RoleClaimValues.ForumsLockingClaim)
             };
             var dbRole = new ApplicationRole
             {
@@ -51,13 +48,11 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
                 ConcurrencyStamp = Guid.NewGuid().ToString(),
                 Name = "Test Role",
             };
-            foreach (var claim in claims)
-            {
-                dbRole.Claims.Add(claim);
-            }
 
             MockAdminDataContext.Setup(db => db.GetRoleByIdAsync(It.IsAny<string>()))
                 .ReturnsAsync(dbRole);
+            MockAdminDataContext.Setup(db => db.GetClaimsForRole(It.IsAny<ApplicationRole>()))
+                .Returns(claims);
 
             var result = await Controller.EditOrCreate();
 
@@ -70,7 +65,7 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
 
             for (var i = 0; i < claims.Count; i++)
             {
-                Assert.That(viewModel.Permissions[i], Is.EqualTo(claims[i].ClaimType));
+                Assert.That(viewModel.Permissions[i], Is.EqualTo(claims[i].Value));
             }
         }
 
@@ -82,7 +77,7 @@ namespace Guilded.Tests.Areas.Admin.RolesControllerTests
             var viewModel = result.Model as EditOrCreateRoleViewModel;
 
             Assert.That(viewModel, Is.Not.Null);
-            Assert.That(viewModel.AvailablePermissions.Count(), Is.EqualTo(RoleClaimTypes.RoleClaims.Count()));
+            Assert.That(viewModel.AvailablePermissions.Count(), Is.EqualTo(RoleClaimValues.RoleClaims.Count()));
             Assert.That(viewModel.AvailablePermissions, Is.Ordered.Ascending.By("Value"));
         }
     }

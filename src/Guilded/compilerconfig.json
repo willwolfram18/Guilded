@@ -30,5 +30,13 @@
   {
     "outputFile": "wwwroot/css/admin/users.css",
     "inputFile": "wwwroot/css/admin/users.less"
+  },
+  {
+    "outputFile": "wwwroot/css/forums/forums.css",
+    "inputFile": "wwwroot/css/forums/forums.less"
+  },
+  {
+    "outputFile": "wwwroot/css/shared/markdown-editor.css",
+    "inputFile": "wwwroot/css/shared/markdown-editor.less"
   }
 ]

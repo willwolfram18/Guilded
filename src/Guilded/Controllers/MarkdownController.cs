@@ -5,9 +5,9 @@ namespace Guilded.Controllers
 {
     public class MarkdownController : Controller
     {
-        private readonly IMarkdownConverter _markdown;
+        private readonly IConvertMarkdown _markdown;
 
-        public MarkdownController(IMarkdownConverter markdown)
+        public MarkdownController(IConvertMarkdown markdown)
         {
             _markdown = markdown;
         }
