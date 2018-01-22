@@ -19,7 +19,6 @@
         
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/semantic/dist/semantic.js"></script>
-        <script src="~/js/shared/markdown-editor.js"></script>
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="~/lib/semantic/dist/semantic.min.css"
@@ -43,8 +42,6 @@
         <script src="~/lib/semantic/dist/semantic.min.js"
                 asp-fallback-src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js">
         </script>
-        <script src="~/js/shared/markdown-editor.min.js"
-                asp-append-version="true"></script>
     </environment>
     <link rel="icon" type="image/png" href="https://worldofwarcraft.akamaized.net/static/components/Logo/Logo-wowIcon.png">
     @RenderSection("styles", false)
@@ -184,6 +181,8 @@ alert(example);
         <script src="~/js/shared/menu.js"></script>
         <script src="js/shared/confirm-modal.js"></script>
         <script src="lib/semantic-ui-calendar/dist/calendar.js"></script>
+        <script src="~/lib/vue/dist/vue.js"></script>
+        <script src="~/js/shared/markdown-editor.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="~/js/shared/jquery.unobtrusive-ajax-custom.min.js"
@@ -195,6 +194,9 @@ alert(example);
         <script src="js/shared/confirm-modal.js"
                 asp-append-version="true"></script>
         <script src="lib/semantic-ui-calendar/dist/calendar.min.js"></script>
+        <script src="~/js/shared/markdown-editor.min.js"
+                asp-append-version="true"></script>
+        <script src="~/lib/vue/dist/vue.min.js"></script>
     </environment>
     @RenderSection("scripts", false)
 </body>
