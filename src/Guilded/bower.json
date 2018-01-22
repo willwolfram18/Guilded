@@ -8,7 +8,8 @@
     "swiper": "v4.0.0",
     "semantic-ui-calendar": "^0.0.8",
     "jQuery": "3.2.1",
-    "clipboard": "v1.7.1"
+    "clipboard": "v1.7.1",
+    "vue": "^2.5.13"
   },
   "resolutions": {
     "semantic": "2.2.13",
