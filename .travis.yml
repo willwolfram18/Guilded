@@ -43,17 +43,17 @@ before_deploy:
     - rm -rf -- !(Dockerrun.aws.json)
     - zip $FullVersion.zip Dockerrun.aws.json
 
-deploy:
-    skip_cleanup: true
-    provider: elasticbeanstalk
-    access-key-id: $AwsAccessKey
-    secret-access-key: 
-        secure: $AwsSecretKey
-    region: us-west-1
-    app: Guilded.me
-    env: selama-ashalanore
-    bucket_name: elasticbeanstalk-us-west-1-126711177368
-    zip_file: $FullVersion.zip
-    on:
-        condition: [ $TRAVIS_BUILD_NUMBER -eq 64 ]
-        branch: "feature/forums-area/edit-posts"
+# deploy:
+#     skip_cleanup: true
+#     provider: elasticbeanstalk
+#     access-key-id: $AwsAccessKey
+#     secret-access-key: 
+#         secure: $AwsSecretKey
+#     region: us-west-1
+#     app: Guilded.me
+#     env: selama-ashalanore
+#     bucket_name: elasticbeanstalk-us-west-1-126711177368
+#     zip_file: $FullVersion.zip
+#     on:
+#         condition: [ $TRAVIS_BUILD_NUMBER -eq 64 ]
+#         branch: "feature/forums-area/edit-posts"
