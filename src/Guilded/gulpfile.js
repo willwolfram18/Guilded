@@ -1,4 +1,4 @@
-﻿/// <binding BeforeBuild='styles' />
+﻿/// <binding BeforeBuild='styles' AfterBuild='vuejs' />
 var gulp = require('gulp');
 var cleanCss = require("gulp-clean-css");
 var less = require("gulp-less");
@@ -32,3 +32,9 @@ gulp.task("scripts", function() {
     
     return tsResult.js.pipe(gulp.dest("wwwroot"));
 });
+
+gulp.task("vuejs", function () {
+    var vueDirectory = "./node_modules/vue/dist/";
+    return gulp.src([vueDirectory + "vue.js", vueDirectory + "vue.min.js"])
+        .pipe(gulp.dest("./wwwroot/lib/vuejs/dist"));
+})

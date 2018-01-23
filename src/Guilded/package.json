@@ -15,7 +15,8 @@
     "gulp-rename": "^1.2.2",
     "gulp-typescript": "^3.2.3",
     "path": "^0.12.7",
-    "typescript": "^2.6.1"
+    "typescript": "^2.6.1",
+    "vue": "^2.5.13"
   },
   "scripts": {
     "bower": "bower",
