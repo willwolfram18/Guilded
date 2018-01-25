@@ -49,18 +49,18 @@
         }
 
         mode = (element.getAttribute("data-ajax-mode") || "").toUpperCase();
-        $(element.getAttribute("data-ajax-update")).each(function (i, update) {
+        $(element.getAttribute("data-ajax-update") as string).each(function (i, update) {
             var top: Node;
 
             switch (mode) {
             case "BEFORE":
-                top = update.firstChild;
-                $("<div />").html(data).contents().each(function () {
+                top = update.firstChild as Node;
+                $("<div />").html(data).contents().each(function (this: Element) {
                     update.insertBefore(this, top);
                 });
                 break;
             case "AFTER":
-                $("<div />").html(data).contents().each(function () {
+                $("<div />").html(data).contents().each(function (this: Element) {
                     update.appendChild(this);
                 });
                 break;
@@ -77,7 +77,7 @@
     function asyncRequest(element: Element, options: any) {
         let confirm: string;
         
-        confirm = element.getAttribute("data-ajax-confirm");
+        confirm = element.getAttribute("data-ajax-confirm") as string;
         if (confirm) {
             confirmAction(confirm, () => {
                 performAsyncRequest(element, options);
@@ -91,8 +91,8 @@
     function performAsyncRequest(element: Element, options: any) {
         let loading: JQuery, method: string, duration: string | number;
 
-        loading = $(element.getAttribute("data-ajax-loading"));
-        duration = parseInt(element.getAttribute("data-ajax-loading-duration"), 10) || 0;
+        loading = $(element.getAttribute("data-ajax-loading") as string);
+        duration = parseInt(element.getAttribute("data-ajax-loading-duration") as string, 10) || 0;
 
         $.extend(options, {
             type: element.getAttribute("data-ajax-method") || undefined,
@@ -136,7 +136,7 @@
         return !validationInfo || !validationInfo.validate || validationInfo.validate();
     }
 
-    $(document).on("click", "a[data-ajax=true]", function (evt) {
+    $(document).on("click", "a[data-ajax=true]", function (this: HTMLAnchorElement, evt) {
         evt.preventDefault();
         asyncRequest(this, {
             url: this.href,
@@ -175,7 +175,7 @@
         }, 0);
     });
 
-    $(document).on("submit", "form[data-ajax=true]", function (evt) {
+    $(document).on("submit", "form[data-ajax=true]", function (this: HTMLFormElement, evt) {
         var clickInfo = $(this).data(data_click) || [],
             clickTarget = $(this).data(data_target),
             isCancel = clickTarget && clickTarget.hasClass("cancel");

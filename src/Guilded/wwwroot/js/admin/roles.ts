@@ -18,7 +18,7 @@ function cancelFormClick(e: JQueryEventObject) {
 
     confirmAction("Are you sure? All unsaved changes will be lost.", () => {
         window.location.href = $elem.data("href");
-    }, null);
+    }, undefined);
 }
 
 const index: IHandleRoleDelete = {

@@ -9,7 +9,7 @@
     <UserSecretsId>Not-so-secret-key-for-dev</UserSecretsId>
     <RuntimeFrameworkVersion>2.0.0</RuntimeFrameworkVersion>
     <AssetTargetFallback>$(AssetTargetFallback);dotnet5.6;portable-net45+win8</AssetTargetFallback>
-    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.6</TypeScriptToolsVersion>
     <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
   <ItemGroup>

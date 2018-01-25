@@ -1,4 +1,9 @@
-﻿class MarkdownEditor {
+﻿Vue.component("hello",
+    {
+        template: "<h2>Hello from Vue!</h2>"
+    });
+
+class MarkdownEditor {
     private readonly headerMarkdown = "#";
     private readonly boldMarkdown = "__";
     private readonly italicMarkdown = "_";
@@ -77,14 +82,14 @@
         this.textarea.selectionEnd = position;
     }
 
-    static getEditor($markdownEditor: JQuery): MarkdownEditor {
+    static getEditor($markdownEditor: JQuery): MarkdownEditor | undefined {
         for (let pair of MarkdownEditor.Editors) {
             if (pair[0][0] == $markdownEditor[0]) {
                 return pair[1];
             }
         }
 
-        return null;
+        return undefined;
     }
 
     get text(): string {

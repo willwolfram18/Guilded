@@ -14,7 +14,7 @@ function onPostReplyError(response: JQueryXHR) {
     $createReply.remove();
 }
 
-function onPostReplyBegin() {
+function onPostReplyBegin(this: Element) {
     $(this).addClass("loading");
 }
 
@@ -114,8 +114,8 @@ function onEditClick(e: JQueryEventObject) {
         method: "GET",
         url: editUrl,
         success: (response) => {
-            let mdEditor = MarkdownEditor.getEditor($editPostModal.find(".markdown-editor"));
-
+            let mdEditor = MarkdownEditor.getEditor($editPostModal.find(".markdown-editor")) as MarkdownEditor;
+            
             mdEditor.text = "" + response;
             $editPostModal.find("form").removeClass("loading");
         },
@@ -173,7 +173,7 @@ $(document).ready(() => {
         .on("click", onPinOrLockClick);
 
     $(".ui.reply.button").on("mousedown mouseup focus click", () => {
-        MarkdownEditor.getEditor($("#create-reply-wrapper .markdown-editor")).focus();
+        (MarkdownEditor.getEditor($("#create-reply-wrapper .markdown-editor")) as MarkdownEditor).focus();
     });
 
     $(".comment .actions")

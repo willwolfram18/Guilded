@@ -25,12 +25,12 @@ function getUserRow(userId: string): JQuery {
     return $(`#usersList tr[data-id='${userId}']`);
 }
 
-function onAjaxFormSubmitBegin() {
+function onAjaxFormSubmitBegin(this: Element) {
     $(this).addClass("loading");
     hideErrorAndSuccessMessages();
 }
 
-function onAjaxFormSubmitComplete() {
+function onAjaxFormSubmitComplete(this: Element) {
     $(this).removeClass("loading");
     $disableUserModal.modal("hide");
     $changeRoleModal.modal("hide");
